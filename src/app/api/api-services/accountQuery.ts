@@ -1,0 +1,246 @@
+import {
+  AccountsApiAccountsApiRolePermissionsUpdateRequest,
+  AccountsApiAccountsApiRolesUpdateRequest,
+  AccountsApiAccountsApiTenantsUpdateRequest,
+  AccountsApiAccountsApiUserLoginLogsUpdateRequest,
+  AccountsApiAccountsApiUsersUpdateRequest,
+  CustomPasswordReset,
+  DeleteRolePermission,
+  Login,
+  Register,
+  Role,
+  RolePermission,
+  Tenant,
+  TokenRefresh,
+} from "../axios-client";
+import { accountApi } from "./index";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
+export const useRefreshToken = () => {
+  const mutation = useMutation((data: TokenRefresh) =>
+    accountApi.accountsApiApiTokenRefreshCreate({ data })
+  );
+  return mutation;
+};
+
+export const useAccountLogin = () => {
+  const mutation = useMutation((data: Login) =>
+    accountApi.accountsApiLoginCreate({ data })
+  );
+  return mutation;
+};
+
+export const useAccountLogout = () => {
+  const mutation = useMutation(() => accountApi.accountsApiLogoutCreate());
+  return mutation;
+};
+
+export const useAccountRegister = () => {
+  const mutation = useMutation((data: Register) =>
+    accountApi.accountsApiRegisterCreate({ data })
+  );
+  return mutation;
+};
+
+export const useAccountPasswordReset = () => {
+  const mutation = useMutation((data: CustomPasswordReset) =>
+    accountApi.accountsApiPasswordResetCreate({ data })
+  );
+  return mutation;
+};
+
+export const useGetAccountPermssion = (page: number) => {
+  const query = useQuery(["permission"], () =>
+    accountApi.accountsApiPermissionsList({ page })
+  );
+  return query;
+};
+
+export const usePostAccountPermission = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: Role) => accountApi.accountsApiPermissionsCreate({ data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["permission"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+export const useUpdateAccountPermission = (id: number) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({ id, data }: AccountsApiAccountsApiRolesUpdateRequest) =>
+      accountApi.accountsApiPermissionsUpdate({ id, data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["permission"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useGetAccountRoles = (page: number) => {
+  const query = useQuery(["roles", page], () =>
+    accountApi.accountsApiRolesList({ page })
+  );
+  return query;
+};
+
+export const usePostAccountRoles = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: Role) => accountApi.accountsApiRolesCreate({ data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["roles"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+export const useUpdateAccountRole = (id: number) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({ id, data }: AccountsApiAccountsApiRolesUpdateRequest) =>
+      accountApi.accountsApiRolesUpdate({ id, data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["roles"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useGetAccountRolesPermission = (page: number) => {
+  const query = useQuery(["get_roles_permission", page], () =>
+    accountApi.accountsApiRolePermissionsList({ page })
+  );
+  return query;
+};
+
+export const usePostAccountRolesPermission = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: RolePermission) =>
+      accountApi.accountsApiRolePermissionsCreate({ data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["get_roles_permission"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+export const useDeleteAccountRolesPermission = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: DeleteRolePermission) =>
+      accountApi.accountsApiDeleteRolePermissionDelete({ data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["get_roles_permission"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+export const useUpdateAccountRolePermission = (id: number) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({ id, data }: AccountsApiAccountsApiRolePermissionsUpdateRequest) =>
+      accountApi.accountsApiRolePermissionsUpdate({ id, data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["get_roles_permission"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useGetAccountTenant = (page: number) => {
+  const query = useQuery(["tenants", page], () =>
+    accountApi.accountsApiTenantsList({ page })
+  );
+  return query;
+};
+
+export const useGetAccountCustomTenant = (page: number) => {
+  const query = useQuery(["custom_tenants", page], () =>
+    accountApi.accountsApiCustomTenantsList({ page })
+  );
+  return query;
+};
+
+export const usePostAccountTenant = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: Tenant) => accountApi.accountsApiTenantsCreate({ data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tenants"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+export const useUpdateAccountTenant = (id: number) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({ id, data }: AccountsApiAccountsApiTenantsUpdateRequest) =>
+      accountApi.accountsApiTenantsUpdate({ id, data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tenants"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useGetAccountUsers = (page: number) => {
+  const query = useQuery(["users", page], () =>
+    accountApi.accountsApiUsersList({ page })
+  );
+  return query;
+};
+
+export const useUpdateAccountUsers = (id: number) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({ id, data }: AccountsApiAccountsApiUsersUpdateRequest) =>
+      accountApi.accountsApiUsersUpdate({ id, data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tenants"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useGetAccountUserLoginLogs = (page: number) => {
+  const query = useQuery(["user_login_logs", page], () =>
+    accountApi.accountsApiUserLoginLogsList({ page })
+  );
+  return query;
+};
