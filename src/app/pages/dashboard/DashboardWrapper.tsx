@@ -1,7 +1,7 @@
-import { FC } from "react"
-import { useIntl } from "react-intl"
-import { toAbsoluteUrl } from "../../../_metronic/helpers"
-import { PageTitle } from "../../../_metronic/layout/core"
+import { FC } from "react";
+import { useIntl } from "react-intl";
+import { toAbsoluteUrl } from "../../../_metronic/helpers";
+import { PageTitle } from "../../../_metronic/layout/core";
 import {
   ListsWidget2,
   ListsWidget3,
@@ -15,61 +15,293 @@ import {
   CardsWidget20,
   ListsWidget26,
   EngageWidget10,
-  ChartsWidget4,
   ChartsWidget3,
-  StatisticsWidget5,
-} from "../../../_metronic/partials/widgets"
-import { ToolbarWrapper } from "../../../_metronic/layout/components/toolbar"
-import { Content } from "../../../_metronic/layout/components/content"
+} from "../../../_metronic/partials/widgets";
+import { ToolbarWrapper } from "../../../_metronic/layout/components/toolbar";
+import { Content } from "../../../_metronic/layout/components/content";
 import {
   useGetAccountPermssion,
   useGetAccountRoles,
   useGetAccountTenant,
   useGetAccountUsers,
-} from "../../api/api-services/accountQuery"
+} from "../../api/api-services/accountQuery";
 import {
   AccountsApiCustomTenantsList200Response,
   AccountsApiRolePermissionsList200Response,
   AccountsApiRolesList200Response,
   AccountsApiUsersList200Response,
-} from "../../api/axios-client"
+} from "../../api/axios-client";
+
+import "./style.css";
 
 const DashboardPage: FC = () => {
   const {
     data: userData,
     isLoading: userLoading,
     error: userError,
-  } = useGetAccountUsers(1)
+  } = useGetAccountUsers(1);
   const {
     data: rolesData,
     isLoading: rolesLoading,
     error: rolesError,
-  } = useGetAccountRoles(1)
+  } = useGetAccountRoles(1);
   const {
     data: tenantData,
     isLoading: tenantLoading,
     error: tenantError,
-  } = useGetAccountTenant(1)
+  } = useGetAccountTenant(1);
   const {
     data: permissionData,
     isLoading: permissionLoading,
     error: permError,
-  } = useGetAccountPermssion(1)
+  } = useGetAccountPermssion(1);
 
-  const allUserData: AccountsApiUsersList200Response | any = userData
+  const allUserData: AccountsApiUsersList200Response | any = userData;
   const allPermissionData: AccountsApiRolePermissionsList200Response | any =
-    permissionData
-  const allRoleData: AccountsApiRolesList200Response | any = rolesData
+    permissionData;
+  const allRoleData: AccountsApiRolesList200Response | any = rolesData;
   const allTenantData: AccountsApiCustomTenantsList200Response | any =
-    tenantData
+    tenantData;
 
-  console.log(rolesData, "rolesData")
+  // console.log(rolesData, "rolesData")
   return (
     <>
       <ToolbarWrapper />
       <Content>
         {/* begin::Row */}
-        <div className="row g-5 g-xl-8">
+        <div className="security_issue">
+          <h5>Security issues:</h5>
+          <div className="security_container">
+            <div className="issues">
+              <p className="">Security issues by severity</p>
+              <ul className="issue_score">
+                <li className="critical">
+                  <p>Critical</p>
+                  <h1>0</h1>
+                </li>
+                <li className="high">
+                  <p>High</p>
+                  <h1>456</h1>
+                </li>
+                <li className="med">
+                  <p>Medium</p>
+                  <h1>45</h1>
+                </li>
+                <li className="low">
+                  <p>Low</p>
+                  <h1>0</h1>
+                </li>
+              </ul>
+            </div>
+            <div className="top_issues">
+              <p className="">Top security issues</p>
+              <div className="top_issues__container">
+                <div className="left">
+                  <p>Publicly exposed virtual machine with high priviledges</p>
+                  <p>IAM Role with third party access and high priviledges</p>
+                  <p>Partially public virtual machine with high priviledges</p>
+                </div>
+                <div className="right">
+                  <p>
+                    <span>High</span>
+                    <span>499 security issues </span>
+                  </p>
+                  <p>
+                    <span>High</span>
+                    <span>4 security issues </span>
+                  </p>
+                  <p>
+                    <span>Medium</span>
+                    <span>4 security issues </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="assets_container">
+          <h5>Assets at high risk</h5>
+          <div className="assets">
+            <div className="total">
+              <h4>In total</h4>
+              <h1>46</h1>
+            </div>
+            <div className="public">
+              <h4>Public</h4>
+              <section className="public_inner">
+                <aside>
+                  <span>Network</span>
+                  <h3>0</h3>
+                </aside>
+                <aside>
+                  <span>IAM</span>
+                  <h3>1</h3>
+                </aside>
+              </section>
+            </div>
+            <div className="with_crit">
+              <h4>With critical/high severity secrets</h4>
+              <h1>0</h1>
+            </div>
+            <div className="high_crit">
+              <h4>With critical/high severity CVEs</h4>
+              <h1>0</h1>
+            </div>
+            <div className="sense">
+              <h4>With sensitive data</h4>
+              <h1>0</h1>
+            </div>
+          </div>
+        </div>
+        <div className="entities_container">
+          <h5>Riskiest entities:</h5>
+          <div className="entities">
+            <div className="type">
+              <p>By asset type</p>
+              <div className="table">
+                <div className="table_top">
+                  <div className="table_top__left">
+                    <p>Highest Risk</p>
+                    <p>Type</p>
+                  </div>
+                  <div className="table_top__right">
+                    <p>Critical</p>
+                    <p>High</p>
+                    <p>All</p>
+                  </div>
+                </div>
+                <div className="table_bottom">
+                  <div className="table_top___left">
+                    <div className="table_bot__container">
+                      <span>8.2</span>
+                      <p>AWS IAM User</p>
+                    </div>
+                    <div className="table_bot__container">
+                      <span>8.1</span>
+                      <p>AWS API Gateway</p>
+                    </div>
+                    <div className="table_bot__container">
+                      <span>8.1</span>
+                      <p>AWS SNS</p>
+                    </div>
+                    <div className="table_bot__container">
+                      <span>8.1</span>
+                      <p>AWS S3 BUCKET</p>
+                    </div>
+                    <div className="table_bot__container">
+                      <span>8.1</span>
+                      <p>AWS EKS CLUSTER</p>
+                    </div>
+                  </div>
+                  <div className="table_bottom___left">
+                    <div className="table_top___right">
+                      <p>0</p>
+                      <p>30</p>
+                      <p>30</p>
+                    </div>
+                    <div className="table_top___right">
+                      <p>0</p>
+                      <p>30</p>
+                      <p>30</p>
+                    </div>
+                    <div className="table_top___right">
+                      <p>0</p>
+                      <p>30</p>
+                      <p>30</p>
+                    </div>
+                    <div className="table_top___right">
+                      <p>0</p>
+                      <p>30</p>
+                      <p>30</p>
+                    </div>
+                    <div className="table_top___right">
+                      <p>0</p>
+                      <p>30</p>
+                      <p>30</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="type">
+              <p>By asset</p>
+              <div className="table">
+                <div className="table_top">
+                  <div className="by_asset_top">
+                    <p>Risk</p>
+                    <p>Entity</p>
+                    <p>Type</p>
+                    <p>Environment</p>
+                  </div>
+                </div>
+                <div className="table_bottom_asset">
+                  <div className="by_asset_top">
+                    <div className="table_bot__container">
+                      <span>8.2</span>
+                    </div>
+                    <p>jekins(AIDAICAJGIE...)</p>
+                    <p>AWS IAM User</p>
+                    <p>AWS(59639)</p>
+                  </div>
+                  <div className="by_asset_top">
+                    <div className="table_bot__container">
+                      <span>8.2</span>
+                    </div>
+                    <p>jekins(AIDAICAJGIE...)</p>
+                    <p>AWS IAM User</p>
+                    <p>AWS(59639)</p>
+                  </div>
+                  <div className="by_asset_top">
+                    <div className="table_bot__container">
+                      <span>8.2</span>
+                    </div>
+                    <p>jekins(AIDAICAJGIE...)</p>
+                    <p>AWS IAM User</p>
+                    <p>AWS(59639)</p>
+                  </div>
+                  <div className="by_asset_top">
+                    <div className="table_bot__container">
+                      <span>8.2</span>
+                    </div>
+                    <p>jekins(AIDAICAJGIE...)</p>
+                    <p>AWS IAM User</p>
+                    <p>AWS(59639)</p>
+                  </div>
+                  <div className="by_asset_top">
+                    <div className="table_bot__container">
+                      <span>8.2</span>
+                    </div>
+                    <p>jekins(AIDAICAJGIE...)</p>
+                    <p>AWS IAM User</p>
+                    <p>AWS(59639)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="table_bottom_issues">
+              <p className="">Environment by risk</p>
+              <ul className="issue_score">
+                <li className="critical">
+                  <p>Critical</p>
+                  <h1>0</h1>
+                </li>
+                <li className="high">
+                  <p>High</p>
+                  <h1>456</h1>
+                </li>
+                <li className="med">
+                  <p>Medium</p>
+                  <h1>45</h1>
+                </li>
+                <li className="low">
+                  <p>Low</p>
+                  <h1>0</h1>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        {/* <div className="row g-5 g-xl-8">
           <div className="col-xl-3">
             <StatisticsWidget5
               className="card-xl-stretch mb-xl-8"
@@ -133,7 +365,7 @@ const DashboardPage: FC = () => {
               descriptionColor="white"
             />
           </div>
-        </div>
+        </div> */}
 
         <div className="row g-5 gx-xxl-8">
           <div>
@@ -142,11 +374,11 @@ const DashboardPage: FC = () => {
         </div>
       </Content>
     </>
-  )
-}
+  );
+};
 
 const DashboardWrapper: FC = () => {
-  const intl = useIntl()
+  const intl = useIntl();
   return (
     <>
       <PageTitle breadcrumbs={[]}>
@@ -154,7 +386,7 @@ const DashboardWrapper: FC = () => {
       </PageTitle>
       <DashboardPage />
     </>
-  )
-}
+  );
+};
 
-export { DashboardWrapper }
+export { DashboardWrapper };

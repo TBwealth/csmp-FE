@@ -10,7 +10,7 @@ type Props = {
   menuTrigger?: string;
 };
 
-const systemMode = ThemeModeComponent.getSystemMode() as "dark" | "dark";
+const systemMode = ThemeModeComponent.getSystemMode() as "dark";
 
 const ThemeModeSwitcher = ({
   toggleBtnClass = "",
@@ -42,7 +42,7 @@ const ThemeModeSwitcher = ({
           />
         )}
 
-        {calculatedMode === "dark" && (
+        {calculatedMode === "light" && (
           <KTIcon
             iconName="night-day"
             className={clsx("theme-dark-hide", toggleBtnIconClass)}
@@ -80,18 +80,18 @@ const ThemeModeSwitcher = ({
             className={clsx("menu-link px-3 py-2", {
               active: menuMode === "dark",
             })}
-            onClick={() => switchMode("dark")}
+            onClick={() => switchMode("light")}
           >
             <span className="menu-icon" data-kt-element="icon">
               <KTIcon iconName="moon" className="fs-1" />
             </span>
-            <span className="menu-title">Dark</span>
+            <span className="menu-title">light</span>
           </a>
         </div>
         {/* end::Menu item */}
 
         {/* begin::Menu item */}
-        <div className="menu-item px-3 my-0">
+        {/* <div className="menu-item px-3 my-0">
           <a
             href="#"
             className={clsx("menu-link px-3 py-2", {
@@ -104,7 +104,7 @@ const ThemeModeSwitcher = ({
             </span>
             <span className="menu-title">System</span>
           </a>
-        </div>
+        </div> */}
         {/* end::Menu item */}
       </div>
       {/* end::Menu */}

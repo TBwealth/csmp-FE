@@ -1,0 +1,177 @@
+.security_issue, .assets_container, .entities_container {
+    margin-bottom: 30px;
+}
+
+h5 {
+    margin-bottom: 8px;
+}
+.security_container {
+   display: flex;
+   align-items: start;
+   gap: 20px;
+   flex-direction: column;
+}
+.issues, .top_issues,.table_bottom_issues {
+    padding: .8rem;
+    border: 2px solid gray;
+    border-radius: 6px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    border-left: 2px solid;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.issue_score li p {
+    margin: 0;
+}
+.issue_score li h1 {
+    margin-top: 0;
+}
+
+.critical {
+    border-color: brown;
+}
+
+.high {
+    border-color: red;
+}
+
+.med {
+    border-color: orange;
+}
+
+.low {
+    border-color: yellow;
+}
+
+.top_issues__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .8rem;
+}
+
+.right p {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.assets {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.assets div {
+    border: 1px solid gray;
+    padding: 1rem;
+    border-radius: 6px;
+ }
+
+ .assets h4 {
+    font-size: .8rem;
+ }
+ .public_inner {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    border: none;
+ }
+
+ .entities {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+ }
+
+ .type {
+    border: 1px solid gray;
+    border-radius: 6px;
+    padding: .8rem;
+    flex: 1;
+ }
+ .table_top {
+    padding: .4rem;
+    border-bottom: 1px solid  gray ;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+ }
+ .table_bottom {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+ }
+
+ .table_top__left, .table_top__right {
+    display: flex;
+    gap: 6px;
+ }
+ .table_top__left p, .table_top__right p {
+   margin: 0;
+ }
+
+ .table_bot__container {
+    display: flex;
+    gap: 70px;
+ }
+
+ .table_top___right {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    width:10vw ;
+ }
+ .table_bot__container  span {
+    background-color: red;
+    border-radius: 20px;
+    padding: 3px;
+    color: white;
+ }
+
+ .table_bottom___left {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-end; */
+ }
+
+ .by_asset_top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+ }
+
+
+@media screen and (min-width:768px) {
+    .security_container {
+        flex-direction: row;
+     }
+     .top_issues {
+        flex: 1;
+        height: 40vh;
+     }
+
+     .assets {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .assets div {
+       border: 1px solid gray;
+    }
+
+    .table_bottom_issues {
+        height: 55vh;
+    }
+}
