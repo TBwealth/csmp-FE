@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .login-form {
     background-color: #2A2C38;
     border-radius: 10px;
@@ -102,6 +106,6 @@ cursor: pointer;
         align-items: center;
         justify-content: space-between;
         flex-direction: column;
-        height: 86vh;
+        height: 82vh;
     }
 }

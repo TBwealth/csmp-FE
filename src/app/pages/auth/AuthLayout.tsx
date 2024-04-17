@@ -17,7 +17,7 @@ const AuthLayout = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="w-100 w-lg-50">
+      <div className="w-100">
         <div className="d-flex justify-content-center">
           <Outlet />
         </div>

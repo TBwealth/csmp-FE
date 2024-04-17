@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 import { TableColumn, ColumnTypes } from "./models";
-
+import "./table.css";
 
 const SORT_KEY = "sort";
 export interface FilterField extends TableColumn {}

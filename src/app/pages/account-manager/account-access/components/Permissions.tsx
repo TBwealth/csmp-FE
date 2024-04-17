@@ -7,14 +7,23 @@ import { UsersListLoading } from "../../../../modules/apps/user-management/users
 import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiPermissionsList200Response } from "../../../../api/axios-client";
+import {
+  ACTIONS,
+  ColumnTypes,
+  TableAction,
+  TableActionEvent,
+  TableColumn,
+} from "../../../../components/models";
+import TableComponent from "../../../../components/TableComponent";
 
 const Permissions = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
+  const [currentPage, setcurrentPage] = useState<number>(0);
 
   const { data, isLoading, error } = useGetAccountPermssion(page);
   console.log("permiiiit", data);
@@ -52,6 +61,47 @@ const Permissions = () => {
   const goToPage = (pageNumber: number) => {
     setPage(pageNumber);
   };
+
+  const tableColumns = [
+    // { name: 'fullname', title: 'EMPLOYEE NO', type: ColumnTypes.Text },
+    { name: "id", title: "ID", type: ColumnTypes.Text },
+    { name: "name", title: "NAME", type: ColumnTypes.Text },
+  ];
+  const Bulkactions: TableAction[] = [
+    // { name: ACTIONS.DELETE, label: 'Delete', icon:"trash" },
+  ];
+  const tableActions: TableAction[] = [{ name: ACTIONS.VIEW, label: "View" }];
+  const filterFields: TableColumn[] = [
+    {
+      name: "leaveTypeName",
+      title: "LEAVE TYPE",
+      type: ColumnTypes.Text,
+    },
+  ];
+
+  function tableActionClicked(event: TableActionEvent) {
+    if (event.name === "3") {
+      // navigate(
+      //   `/leave/employeeInfo?id=${event.data.employeeId}&leavePlanId=${event.data.id}`
+      // );
+    }
+  }
+
+  function filterUpdated(infilter: any) {
+    // let nfilter = { ...filter.current, ...infilter };
+    // nfilter.pageNumber = infilter.page ?? filter.current.pageNumber;
+    // filter.current = nfilter;
+    // if(isLineManager) {
+    //   getAllLeaveHistoryLinemanager();
+    // } else getAllLeaveHistory();
+  }
+
+  async function handleBulkAction(event: any) {
+    // setcheckedItems(event.checkedItems);
+    const actionDetails = event.items;
+    if (actionDetails.name === ACTIONS.DELETE) {
+    }
+  }
 
   return (
     <div>
@@ -140,6 +190,31 @@ const Permissions = () => {
                   )}
                 </tbody>
               </table>
+              // <TableComponent
+              //   filterChange={(e: any) => filterUpdated(e)}
+              //   showActions={true}
+              //   showFilter={true}
+              //   actionClick={(e: any) => tableActionClicked(e)}
+              //   actions={tableActions}
+              //   userData={items}
+              //   tableColum={tableColumns}
+              //   totalItems={totalPages}
+              //   currentTablePage={currentPage}
+              //   loading={isLoading}
+              //   InputFileName="Leave History List"
+              //   filterFields={filterFields}
+              //   showCheckBox={true}
+              //   bulkactionClicked={(e: any) => handleBulkAction(e)}
+              //   Bulkactions={Bulkactions}
+              //   showBulkAction={true}
+              //   actionChecked={() => {}}
+              //   actionBulkChecked={() => {}}
+              //   pageChange={() => {}}
+              //   dateRangeChanged={() => {}}
+              //   toggleColumnsEvent={() => {}}
+              //   toggleCustomFilter={() => {}}
+              //   sortOptionSelected={() => {}}
+              // />
             )}
           </div>
           <nav aria-label="Page navigation">
