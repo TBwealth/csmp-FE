@@ -73,7 +73,7 @@ const DashboardPage: FC = () => {
           <h5>Security issues:</h5>
           <div className="security_container">
             <div className="issues">
-              <p className="">Security issues by severity</p>
+              <p className="mb-3">Security issues by severity</p>
               <ul className="issue_score">
                 <li className="critical">
                   <p>Critical</p>
@@ -103,15 +103,15 @@ const DashboardPage: FC = () => {
                 </div>
                 <div className="right">
                   <p>
-                    <span>High</span>
+                    <span><i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>High</span>
                     <span>499 security issues </span>
                   </p>
                   <p>
-                    <span>High</span>
+                    <span><i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>High</span>
                     <span>4 security issues </span>
                   </p>
                   <p>
-                    <span>Medium</span>
+                    <span><i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>Medium</span>
                     <span>4 security issues </span>
                   </p>
                 </div>
@@ -123,33 +123,39 @@ const DashboardPage: FC = () => {
           <h5>Assets at high risk</h5>
           <div className="assets">
             <div className="total">
-              <h4>In total</h4>
-              <h1>46</h1>
+              <h4 className="mb-3">In total</h4>
+              <h1><i className="fa-sharp fa-regular fa-gem fs-2 mr-1"></i>46</h1>
             </div>
             <div className="public">
-              <h4>Public</h4>
+              <h4 className="mb-3">Public</h4>
               <section className="public_inner">
-                <aside>
+                <aside className="flex items-start">
+                <i className="bi bi-globe fs-2"></i>
+                <div className="border-0 -mt-4">
                   <span>Network</span>
                   <h3>0</h3>
+                </div>
                 </aside>
-                <aside>
+                <aside className="flex items-start">
+                <i className="bi bi-globe fs-2 padding-2"></i>
+                <div className="border-0 -mt-4">
                   <span>IAM</span>
                   <h3>1</h3>
+                  </div>
                 </aside>
               </section>
             </div>
             <div className="with_crit">
-              <h4>With critical/high severity secrets</h4>
-              <h1>0</h1>
+              <h4 className="mb-3">With critical/high severity secrets</h4>
+              <h1><i className="bi bi-key fs-2 rotate-45"></i>0</h1>
             </div>
             <div className="high_crit">
-              <h4>With critical/high severity CVEs</h4>
-              <h1>0</h1>
+              <h4 className="mb-3">With critical/high severity CVEs</h4>
+              <h1><i className="bi bi-bug fs-2"></i>0</h1>
             </div>
             <div className="sense">
-              <h4>With sensitive data</h4>
-              <h1>0</h1>
+              <h4 className="mb-3">With sensitive data</h4>
+              <h1><i className="bi bi-file-earmark-lock fs-2"></i>0</h1>
             </div>
           </div>
         </div>
@@ -279,7 +285,7 @@ const DashboardPage: FC = () => {
               </div>
             </div>
             <div className="table_bottom_issues">
-              <p className="">Environment by risk</p>
+              <p className="mb-3">Environment by risk</p>
               <ul className="issue_score">
                 <li className="critical">
                   <p>Critical</p>

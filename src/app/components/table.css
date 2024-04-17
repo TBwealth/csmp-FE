@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+tbody tr {
+    border-bottom: 1px solid #F5F5FA !important;
+}

@@ -110,7 +110,7 @@ export function Registration() {
   }
 
   return (
-    <div className="form_container">
+    <div className="form_container md:w-[80%] mr-60 md:gap-20">
       <div className="left_container">
         <div>LOGO</div>
         <button className={active ? "active" : "inactive"}>
