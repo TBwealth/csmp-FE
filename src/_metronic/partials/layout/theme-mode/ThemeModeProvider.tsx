@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { ThemeModeComponent } from "../../../assets/ts/layout";
 import { toAbsoluteUrl } from "../../../helpers";
 
-export type ThemeModeType = "dark";
+export type ThemeModeType = "dark" | "light";
 export const themeModelSKey = "kt_theme_mode_value";
 export const themeMenuModeLSKey = "kt_theme_mode_menu";
 

@@ -75,27 +75,26 @@ export function MenuInner() {
         menuPlacement="right-start"
         menuTrigger={`{default:'click', lg: 'hover'}`}
       >
+        {/* <MenuInnerWithSub to="/cloud-provider/cloud" title="Cloud Provider"> */}
+        <MenuItem
+          to="/cloud-provider/cloud/resources"
+          title="Resource"
+          hasBullet={true}
+        ></MenuItem>
+        <MenuItem
+          to="/cloud-provider/cloud/provider-resource"
+          title="Provider Resource"
+          hasBullet={true}
+        ></MenuItem>
+        <MenuItem
+          to="/cloud-provider/cloud/provider-service"
+          title="Provider Service"
+          hasBullet={true}
+        ></MenuItem>
+        {/* </MenuInnerWithSub> */}
+      </MenuInnerWithSub>
 
-          {/* <MenuInnerWithSub to="/cloud-provider/cloud" title="Cloud Provider"> */}
-          <MenuItem
-            to="/cloud-provider/cloud/resources"
-            title="Resource"
-            hasBullet={true}
-          ></MenuItem>
-          <MenuItem
-            to="/cloud-provider/cloud/provider-resource"
-            title="Provider Resource"
-            hasBullet={true}
-          ></MenuItem>
-          <MenuItem
-            to="/cloud-provider/cloud/provider-service"
-            title="Provider Service"
-            hasBullet={true}
-          ></MenuItem>
-          {/* </MenuInnerWithSub> */}
-        </MenuInnerWithSub>
-
-    {/* MENU ITEM FOR TICKETS       */}
+      {/* MENU ITEM FOR TICKETS       */}
       <MenuInnerWithSub
         to="/tickets/tickets"
         title="Tickets"
