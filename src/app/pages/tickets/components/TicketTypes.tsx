@@ -63,14 +63,9 @@ const TicketTypes = () => {
       title: "Code",
     },
     {
-      name: "created_by",
-      title: "Created By",
-    },
-    {
-      name: "cloud_provider",
+      name: "status",
       title: "Status",
-      type:ColumnTypes.Object,
-      objKey: "status"
+      type: ColumnTypes.Bool,
     },
   ];
 
@@ -173,7 +168,7 @@ const TicketTypes = () => {
                   ) : (
                     <tr>
                       <td colSpan={7}>
-                        <Alert />
+                      <Alert /> 
                         <div className="d-flex text-center w-100 align-content-center justify-content-center">
                           No matching records found
                         </div>

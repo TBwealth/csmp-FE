@@ -57,13 +57,13 @@ const TicketsTickets = () => {
     //   objKey: "name",
     // },
     {
-      name: "assigned_to",
+      name: "user",
       title: "Name",
       type: ColumnTypes.Object,
       objKey: "first_name",
     },
     {
-      name: "code",
+      name: "id",
       title: "Code",
     },
     {
@@ -76,22 +76,24 @@ const TicketsTickets = () => {
       type: ColumnTypes.Bool,
     },
     {
-      name: "description",
-      title: "Description"
+      name: "ticket",
+      title: "Description",
+      type:ColumnTypes.Object,
+      objKey: "description",
     },
     {
       name: "tenant",
       title: "Tenant"
     },
     {
-      name: "subject",
-      title: "Subject"
+      name: "ticket",
+      title: "Subject",
+      type:ColumnTypes.Object,
+      objKey: "subject",
     },
     {
-      name: "ticket_type",
+      name: "activity_type",
       title: "Ticket Type",
-      type:ColumnTypes.Object,
-      objKey: "name"
     },
   ];
 

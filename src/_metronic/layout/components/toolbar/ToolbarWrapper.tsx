@@ -14,6 +14,7 @@ const ToolbarWrapper = () => {
     config.app?.pageTitle?.display
   );
 
+  console.log(isPageTitleVisible);
   return (
     <div
       id="kt_app_toolbar"

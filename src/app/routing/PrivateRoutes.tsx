@@ -26,9 +26,11 @@ const PrivateRoutes = () => {
   const CloudProviderPage = lazy(
     () => import("../pages/cloud-provider/CloudProviderPage")
   );
-  const TicketPage = lazy(
-    () => import("../pages/tickets/TicketsPage")
-  );
+  const TicketPage = lazy(() => import("../pages/tickets/TicketsPage"));
+
+  const Policy = lazy(() => import("../pages/policy/PolicyWrapper"));
+  const PolicyRule = lazy(() => import("../pages/policy/PolicyRule"));
+  
 
   return (
     <Routes>
@@ -37,6 +39,8 @@ const PrivateRoutes = () => {
         <Route path="auth/*" element={<Navigate to="/dashboard" />} />
         {/* Pages */}
         <Route path="dashboard" element={<DashboardWrapper />} />
+        <Route path="policy" element={<Policy />} />
+        <Route path="policy-rules/:id" element={<PolicyRule />} />
         <Route path="builder" element={<BuilderPageWrapper />} />
         <Route path="menu-test" element={<MenuTestPage />} />
         {/* Lazy Modules */}
@@ -64,7 +68,7 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-            <Route
+        <Route
           path="/tickets/*"
           element={
             <SuspensedView>
