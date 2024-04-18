@@ -78,6 +78,7 @@ const TicketTypes = () => {
           <TableComponent
             placeholder="Search Ticket Types"
             actions={actions}
+            title="All Ticket types"
             totalPages={totalPages}
             errorMessage={errorMess ?? ""}
             tableHeaders={tableHeaders}

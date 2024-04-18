@@ -59,6 +59,7 @@ const Permissions = () => {
           <UsersListLoading />
         ) : (
           <TableComponent
+          title="All Permission"
             placeholder="Search Permission"
             actions={actions}
             totalPages={totalPages}

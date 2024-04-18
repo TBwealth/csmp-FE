@@ -64,6 +64,7 @@ const Roles = () => {
       ) : (
         <TableComponent
           placeholder="Search Roles"
+          title="All Roles"
           actions={actions}
           errorMessage={errorMess ?? ""}
           totalPages={totalPages}

@@ -5,7 +5,7 @@ import { useGetCloudProviderServicesList} from "../../../api/api-services/cloudP
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
 // import { Dropdown, DropdownButton } from "react-bootstrap";
-import { CloudProviderProviderServicesList200Response } from "../../../api/axios-client";
+import { CloudProviderCloudProviderList200Response } from "../../../api/axios-client";
 import { ModalProviderServices } from "./modal/ModalProviderServices";
 import TableComponent from "../../../components/TableComponent";
 import { TableColumn } from "../../../components/models";
@@ -22,7 +22,7 @@ const ProviderServices = () => {
   const { data, isLoading, error } = useGetCloudProviderServicesList(page);
   console.log(data)
 
-  const datastsr: CloudProviderProviderServicesList200Response | any = data;
+  const datastsr: CloudProviderCloudProviderList200Response | any = data;
 
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
@@ -76,6 +76,7 @@ const ProviderServices = () => {
         <TableComponent
           placeholder="Search Services"
           actions={actions}
+          title="All Services"
           totalPages={totalPages}
           handleDelete={() => {}}
           errorMessage={errorMess ?? ""}
