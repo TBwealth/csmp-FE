@@ -202,10 +202,10 @@ export interface AccountsApiUsersList200Response {
     'previous'?: string | null;
     /**
      * 
-     * @type {Array<User>}
+     * @type {Array<TenantUser>}
      * @memberof AccountsApiUsersList200Response
      */
-    'results': Array<User>;
+    'results': Array<TenantUser>;
 }
 /**
  * 
@@ -302,83 +302,64 @@ export interface ByteArray {
 /**
  * 
  * @export
- * @interface Category
+ * @interface CloudProviderCloudProviderList200Response
  */
-export interface Category {
+export interface CloudProviderCloudProviderList200Response {
     /**
      * 
      * @type {number}
-     * @memberof Category
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Category
-     */
-    'name': string;
-}
-/**
- * 
- * @export
- * @interface CloudProviderProviderResourceTypesList200Response
- */
-export interface CloudProviderProviderResourceTypesList200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof CloudProviderProviderResourceTypesList200Response
+     * @memberof CloudProviderCloudProviderList200Response
      */
     'count': number;
     /**
      * 
      * @type {string}
-     * @memberof CloudProviderProviderResourceTypesList200Response
+     * @memberof CloudProviderCloudProviderList200Response
      */
     'next'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CloudProviderProviderResourceTypesList200Response
-     */
-    'previous'?: string | null;
-    /**
-     * 
-     * @type {Array<CloudProviderResourceTypes>}
-     * @memberof CloudProviderProviderResourceTypesList200Response
-     */
-    'results': Array<CloudProviderResourceTypes>;
-}
-/**
- * 
- * @export
- * @interface CloudProviderProviderServicesList200Response
- */
-export interface CloudProviderProviderServicesList200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof CloudProviderProviderServicesList200Response
-     */
-    'count': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudProviderProviderServicesList200Response
-     */
-    'next'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudProviderProviderServicesList200Response
+     * @memberof CloudProviderCloudProviderList200Response
      */
     'previous'?: string | null;
     /**
      * 
      * @type {Array<ProviderService>}
-     * @memberof CloudProviderProviderServicesList200Response
+     * @memberof CloudProviderCloudProviderList200Response
      */
     'results': Array<ProviderService>;
+}
+/**
+ * 
+ * @export
+ * @interface CloudProviderCloudProviderResourceTypesList200Response
+ */
+export interface CloudProviderCloudProviderResourceTypesList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudProviderCloudProviderResourceTypesList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudProviderCloudProviderResourceTypesList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudProviderCloudProviderResourceTypesList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<CloudProviderResourceTypes>}
+     * @memberof CloudProviderCloudProviderResourceTypesList200Response
+     */
+    'results': Array<CloudProviderResourceTypes>;
 }
 /**
  * 
@@ -394,16 +375,34 @@ export interface CloudProviderResourceTypes {
     'id'?: number;
     /**
      * 
-     * @type {ProviderService}
+     * @type {string}
      * @memberof CloudProviderResourceTypes
      */
-    'cloud_provider': ProviderService;
+    'cloud_provider'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudProviderResourceTypes
+     */
+    'resource_types'?: string;
     /**
      * 
      * @type {number}
      * @memberof CloudProviderResourceTypes
      */
-    'resource_types': number;
+    'cloud_provider_id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudProviderResourceTypes
+     */
+    'resource_types_id'?: number;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof CloudProviderResourceTypes
+     */
+    'resource_types__id': Array<number>;
 }
 /**
  * 
@@ -448,6 +447,81 @@ export interface CustomPasswordReset {
      * @memberof CustomPasswordReset
      */
     'email': string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomTicket
+ */
+export interface CustomTicket {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomTicket
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomTicket
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomTicket
+     */
+    'subject'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomTicketType
+ */
+export interface CustomTicketType {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomTicketType
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomTicketType
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomTicketType
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CustomTicketType
+     */
+    'status'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface DeleteResource
+ */
+export interface DeleteResource {
+    /**
+     * 
+     * @type {number}
+     * @memberof DeleteResource
+     */
+    'cloud_provider_id': number;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof DeleteResource
+     */
+    'resource_types__id': Array<number>;
 }
 /**
  * 
@@ -606,12 +680,6 @@ export interface Policy {
      * @memberof Policy
      */
     'id'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Policy
-     */
-    'tenant': number;
     /**
      * 
      * @type {string}
@@ -872,6 +940,18 @@ export interface PolicyRule {
      * @memberof PolicyRule
      */
     'rule': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRule
+     */
+    'failure_impact_category': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRule
+     */
+    'command': string;
 }
 /**
  * 
@@ -1202,6 +1282,43 @@ export interface Register {
 /**
  * 
  * @export
+ * @interface RegisterAsset
+ */
+export interface RegisterAsset {
+    /**
+     * 
+     * @type {number}
+     * @memberof RegisterAsset
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RegisterAsset
+     */
+    'resource_types': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterAsset
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RegisterAsset
+     */
+    'region': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof RegisterAsset
+     */
+    'tenant': number;
+}
+/**
+ * 
+ * @export
  * @interface ResourceTypes
  */
 export interface ResourceTypes {
@@ -1494,37 +1611,6 @@ export interface SystemSettingsAssetManagementsList200Response {
 /**
  * 
  * @export
- * @interface SystemSettingsCategoriesList200Response
- */
-export interface SystemSettingsCategoriesList200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof SystemSettingsCategoriesList200Response
-     */
-    'count': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof SystemSettingsCategoriesList200Response
-     */
-    'next'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SystemSettingsCategoriesList200Response
-     */
-    'previous'?: string | null;
-    /**
-     * 
-     * @type {Array<Category>}
-     * @memberof SystemSettingsCategoriesList200Response
-     */
-    'results': Array<Category>;
-}
-/**
- * 
- * @export
  * @interface SystemSettingsRegionsList200Response
  */
 export interface SystemSettingsRegionsList200Response {
@@ -1552,6 +1638,37 @@ export interface SystemSettingsRegionsList200Response {
      * @memberof SystemSettingsRegionsList200Response
      */
     'results': Array<Region>;
+}
+/**
+ * 
+ * @export
+ * @interface SystemSettingsRegisterTenantAssetsList200Response
+ */
+export interface SystemSettingsRegisterTenantAssetsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemSettingsRegisterTenantAssetsList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsRegisterTenantAssetsList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsRegisterTenantAssetsList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<RegisterAsset>}
+     * @memberof SystemSettingsRegisterTenantAssetsList200Response
+     */
+    'results': Array<RegisterAsset>;
 }
 /**
  * 
@@ -1632,7 +1749,7 @@ export interface Tenant {
      * @type {string}
      * @memberof Tenant
      */
-    'name': string;
+    'tenant_name': string;
     /**
      * 
      * @type {string}
@@ -1644,7 +1761,7 @@ export interface Tenant {
      * @type {string}
      * @memberof Tenant
      */
-    'admin_email': string;
+    'admin_email'?: string | null;
     /**
      * 
      * @type {boolean}
@@ -1661,6 +1778,111 @@ export interface Tenant {
 /**
  * 
  * @export
+ * @interface TenantRegister
+ */
+export interface TenantRegister {
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantRegister
+     */
+    'first_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantRegister
+     */
+    'last_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantRegister
+     */
+    'email': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantRegister
+     */
+    'password': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantRegister
+     */
+    'password2': string;
+}
+/**
+ * 
+ * @export
+ * @interface TenantSelfOnboard
+ */
+export interface TenantSelfOnboard {
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantSelfOnboard
+     */
+    'tenant_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantSelfOnboard
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {User}
+     * @memberof TenantSelfOnboard
+     */
+    'user': User;
+}
+/**
+ * 
+ * @export
+ * @interface TenantUser
+ */
+export interface TenantUser {
+    /**
+     * 
+     * @type {number}
+     * @memberof TenantUser
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {Role}
+     * @memberof TenantUser
+     */
+    'role': Role;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantUser
+     */
+    'first_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantUser
+     */
+    'last_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantUser
+     */
+    'tenant'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantUser
+     */
+    'email': string;
+}
+/**
+ * 
+ * @export
  * @interface Ticket
  */
 export interface Ticket {
@@ -1672,10 +1894,10 @@ export interface Ticket {
     'id'?: number;
     /**
      * 
-     * @type {number}
+     * @type {CustomTicketType}
      * @memberof Ticket
      */
-    'ticket_type': number;
+    'ticket_type': CustomTicketType;
     /**
      * 
      * @type {string}
@@ -1696,34 +1918,34 @@ export interface Ticket {
     'code': string;
     /**
      * 
-     * @type {number}
+     * @type {TicketAsset}
      * @memberof Ticket
      */
-    'asset': number;
+    'asset': TicketAsset;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof Ticket
      */
-    'status'?: boolean;
+    'created_by'?: string;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Ticket
      */
-    'created_by': number;
+    'status'?: string;
     /**
      * 
-     * @type {number}
+     * @type {TicketUser}
      * @memberof Ticket
      */
-    'assigned_to': number;
+    'assigned_to': TicketUser;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Ticket
      */
-    'tenant': number;
+    'tenant'?: string;
 }
 /**
  * 
@@ -1739,16 +1961,16 @@ export interface TicketActvity {
     'id'?: number;
     /**
      * 
-     * @type {number}
+     * @type {CustomTicket}
      * @memberof TicketActvity
      */
-    'ticket': number;
+    'ticket': CustomTicket;
     /**
      * 
-     * @type {number}
+     * @type {TicketUser}
      * @memberof TicketActvity
      */
-    'user': number;
+    'user': TicketUser;
     /**
      * 
      * @type {string}
@@ -1767,6 +1989,37 @@ export interface TicketActvity {
      * @memberof TicketActvity
      */
     'activity_type': string;
+}
+/**
+ * 
+ * @export
+ * @interface TicketAsset
+ */
+export interface TicketAsset {
+    /**
+     * 
+     * @type {number}
+     * @memberof TicketAsset
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketAsset
+     */
+    'name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketAsset
+     */
+    'code'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketAsset
+     */
+    'description'?: string;
 }
 /**
  * 
@@ -1798,6 +2051,68 @@ export interface TicketType {
      * @memberof TicketType
      */
     'status'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface TicketUser
+ */
+export interface TicketUser {
+    /**
+     * 
+     * @type {number}
+     * @memberof TicketUser
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketUser
+     */
+    'first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketUser
+     */
+    'last_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketUser
+     */
+    'email'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface TicketsAssignedTenantUserTicketList200Response
+ */
+export interface TicketsAssignedTenantUserTicketList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof TicketsAssignedTenantUserTicketList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketsAssignedTenantUserTicketList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketsAssignedTenantUserTicketList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<Ticket>}
+     * @memberof TicketsAssignedTenantUserTicketList200Response
+     */
+    'results': Array<Ticket>;
 }
 /**
  * 
@@ -1864,37 +2179,6 @@ export interface TicketsTicketTypesList200Response {
 /**
  * 
  * @export
- * @interface TicketsTicketsList200Response
- */
-export interface TicketsTicketsList200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof TicketsTicketsList200Response
-     */
-    'count': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof TicketsTicketsList200Response
-     */
-    'next'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof TicketsTicketsList200Response
-     */
-    'previous'?: string | null;
-    /**
-     * 
-     * @type {Array<Ticket>}
-     * @memberof TicketsTicketsList200Response
-     */
-    'results': Array<Ticket>;
-}
-/**
- * 
- * @export
  * @interface TokenObtainPair
  */
 export interface TokenObtainPair {
@@ -1938,18 +2222,6 @@ export interface TokenRefresh {
 export interface User {
     /**
      * 
-     * @type {number}
-     * @memberof User
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {Role}
-     * @memberof User
-     */
-    'role': Role;
-    /**
-     * 
      * @type {string}
      * @memberof User
      */
@@ -1965,13 +2237,19 @@ export interface User {
      * @type {string}
      * @memberof User
      */
-    'tenant'?: string;
+    'email': string;
     /**
      * 
      * @type {string}
      * @memberof User
      */
-    'email': string;
+    'password': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'password2': string;
 }
 /**
  * 
@@ -2005,6 +2283,45 @@ export interface UserLoginLog {
  */
 export const AccountsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * Admin Registers a New Tenant
+         * @summary Admin Registers/Onboards a New Tenant
+         * @param {Register} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiAdminTenantUserRegisterCreate: async (data: Register, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('accountsApiAdminTenantUserRegisterCreate', 'data', data)
+            const localVarPath = `/accounts/api/admin_tenant_user_register/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
          * @param {TokenRefresh} data 
@@ -2539,45 +2856,6 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Registers a new subscribed user
-         * @summary User Registration
-         * @param {Register} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiRegisterCreate: async (data: Register, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('accountsApiRegisterCreate', 'data', data)
-            const localVarPath = `/accounts/api/register/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * Create RolePermission
          * @summary Creates new RolePermission
          * @param {RolePermission} data 
@@ -2957,6 +3235,84 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             }
 
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Tenant Registers/Self Onboards
+         * @summary Tenant Registers/Self onboards
+         * @param {TenantSelfOnboard} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiTenantSelfOnboardRegisterCreate: async (data: TenantSelfOnboard, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('accountsApiTenantSelfOnboardRegisterCreate', 'data', data)
+            const localVarPath = `/accounts/api/tenant_self_onboard_register/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Tenant Registers/Onboards a New TenantUser
+         * @summary Tenant Registers/Onboards a New TenantUser
+         * @param {TenantRegister} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiTenantUserRegisterCreate: async (data: TenantRegister, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('accountsApiTenantUserRegisterCreate', 'data', data)
+            const localVarPath = `/accounts/api/tenant_user_register/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -3457,11 +3813,11 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
          * partially update Tenant User propert
          * @summary partially updates a User property
          * @param {string} id 
-         * @param {User} data 
+         * @param {TenantUser} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiUsersPartialUpdate: async (id: string, data: User, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        accountsApiUsersPartialUpdate: async (id: string, data: TenantUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('accountsApiUsersPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -3537,11 +3893,11 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
          * update Tenant User property
          * @summary updates a Tenant User property
          * @param {string} id 
-         * @param {User} data 
+         * @param {TenantUser} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiUsersUpdate: async (id: string, data: User, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        accountsApiUsersUpdate: async (id: string, data: TenantUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('accountsApiUsersUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -3586,6 +3942,17 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
 export const AccountsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AccountsApiAxiosParamCreator(configuration)
     return {
+        /**
+         * Admin Registers a New Tenant
+         * @summary Admin Registers/Onboards a New Tenant
+         * @param {Register} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async accountsApiAdminTenantUserRegisterCreate(data: Register, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Register>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiAdminTenantUserRegisterCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         /**
          * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
          * @param {TokenRefresh} data 
@@ -3738,17 +4105,6 @@ export const AccountsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Registers a new subscribed user
-         * @summary User Registration
-         * @param {Register} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async accountsApiRegisterCreate(data: Register, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Register>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRegisterCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
          * Create RolePermission
          * @summary Creates new RolePermission
          * @param {RolePermission} data 
@@ -3860,6 +4216,28 @@ export const AccountsApiFp = function(configuration?: Configuration) {
          */
         async accountsApiRolesUpdate(id: number, data: Role, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Role>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolesUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Tenant Registers/Self Onboards
+         * @summary Tenant Registers/Self onboards
+         * @param {TenantSelfOnboard} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async accountsApiTenantSelfOnboardRegisterCreate(data: TenantSelfOnboard, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantSelfOnboard>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiTenantSelfOnboardRegisterCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Tenant Registers/Onboards a New TenantUser
+         * @summary Tenant Registers/Onboards a New TenantUser
+         * @param {TenantRegister} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async accountsApiTenantUserRegisterCreate(data: TenantRegister, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantRegister>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiTenantUserRegisterCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4001,11 +4379,11 @@ export const AccountsApiFp = function(configuration?: Configuration) {
          * partially update Tenant User propert
          * @summary partially updates a User property
          * @param {string} id 
-         * @param {User} data 
+         * @param {TenantUser} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiUsersPartialUpdate(id: string, data: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async accountsApiUsersPartialUpdate(id: string, data: TenantUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantUser>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiUsersPartialUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4016,7 +4394,7 @@ export const AccountsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiUsersRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async accountsApiUsersRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantUser>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiUsersRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4024,11 +4402,11 @@ export const AccountsApiFp = function(configuration?: Configuration) {
          * update Tenant User property
          * @summary updates a Tenant User property
          * @param {string} id 
-         * @param {User} data 
+         * @param {TenantUser} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiUsersUpdate(id: string, data: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async accountsApiUsersUpdate(id: string, data: TenantUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantUser>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiUsersUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4042,6 +4420,16 @@ export const AccountsApiFp = function(configuration?: Configuration) {
 export const AccountsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AccountsApiFp(configuration)
     return {
+        /**
+         * Admin Registers a New Tenant
+         * @summary Admin Registers/Onboards a New Tenant
+         * @param {Register} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiAdminTenantUserRegisterCreate(data: Register, options?: any): AxiosPromise<Register> {
+            return localVarFp.accountsApiAdminTenantUserRegisterCreate(data, options).then((request) => request(axios, basePath));
+        },
         /**
          * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
          * @param {TokenRefresh} data 
@@ -4180,16 +4568,6 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.accountsApiPermissionsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
-         * Registers a new subscribed user
-         * @summary User Registration
-         * @param {Register} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiRegisterCreate(data: Register, options?: any): AxiosPromise<Register> {
-            return localVarFp.accountsApiRegisterCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
          * Create RolePermission
          * @summary Creates new RolePermission
          * @param {RolePermission} data 
@@ -4292,6 +4670,26 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
          */
         accountsApiRolesUpdate(id: number, data: Role, options?: any): AxiosPromise<Role> {
             return localVarFp.accountsApiRolesUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Tenant Registers/Self Onboards
+         * @summary Tenant Registers/Self onboards
+         * @param {TenantSelfOnboard} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiTenantSelfOnboardRegisterCreate(data: TenantSelfOnboard, options?: any): AxiosPromise<TenantSelfOnboard> {
+            return localVarFp.accountsApiTenantSelfOnboardRegisterCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Tenant Registers/Onboards a New TenantUser
+         * @summary Tenant Registers/Onboards a New TenantUser
+         * @param {TenantRegister} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiTenantUserRegisterCreate(data: TenantRegister, options?: any): AxiosPromise<TenantRegister> {
+            return localVarFp.accountsApiTenantUserRegisterCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * Create Tenant
@@ -4420,11 +4818,11 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
          * partially update Tenant User propert
          * @summary partially updates a User property
          * @param {string} id 
-         * @param {User} data 
+         * @param {TenantUser} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiUsersPartialUpdate(id: string, data: User, options?: any): AxiosPromise<User> {
+        accountsApiUsersPartialUpdate(id: string, data: TenantUser, options?: any): AxiosPromise<TenantUser> {
             return localVarFp.accountsApiUsersPartialUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
@@ -4434,22 +4832,36 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiUsersRead(id: string, options?: any): AxiosPromise<User> {
+        accountsApiUsersRead(id: string, options?: any): AxiosPromise<TenantUser> {
             return localVarFp.accountsApiUsersRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * update Tenant User property
          * @summary updates a Tenant User property
          * @param {string} id 
-         * @param {User} data 
+         * @param {TenantUser} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiUsersUpdate(id: string, data: User, options?: any): AxiosPromise<User> {
+        accountsApiUsersUpdate(id: string, data: TenantUser, options?: any): AxiosPromise<TenantUser> {
             return localVarFp.accountsApiUsersUpdate(id, data, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for accountsApiAdminTenantUserRegisterCreate operation in AccountsApi.
+ * @export
+ * @interface AccountsApiAccountsApiAdminTenantUserRegisterCreateRequest
+ */
+export interface AccountsApiAccountsApiAdminTenantUserRegisterCreateRequest {
+    /**
+     * 
+     * @type {Register}
+     * @memberof AccountsApiAccountsApiAdminTenantUserRegisterCreate
+     */
+    readonly data: Register
+}
 
 /**
  * Request parameters for accountsApiApiTokenRefreshCreate operation in AccountsApi.
@@ -4634,20 +5046,6 @@ export interface AccountsApiAccountsApiPermissionsUpdateRequest {
 }
 
 /**
- * Request parameters for accountsApiRegisterCreate operation in AccountsApi.
- * @export
- * @interface AccountsApiAccountsApiRegisterCreateRequest
- */
-export interface AccountsApiAccountsApiRegisterCreateRequest {
-    /**
-     * 
-     * @type {Register}
-     * @memberof AccountsApiAccountsApiRegisterCreate
-     */
-    readonly data: Register
-}
-
-/**
  * Request parameters for accountsApiRolePermissionsCreate operation in AccountsApi.
  * @export
  * @interface AccountsApiAccountsApiRolePermissionsCreateRequest
@@ -4813,6 +5211,34 @@ export interface AccountsApiAccountsApiRolesUpdateRequest {
      * @memberof AccountsApiAccountsApiRolesUpdate
      */
     readonly data: Role
+}
+
+/**
+ * Request parameters for accountsApiTenantSelfOnboardRegisterCreate operation in AccountsApi.
+ * @export
+ * @interface AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest
+ */
+export interface AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest {
+    /**
+     * 
+     * @type {TenantSelfOnboard}
+     * @memberof AccountsApiAccountsApiTenantSelfOnboardRegisterCreate
+     */
+    readonly data: TenantSelfOnboard
+}
+
+/**
+ * Request parameters for accountsApiTenantUserRegisterCreate operation in AccountsApi.
+ * @export
+ * @interface AccountsApiAccountsApiTenantUserRegisterCreateRequest
+ */
+export interface AccountsApiAccountsApiTenantUserRegisterCreateRequest {
+    /**
+     * 
+     * @type {TenantRegister}
+     * @memberof AccountsApiAccountsApiTenantUserRegisterCreate
+     */
+    readonly data: TenantRegister
 }
 
 /**
@@ -5026,10 +5452,10 @@ export interface AccountsApiAccountsApiUsersPartialUpdateRequest {
 
     /**
      * 
-     * @type {User}
+     * @type {TenantUser}
      * @memberof AccountsApiAccountsApiUsersPartialUpdate
      */
-    readonly data: User
+    readonly data: TenantUser
 }
 
 /**
@@ -5061,10 +5487,10 @@ export interface AccountsApiAccountsApiUsersUpdateRequest {
 
     /**
      * 
-     * @type {User}
+     * @type {TenantUser}
      * @memberof AccountsApiAccountsApiUsersUpdate
      */
-    readonly data: User
+    readonly data: TenantUser
 }
 
 /**
@@ -5074,6 +5500,18 @@ export interface AccountsApiAccountsApiUsersUpdateRequest {
  * @extends {BaseAPI}
  */
 export class AccountsApi extends BaseAPI {
+    /**
+     * Admin Registers a New Tenant
+     * @summary Admin Registers/Onboards a New Tenant
+     * @param {AccountsApiAccountsApiAdminTenantUserRegisterCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AccountsApi
+     */
+    public accountsApiAdminTenantUserRegisterCreate(requestParameters: AccountsApiAccountsApiAdminTenantUserRegisterCreateRequest, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiAdminTenantUserRegisterCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
      * @param {AccountsApiAccountsApiApiTokenRefreshCreateRequest} requestParameters Request parameters.
@@ -5238,18 +5676,6 @@ export class AccountsApi extends BaseAPI {
     }
 
     /**
-     * Registers a new subscribed user
-     * @summary User Registration
-     * @param {AccountsApiAccountsApiRegisterCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AccountsApi
-     */
-    public accountsApiRegisterCreate(requestParameters: AccountsApiAccountsApiRegisterCreateRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiRegisterCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
      * Create RolePermission
      * @summary Creates new RolePermission
      * @param {AccountsApiAccountsApiRolePermissionsCreateRequest} requestParameters Request parameters.
@@ -5367,6 +5793,30 @@ export class AccountsApi extends BaseAPI {
      */
     public accountsApiRolesUpdate(requestParameters: AccountsApiAccountsApiRolesUpdateRequest, options?: AxiosRequestConfig) {
         return AccountsApiFp(this.configuration).accountsApiRolesUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Tenant Registers/Self Onboards
+     * @summary Tenant Registers/Self onboards
+     * @param {AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AccountsApi
+     */
+    public accountsApiTenantSelfOnboardRegisterCreate(requestParameters: AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiTenantSelfOnboardRegisterCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Tenant Registers/Onboards a New TenantUser
+     * @summary Tenant Registers/Onboards a New TenantUser
+     * @param {AccountsApiAccountsApiTenantUserRegisterCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AccountsApi
+     */
+    public accountsApiTenantUserRegisterCreate(requestParameters: AccountsApiAccountsApiTenantUserRegisterCreateRequest, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiTenantUserRegisterCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5558,209 +6008,14 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
     return {
         /**
          * 
-         * @param {CloudProviderResourceTypes} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderResourceTypesCreate: async (data: CloudProviderResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('cloudProviderProviderResourceTypesCreate', 'data', data)
-            const localVarPath = `/cloud_provider/provider_resource_types/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderResourceTypesList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/cloud_provider/provider_resource_types/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {CloudProviderResourceTypes} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderResourceTypesPartialUpdate: async (id: number, data: CloudProviderResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('cloudProviderProviderResourceTypesPartialUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('cloudProviderProviderResourceTypesPartialUpdate', 'data', data)
-            const localVarPath = `/cloud_provider/provider_resource_types/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderResourceTypesRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('cloudProviderProviderResourceTypesRead', 'id', id)
-            const localVarPath = `/cloud_provider/provider_resource_types/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {CloudProviderResourceTypes} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderResourceTypesUpdate: async (id: number, data: CloudProviderResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('cloudProviderProviderResourceTypesUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('cloudProviderProviderResourceTypesUpdate', 'data', data)
-            const localVarPath = `/cloud_provider/provider_resource_types/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {ProviderService} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesCreate: async (data: ProviderService, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderCloudProviderCreate: async (data: ProviderService, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('cloudProviderProviderServicesCreate', 'data', data)
-            const localVarPath = `/cloud_provider/provider_services/`;
+            assertParamExists('cloudProviderCloudProviderCreate', 'data', data)
+            const localVarPath = `/cloud_provider/cloud_provider/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -5795,8 +6050,8 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/cloud_provider/provider_services/`;
+        cloudProviderCloudProviderList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/cloud_provider/cloud_provider/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -5833,12 +6088,12 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesPartialUpdate: async (id: number, data: ProviderService, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderCloudProviderPartialUpdate: async (id: number, data: ProviderService, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('cloudProviderProviderServicesPartialUpdate', 'id', id)
+            assertParamExists('cloudProviderCloudProviderPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('cloudProviderProviderServicesPartialUpdate', 'data', data)
-            const localVarPath = `/cloud_provider/provider_services/{id}/`
+            assertParamExists('cloudProviderCloudProviderPartialUpdate', 'data', data)
+            const localVarPath = `/cloud_provider/cloud_provider/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5874,10 +6129,10 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderCloudProviderRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('cloudProviderProviderServicesRead', 'id', id)
-            const localVarPath = `/cloud_provider/provider_services/{id}/`
+            assertParamExists('cloudProviderCloudProviderRead', 'id', id)
+            const localVarPath = `/cloud_provider/cloud_provider/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5906,17 +6161,170 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this provider service.
-         * @param {ProviderService} data 
+         * @param {CloudProviderResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesUpdate: async (id: number, data: ProviderService, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('cloudProviderProviderServicesUpdate', 'id', id)
+        cloudProviderCloudProviderResourceTypesCreate: async (data: CloudProviderResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('cloudProviderProviderServicesUpdate', 'data', data)
-            const localVarPath = `/cloud_provider/provider_services/{id}/`
+            assertParamExists('cloudProviderCloudProviderResourceTypesCreate', 'data', data)
+            const localVarPath = `/cloud_provider/cloud_provider_resource_types/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderResourceTypesList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/cloud_provider/cloud_provider_resource_types/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {CloudProviderResourceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderResourceTypesPartialUpdate: async (id: number, data: CloudProviderResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('cloudProviderCloudProviderResourceTypesPartialUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('cloudProviderCloudProviderResourceTypesPartialUpdate', 'data', data)
+            const localVarPath = `/cloud_provider/cloud_provider_resource_types/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderResourceTypesRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('cloudProviderCloudProviderResourceTypesRead', 'id', id)
+            const localVarPath = `/cloud_provider/cloud_provider_resource_types/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {CloudProviderResourceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderResourceTypesUpdate: async (id: number, data: CloudProviderResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('cloudProviderCloudProviderResourceTypesUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('cloudProviderCloudProviderResourceTypesUpdate', 'data', data)
+            const localVarPath = `/cloud_provider/cloud_provider_resource_types/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5926,6 +6334,86 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
             }
 
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this provider service.
+         * @param {ProviderService} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderUpdate: async (id: number, data: ProviderService, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('cloudProviderCloudProviderUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('cloudProviderCloudProviderUpdate', 'data', data)
+            const localVarPath = `/cloud_provider/cloud_provider/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {DeleteResource} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderDeleteCloudProviderResourceTypesDelete: async (data: DeleteResource, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('cloudProviderDeleteCloudProviderResourceTypesDelete', 'data', data)
+            const localVarPath = `/cloud_provider/delete_cloud_provider_resource_types/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -6153,12 +6641,12 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {CloudProviderResourceTypes} data 
+         * @param {ProviderService} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderProviderResourceTypesCreate(data: CloudProviderResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderResourceTypesCreate(data, options);
+        async cloudProviderCloudProviderCreate(data: ProviderService, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6167,50 +6655,39 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderProviderResourceTypesList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderProviderResourceTypesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderResourceTypesList(page, options);
+        async cloudProviderCloudProviderList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderCloudProviderList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderList(page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {CloudProviderResourceTypes} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cloudProviderProviderResourceTypesPartialUpdate(id: number, data: CloudProviderResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderResourceTypesPartialUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cloudProviderProviderResourceTypesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderResourceTypesRead(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {CloudProviderResourceTypes} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cloudProviderProviderResourceTypesUpdate(id: number, data: CloudProviderResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderResourceTypesUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
+         * @param {number} id A unique integer value identifying this provider service.
          * @param {ProviderService} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderProviderServicesCreate(data: ProviderService, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderServicesCreate(data, options);
+        async cloudProviderCloudProviderPartialUpdate(id: number, data: ProviderService, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderPartialUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this provider service.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderCloudProviderRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {CloudProviderResourceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderCloudProviderResourceTypesCreate(data: CloudProviderResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderResourceTypesCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6219,8 +6696,40 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderProviderServicesList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderProviderServicesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderServicesList(page, options);
+        async cloudProviderCloudProviderResourceTypesList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderCloudProviderResourceTypesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderResourceTypesList(page, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {CloudProviderResourceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderCloudProviderResourceTypesPartialUpdate(id: number, data: CloudProviderResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderResourceTypesPartialUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderCloudProviderResourceTypesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderResourceTypesRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {CloudProviderResourceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderCloudProviderResourceTypesUpdate(id: number, data: CloudProviderResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderResourceTypesUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6230,29 +6739,18 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderProviderServicesPartialUpdate(id: number, data: ProviderService, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderServicesPartialUpdate(id, data, options);
+        async cloudProviderCloudProviderUpdate(id: number, data: ProviderService, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this provider service.
+         * @param {DeleteResource} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderProviderServicesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderServicesRead(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this provider service.
-         * @param {ProviderService} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cloudProviderProviderServicesUpdate(id: number, data: ProviderService, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderServicesUpdate(id, data, options);
+        async cloudProviderDeleteCloudProviderResourceTypesDelete(data: DeleteResource, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderDeleteCloudProviderResourceTypesDelete(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6319,12 +6817,12 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
     return {
         /**
          * 
-         * @param {CloudProviderResourceTypes} data 
+         * @param {ProviderService} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderResourceTypesCreate(data: CloudProviderResourceTypes, options?: any): AxiosPromise<CloudProviderResourceTypes> {
-            return localVarFp.cloudProviderProviderResourceTypesCreate(data, options).then((request) => request(axios, basePath));
+        cloudProviderCloudProviderCreate(data: ProviderService, options?: any): AxiosPromise<ProviderService> {
+            return localVarFp.cloudProviderCloudProviderCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6332,46 +6830,36 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderResourceTypesList(page?: number, options?: any): AxiosPromise<CloudProviderProviderResourceTypesList200Response> {
-            return localVarFp.cloudProviderProviderResourceTypesList(page, options).then((request) => request(axios, basePath));
+        cloudProviderCloudProviderList(page?: number, options?: any): AxiosPromise<CloudProviderCloudProviderList200Response> {
+            return localVarFp.cloudProviderCloudProviderList(page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {CloudProviderResourceTypes} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderResourceTypesPartialUpdate(id: number, data: CloudProviderResourceTypes, options?: any): AxiosPromise<CloudProviderResourceTypes> {
-            return localVarFp.cloudProviderProviderResourceTypesPartialUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderResourceTypesRead(id: number, options?: any): AxiosPromise<CloudProviderResourceTypes> {
-            return localVarFp.cloudProviderProviderResourceTypesRead(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this cloud provider resource types.
-         * @param {CloudProviderResourceTypes} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderResourceTypesUpdate(id: number, data: CloudProviderResourceTypes, options?: any): AxiosPromise<CloudProviderResourceTypes> {
-            return localVarFp.cloudProviderProviderResourceTypesUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
+         * @param {number} id A unique integer value identifying this provider service.
          * @param {ProviderService} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesCreate(data: ProviderService, options?: any): AxiosPromise<ProviderService> {
-            return localVarFp.cloudProviderProviderServicesCreate(data, options).then((request) => request(axios, basePath));
+        cloudProviderCloudProviderPartialUpdate(id: number, data: ProviderService, options?: any): AxiosPromise<ProviderService> {
+            return localVarFp.cloudProviderCloudProviderPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this provider service.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderRead(id: number, options?: any): AxiosPromise<ProviderService> {
+            return localVarFp.cloudProviderCloudProviderRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CloudProviderResourceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderResourceTypesCreate(data: CloudProviderResourceTypes, options?: any): AxiosPromise<CloudProviderResourceTypes> {
+            return localVarFp.cloudProviderCloudProviderResourceTypesCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6379,8 +6867,37 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesList(page?: number, options?: any): AxiosPromise<CloudProviderProviderServicesList200Response> {
-            return localVarFp.cloudProviderProviderServicesList(page, options).then((request) => request(axios, basePath));
+        cloudProviderCloudProviderResourceTypesList(page?: number, options?: any): AxiosPromise<CloudProviderCloudProviderResourceTypesList200Response> {
+            return localVarFp.cloudProviderCloudProviderResourceTypesList(page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {CloudProviderResourceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderResourceTypesPartialUpdate(id: number, data: CloudProviderResourceTypes, options?: any): AxiosPromise<CloudProviderResourceTypes> {
+            return localVarFp.cloudProviderCloudProviderResourceTypesPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderResourceTypesRead(id: number, options?: any): AxiosPromise<CloudProviderResourceTypes> {
+            return localVarFp.cloudProviderCloudProviderResourceTypesRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud provider resource types.
+         * @param {CloudProviderResourceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCloudProviderResourceTypesUpdate(id: number, data: CloudProviderResourceTypes, options?: any): AxiosPromise<CloudProviderResourceTypes> {
+            return localVarFp.cloudProviderCloudProviderResourceTypesUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6389,27 +6906,17 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesPartialUpdate(id: number, data: ProviderService, options?: any): AxiosPromise<ProviderService> {
-            return localVarFp.cloudProviderProviderServicesPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        cloudProviderCloudProviderUpdate(id: number, data: ProviderService, options?: any): AxiosPromise<ProviderService> {
+            return localVarFp.cloudProviderCloudProviderUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this provider service.
+         * @param {DeleteResource} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderProviderServicesRead(id: number, options?: any): AxiosPromise<ProviderService> {
-            return localVarFp.cloudProviderProviderServicesRead(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this provider service.
-         * @param {ProviderService} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderProviderServicesUpdate(id: number, data: ProviderService, options?: any): AxiosPromise<ProviderService> {
-            return localVarFp.cloudProviderProviderServicesUpdate(id, data, options).then((request) => request(axios, basePath));
+        cloudProviderDeleteCloudProviderResourceTypesDelete(data: DeleteResource, options?: any): AxiosPromise<void> {
+            return localVarFp.cloudProviderDeleteCloudProviderResourceTypesDelete(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6462,171 +6969,185 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
 };
 
 /**
- * Request parameters for cloudProviderProviderResourceTypesCreate operation in CloudProviderApi.
+ * Request parameters for cloudProviderCloudProviderCreate operation in CloudProviderApi.
  * @export
- * @interface CloudProviderApiCloudProviderProviderResourceTypesCreateRequest
+ * @interface CloudProviderApiCloudProviderCloudProviderCreateRequest
  */
-export interface CloudProviderApiCloudProviderProviderResourceTypesCreateRequest {
+export interface CloudProviderApiCloudProviderCloudProviderCreateRequest {
     /**
      * 
-     * @type {CloudProviderResourceTypes}
-     * @memberof CloudProviderApiCloudProviderProviderResourceTypesCreate
+     * @type {ProviderService}
+     * @memberof CloudProviderApiCloudProviderCloudProviderCreate
      */
-    readonly data: CloudProviderResourceTypes
+    readonly data: ProviderService
 }
 
 /**
- * Request parameters for cloudProviderProviderResourceTypesList operation in CloudProviderApi.
+ * Request parameters for cloudProviderCloudProviderList operation in CloudProviderApi.
  * @export
- * @interface CloudProviderApiCloudProviderProviderResourceTypesListRequest
+ * @interface CloudProviderApiCloudProviderCloudProviderListRequest
  */
-export interface CloudProviderApiCloudProviderProviderResourceTypesListRequest {
+export interface CloudProviderApiCloudProviderCloudProviderListRequest {
     /**
      * A page number within the paginated result set.
      * @type {number}
-     * @memberof CloudProviderApiCloudProviderProviderResourceTypesList
+     * @memberof CloudProviderApiCloudProviderCloudProviderList
      */
     readonly page?: number
 }
 
 /**
- * Request parameters for cloudProviderProviderResourceTypesPartialUpdate operation in CloudProviderApi.
+ * Request parameters for cloudProviderCloudProviderPartialUpdate operation in CloudProviderApi.
  * @export
- * @interface CloudProviderApiCloudProviderProviderResourceTypesPartialUpdateRequest
+ * @interface CloudProviderApiCloudProviderCloudProviderPartialUpdateRequest
  */
-export interface CloudProviderApiCloudProviderProviderResourceTypesPartialUpdateRequest {
+export interface CloudProviderApiCloudProviderCloudProviderPartialUpdateRequest {
     /**
-     * A unique integer value identifying this cloud provider resource types.
+     * A unique integer value identifying this provider service.
      * @type {number}
-     * @memberof CloudProviderApiCloudProviderProviderResourceTypesPartialUpdate
+     * @memberof CloudProviderApiCloudProviderCloudProviderPartialUpdate
      */
     readonly id: number
 
-    /**
-     * 
-     * @type {CloudProviderResourceTypes}
-     * @memberof CloudProviderApiCloudProviderProviderResourceTypesPartialUpdate
-     */
-    readonly data: CloudProviderResourceTypes
-}
-
-/**
- * Request parameters for cloudProviderProviderResourceTypesRead operation in CloudProviderApi.
- * @export
- * @interface CloudProviderApiCloudProviderProviderResourceTypesReadRequest
- */
-export interface CloudProviderApiCloudProviderProviderResourceTypesReadRequest {
-    /**
-     * A unique integer value identifying this cloud provider resource types.
-     * @type {number}
-     * @memberof CloudProviderApiCloudProviderProviderResourceTypesRead
-     */
-    readonly id: number
-}
-
-/**
- * Request parameters for cloudProviderProviderResourceTypesUpdate operation in CloudProviderApi.
- * @export
- * @interface CloudProviderApiCloudProviderProviderResourceTypesUpdateRequest
- */
-export interface CloudProviderApiCloudProviderProviderResourceTypesUpdateRequest {
-    /**
-     * A unique integer value identifying this cloud provider resource types.
-     * @type {number}
-     * @memberof CloudProviderApiCloudProviderProviderResourceTypesUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {CloudProviderResourceTypes}
-     * @memberof CloudProviderApiCloudProviderProviderResourceTypesUpdate
-     */
-    readonly data: CloudProviderResourceTypes
-}
-
-/**
- * Request parameters for cloudProviderProviderServicesCreate operation in CloudProviderApi.
- * @export
- * @interface CloudProviderApiCloudProviderProviderServicesCreateRequest
- */
-export interface CloudProviderApiCloudProviderProviderServicesCreateRequest {
     /**
      * 
      * @type {ProviderService}
-     * @memberof CloudProviderApiCloudProviderProviderServicesCreate
+     * @memberof CloudProviderApiCloudProviderCloudProviderPartialUpdate
      */
     readonly data: ProviderService
 }
 
 /**
- * Request parameters for cloudProviderProviderServicesList operation in CloudProviderApi.
+ * Request parameters for cloudProviderCloudProviderRead operation in CloudProviderApi.
  * @export
- * @interface CloudProviderApiCloudProviderProviderServicesListRequest
+ * @interface CloudProviderApiCloudProviderCloudProviderReadRequest
  */
-export interface CloudProviderApiCloudProviderProviderServicesListRequest {
+export interface CloudProviderApiCloudProviderCloudProviderReadRequest {
+    /**
+     * A unique integer value identifying this provider service.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderCloudProviderRead
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for cloudProviderCloudProviderResourceTypesCreate operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderCloudProviderResourceTypesCreateRequest
+ */
+export interface CloudProviderApiCloudProviderCloudProviderResourceTypesCreateRequest {
+    /**
+     * 
+     * @type {CloudProviderResourceTypes}
+     * @memberof CloudProviderApiCloudProviderCloudProviderResourceTypesCreate
+     */
+    readonly data: CloudProviderResourceTypes
+}
+
+/**
+ * Request parameters for cloudProviderCloudProviderResourceTypesList operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderCloudProviderResourceTypesListRequest
+ */
+export interface CloudProviderApiCloudProviderCloudProviderResourceTypesListRequest {
     /**
      * A page number within the paginated result set.
      * @type {number}
-     * @memberof CloudProviderApiCloudProviderProviderServicesList
+     * @memberof CloudProviderApiCloudProviderCloudProviderResourceTypesList
      */
     readonly page?: number
 }
 
 /**
- * Request parameters for cloudProviderProviderServicesPartialUpdate operation in CloudProviderApi.
+ * Request parameters for cloudProviderCloudProviderResourceTypesPartialUpdate operation in CloudProviderApi.
  * @export
- * @interface CloudProviderApiCloudProviderProviderServicesPartialUpdateRequest
+ * @interface CloudProviderApiCloudProviderCloudProviderResourceTypesPartialUpdateRequest
  */
-export interface CloudProviderApiCloudProviderProviderServicesPartialUpdateRequest {
+export interface CloudProviderApiCloudProviderCloudProviderResourceTypesPartialUpdateRequest {
+    /**
+     * A unique integer value identifying this cloud provider resource types.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderCloudProviderResourceTypesPartialUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {CloudProviderResourceTypes}
+     * @memberof CloudProviderApiCloudProviderCloudProviderResourceTypesPartialUpdate
+     */
+    readonly data: CloudProviderResourceTypes
+}
+
+/**
+ * Request parameters for cloudProviderCloudProviderResourceTypesRead operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderCloudProviderResourceTypesReadRequest
+ */
+export interface CloudProviderApiCloudProviderCloudProviderResourceTypesReadRequest {
+    /**
+     * A unique integer value identifying this cloud provider resource types.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderCloudProviderResourceTypesRead
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for cloudProviderCloudProviderResourceTypesUpdate operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderCloudProviderResourceTypesUpdateRequest
+ */
+export interface CloudProviderApiCloudProviderCloudProviderResourceTypesUpdateRequest {
+    /**
+     * A unique integer value identifying this cloud provider resource types.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderCloudProviderResourceTypesUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {CloudProviderResourceTypes}
+     * @memberof CloudProviderApiCloudProviderCloudProviderResourceTypesUpdate
+     */
+    readonly data: CloudProviderResourceTypes
+}
+
+/**
+ * Request parameters for cloudProviderCloudProviderUpdate operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderCloudProviderUpdateRequest
+ */
+export interface CloudProviderApiCloudProviderCloudProviderUpdateRequest {
     /**
      * A unique integer value identifying this provider service.
      * @type {number}
-     * @memberof CloudProviderApiCloudProviderProviderServicesPartialUpdate
+     * @memberof CloudProviderApiCloudProviderCloudProviderUpdate
      */
     readonly id: number
 
     /**
      * 
      * @type {ProviderService}
-     * @memberof CloudProviderApiCloudProviderProviderServicesPartialUpdate
+     * @memberof CloudProviderApiCloudProviderCloudProviderUpdate
      */
     readonly data: ProviderService
 }
 
 /**
- * Request parameters for cloudProviderProviderServicesRead operation in CloudProviderApi.
+ * Request parameters for cloudProviderDeleteCloudProviderResourceTypesDelete operation in CloudProviderApi.
  * @export
- * @interface CloudProviderApiCloudProviderProviderServicesReadRequest
+ * @interface CloudProviderApiCloudProviderDeleteCloudProviderResourceTypesDeleteRequest
  */
-export interface CloudProviderApiCloudProviderProviderServicesReadRequest {
-    /**
-     * A unique integer value identifying this provider service.
-     * @type {number}
-     * @memberof CloudProviderApiCloudProviderProviderServicesRead
-     */
-    readonly id: number
-}
-
-/**
- * Request parameters for cloudProviderProviderServicesUpdate operation in CloudProviderApi.
- * @export
- * @interface CloudProviderApiCloudProviderProviderServicesUpdateRequest
- */
-export interface CloudProviderApiCloudProviderProviderServicesUpdateRequest {
-    /**
-     * A unique integer value identifying this provider service.
-     * @type {number}
-     * @memberof CloudProviderApiCloudProviderProviderServicesUpdate
-     */
-    readonly id: number
-
+export interface CloudProviderApiCloudProviderDeleteCloudProviderResourceTypesDeleteRequest {
     /**
      * 
-     * @type {ProviderService}
-     * @memberof CloudProviderApiCloudProviderProviderServicesUpdate
+     * @type {DeleteResource}
+     * @memberof CloudProviderApiCloudProviderDeleteCloudProviderResourceTypesDelete
      */
-    readonly data: ProviderService
+    readonly data: DeleteResource
 }
 
 /**
@@ -6722,112 +7243,123 @@ export interface CloudProviderApiCloudProviderResourceTypesUpdateRequest {
 export class CloudProviderApi extends BaseAPI {
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderResourceTypesCreateRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderResourceTypesCreate(requestParameters: CloudProviderApiCloudProviderProviderResourceTypesCreateRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderResourceTypesCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderCreate(requestParameters: CloudProviderApiCloudProviderCloudProviderCreateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderResourceTypesListRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderResourceTypesList(requestParameters: CloudProviderApiCloudProviderProviderResourceTypesListRequest = {}, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderResourceTypesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderList(requestParameters: CloudProviderApiCloudProviderCloudProviderListRequest = {}, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderResourceTypesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderResourceTypesPartialUpdate(requestParameters: CloudProviderApiCloudProviderProviderResourceTypesPartialUpdateRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderResourceTypesPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderPartialUpdate(requestParameters: CloudProviderApiCloudProviderCloudProviderPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderResourceTypesReadRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderReadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderResourceTypesRead(requestParameters: CloudProviderApiCloudProviderProviderResourceTypesReadRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderResourceTypesRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderRead(requestParameters: CloudProviderApiCloudProviderCloudProviderReadRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderResourceTypesUpdateRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderResourceTypesCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderResourceTypesUpdate(requestParameters: CloudProviderApiCloudProviderProviderResourceTypesUpdateRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderResourceTypesUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderResourceTypesCreate(requestParameters: CloudProviderApiCloudProviderCloudProviderResourceTypesCreateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderResourceTypesCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderServicesCreateRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderResourceTypesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderServicesCreate(requestParameters: CloudProviderApiCloudProviderProviderServicesCreateRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderServicesCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderResourceTypesList(requestParameters: CloudProviderApiCloudProviderCloudProviderResourceTypesListRequest = {}, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderResourceTypesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderServicesListRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderResourceTypesPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderServicesList(requestParameters: CloudProviderApiCloudProviderProviderServicesListRequest = {}, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderServicesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderResourceTypesPartialUpdate(requestParameters: CloudProviderApiCloudProviderCloudProviderResourceTypesPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderResourceTypesPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderServicesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderResourceTypesReadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderServicesPartialUpdate(requestParameters: CloudProviderApiCloudProviderProviderServicesPartialUpdateRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderServicesPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderResourceTypesRead(requestParameters: CloudProviderApiCloudProviderCloudProviderResourceTypesReadRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderResourceTypesRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderServicesReadRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderResourceTypesUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderServicesRead(requestParameters: CloudProviderApiCloudProviderProviderServicesReadRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderServicesRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderResourceTypesUpdate(requestParameters: CloudProviderApiCloudProviderCloudProviderResourceTypesUpdateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderResourceTypesUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {CloudProviderApiCloudProviderProviderServicesUpdateRequest} requestParameters Request parameters.
+     * @param {CloudProviderApiCloudProviderCloudProviderUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
-    public cloudProviderProviderServicesUpdate(requestParameters: CloudProviderApiCloudProviderProviderServicesUpdateRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderProviderServicesUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public cloudProviderCloudProviderUpdate(requestParameters: CloudProviderApiCloudProviderCloudProviderUpdateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CloudProviderApiCloudProviderDeleteCloudProviderResourceTypesDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CloudProviderApi
+     */
+    public cloudProviderDeleteCloudProviderResourceTypesDelete(requestParameters: CloudProviderApiCloudProviderDeleteCloudProviderResourceTypesDeleteRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderDeleteCloudProviderResourceTypesDelete(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -11391,201 +11923,6 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesCreate: async (data: Category, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsCategoriesCreate', 'data', data)
-            const localVarPath = `/system_settings/categories/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/system_settings/categories/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesPartialUpdate: async (id: number, data: Category, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsCategoriesPartialUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsCategoriesPartialUpdate', 'data', data)
-            const localVarPath = `/system_settings/categories/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsCategoriesRead', 'id', id)
-            const localVarPath = `/system_settings/categories/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesUpdate: async (id: number, data: Category, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsCategoriesUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsCategoriesUpdate', 'data', data)
-            const localVarPath = `/system_settings/categories/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {Region} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -11750,6 +12087,201 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
             // verify required parameter 'data' is not null or undefined
             assertParamExists('systemSettingsRegionsUpdate', 'data', data)
             const localVarPath = `/system_settings/regions/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsCreate: async (data: RegisterAsset, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsRegisterTenantAssetsCreate', 'data', data)
+            const localVarPath = `/system_settings/register_tenant_assets/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/register_tenant_assets/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsPartialUpdate: async (id: number, data: RegisterAsset, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsRegisterTenantAssetsPartialUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsRegisterTenantAssetsPartialUpdate', 'data', data)
+            const localVarPath = `/system_settings/register_tenant_assets/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsRegisterTenantAssetsRead', 'id', id)
+            const localVarPath = `/system_settings/register_tenant_assets/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsUpdate: async (id: number, data: RegisterAsset, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsRegisterTenantAssetsUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsRegisterTenantAssetsUpdate', 'data', data)
+            const localVarPath = `/system_settings/register_tenant_assets/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12233,58 +12765,6 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsCategoriesCreate(data: Category, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCategoriesCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsCategoriesList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsCategoriesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCategoriesList(page, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsCategoriesPartialUpdate(id: number, data: Category, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCategoriesPartialUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsCategoriesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCategoriesRead(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsCategoriesUpdate(id: number, data: Category, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Category>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCategoriesUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @param {Region} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -12333,6 +12813,58 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          */
         async systemSettingsRegionsUpdate(id: number, data: Region, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Region>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegionsUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRegisterTenantAssetsCreate(data: RegisterAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterAsset>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRegisterTenantAssetsList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRegisterTenantAssetsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsList(page, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRegisterTenantAssetsPartialUpdate(id: number, data: RegisterAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterAsset>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsPartialUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRegisterTenantAssetsRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterAsset>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRegisterTenantAssetsUpdate(id: number, data: RegisterAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterAsset>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -12498,53 +13030,6 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesCreate(data: Category, options?: any): AxiosPromise<Category> {
-            return localVarFp.systemSettingsCategoriesCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesList(page?: number, options?: any): AxiosPromise<SystemSettingsCategoriesList200Response> {
-            return localVarFp.systemSettingsCategoriesList(page, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesPartialUpdate(id: number, data: Category, options?: any): AxiosPromise<Category> {
-            return localVarFp.systemSettingsCategoriesPartialUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesRead(id: number, options?: any): AxiosPromise<Category> {
-            return localVarFp.systemSettingsCategoriesRead(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this category.
-         * @param {Category} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsCategoriesUpdate(id: number, data: Category, options?: any): AxiosPromise<Category> {
-            return localVarFp.systemSettingsCategoriesUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @param {Region} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -12589,6 +13074,53 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          */
         systemSettingsRegionsUpdate(id: number, data: Region, options?: any): AxiosPromise<Region> {
             return localVarFp.systemSettingsRegionsUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsCreate(data: RegisterAsset, options?: any): AxiosPromise<RegisterAsset> {
+            return localVarFp.systemSettingsRegisterTenantAssetsCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsList(page?: number, options?: any): AxiosPromise<SystemSettingsRegisterTenantAssetsList200Response> {
+            return localVarFp.systemSettingsRegisterTenantAssetsList(page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsPartialUpdate(id: number, data: RegisterAsset, options?: any): AxiosPromise<RegisterAsset> {
+            return localVarFp.systemSettingsRegisterTenantAssetsPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsRead(id: number, options?: any): AxiosPromise<RegisterAsset> {
+            return localVarFp.systemSettingsRegisterTenantAssetsRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this register asset.
+         * @param {RegisterAsset} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRegisterTenantAssetsUpdate(id: number, data: RegisterAsset, options?: any): AxiosPromise<RegisterAsset> {
+            return localVarFp.systemSettingsRegisterTenantAssetsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -12772,90 +13304,6 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest {
 }
 
 /**
- * Request parameters for systemSettingsCategoriesCreate operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsCategoriesCreateRequest
- */
-export interface SystemSettingsApiSystemSettingsCategoriesCreateRequest {
-    /**
-     * 
-     * @type {Category}
-     * @memberof SystemSettingsApiSystemSettingsCategoriesCreate
-     */
-    readonly data: Category
-}
-
-/**
- * Request parameters for systemSettingsCategoriesList operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsCategoriesListRequest
- */
-export interface SystemSettingsApiSystemSettingsCategoriesListRequest {
-    /**
-     * A page number within the paginated result set.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsCategoriesList
-     */
-    readonly page?: number
-}
-
-/**
- * Request parameters for systemSettingsCategoriesPartialUpdate operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsCategoriesPartialUpdateRequest
- */
-export interface SystemSettingsApiSystemSettingsCategoriesPartialUpdateRequest {
-    /**
-     * A unique integer value identifying this category.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsCategoriesPartialUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {Category}
-     * @memberof SystemSettingsApiSystemSettingsCategoriesPartialUpdate
-     */
-    readonly data: Category
-}
-
-/**
- * Request parameters for systemSettingsCategoriesRead operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsCategoriesReadRequest
- */
-export interface SystemSettingsApiSystemSettingsCategoriesReadRequest {
-    /**
-     * A unique integer value identifying this category.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsCategoriesRead
-     */
-    readonly id: number
-}
-
-/**
- * Request parameters for systemSettingsCategoriesUpdate operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsCategoriesUpdateRequest
- */
-export interface SystemSettingsApiSystemSettingsCategoriesUpdateRequest {
-    /**
-     * A unique integer value identifying this category.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsCategoriesUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {Category}
-     * @memberof SystemSettingsApiSystemSettingsCategoriesUpdate
-     */
-    readonly data: Category
-}
-
-/**
  * Request parameters for systemSettingsRegionsCreate operation in SystemSettingsApi.
  * @export
  * @interface SystemSettingsApiSystemSettingsRegionsCreateRequest
@@ -12937,6 +13385,90 @@ export interface SystemSettingsApiSystemSettingsRegionsUpdateRequest {
      * @memberof SystemSettingsApiSystemSettingsRegionsUpdate
      */
     readonly data: Region
+}
+
+/**
+ * Request parameters for systemSettingsRegisterTenantAssetsCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsCreateRequest {
+    /**
+     * 
+     * @type {RegisterAsset}
+     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsCreate
+     */
+    readonly data: RegisterAsset
+}
+
+/**
+ * Request parameters for systemSettingsRegisterTenantAssetsList operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsListRequest
+ */
+export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsList
+     */
+    readonly page?: number
+}
+
+/**
+ * Request parameters for systemSettingsRegisterTenantAssetsPartialUpdate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdateRequest
+ */
+export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdateRequest {
+    /**
+     * A unique integer value identifying this register asset.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {RegisterAsset}
+     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdate
+     */
+    readonly data: RegisterAsset
+}
+
+/**
+ * Request parameters for systemSettingsRegisterTenantAssetsRead operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsReadRequest
+ */
+export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsReadRequest {
+    /**
+     * A unique integer value identifying this register asset.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsRead
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for systemSettingsRegisterTenantAssetsUpdate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdateRequest
+ */
+export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdateRequest {
+    /**
+     * A unique integer value identifying this register asset.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {RegisterAsset}
+     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdate
+     */
+    readonly data: RegisterAsset
 }
 
 /**
@@ -13171,61 +13703,6 @@ export class SystemSettingsApi extends BaseAPI {
 
     /**
      * 
-     * @param {SystemSettingsApiSystemSettingsCategoriesCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsCategoriesCreate(requestParameters: SystemSettingsApiSystemSettingsCategoriesCreateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsCategoriesCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsCategoriesListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsCategoriesList(requestParameters: SystemSettingsApiSystemSettingsCategoriesListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsCategoriesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsCategoriesPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsCategoriesPartialUpdate(requestParameters: SystemSettingsApiSystemSettingsCategoriesPartialUpdateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsCategoriesPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsCategoriesReadRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsCategoriesRead(requestParameters: SystemSettingsApiSystemSettingsCategoriesReadRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsCategoriesRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsCategoriesUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsCategoriesUpdate(requestParameters: SystemSettingsApiSystemSettingsCategoriesUpdateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsCategoriesUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @param {SystemSettingsApiSystemSettingsRegionsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13277,6 +13754,61 @@ export class SystemSettingsApi extends BaseAPI {
      */
     public systemSettingsRegionsUpdate(requestParameters: SystemSettingsApiSystemSettingsRegionsUpdateRequest, options?: AxiosRequestConfig) {
         return SystemSettingsApiFp(this.configuration).systemSettingsRegionsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRegisterTenantAssetsCreate(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRegisterTenantAssetsList(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRegisterTenantAssetsPartialUpdate(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRegisterTenantAssetsRead(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsReadRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRegisterTenantAssetsUpdate(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -13397,6 +13929,80 @@ export class SystemSettingsApi extends BaseAPI {
  */
 export const TicketsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * Tenant Users can see Tenants Assigned to them (TenantUsers)
+         * @summary Assigned Tenant User Tickets
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        ticketsAssignedTenantUserTicketList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/tickets/assigned_tenant_user_ticket/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        ticketsAssignedTenantUserTicketRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('ticketsAssignedTenantUserTicketRead', 'id', id)
+            const localVarPath = `/tickets/assigned_tenant_user_ticket/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {TicketActvity} data 
@@ -13864,12 +14470,12 @@ export const TicketsApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {Ticket} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketsPartialUpdate: async (id: number, data: Ticket, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ticketsTicketsPartialUpdate: async (id: string, data: Ticket, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('ticketsTicketsPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -13906,11 +14512,11 @@ export const TicketsApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ticketsTicketsRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('ticketsTicketsRead', 'id', id)
             const localVarPath = `/tickets/tickets/{id}/`
@@ -13942,12 +14548,12 @@ export const TicketsApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {Ticket} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketsUpdate: async (id: number, data: Ticket, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ticketsTicketsUpdate: async (id: string, data: Ticket, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('ticketsTicketsUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -13992,6 +14598,27 @@ export const TicketsApiAxiosParamCreator = function (configuration?: Configurati
 export const TicketsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = TicketsApiAxiosParamCreator(configuration)
     return {
+        /**
+         * Tenant Users can see Tenants Assigned to them (TenantUsers)
+         * @summary Assigned Tenant User Tickets
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async ticketsAssignedTenantUserTicketList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TicketsAssignedTenantUserTicketList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsAssignedTenantUserTicketList(page, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async ticketsAssignedTenantUserTicketRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ticket>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsAssignedTenantUserTicketRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         /**
          * 
          * @param {TicketActvity} data 
@@ -14112,39 +14739,39 @@ export const TicketsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ticketsTicketsList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TicketsTicketsList200Response>> {
+        async ticketsTicketsList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TicketsAssignedTenantUserTicketList200Response>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketsList(page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {Ticket} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ticketsTicketsPartialUpdate(id: number, data: Ticket, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ticket>> {
+        async ticketsTicketsPartialUpdate(id: string, data: Ticket, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ticket>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketsPartialUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ticketsTicketsRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ticket>> {
+        async ticketsTicketsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ticket>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketsRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {Ticket} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ticketsTicketsUpdate(id: number, data: Ticket, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ticket>> {
+        async ticketsTicketsUpdate(id: string, data: Ticket, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ticket>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketsUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -14158,6 +14785,25 @@ export const TicketsApiFp = function(configuration?: Configuration) {
 export const TicketsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = TicketsApiFp(configuration)
     return {
+        /**
+         * Tenant Users can see Tenants Assigned to them (TenantUsers)
+         * @summary Assigned Tenant User Tickets
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        ticketsAssignedTenantUserTicketList(page?: number, options?: any): AxiosPromise<TicketsAssignedTenantUserTicketList200Response> {
+            return localVarFp.ticketsAssignedTenantUserTicketList(page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        ticketsAssignedTenantUserTicketRead(id: string, options?: any): AxiosPromise<Ticket> {
+            return localVarFp.ticketsAssignedTenantUserTicketRead(id, options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @param {TicketActvity} data 
@@ -14267,40 +14913,68 @@ export const TicketsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketsList(page?: number, options?: any): AxiosPromise<TicketsTicketsList200Response> {
+        ticketsTicketsList(page?: number, options?: any): AxiosPromise<TicketsAssignedTenantUserTicketList200Response> {
             return localVarFp.ticketsTicketsList(page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {Ticket} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketsPartialUpdate(id: number, data: Ticket, options?: any): AxiosPromise<Ticket> {
+        ticketsTicketsPartialUpdate(id: string, data: Ticket, options?: any): AxiosPromise<Ticket> {
             return localVarFp.ticketsTicketsPartialUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketsRead(id: number, options?: any): AxiosPromise<Ticket> {
+        ticketsTicketsRead(id: string, options?: any): AxiosPromise<Ticket> {
             return localVarFp.ticketsTicketsRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this ticket.
+         * @param {string} id 
          * @param {Ticket} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketsUpdate(id: number, data: Ticket, options?: any): AxiosPromise<Ticket> {
+        ticketsTicketsUpdate(id: string, data: Ticket, options?: any): AxiosPromise<Ticket> {
             return localVarFp.ticketsTicketsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for ticketsAssignedTenantUserTicketList operation in TicketsApi.
+ * @export
+ * @interface TicketsApiTicketsAssignedTenantUserTicketListRequest
+ */
+export interface TicketsApiTicketsAssignedTenantUserTicketListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof TicketsApiTicketsAssignedTenantUserTicketList
+     */
+    readonly page?: number
+}
+
+/**
+ * Request parameters for ticketsAssignedTenantUserTicketRead operation in TicketsApi.
+ * @export
+ * @interface TicketsApiTicketsAssignedTenantUserTicketReadRequest
+ */
+export interface TicketsApiTicketsAssignedTenantUserTicketReadRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TicketsApiTicketsAssignedTenantUserTicketRead
+     */
+    readonly id: string
+}
 
 /**
  * Request parameters for ticketsTicketActivitiesCreate operation in TicketsApi.
@@ -14505,11 +15179,11 @@ export interface TicketsApiTicketsTicketsListRequest {
  */
 export interface TicketsApiTicketsTicketsPartialUpdateRequest {
     /**
-     * A unique integer value identifying this ticket.
-     * @type {number}
+     * 
+     * @type {string}
      * @memberof TicketsApiTicketsTicketsPartialUpdate
      */
-    readonly id: number
+    readonly id: string
 
     /**
      * 
@@ -14526,11 +15200,11 @@ export interface TicketsApiTicketsTicketsPartialUpdateRequest {
  */
 export interface TicketsApiTicketsTicketsReadRequest {
     /**
-     * A unique integer value identifying this ticket.
-     * @type {number}
+     * 
+     * @type {string}
      * @memberof TicketsApiTicketsTicketsRead
      */
-    readonly id: number
+    readonly id: string
 }
 
 /**
@@ -14540,11 +15214,11 @@ export interface TicketsApiTicketsTicketsReadRequest {
  */
 export interface TicketsApiTicketsTicketsUpdateRequest {
     /**
-     * A unique integer value identifying this ticket.
-     * @type {number}
+     * 
+     * @type {string}
      * @memberof TicketsApiTicketsTicketsUpdate
      */
-    readonly id: number
+    readonly id: string
 
     /**
      * 
@@ -14561,6 +15235,29 @@ export interface TicketsApiTicketsTicketsUpdateRequest {
  * @extends {BaseAPI}
  */
 export class TicketsApi extends BaseAPI {
+    /**
+     * Tenant Users can see Tenants Assigned to them (TenantUsers)
+     * @summary Assigned Tenant User Tickets
+     * @param {TicketsApiTicketsAssignedTenantUserTicketListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TicketsApi
+     */
+    public ticketsAssignedTenantUserTicketList(requestParameters: TicketsApiTicketsAssignedTenantUserTicketListRequest = {}, options?: AxiosRequestConfig) {
+        return TicketsApiFp(this.configuration).ticketsAssignedTenantUserTicketList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {TicketsApiTicketsAssignedTenantUserTicketReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TicketsApi
+     */
+    public ticketsAssignedTenantUserTicketRead(requestParameters: TicketsApiTicketsAssignedTenantUserTicketReadRequest, options?: AxiosRequestConfig) {
+        return TicketsApiFp(this.configuration).ticketsAssignedTenantUserTicketRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {TicketsApiTicketsTicketActivitiesCreateRequest} requestParameters Request parameters.
@@ -14635,7 +15332,6 @@ export class TicketsApi extends BaseAPI {
      * @memberof TicketsApi
      */
     public ticketsTicketTypesList(requestParameters: TicketsApiTicketsTicketTypesListRequest = {}, options?: AxiosRequestConfig) {
-        console.log(options);
         return TicketsApiFp(this.configuration).ticketsTicketTypesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 

@@ -142,7 +142,7 @@ export function Registration() {
           Provide the following details below
         </p>
       </div> */}
-        <div className="separator separator-content mb-10">
+        <div className="separator separator-content mb-5">
           <span className="w-300px text-gray-500 fw-semibold fs-7">
             Create an Account
           </span>
