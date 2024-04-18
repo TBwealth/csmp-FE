@@ -11,13 +11,16 @@ import { AddTenantModal } from "./modals/ModalTenant";
 import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiCustomTenantsList200Response } from "../../../../api/axios-client";
+import TableComponent from "../../../../components/TableComponent";
+import { ColumnTypes, TableColumn } from "../../../../components/models";
 
 const Tenant = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
 
   const { data, isLoading, error } = useGetAccountTenant(page);
@@ -32,33 +35,70 @@ const Tenant = () => {
     if (error) {
       if (error instanceof Error) {
         showAlert(error?.message || "An unknown error occurred", "danger");
+        setErrorMess(error?.message);
       }
     }
   }, [data, error]);
 
   const filteredItems = items?.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.tenant_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSearchChange = (event: any) => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
-
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+  const actions = ["Edit", "Delete"];
+  const tableHeaders: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id"
+    },
+    {
+      name: "tenant_name",
+      title: "Name"
+    },
+    {
+      name: "admin_email",
+      title: "Admin Email"
+    },
+    {
+      name: "code",
+      title: "Code"
+    },
+    {
+      name: "status",
+      title: "Status",
+      type:ColumnTypes.Bool
+    },
+  ];
 
   return (
     <div>
-      <Content>
+      {isLoading ? (
+        <UsersListLoading />
+      ) : (
+        <TableComponent
+          placeholder="Search Tenant Name"
+          actions={actions}
+          totalPages={totalPages}
+          handleDelete={() => {}}
+          errorMessage={errorMess ?? ""}
+          handleSearch={(e) => handleSearchChange(e)}
+          tableHeaders={tableHeaders}
+          modal={
+            <AddTenantModal
+              editItem={editItems}
+              onClearEdit={() => setEditItems(null)}
+            />
+          }
+          filteredItems={filteredItems}
+          createBtn={true}
+          showActionBtn={true}
+          setEditItems={setEditItems}
+        />
+      )}
+      {/* <Content>
         <KTCardBody className="py-4">
           <div
             className="d-flex justify-content-between align-self-center flex-wrap"
@@ -176,7 +216,7 @@ const Tenant = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };

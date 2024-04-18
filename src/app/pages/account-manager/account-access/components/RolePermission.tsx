@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
-import { Content } from "../../../../../_metronic/layout/components/content";
+// import { Content } from "../../../../../_metronic/layout/components/content";
 import {
   useDeleteAccountRolesPermission,
   useGetAccountRolesPermission,
 } from "../../../../api/api-services/accountQuery";
-import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
+// import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
 import { AddRolePermissionModal } from "./modals/ModalRolePermission";
 import { UsersListLoading } from "../../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../../components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+// import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiRolePermissionsList200Response } from "../../../../api/axios-client";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
+import { TableColumn } from "../../../../components/models";
+import TableComponent from "../../../../components/TableComponent";
 
 const RolePermission = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const { showAlert, hideAlert, Alert } = useAlert();
+  const [errorMess, setErrorMess] = useState("");
+  const { showAlert, hideAlert } = useAlert();
 
   const { data, isLoading, error } = useGetAccountRolesPermission(page);
 
@@ -34,6 +37,7 @@ const RolePermission = () => {
     hideAlert();
     if (error) {
       if (error instanceof Error) {
+        setErrorMess(error?.message);
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
@@ -65,21 +69,58 @@ const RolePermission = () => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
 
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+  //new table props
+  const actions = ["Edit", "Delete"];
+  const tableHeaders: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id"
+    },
+    {
+      name: "permission",
+      title: "Permission"
+    },
+    {
+      name: "permission_id",
+      title: "Permission Id"
+    },
+    {
+      name: "role",
+      title: "Role"
+    },
+    {
+      name: "role_id",
+      title: "Role Id"
+    },
+  ];
 
   return (
     <div>
-      <Content>
+      {isLoading || deleteLoading ? (
+        <UsersListLoading />
+      ) : (
+        <TableComponent
+          placeholder="Search Permission"
+          actions={actions}
+          totalPages={totalPages}
+          errorMessage={errorMess ?? ""}
+          handleDelete={handleDelete}
+          handleSearch={(e) => handleSearchChange(e)}
+          tableHeaders={tableHeaders}
+          modal={
+            <AddRolePermissionModal
+              editItem={editItems}
+              onClearEdit={() => setEditItems(null)}
+            />
+          }
+          filteredItems={filteredItems}
+          createBtn={true}
+          showActionBtn={true}
+          setEditItems={setEditItems}
+        />
+      )}
+      {/* <Content>
         <KTCardBody className="py-4">
           <div
             className="d-flex justify-content-between align-self-center flex-wrap"
@@ -203,7 +244,7 @@ const RolePermission = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };

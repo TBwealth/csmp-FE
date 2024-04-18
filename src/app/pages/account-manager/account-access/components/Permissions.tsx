@@ -1,20 +1,14 @@
 import { useEffect, useState } from "react";
-import { Content } from "../../../../../_metronic/layout/components/content";
+// import { Content } from "../../../../../_metronic/layout/components/content";
 import { useGetAccountPermssion } from "../../../../api/api-services/accountQuery";
-import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
+// import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
 import { AddPermissionModal } from "./modals/ModalPermissions";
 import { UsersListLoading } from "../../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../../components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+// import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiPermissionsList200Response } from "../../../../api/axios-client";
-import {
-  ACTIONS,
-  ColumnTypes,
-  TableAction,
-  TableActionEvent,
-  TableColumn,
-} from "../../../../components/models";
 import TableComponent from "../../../../components/TableComponent";
+import { TableColumn } from "../../../../components/models";
 
 const Permissions = () => {
   const [page, setPage] = useState(1);
@@ -22,14 +16,17 @@ const Permissions = () => {
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
+  const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
-  const [currentPage, setcurrentPage] = useState<number>(0);
+  // const [currentPage, setcurrentPage] = useState<number>(0);
 
   const { data, isLoading, error } = useGetAccountPermssion(page);
   console.log("permiiiit", data);
 
   const datastsr: AccountsApiPermissionsList200Response | any = data;
-
+  const handleSearchChange = (event: any) => {
+    setSearchTerm(event.target.value);
+  };
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
     setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
@@ -38,74 +35,50 @@ const Permissions = () => {
     if (error) {
       if (error instanceof Error) {
         showAlert(error?.message || "An unknown error occurred", "danger");
+        setErrorMess(error?.message);
       }
     }
   }, [data, error]);
 
-  const filteredItems = items?.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
-
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
-
-  const tableColumns = [
-    // { name: 'fullname', title: 'EMPLOYEE NO', type: ColumnTypes.Text },
-    { name: "id", title: "ID", type: ColumnTypes.Text },
-    { name: "name", title: "NAME", type: ColumnTypes.Text },
-  ];
-  const Bulkactions: TableAction[] = [
-    // { name: ACTIONS.DELETE, label: 'Delete', icon:"trash" },
-  ];
-  const tableActions: TableAction[] = [{ name: ACTIONS.VIEW, label: "View" }];
-  const filterFields: TableColumn[] = [
+  //new table props
+  const actions = ["Edit"];
+  const tableHeaders: TableColumn[] = [
     {
-      name: "leaveTypeName",
-      title: "LEAVE TYPE",
-      type: ColumnTypes.Text,
+      name: "id",
+      title: "Id"
+    },
+    {
+      name: "name",
+      title: "Name"
     },
   ];
-
-  function tableActionClicked(event: TableActionEvent) {
-    if (event.name === "3") {
-      // navigate(
-      //   `/leave/employeeInfo?id=${event.data.employeeId}&leavePlanId=${event.data.id}`
-      // );
-    }
-  }
-
-  function filterUpdated(infilter: any) {
-    // let nfilter = { ...filter.current, ...infilter };
-    // nfilter.pageNumber = infilter.page ?? filter.current.pageNumber;
-    // filter.current = nfilter;
-    // if(isLineManager) {
-    //   getAllLeaveHistoryLinemanager();
-    // } else getAllLeaveHistory();
-  }
-
-  async function handleBulkAction(event: any) {
-    // setcheckedItems(event.checkedItems);
-    const actionDetails = event.items;
-    if (actionDetails.name === ACTIONS.DELETE) {
-    }
-  }
-
   return (
     <div>
-      <Content>
+      {
+        isLoading ? (
+          <UsersListLoading />
+        ) : (
+          <TableComponent
+            placeholder="Search Permission"
+            actions={actions}
+            totalPages={totalPages}
+            errorMessage={errorMess ?? ""}
+            tableHeaders={tableHeaders}
+            handleDelete={() => {}}
+            handleSearch={(e) => handleSearchChange(e)}
+            modal= {
+              <AddPermissionModal
+                editItem={editItems}
+                onClearEdit={() => setEditItems(null)}
+              />
+            }
+            filteredItems={items}
+            createBtn={true}
+            showActionBtn={true}
+            setEditItems={setEditItems}
+            />
+        )}
+      {/* <Content>
         <KTCardBody className="py-4">
           <div
             className="d-flex justify-content-between align-self-center flex-wrap"
@@ -193,6 +166,7 @@ const Permissions = () => {
               // <TableComponent
               //   filterChange={(e: any) => filterUpdated(e)}
               //   showActions={true}
+              //   toggleEditModal={(e) => console.log(e)}
               //   showFilter={true}
               //   actionClick={(e: any) => tableActionClicked(e)}
               //   actions={tableActions}
@@ -248,7 +222,7 @@ const Permissions = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };

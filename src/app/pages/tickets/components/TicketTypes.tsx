@@ -7,14 +7,17 @@ import useAlert from "../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { TicketsTicketTypesList200Response } from "../../../api/axios-client";
 import { ModalTicketTypes } from "./modals/ModalTicketTypes";
+import TableComponent from "../../../components/TableComponent";
+import { ColumnTypes, TableColumn } from "../../../components/models";
 
 const TicketTypes = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const { showAlert, hideAlert, Alert } = useAlert();
+  const { showAlert, hideAlert } = useAlert();
+  const [errorMess, setErrorMess] = useState("");
 
   const { data, isLoading, error } = useGetTicketsTypes(page);
   console.log(data)
@@ -28,6 +31,7 @@ const TicketTypes = () => {
     hideAlert();
     if (error) {
       if (error instanceof Error) {
+        setErrorMess(error?.message);
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
@@ -44,21 +48,59 @@ const TicketTypes = () => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
-
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+  const actions = ["Edit"];
+  const tableHeaders: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id",
+    },
+    {
+      name: "name",
+      title: "Name",
+    },
+    {
+      name: "code",
+      title: "Code",
+    },
+    {
+      name: "created_by",
+      title: "Created By",
+    },
+    {
+      name: "cloud_provider",
+      title: "Status",
+      type:ColumnTypes.Object,
+      objKey: "status"
+    },
+  ];
 
   return (
     <div>
-      <Content>
+      {
+        isLoading ? (
+          <UsersListLoading />
+        ) : (
+          <TableComponent
+            placeholder="Search Ticket Types"
+            actions={actions}
+            totalPages={totalPages}
+            errorMessage={errorMess ?? ""}
+            tableHeaders={tableHeaders}
+            handleDelete={() => {}}
+            handleSearch={(e) => handleSearchChange(e)}
+            modal= {
+              <ModalTicketTypes
+                editItem={editItems}
+                onClearEdit={() => setEditItems(null)}
+              />
+            }
+            filteredItems={items}
+            createBtn={true}
+            showActionBtn={true}
+            setEditItems={setEditItems}
+            />
+        )}
+      {/* <Content>
         <KTCardBody className="py-4">
           <div
             className="d-flex justify-content-between align-self-center flex-wrap"
@@ -173,7 +215,7 @@ const TicketTypes = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };

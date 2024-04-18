@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
-import { Content } from "../../../../_metronic/layout/components/content";
+// import { Content } from "../../../../_metronic/layout/components/content";
 import { useGetCloudProviderServicesList} from "../../../api/api-services/cloudProviderQuery";
-import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
+// import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+// import { Dropdown, DropdownButton } from "react-bootstrap";
 import { CloudProviderProviderServicesList200Response } from "../../../api/axios-client";
 import { ModalProviderServices } from "./modal/ModalProviderServices";
+import TableComponent from "../../../components/TableComponent";
+import { TableColumn } from "../../../components/models";
 
 const ProviderServices = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const { showAlert, hideAlert, Alert } = useAlert();
+  const [errorMess, setErrorMess] = useState("");
+  const { showAlert, hideAlert } = useAlert();
 
   const { data, isLoading, error } = useGetCloudProviderServicesList(page);
   console.log(data)
@@ -28,6 +31,7 @@ const ProviderServices = () => {
     hideAlert();
     if (error) {
       if (error instanceof Error) {
+        setErrorMess(error?.message);
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
@@ -43,26 +47,58 @@ const ProviderServices = () => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
 
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+  const actions = ["Edit"];
+  const tableHeaders: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id"
+    },
+    {
+      name: "name",
+      title: "Name",
+    },
+    {
+      name: "code",
+      title: "Code",
+    },
+    {
+      name: "status",
+      title: "Status",
+    },
+  ];
 
   return (
     <div>
-      <Content>
-        <KTCardBody className="py-4">
-          {/* <ModalAllUser
+        {isLoading ? (
+        <UsersListLoading />
+      ) : (
+        <TableComponent
+          placeholder="Search Services"
+          actions={actions}
+          totalPages={totalPages}
+          handleDelete={() => {}}
+          errorMessage={errorMess ?? ""}
+          handleSearch={(e) => handleSearchChange(e)}
+          tableHeaders={tableHeaders}
+          modal={
+            <ModalProviderServices
               editItem={editItems}
               onClearEdit={() => setEditItems(null)}
-            /> */}
+            />
+          }
+          filteredItems={filteredItems}
+          createBtn={true}
+          showActionBtn={true}
+          setEditItems={setEditItems}
+        />
+      )}
+      {/* <Content>
+        <KTCardBody className="py-4">
+          <ModalAllUser
+              editItem={editItems}
+              onClearEdit={() => setEditItems(null)}
+            />
           <div
             className="d-flex justify-content-between align-self-center flex-wrap"
             data-kt-user-table-toolbar="base"
@@ -177,7 +213,7 @@ const ProviderServices = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };

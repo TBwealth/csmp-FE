@@ -55,7 +55,10 @@ export const useUpdateTickets = (id: number) => {
 //TICKET TYPES
 export const useGetTicketsTypes = (page: number) => {
     const query = useQuery(["tickets"], () =>
-      ticketApi.ticketsTicketTypesList({ page })
+      ticketApi.ticketsTicketTypesList({ page }),
+    {
+      retry: 2,
+    }
     );
     return query;
 };

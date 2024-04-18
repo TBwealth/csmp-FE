@@ -7,14 +7,17 @@ import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiUserLoginLogsList200Response } from "../../../../api/axios-client";
 import { ModalAllUser } from "./modals/ModalAllUser";
+import TableComponent from "../../../../components/TableComponent";
+import { TableColumn } from "../../../../components/models";
 
 const UserLogs = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
+  const [errorMess, setErrorMess] = useState("");
 
   const { data, isLoading, error } = useGetAccountUserLoginLogs(page);
   console.log("daaaaa", data);
@@ -28,6 +31,7 @@ const UserLogs = () => {
     hideAlert();
     if (error) {
       if (error instanceof Error) {
+        setErrorMess(error?.message);
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
@@ -41,21 +45,44 @@ const UserLogs = () => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
-
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+   //new table props
+   const actions = ["Edit"];
+   const tableHeaders: TableColumn[] = [
+     {
+       name: "user",
+       title: "User"
+     },
+     {
+       name: "timestamp",
+       title: "Time Stamp"
+     },
+     {
+       name: "ip_address",
+       title: "IP Address"
+     },
+   ];
 
   return (
     <div>
-      <Content>
+      {isLoading ? (
+        <UsersListLoading />
+      ) : (
+        <TableComponent
+          placeholder="Search User Logs"
+          actions={actions}
+          totalPages={totalPages}
+          errorMessage={errorMess ?? ""}
+          handleDelete={() => {}}
+          handleSearch={(e) => handleSearchChange(e)}
+          tableHeaders={tableHeaders}
+          modal={<div className="mt-2"></div>}
+          filteredItems={filteredItems}
+          createBtn={false}
+          showActionBtn={false}
+          setEditItems={setEditItems}
+        />
+      )}
+      {/* <Content>
         <KTCardBody className="py-4">
           <ModalAllUser
             editItem={editItems}
@@ -149,7 +176,7 @@ const UserLogs = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };

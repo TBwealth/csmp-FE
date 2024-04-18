@@ -17,6 +17,7 @@ export interface TableColumn {
   sliderStartName?: string;
   sliderStartInitials?: number;
   sliderEndInitial?: number;
+  objKey?:string;
     title: string;
     type?: ColumnTypes;
     template?: any;
