@@ -138,9 +138,10 @@ const TableComponent = ({
                             );
                           }
                           if (header.type === ColumnTypes.Object) {
+                            console.log(header);
                             return (
                               <td key={header.name}>
-                                {typeof row[header.name][header.objKey!] ===
+                                {typeof row[header.name!][header?.objKey!] ===
                                 "boolean"
                                   ? row[header.name][header.objKey!] === true
                                     ? "True"

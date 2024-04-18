@@ -14,6 +14,12 @@ const SidebarMenuMain = () => {
         title={intl.formatMessage({ id: "MENU.DASHBOARD" })}
         fontIcon="bi-app-indicator"
       />
+      <SidebarMenuItem
+        to="/policy"
+        icon="element-11"
+        title="Policy"
+        fontIcon="bi-app-indicator"
+      />
       {/* <SidebarMenuItem
         to="/builder"
         icon="switch"
@@ -119,8 +125,37 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         ></SidebarMenuItem>
         <SidebarMenuItem
-          to="tickets/tickets/ticket-types"
+          to="tickets/ticket-types"
           title="Ticket Types"
+          hasBullet={true}
+        ></SidebarMenuItem>
+      </SidebarMenuItemWithSub>
+      <div className="menu-item">
+        <div className="menu-content pt-8 pb-2">
+          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+            System Actors
+          </span>
+        </div>
+      </div>
+      <SidebarMenuItemWithSub
+        to="/actors"
+        title="System Actors"
+        icon="cheque"
+        fontIcon="bi-person"
+      >
+        <SidebarMenuItem
+          to="/actors/admin-users"
+          title="Admin User"
+          hasBullet={true}
+        ></SidebarMenuItem>
+        <SidebarMenuItem
+          to="/actors/tenant-users"
+          title="Tenant Users"
+          hasBullet={true}
+        ></SidebarMenuItem>
+        <SidebarMenuItem
+          to="/actors/tenant-employees"
+          title="Tenant Employees"
           hasBullet={true}
         ></SidebarMenuItem>
       </SidebarMenuItemWithSub>

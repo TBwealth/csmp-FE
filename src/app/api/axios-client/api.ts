@@ -14635,7 +14635,6 @@ export class TicketsApi extends BaseAPI {
      * @memberof TicketsApi
      */
     public ticketsTicketTypesList(requestParameters: TicketsApiTicketsTicketTypesListRequest = {}, options?: AxiosRequestConfig) {
-        console.log(options);
         return TicketsApiFp(this.configuration).ticketsTicketTypesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
