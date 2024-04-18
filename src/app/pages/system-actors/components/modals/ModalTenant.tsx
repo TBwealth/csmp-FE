@@ -1,125 +1,38 @@
 import { useEffect, useState } from "react";
-import { KTIcon, KTSVG } from "../../../../_metronic/helpers";
-import useAlert from "../../components/useAlert";
+import { KTIcon, KTSVG } from "../../../../../_metronic/helpers";
+import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
-import {
-    PolicyPoliciesList200Response
-} from "../../../api/axios-client"
-import { useCreatePolicies, useGetPolicies, useUpdatePolicies } from "../../../api/api-services/policyQuery";
 
-
-const ModalPolicyList = ({ editItem, onClearEdit }: any) => {
+const ModalTenant = ({ editItem, onClearEdit }: any) => {
     const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
+    const [editLoading, seteditLoading] = useState(false);
     const [policies, setPolicies] = useState<any[] | undefined>([]);
-  const [valueId, setValueId] = useState("");
-  const [nameValue, setNameValue] = useState("");
-  const [codeValue, setCodeValue] = useState("");
-  const [statusValue, setStatusValue] = useState(false);
-  const [tenantValue, setTenantValue] = useState(0);
-  const { showAlert, hideAlert, Alert } = useAlert();
-
-  const {
-    data: allPolicies,
-    isLoading: serviceLoading,
-    error: serviceError
-  } = useGetPolicies(page);
-
-  const {mutate, isLoading, error } = useCreatePolicies();
-  const {
-    mutate:editMutate,
-    isLoading: editLoading,
-    error: editError
-  } = useUpdatePolicies(+valueId);
-
-  const datastsr: PolicyPoliciesList200Response | any = allPolicies;
-  useEffect(() => {
-    setPolicies(datastsr?.data?.data?.results);
-    if (editItem) {
-      setIsOpen(true);
-      console.log(editItem, "Showwwwwwwwwwwww");
-      setValueId(editItem?.id);
-      setNameValue(editItem?.name);
-      setCodeValue(editItem?.code);
-      setStatusValue(editItem?.status);
-      setTenantValue(editItem?.tenant);
-    } else {
+    const [valueId, setValueId] = useState("");
+    const [nameValue, setNameValue] = useState("");
+    const [codeValue, setCodeValue] = useState("");
+    const [statusValue, setStatusValue] = useState(false);
+    const [tenantValue, setTenantValue] = useState(0);
+    const { showAlert, hideAlert, Alert } = useAlert();
+  
+    const handleClose = () => {
+      setIsOpen(false);
+      hideAlert();
       setValueId("");
-      setCodeValue("");
-      setStatusValue(false);
-      setNameValue("");
-      setTenantValue(0);
-    }
-  }, [allPolicies, editItem]);
-
-  const handleClose = () => {
-    setIsOpen(false);
-    hideAlert();
-    setValueId("");
-    onClearEdit();
-  };
-
-  const handleSubmit = () => {
-    mutate(
-      {
-        name: nameValue,
-        code: codeValue,
-        status: statusValue,
-      },
-      {
-        onSuccess: (res) => {
-          handleClose();
-          console.log(res);
-          // showAlert(res?.data?.message, "success");
-          setValueId("");
-      setCodeValue("");
-      setStatusValue(false);
-      setNameValue("");
-      setTenantValue(0);
-        },
-
-        onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
-            // showAlert(err?.response?.data?.message, "danger");
-          }
-        },
-      }
-    );
-  };
-
-  const editHandleSubmit = () => {
-    editMutate(
-      {
-        id: +valueId,
-        data:{
-            name: nameValue,
-            code: codeValue,
-            status: statusValue,
-        
-        },
-      },
-      {
-        onSuccess: (res) => {
-          handleClose();
-          console.log(res);
-          // showAlert(res?.data?.message, "success");
-          setValueId("");
-          setCodeValue("");
-          setStatusValue(false);
-          setNameValue("");
-          setTenantValue(0);
-        },
-        onError: (err) => {
-          if (err instanceof Error) {
-            showAlert(err?.message || "An unknown error occurred", "danger");
-          }
-        },
-      }
-    );
-  };
+      onClearEdit();
+    };
+  
+    const handleSubmit = () => {
+      console.log("new admin user added");
+      handleClose();
+    };
+    const editHandleSubmit = () => {
+      console.log("admin user edited successfully");
+      handleClose();
+    };
     return (
-        <>
+      <>
         <button
           type="button"
           className="btn btn-primary btn-sm"
@@ -177,7 +90,6 @@ const ModalPolicyList = ({ editItem, onClearEdit }: any) => {
                 onChange={(e) => setStatusValue(e.target.checked)}
               />
             </div>
-  
           </Modal.Body>
           <Alert />
           <Modal.Footer>
@@ -187,9 +99,7 @@ const ModalPolicyList = ({ editItem, onClearEdit }: any) => {
             <button
               type="button"
               className="btn btn-primary"
-              disabled={
-                nameValue === "" || codeValue === ""
-              }
+              disabled={nameValue === "" || codeValue === ""}
               onClick={editItem ? editHandleSubmit : handleSubmit}
             >
               {!isLoading && !editLoading && (
@@ -211,7 +121,7 @@ const ModalPolicyList = ({ editItem, onClearEdit }: any) => {
           </Modal.Footer>
         </Modal>
       </>
-  )
+    );
 }
 
-export default ModalPolicyList
+export default ModalTenant

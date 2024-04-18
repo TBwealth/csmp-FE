@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Content } from "../../../../_metronic/layout/components/content";
+// import { Content } from "../../../../_metronic/layout/components/content";
 import { useGetTicketsActivities} from "../../../api/api-services/ticketQuery";
-import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
+// import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+// import { Dropdown, DropdownButton } from "react-bootstrap";
 import { TicketsTicketActivitiesList200Response } from "../../../api/axios-client";
 import { ModalTicketActivities } from "./modals/ModalTicketActivities";
 import TableComponent from "../../../components/TableComponent";
@@ -89,6 +89,7 @@ const TicketsActivities = () => {
           <TableComponent
             placeholder="Search Ticket Activities"
             actions={actions}
+            title="All Ticket Activities"
             totalPages={totalPages}
             errorMessage={errorMess ?? ""}
             tableHeaders={tableHeaders}

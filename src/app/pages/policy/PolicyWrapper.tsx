@@ -84,6 +84,7 @@ const PolicyWrapper = () => {
           <TableComponent
             placeholder="Search Policies"
             actions={actions}
+            title='All Policies'
             totalPages={totalPages}
             errorMessage={errorMess ?? ""}
             tableHeaders={tableHeaders}

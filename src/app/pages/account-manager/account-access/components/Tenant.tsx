@@ -81,6 +81,7 @@ const Tenant = () => {
         <TableComponent
           placeholder="Search Tenant Name"
           actions={actions}
+          title="All tenants"
           totalPages={totalPages}
           handleDelete={() => {}}
           errorMessage={errorMess ?? ""}

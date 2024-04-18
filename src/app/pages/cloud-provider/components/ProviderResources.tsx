@@ -5,7 +5,7 @@ import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { CloudProviderProviderResourceTypesList200Response } from "../../../api/axios-client";
+import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../api/axios-client";
 import { ModalProviderResources } from "./modal/ModalProviderResources";
 import TableComponent from "../../../components/TableComponent";
 import { ColumnTypes, TableColumn } from "../../../components/models";
@@ -22,7 +22,7 @@ const ProviderResources = () => {
 
   const { data, isLoading, error } = useGetCloudProviderResourceTypes(page);
     console.log('saaaaa', data)
-  const datastsr: CloudProviderProviderResourceTypesList200Response | any =
+  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
     data;
 
   useEffect(() => {
@@ -77,6 +77,7 @@ const ProviderResources = () => {
         <TableComponent
           placeholder="Search Resource"
           actions={actions}
+          title="All Resources"
           totalPages={totalPages}
           errorMessage={errorMess ?? ""}
           handleDelete={() => {}}

@@ -91,6 +91,7 @@ const AllUsers = () => {
         <TableComponent
           placeholder="Search Users"
           actions={actions}
+          title="All Users"
           totalPages={totalPages}
           errorMessage={errorMess ?? ""}
           handleDelete={handleDelete}

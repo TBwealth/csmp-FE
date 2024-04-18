@@ -5,7 +5,7 @@ import { useGetTickets} from "../../../api/api-services/ticketQuery";
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
 // import { Dropdown, DropdownButton } from "react-bootstrap";
-import { TicketsTicketsList200Response } from "../../../api/axios-client";
+import { TicketsTicketTypesList200Response } from "../../../api/axios-client";
 import { ModalTicketsList } from "./modals/ModalTicketsList";
 import TableComponent from "../../../components/TableComponent";
 import { ColumnTypes, TableColumn } from "../../../components/models";
@@ -22,7 +22,7 @@ const TicketsTickets = () => {
   const { data, isLoading, error } = useGetTickets(page);
   console.log(data)
 
-  const datastsr: TicketsTicketsList200Response | any = data;
+  const datastsr: TicketsTicketTypesList200Response | any = data;
 
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
@@ -106,6 +106,7 @@ const TicketsTickets = () => {
           <TableComponent
             placeholder="Search Tickets"
             actions={actions}
+            title="All Tickets"
             totalPages={totalPages}
             errorMessage={errorMess ?? ""}
             tableHeaders={tableHeaders}

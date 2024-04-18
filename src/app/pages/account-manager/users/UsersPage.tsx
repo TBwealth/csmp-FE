@@ -25,10 +25,10 @@ const AccountManagerPage: React.FC = () => {
     <Routes>
       <Route
         element={
-          <>
+          <div>
             <UsersHeader />
             <Outlet />
-          </>
+          </div>
         }
       >
         <Route

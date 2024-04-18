@@ -130,35 +130,6 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         ></SidebarMenuItem>
       </SidebarMenuItemWithSub>
-      <div className="menu-item">
-        <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            System Actors
-          </span>
-        </div>
-      </div>
-      <SidebarMenuItemWithSub
-        to="/actors"
-        title="System Actors"
-        icon="cheque"
-        fontIcon="bi-person"
-      >
-        <SidebarMenuItem
-          to="/actors/admin-users"
-          title="Admin User"
-          hasBullet={true}
-        ></SidebarMenuItem>
-        <SidebarMenuItem
-          to="/actors/tenant-users"
-          title="Tenant Users"
-          hasBullet={true}
-        ></SidebarMenuItem>
-        <SidebarMenuItem
-          to="/actors/tenant-employees"
-          title="Tenant Employees"
-          hasBullet={true}
-        ></SidebarMenuItem>
-      </SidebarMenuItemWithSub>
 
       {/* COMMENT OUT EVERYTHING BELOW WHEN YOU FINISH USING IT */}
 

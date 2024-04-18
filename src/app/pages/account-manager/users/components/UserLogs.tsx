@@ -70,6 +70,7 @@ const UserLogs = () => {
         <TableComponent
           placeholder="Search User Logs"
           actions={actions}
+          title="All User Logs"
           totalPages={totalPages}
           errorMessage={errorMess ?? ""}
           handleDelete={() => {}}
