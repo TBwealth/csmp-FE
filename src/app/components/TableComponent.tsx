@@ -2,7 +2,7 @@ import { Dispatch, useEffect, useState } from "react";
 import { Content } from "../../_metronic/layout/components/content";
 import { KTCardBody, KTIcon } from "../../_metronic/helpers";
 import useAlert from "../pages/components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+import { Dropdown, DropdownButton, Modal } from "react-bootstrap";
 import { ColumnTypes, TableColumn } from "./models";
 
 type Props = {
@@ -38,6 +38,7 @@ const TableComponent = ({
   const [page, setPage] = useState(1);
   const { showAlert, Alert } = useAlert();
   const [currentPage, setcurrentPage] = useState<number>(0);
+  const [isOpen, setIsOpen] = useState(false);
   const goToNextPage = () => {
     setPage((currentPage) => Math.min(currentPage + 1, totalPages));
   };
@@ -55,25 +56,45 @@ const TableComponent = ({
       showAlert(errorMessage || "An unknown error occurred", "danger");
     }
   }, [filteredItems]);
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div>
       <Content>
         <KTCardBody className="py-4">
           <div
-            className="d-flex justify-content-between align-self-center flex-wrap"
+            className="d-flex justify-content-between align-self-center flex-wrap mb-6"
             data-kt-user-table-toolbar="base"
           >
-            <div className="d-flex align-items-center position-relative my-1 mb-3 ">
-              <KTIcon
-                iconName="magnifier"
-                className="fs-1 position-absolute ms-6"
-              />
-              <input
-                type="text"
-                className="form-control form-control-solid w-250px ps-14"
-                placeholder={placeholder}
-                onChange={handleSearch}
-              />
+            <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center position-relative my-1 mb-3 ">
+                <KTIcon
+                  iconName="magnifier"
+                  className="fs-1 position-absolute ms-6"
+                />
+                <input
+                  type="text"
+                  className="form-control form-control-solid w-250px ps-14"
+                  placeholder={placeholder}
+                  onChange={handleSearch}
+                />
+              </div>
+              <div className="ml-2 -mt-2">
+                <button className="btn btn-sm btn-primary col mr-2"
+                onClick={() => alert("Print Table")}
+                >
+                  <i className="bi bi-printer"></i>Print
+                </button>
+                <button
+                  className="btn btn-sm btn-light col"
+                  onClick={() => setIsOpen(true)}
+                >
+                  <i className="bi bi-chevron-double-down"></i>ExportAs
+                </button>
+              </div>
             </div>
             {createBtn && <div className="mt-2">{modal}</div>}
           </div>
@@ -218,6 +239,25 @@ const TableComponent = ({
           </nav>
         </KTCardBody>
       </Content>
+      <Modal
+        show={isOpen}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Select Format Option</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>PDF</div>
+          <div>CSV</div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button type="button" className="btn btn-light" onClick={handleClose}>
+            Close
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
