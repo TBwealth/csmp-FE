@@ -7,14 +7,17 @@ import useAlert from "../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { TicketsTicketActivitiesList200Response } from "../../../api/axios-client";
 import { ModalTicketActivities } from "./modals/ModalTicketActivities";
+import TableComponent from "../../../components/TableComponent";
+import { ColumnTypes, TableColumn } from "../../../components/models";
 
 const TicketsActivities = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const { showAlert, hideAlert, Alert } = useAlert();
+  const [errorMess, setErrorMess] = useState("");
+  const { showAlert, hideAlert} = useAlert();
 
   const { data, isLoading, error } = useGetTicketsActivities(page);
   console.log(data)
@@ -28,6 +31,7 @@ const TicketsActivities = () => {
     hideAlert();
     if (error) {
       if (error instanceof Error) {
+        setErrorMess(error?.message);
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
@@ -44,21 +48,65 @@ const TicketsActivities = () => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
-
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+  const actions = ["Edit"];
+  const tableHeaders: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id"
+    },
+    {
+      name: "ticket",
+      title: "Ticket",
+      type: ColumnTypes.Object,
+      objKey: "id",
+    },
+    {
+      name: "timestamp",
+      title: "Timestamp"
+    },
+    {
+      name: "user",
+      title: "User",
+      type: ColumnTypes.Object,
+      objKey: "first_name"
+    },
+    {
+      name: "comments",
+      title: "Comments"
+    },
+    {
+      name: "activity_type",
+      title: "Activity Type"
+    },
+  ];
 
   return (
     <div>
-      <Content>
+      {
+        isLoading ? (
+          <UsersListLoading />
+        ) : (
+          <TableComponent
+            placeholder="Search Ticket Activities"
+            actions={actions}
+            totalPages={totalPages}
+            errorMessage={errorMess ?? ""}
+            tableHeaders={tableHeaders}
+            handleDelete={() => {}}
+            handleSearch={(e) => handleSearchChange(e)}
+            modal= {
+              <ModalTicketActivities
+                editItem={editItems}
+                onClearEdit={() => setEditItems(null)}
+              />
+            }
+            filteredItems={items}
+            createBtn={true}
+            showActionBtn={false}
+            setEditItems={setEditItems}
+            />
+        )}
+      {/* <Content>
         <KTCardBody className="py-4">
           <div
             className="d-flex justify-content-between align-self-center flex-wrap"
@@ -174,7 +222,7 @@ const TicketsActivities = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };

@@ -8,14 +8,17 @@ import { UsersListLoading } from "../../../../modules/apps/user-management/users
 import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiRolesList200Response } from "../../../../api/axios-client";
+import { TableColumn } from "../../../../components/models";
+import TableComponent from "../../../../components/TableComponent";
 
 const Roles = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const { showAlert, hideAlert, Alert } = useAlert();
+  const [errorMess, setErrorMess] = useState("");
+  const { showAlert, hideAlert } = useAlert();
 
   const { data, isLoading, error } = useGetAccountRoles(page);
 
@@ -29,6 +32,7 @@ const Roles = () => {
     if (error) {
       if (error instanceof Error) {
         showAlert(error?.message || "An unknown error occurred", "danger");
+        setErrorMess(error?.message);
       }
     }
   }, [data, error]);
@@ -41,21 +45,44 @@ const Roles = () => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
-
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+  const actions = ["Edit"];
+  const tableHeaders: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id"
+    },
+    {
+      name: "name",
+      title: "Name"
+    },
+  ];
 
   return (
     <div>
-      <div>
+      {isLoading ? (
+        <UsersListLoading />
+      ) : (
+        <TableComponent
+          placeholder="Search Roles"
+          actions={actions}
+          errorMessage={errorMess ?? ""}
+          totalPages={totalPages}
+          handleDelete={() => {}}
+          handleSearch={(e) => handleSearchChange(e)}
+          tableHeaders={tableHeaders}
+          modal={
+            <AddRoleModal
+              editItem={editItems}
+              onClearEdit={() => setEditItems(null)}
+            />
+          }
+          filteredItems={filteredItems}
+          createBtn={true}
+          showActionBtn={true}
+          setEditItems={setEditItems}
+        />
+      )}
+      {/* <div>
         <Content>
           <KTCardBody className="py-4">
             <div
@@ -183,7 +210,7 @@ const Roles = () => {
             </nav>
           </KTCardBody>
         </Content>
-      </div>
+      </div> */}
     </div>
   );
 };

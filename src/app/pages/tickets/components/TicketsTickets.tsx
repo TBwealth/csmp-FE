@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
-import { Content } from "../../../../_metronic/layout/components/content";
+// import { Content } from "../../../../_metronic/layout/components/content";
 import { useGetTickets} from "../../../api/api-services/ticketQuery";
-import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
+// import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
+// import { Dropdown, DropdownButton } from "react-bootstrap";
 import { TicketsTicketsList200Response } from "../../../api/axios-client";
 import { ModalTicketsList } from "./modals/ModalTicketsList";
+import TableComponent from "../../../components/TableComponent";
+import { ColumnTypes, TableColumn } from "../../../components/models";
 
 const TicketsTickets = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const { showAlert, hideAlert, Alert } = useAlert();
+  const { showAlert, hideAlert } = useAlert();
+  const [errorMess, setErrorMess] = useState("");
 
   const { data, isLoading, error } = useGetTickets(page);
   console.log(data)
@@ -28,6 +31,7 @@ const TicketsTickets = () => {
     hideAlert();
     if (error) {
       if (error instanceof Error) {
+        setErrorMess(error?.message);
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
@@ -44,21 +48,80 @@ const TicketsTickets = () => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
-
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
+  const actions = ["Edit"];
+  const tableHeaders: TableColumn[] = [
+    // {
+    //   name: "asset",
+    //   title: "Asset",
+    //   type: ColumnTypes.Object,
+    //   objKey: "name",
+    // },
+    {
+      name: "assigned_to",
+      title: "Name",
+      type: ColumnTypes.Object,
+      objKey: "first_name",
+    },
+    {
+      name: "code",
+      title: "Code",
+    },
+    {
+      name: "created_by",
+      title: "Created By",
+    },
+    {
+      name: "status",
+      title: "Status",
+      type: ColumnTypes.Bool,
+    },
+    {
+      name: "description",
+      title: "Description"
+    },
+    {
+      name: "tenant",
+      title: "Tenant"
+    },
+    {
+      name: "subject",
+      title: "Subject"
+    },
+    {
+      name: "ticket_type",
+      title: "Ticket Type",
+      type:ColumnTypes.Object,
+      objKey: "name"
+    },
+  ];
 
   return (
     <div>
-      <Content>
+      {
+        isLoading ? (
+          <UsersListLoading />
+        ) : (
+          <TableComponent
+            placeholder="Search Tickets"
+            actions={actions}
+            totalPages={totalPages}
+            errorMessage={errorMess ?? ""}
+            tableHeaders={tableHeaders}
+            handleDelete={() => {}}
+            handleSearch={(e) => handleSearchChange(e)}
+            modal= {
+              <ModalTicketsList
+                editItem={editItems}
+                onClearEdit={() => setEditItems(null)}
+              />
+            }
+            filteredItems={items}
+            createBtn={true}
+            showActionBtn={false}
+            setEditItems={setEditItems}
+            />
+        )}
+      {/* <Content>
         <KTCardBody className="py-4">
           <div
             className="d-flex justify-content-between align-self-center flex-wrap"
@@ -109,7 +172,7 @@ const TicketsTickets = () => {
                       return (
                         <tr key={row?.id}>
                           <td>{row?.asset?.name}</td>
-                          {/* <td>{row?.asset}</td> */}
+                          <td>{row?.asset}</td>
                           <td>{row?.assigned_to?.first_name}</td>
                           <td>{row?.code}</td>
                           <td>{row?.created_by}</td>
@@ -184,7 +247,7 @@ const TicketsTickets = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };

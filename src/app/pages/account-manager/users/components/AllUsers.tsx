@@ -10,14 +10,17 @@ import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiUsersList200Response } from "../../../../api/axios-client";
 import { ModalAllUser } from "./modals/ModalAllUser";
+import TableComponent from "../../../../components/TableComponent";
+import { ColumnTypes, TableColumn } from "../../../../components/models";
 
 const AllUsers = () => {
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<any[] | undefined>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const { showAlert, hideAlert, Alert } = useAlert();
+  const [errorMess, setErrorMess] = useState("");
+  const { showAlert, hideAlert } = useAlert();
 
   const { data, isLoading, error } = useGetAccountUsers(page);
 
@@ -34,10 +37,14 @@ const AllUsers = () => {
     if (error) {
       if (error instanceof Error) {
         showAlert(error?.message || "An unknown error occurred", "danger");
+        setErrorMess(error?.message);
       }
     }
   }, [data, error]);
 
+  const handleDelete = (perm_id: any) => {
+    mutate(perm_id);
+  }
   const filteredItems = items?.filter((item) =>
     item.first_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -46,21 +53,57 @@ const AllUsers = () => {
     setSearchTerm(event.target.value);
   };
 
-  const goToNextPage = () => {
-    setPage((currentPage) => Math.min(currentPage + 1, totalPages));
-  };
 
-  const goToPreviousPage = () => {
-    setPage((currentPage) => Math.max(currentPage - 1, 1));
-  };
-
-  const goToPage = (pageNumber: number) => {
-    setPage(pageNumber);
-  };
-
+  const actions = ["Edit", "Delete"];
+  const tableHeaders: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id"
+    },
+    {
+      name: "first_name",
+      title: "First Name"
+    },
+    {
+      name: "last_name",
+      title: "Last Name"
+    },
+    {
+      name: "email",
+      title: "Email"
+    },
+    {
+      name: "role",
+      title: "Role",
+      type: ColumnTypes.Object,
+      objKey: "name",
+    },
+    {
+      name: "tenant",
+      title: "Tenant"
+    },
+  ];
   return (
     <div>
-      <Content>
+      {isLoading || deleteLoading ? (
+        <UsersListLoading />
+      ) : (
+        <TableComponent
+          placeholder="Search Users"
+          actions={actions}
+          totalPages={totalPages}
+          errorMessage={errorMess ?? ""}
+          handleDelete={handleDelete}
+          handleSearch={(e) => handleSearchChange(e)}
+          tableHeaders={tableHeaders}
+          modal={<></> }
+          filteredItems={filteredItems}
+          createBtn={false}
+          showActionBtn={false}
+          setEditItems={setEditItems}
+        />
+      )}
+      {/* <Content>
         <KTCardBody className="py-4">
           <ModalAllUser
             editItem={editItems}
@@ -176,7 +219,7 @@ const AllUsers = () => {
             </ul>
           </nav>
         </KTCardBody>
-      </Content>
+      </Content> */}
     </div>
   );
 };
