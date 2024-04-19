@@ -12,7 +12,38 @@ import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiCustomTenantsList200Response } from "../../../../api/axios-client";
 import TableComponent from "../../../../components/TableComponent";
-import { ColumnTypes, TableColumn } from "../../../../components/models";
+import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../../components/models";
+import { ComponentsheaderComponent } from "../../../../components/componentsheader/componentsheader.component";
+import DefaultContent from "../../../../components/defaultContent/defaultContent";
+import { MainTableComponent } from "../../../../components/tableComponents/maincomponent/maintable";
+import { IStatus, MyColor } from "../../../../components/tableComponents/status/status";
+
+export class TenantWithStatus implements IStatus {
+  id: string = "";
+  tenant_name: string = "";
+  admin_email: string = "";
+  code: string = "";
+  status: string = "";
+
+  constructor(tenant: any) {
+    this.id = tenant.id
+    this.tenant_name = tenant.tenant_name
+    this.admin_email = tenant.admin_email
+    this.code = tenant.code
+    this.status = tenant.status
+  }
+
+  getStatusLabel() {
+    if (this.status) return "Active";
+    if (!this.status) return "InActive";
+    return "";
+  }
+  getStatusColor() {
+    if (this.status) return new MyColor(33, 150, 83);
+    if (!this.status) return new MyColor(242, 153, 74);
+    return new MyColor(242, 0, 74);
+  }
+}
 
 const Tenant = () => {
   const [page, setPage] = useState(1);
@@ -23,14 +54,27 @@ const Tenant = () => {
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
 
+  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const currentPage = 0;
+  const [totalItems, settotalItems] = useState<number>(0);
+
+  const filterFields:TableColumn [] = [
+    {name: 'keyword', title: 'Keyword', type:ColumnTypes.Text},
+  ];
+  const tableActions: TableAction[] = [    
+    { name: ACTIONS.EDIT, label: 'Edit' },
+    { name: ACTIONS.DELETE, label: 'Delete' },
+  ];
+
   const { data, isLoading, error } = useGetAccountTenant(page);
 
   const datastsr: AccountsApiCustomTenantsList200Response | any = data;
 
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results);
-    setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
-    console.log(items);
+    setItems(datastsr?.data?.data?.results.map((x:any) => new TenantWithStatus(x)));
+    setshowEmpty(datastsr?.data?.data?.results?.length === 0);
+    settotalItems(Math.ceil(datastsr?.data?.data?.count));
+
     hideAlert();
     if (error) {
       if (error instanceof Error) {
@@ -48,56 +92,124 @@ const Tenant = () => {
     setSearchTerm(event.target.value);
   };
 
-  const actions = ["Edit", "Delete"];
-  const tableHeaders: TableColumn[] = [
+
+  const tableColumns: TableColumn[] = [
     {
       name: "id",
-      title: "Id"
+      title: "Id",
+      type: ColumnTypes.Text,
     },
     {
       name: "tenant_name",
-      title: "Name"
+      title: "Name",
+      type: ColumnTypes.Text,
     },
     {
       name: "admin_email",
-      title: "Admin Email"
+      title: "Admin Email",
+      type: ColumnTypes.Text,
     },
     {
       name: "code",
-      title: "Code"
+      title: "Code",
+      type: ColumnTypes.Text,
     },
     {
       name: "status",
       title: "Status",
-      type:ColumnTypes.Bool
+      type: ColumnTypes.Status,
+      statusEnum: [
+        { key: true, value: "Active" },
+        { key: false, value: "InActive" },
+      ],
     },
   ];
 
+  const topActionButtons = [
+    { name: 'add_new_user', label: 'Add User', 'icon': 'plus', outline: false },
+  ];
+  function  modal(buttion:any) {
+    if (buttion === 'add_new_user') {
+ 
+    }
+    
+  }
+  function  refreshrecord() {
+    useGetAccountTenant(1);
+  }
+  function   filterUpdated(filter: any) {
+    filter.current = { ...filter.current, ...filter };
+    let nfilter = filter.current;
+    nfilter.pageIndex = filter.page;
+    filter.current = nfilter;
+    useGetAccountTenant(1);
+  }
+  function  tableActionClicked(event: TableActionEvent) {
+    if (event.name === '1') {      
+
+    }
+    if (event.name === '2') {      
+
+    }
+  }
+
   return (
     <div>
-      {isLoading ? (
-        <UsersListLoading />
-      ) : (
-        <TableComponent
-          placeholder="Search Tenant Name"
-          actions={actions}
-          title="All tenants"
-          totalPages={totalPages}
-          handleDelete={() => {}}
-          errorMessage={errorMess ?? ""}
-          handleSearch={(e) => handleSearchChange(e)}
-          tableHeaders={tableHeaders}
-          modal={
-            <AddTenantModal
-              editItem={editItems}
-              onClearEdit={() => setEditItems(null)}
-            />
-          }
-          filteredItems={filteredItems}
-          createBtn={true}
-          showActionBtn={true}
-          setEditItems={setEditItems}
-        />
+       <ComponentsheaderComponent backbuttonClick={()=>{}}  pageName="Tenants" requiredButton={topActionButtons} buttonClick={(e)=>{modal(e)}} />
+
+{showEmpty && (
+<DefaultContent pageHeader="All Tenants" pageDescription="No record found"
+loading={isLoading} buttonValue="Refresh" buttonClick={()=>refreshrecord()} />
+    )}
+      {!showEmpty && (
+      <MainTableComponent
+        filterChange={(e: any) => filterUpdated(e)}
+        showActions={true}
+        showFilter={true}
+        actionClick={(e: any) => tableActionClicked(e)}
+        actions={tableActions}
+        userData={items}
+        tableColum={tableColumns}
+        totalItems={totalItems}
+        currentTablePage={currentPage}
+        loading={isLoading}
+        InputFileName="All Tenants"
+        filterFields={filterFields}
+        showCheckBox={true}
+        bulkactionClicked={(e:any)=>{}} 
+        Bulkactions={[]}
+        showBulkAction={true}
+        actionChecked={() => { }}
+        actionBulkChecked={() => { }}
+        pageChange={() => { }}
+        dateRangeChanged={() => { }}
+        toggleColumnsEvent={() => { }}
+        toggleCustomFilter={() => { }}
+        sortOptionSelected={() => { }}
+      />
+      // {isLoading ? (
+      //   <UsersListLoading />
+      // ) : (
+      //   <TableComponent
+      //     placeholder="Search Tenant Name"
+      //     actions={actions}
+      //     title="All tenants"
+      //     totalPages={totalPages}
+      //     handleDelete={() => {}}
+      //     errorMessage={errorMess ?? ""}
+      //     handleSearch={(e) => handleSearchChange(e)}
+      //     tableHeaders={tableHeaders}
+      //     modal={
+      //       <AddTenantModal
+      //         editItem={editItems}
+      //         onClearEdit={() => setEditItems(null)}
+      //       />
+      //     }
+      //     filteredItems={filteredItems}
+      //     createBtn={true}
+      //     showActionBtn={true}
+      //     setEditItems={setEditItems}
+      //   />
       )}
       {/* <Content>
         <KTCardBody className="py-4">

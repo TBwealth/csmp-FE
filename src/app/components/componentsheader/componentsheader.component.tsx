@@ -64,7 +64,7 @@ export const ComponentsheaderComponent = ({
                   type="button"
                   onClick={() => buttonClick(val.name)}
                   className="border trigger border-solid hover:border-dotted border-purple-900 text-primary
-                         md:w-50 shadow-md rounded-[8px] bg-white md:px-8  py-2 px-2 text-sm text-center capitalize "
+                         md:w-50 shadow-md rounded-[5px] bg-white md:px-8  py-3 px-5 text-sm text-center capitalize "
                 >
                   {val.label}
                 </button>
@@ -73,8 +73,7 @@ export const ComponentsheaderComponent = ({
                 <button
                   type="button"
                   onClick={() => buttonClick(val.name)}
-                  className="bg-primary 
-                                                      md:w-50 text-sm shadow-md  rounded-[8px] md:px-8 py-2 px-3 text-white text-center capitalize"
+                  className="bg-primary md:w-50 text-sm shadow-md  rounded-[5px] md:px-8 py-3 px-5 text-white text-center capitalize"
                 >
                   {val.label}
                 </button>

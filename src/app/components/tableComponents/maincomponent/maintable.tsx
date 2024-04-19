@@ -239,7 +239,7 @@ type Props = {
 
 export const MainTableComponent = ({
   filterFields = [],
-  InputFileName = "Softace HR",
+  InputFileName = "CSPM",
   showTableFilter = false,
   loading = false,
   tableColum = [],
@@ -707,7 +707,7 @@ export const MainTableComponent = ({
                   </th>
                 ))}
                 {showActions && (
-                  <th className="pt-2 pb-2 pl-2 pr-2 text-sm font-medium uppercase">
+                  <th className="pt-2 pb-2 pl-2 pr-2 text-sm font-medium uppercase text-center">
                     Actions
                   </th>
                 )}

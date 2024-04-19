@@ -70,9 +70,9 @@ const AccountManagerPage: React.FC = () => {
           path="tenants"
           element={
             <>
-              <PageTitle breadcrumbs={accountManagerBreadCrumbs}>
+              {/* <PageTitle breadcrumbs={accountManagerBreadCrumbs}>
                 Tenants
-              </PageTitle>
+              </PageTitle> */}
               <Tenant />
             </>
           }

@@ -28,12 +28,12 @@ const AllUsers = () => {
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
 
-  const actions = ["Edit", "Delete"];
   const filterFields:TableColumn [] = [
     {name: 'keyword', title: 'Keyword', type:ColumnTypes.Text},
   ];
   const tableActions: TableAction[] = [    
     { name: ACTIONS.EDIT, label: 'Edit' },
+    { name: ACTIONS.DELETE, label: 'Delete' },
   ];
   const tableColumns: TableColumn[] = [
     {
@@ -118,6 +118,9 @@ const AllUsers = () => {
   }
   function  tableActionClicked(event: TableActionEvent) {
     if (event.name === '1') {      
+
+    }
+    if (event.name === '2') {      
 
     }
   }
