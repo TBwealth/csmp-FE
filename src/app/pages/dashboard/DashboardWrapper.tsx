@@ -69,12 +69,12 @@ const DashboardPage: FC = () => {
       <ToolbarWrapper />
       <Content>
         {/* begin::Row */}
-        <div className="security_issue">
+        <div className="w-full mb-6">
           <h5>Security issues:</h5>
-          <div className="security_container">
-            <div className="issues">
+          <div className="flex items-center flex-col md:flex-row w-full gap-2">
+            <div className="w-full lg:w-[20%] border-2 p-3 rounded-md border-[#3B4852]">
               <p className="mb-3">Security issues by severity</p>
-              <ul className="issue_score">
+              <ul className="grid grid-cols-2 gap-4 md:block">
                 <li className="critical">
                   <p>Critical</p>
                   <h1>0</h1>
@@ -93,25 +93,38 @@ const DashboardPage: FC = () => {
                 </li>
               </ul>
             </div>
-            <div className="top_issues">
-              <p className="">Top security issues</p>
-              <div className="top_issues__container">
-                <div className="left">
+            <div className="w-full border-2 p-3 md:p-6 rounded-md border-[#3B4852] lg:h-[32vh]">
+              <p className="mb-3">Top security issues</p>
+              <div>
+                <div className="flex md:flex-col gap-3 lg:flex-row items-center justify-between">
                   <p>Publicly exposed virtual machine with high priviledges</p>
-                  <p>IAM Role with third party access and high priviledges</p>
-                  <p>Partially public virtual machine with high priviledges</p>
-                </div>
-                <div className="right">
-                  <p>
-                    <span><i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>High</span>
+                  <p className="flex items-center justify-center gap-2">
+                    <span>
+                      <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
+                      High
+                    </span>
                     <span>499 security issues </span>
                   </p>
-                  <p>
-                    <span><i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>High</span>
+                </div>
+                <div className="my-3 flex md:flex-col gap-3 lg:flex-row items-center justify-between">
+                  <p className="">
+                    IAM Role with third party access and high priviledges
+                  </p>
+                  <p className="flex items-center justify-center gap-2">
+                    <span>
+                      <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
+                      High
+                    </span>
                     <span>4 security issues </span>
                   </p>
-                  <p>
-                    <span><i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>Medium</span>
+                </div>
+                <div className="flex md:flex-col gap-3 lg:flex-row items-center justify-between">
+                  <p>Partially public virtual machine with high priviledges</p>
+                  <p className="flex items-center gap-2">
+                    <span>
+                      <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
+                      Medium
+                    </span>
                     <span>4 security issues </span>
                   </p>
                 </div>
@@ -119,50 +132,58 @@ const DashboardPage: FC = () => {
             </div>
           </div>
         </div>
-        <div className="assets_container">
+        <div className="w-full mb-6">
           <h5>Assets at high risk</h5>
-          <div className="assets">
-            <div className="total">
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
+            <div className="border-2 p-3 rounded-md border-[#3B4852]">
               <h4 className="mb-3">In total</h4>
-              <h1><i className="fa-sharp fa-regular fa-gem fs-2 mr-1"></i>46</h1>
+              <h1>
+                <i className="fa-sharp fa-regular fa-gem fs-2 mr-1"></i>46
+              </h1>
             </div>
-            <div className="public">
+            <div className="border-2 p-3 rounded-md border-[#3B4852]">
               <h4 className="mb-3">Public</h4>
               <section className="public_inner">
                 <aside className="flex items-start">
-                <i className="bi bi-globe fs-2"></i>
-                <div className="border-0 -mt-4">
-                  <span>Network</span>
-                  <h3>0</h3>
-                </div>
+                  <i className="bi bi-globe fs-2"></i>
+                  <div className="border-0 -mt-4">
+                    <span>Network</span>
+                    <h3>0</h3>
+                  </div>
                 </aside>
                 <aside className="flex items-start">
-                <i className="bi bi-globe fs-2 padding-2"></i>
-                <div className="border-0 -mt-4">
-                  <span>IAM</span>
-                  <h3>1</h3>
+                  <i className="bi bi-globe fs-2 padding-2"></i>
+                  <div className="border-0 -mt-4">
+                    <span>IAM</span>
+                    <h3>1</h3>
                   </div>
                 </aside>
               </section>
             </div>
-            <div className="with_crit">
+            <div className="border-2 p-3 rounded-md border-[#3B4852]">
               <h4 className="mb-3">With critical/high severity secrets</h4>
-              <h1><i className="bi bi-key fs-2 rotate-45"></i>0</h1>
+              <h1>
+                <i className="bi bi-key fs-2 rotate-45"></i>0
+              </h1>
             </div>
-            <div className="high_crit">
+            <div className="border-2 p-3 rounded-md border-[#3B4852]">
               <h4 className="mb-3">With critical/high severity CVEs</h4>
-              <h1><i className="bi bi-bug fs-2"></i>0</h1>
+              <h1>
+                <i className="bi bi-bug fs-2"></i>0
+              </h1>
             </div>
-            <div className="sense">
+            <div className="border-2 p-3 rounded-md border-[#3B4852]">
               <h4 className="mb-3">With sensitive data</h4>
-              <h1><i className="bi bi-file-earmark-lock fs-2"></i>0</h1>
+              <h1>
+                <i className="bi bi-file-earmark-lock fs-2"></i>0
+              </h1>
             </div>
           </div>
         </div>
-        <div className="entities_container">
+        <div className="w-full mb-6">
           <h5>Riskiest entities:</h5>
-          <div className="entities">
-            <div className="type">
+          <div className="grid gap-2 md:grid-cols-5">
+            <div className="md:col-span-2 border-2 border-[#3B4852] rounded-md p-3">
               <p>By asset type</p>
               <div className="table">
                 <div className="table_top">
@@ -229,7 +250,7 @@ const DashboardPage: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="type">
+            <div className="md:col-span-2 border-2 border-[#3B4852] rounded-md p-3">
               <p>By asset</p>
               <div className="table">
                 <div className="table_top">
@@ -284,9 +305,9 @@ const DashboardPage: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="table_bottom_issues">
+            <div className="border-2 border-[#3B4852] rounded-md p-3 ">
               <p className="mb-3">Environment by risk</p>
-              <ul className="issue_score">
+              <ul className="grid grid-cols-2 gap-4 md:block">
                 <li className="critical">
                   <p>Critical</p>
                   <h1>0</h1>
