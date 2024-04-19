@@ -28,7 +28,7 @@ const AccountManagerPage: React.FC = () => {
       <Route
         element={
           <>
-            <AccountManagerHeader />
+            {/* <AccountManagerHeader /> */}
             <Outlet />
           </>
         }

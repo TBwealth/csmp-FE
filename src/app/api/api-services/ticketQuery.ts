@@ -26,7 +26,7 @@ export const useCreateTickets = () => {
         ticketApi.ticketsTicketsCreate({ data }),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["resource"]);
+          queryClient.invalidateQueries(["tickets"]);
         },
       }
     );
@@ -44,7 +44,7 @@ export const useUpdateTickets = (id: number) => {
         ticketApi.ticketsTicketsUpdate({ id, data }),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["resource"]);
+          queryClient.invalidateQueries(["tickets"]);
         },
       }
     );
@@ -54,7 +54,7 @@ export const useUpdateTickets = (id: number) => {
 
 //TICKET TYPES
 export const useGetTicketsTypes = (page: number) => {
-    const query = useQuery(["tickets"], () =>
+    const query = useQuery(["tickets_types"], () =>
       ticketApi.ticketsTicketTypesList({ page }),
     {
       retry: 2,
@@ -70,7 +70,7 @@ export const useCreateTicketTypes = () => {
         ticketApi.ticketsTicketTypesCreate({ data }),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["tickets"]);
+          queryClient.invalidateQueries(["tickets_types"]);
         },
       }
     );
@@ -88,7 +88,7 @@ export const useUpdateTicketTypes = (id: number) => {
         ticketApi.ticketsTicketTypesUpdate({ id, data }),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["tickets"]);
+          queryClient.invalidateQueries(["tickets_types"]);
         },
       }
     );
@@ -98,7 +98,7 @@ export const useUpdateTicketTypes = (id: number) => {
 
   //TICKET ACTIVITIES
   export const useGetTicketsActivities = (page: number) => {
-    const query = useQuery(["tickets"], () =>
+    const query = useQuery(["tickets_activities"], () =>
       ticketApi.ticketsTicketActivitiesList({ page })
     );
     return query;
@@ -111,7 +111,7 @@ export const useCreateTicketActivities = () => {
         ticketApi.ticketsTicketActivitiesCreate({ data }),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["tickets"]);
+          queryClient.invalidateQueries(["tickets_activities"]);
         },
       }
     );
@@ -129,7 +129,7 @@ export const useUpdateTicketActivities = (id: number) => {
         ticketApi.ticketsTicketActivitiesUpdate({ id, data }),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["tickets"]);
+          queryClient.invalidateQueries(["tickets_activities"]);
         },
       }
     );

@@ -29,6 +29,7 @@ export const ComponentsheaderComponent = ({
           </div>
           {showbackbutton && (
             <button
+            type="button"
               onClick={() => backbuttonClick("back")}
               // className="border trigger border-solid hover:border-dotted border-gray-400
               //        md:w-58 shadow-md rounded  md:px-6 py-1 px-3 text-sm text-center flex items-center justify-center capitalize"

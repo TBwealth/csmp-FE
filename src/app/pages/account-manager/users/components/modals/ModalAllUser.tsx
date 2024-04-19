@@ -9,8 +9,8 @@ import useAlert from "../../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 import { AccountsApiRolesList200Response } from "../../../../../api/axios-client";
 
-const ModalAllUser = ({ editItem, onClearEdit }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ModalAllUser = ({  editItem, onClearEdit, isOpen, handleHide }: any) => {
+  // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<any[] | undefined>([]);
   const [tenant, setTenant] = useState<any[] | undefined>([]);
@@ -43,7 +43,7 @@ const ModalAllUser = ({ editItem, onClearEdit }: any) => {
   const allTenantData: AccountsApiRolesList200Response | any = allTenant;
 
   const handleClose = () => {
-    setIsOpen(false);
+    // setIsOpen(false);
     onClearEdit();
     hideAlert();
     setValueId("");
@@ -58,7 +58,7 @@ const ModalAllUser = ({ editItem, onClearEdit }: any) => {
     setRoles(allRolesData?.data?.data?.results);
     setTenant(allTenantData?.data?.data?.results);
     if (editItem) {
-      setIsOpen(true);
+      // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
       setFirstNameValue(editItem?.first_name);
@@ -102,19 +102,14 @@ const ModalAllUser = ({ editItem, onClearEdit }: any) => {
 
   return (
     <>
-      <span
-        onClick={() => {
-          setIsOpen(true), hideAlert();
-        }}
-      ></span>
       <Modal
         show={isOpen}
-        onHide={handleClose}
+        onHide={handleHide}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit this User</Modal.Title>
+          <Modal.Title>{editItem ? "Edit this User" : "Create new User"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-10">
@@ -190,7 +185,7 @@ const ModalAllUser = ({ editItem, onClearEdit }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleClose}>
+          <button type="button" className="btn btn-light" onClick={handleHide}>
             Close
           </button>
           <button

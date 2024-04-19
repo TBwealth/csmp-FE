@@ -8,8 +8,11 @@ import { UsersListLoading } from "../../../../modules/apps/user-management/users
 import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiRolesList200Response } from "../../../../api/axios-client";
-import { TableColumn } from "../../../../components/models";
+import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../../components/models";
 import TableComponent from "../../../../components/TableComponent";
+import { ComponentsheaderComponent } from "../../../../components/componentsheader/componentsheader.component";
+import DefaultContent from "../../../../components/defaultContent/defaultContent";
+import { MainTableComponent } from "../../../../components/tableComponents/maincomponent/maintable";
 
 const Roles = () => {
   const [page, setPage] = useState(1);
@@ -19,6 +22,30 @@ const Roles = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert } = useAlert();
+  const [showModal, setShowModal] = useState(false);
+  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const currentPage = 0;
+  const [totalItems, settotalItems] = useState<number>(0);
+
+  const filterFields: TableColumn[] = [
+    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+  ];
+  const tableActions: TableAction[] = [
+    { name: ACTIONS.EDIT, label: "Edit" },
+    { name: ACTIONS.DELETE, label: "Delete" },
+  ];
+  const tableColumns: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "name",
+      title: "Name",
+      type: ColumnTypes.Text,
+    },
+  ];
 
   const { data, isLoading, error } = useGetAccountRoles(page);
 
@@ -26,8 +53,8 @@ const Roles = () => {
 
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
-    setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
-    // console.log(items);
+    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0: true);
+    settotalItems(Math.ceil(datastsr?.data?.data?.count));
     hideAlert();
     if (error) {
       if (error instanceof Error) {
@@ -37,50 +64,95 @@ const Roles = () => {
     }
   }, [data, error]);
 
-  const filteredItems = items?.filter((items) =>
-    items.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const actions = ["Edit"];
-  const tableHeaders: TableColumn[] = [
-    {
-      name: "id",
-      title: "Id"
-    },
-    {
-      name: "name",
-      title: "Name"
-    },
+  const topActionButtons = [
+    { name: "add_new_user", label: "Add Role", icon: "plus", outline: false },
   ];
+  function modal(buttion: any) {
+    if (buttion === "add_new_user") {
+      setShowModal(true);
+      setEditItems(null);
+    }
+  }
+  function refreshrecord() {
+    useGetAccountRoles(1);
+  }
+  function filterUpdated(filter: any) {
+    filter.current = { ...filter.current, ...filter };
+    let nfilter = filter.current;
+    nfilter.pageIndex = filter.page;
+    filter.current = nfilter;
+    useGetAccountRoles(1);
+  }
+  function tableActionClicked(event: TableActionEvent) {
+    if (event.name === "1") {
+      setEditItems(event.data);
+      setShowModal(true);
+    }
+    if (event.name === "2") {
+      // handleDelete(event.data.id);
+    }
+  }
 
   return (
     <div>
-      {isLoading ? (
-        <UsersListLoading />
+      <ComponentsheaderComponent
+        backbuttonClick={() => {}}
+        pageName="Roles"
+        requiredButton={topActionButtons}
+        buttonClick={(e) => {
+          modal(e);
+        }}
+      />
+      {showEmpty ? (
+        <DefaultContent
+          pageHeader="All Roles"
+          pageDescription="No record found"
+          loading={isLoading}
+          buttonValue="Refresh"
+          buttonClick={() => refreshrecord()}
+        />
       ) : (
-        <TableComponent
-          placeholder="Search Roles"
-          title="All Roles"
-          actions={actions}
-          errorMessage={errorMess ?? ""}
-          totalPages={totalPages}
-          handleDelete={() => {}}
-          handleSearch={(e) => handleSearchChange(e)}
-          tableHeaders={tableHeaders}
-          modal={
-            <AddRoleModal
-              editItem={editItems}
-              onClearEdit={() => setEditItems(null)}
-            />
-          }
-          filteredItems={filteredItems}
-          createBtn={true}
-          showActionBtn={true}
-          setEditItems={setEditItems}
+        <MainTableComponent
+          filterChange={(e: any) => filterUpdated(e)}
+          showActions={true}
+          showFilter={true}
+          actionClick={(e: any) => tableActionClicked(e)}
+          actions={tableActions}
+          userData={items}
+          tableColum={tableColumns}
+          totalItems={totalItems}
+          currentTablePage={currentPage}
+          loading={isLoading}
+          InputFileName="All Roles"
+          filterFields={filterFields}
+          showCheckBox={true}
+          bulkactionClicked={(e: any) => {}}
+          Bulkactions={[]}
+          showBulkAction={true}
+          actionChecked={() => {}}
+          actionBulkChecked={() => {}}
+          pageChange={() => {}}
+          dateRangeChanged={() => {}}
+          toggleColumnsEvent={() => {}}
+          toggleCustomFilter={() => {}}
+          sortOptionSelected={() => {}}
+        />
+
+      )}
+      {/* {!showEmpty && (
+      )} */}
+
+      {showModal && (
+        <AddRoleModal
+          editItem={editItems}
+          isOpen={showModal}
+          handleHide={() => {
+            setShowModal(false);
+            setEditItems(false);
+          }}
+          onClearEdit={() => {
+            setEditItems(null);
+          }}
         />
       )}
       {/* <div>

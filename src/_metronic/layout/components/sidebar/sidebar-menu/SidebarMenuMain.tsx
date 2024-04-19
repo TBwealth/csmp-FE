@@ -45,7 +45,7 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         ></SidebarMenuItem>
      <SidebarMenuItem
-          to="/tickets/ticket-activities"
+          to="/tickets/tenant-tickets"
           title="Tenant Ticket"
           hasBullet={true}
         ></SidebarMenuItem>

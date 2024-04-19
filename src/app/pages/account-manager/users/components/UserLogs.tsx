@@ -8,7 +8,16 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiUserLoginLogsList200Response } from "../../../../api/axios-client";
 import { ModalAllUser } from "./modals/ModalAllUser";
 import TableComponent from "../../../../components/TableComponent";
-import { TableColumn } from "../../../../components/models";
+import {
+  ACTIONS,
+  ColumnTypes,
+  TableAction,
+  TableActionEvent,
+  TableColumn,
+} from "../../../../components/models";
+import { ComponentsheaderComponent } from "../../../../components/componentsheader/componentsheader.component";
+import DefaultContent from "../../../../components/defaultContent/defaultContent";
+import { MainTableComponent } from "../../../../components/tableComponents/maincomponent/maintable";
 
 const UserLogs = () => {
   const [page, setPage] = useState(1);
@@ -18,6 +27,35 @@ const UserLogs = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
   const [errorMess, setErrorMess] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const currentPage = 0;
+  const [totalItems, settotalItems] = useState<number>(0);
+
+  const filterFields: TableColumn[] = [
+    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+  ];
+  const tableActions: TableAction[] = [
+    { name: ACTIONS.EDIT, label: "Edit" },
+    { name: ACTIONS.DELETE, label: "Delete" },
+  ];
+  const tableColumns: TableColumn[] = [
+    {
+      name: "user",
+      title: "User",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "timestamp",
+      title: "Time Stamp",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "ip_address",
+      title: "IP Address",
+      type: ColumnTypes.Text,
+    },
+  ];
 
   const { data, isLoading, error } = useGetAccountUserLoginLogs(page);
   console.log("daaaaa", data);
@@ -26,7 +64,8 @@ const UserLogs = () => {
 
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
-    setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
+    setshowEmpty(datastsr?.data?.data?.results?.length === 0);
+    settotalItems(Math.ceil(datastsr?.data?.data?.count));
     console.log(items);
     hideAlert();
     if (error) {
@@ -37,50 +76,113 @@ const UserLogs = () => {
     }
   }, [data, error]);
 
-  const filteredItems = items?.filter((items) =>
-    items.timestamp.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const topActionButtons = [
+    { name: "add_new_user", label: "Add User", icon: "plus", outline: false },
+  ];
+  function modal(buttion: any) {
+    if (buttion === "add_new_user") {
+      setShowModal(true);
+      setEditItems(null);
+    }
+  }
+  function refreshrecord() {
+    useGetAccountUserLoginLogs(1);
+  }
+  function filterUpdated(filter: any) {
+    filter.current = { ...filter.current, ...filter };
+    let nfilter = filter.current;
+    nfilter.pageIndex = filter.page;
+    filter.current = nfilter;
+    useGetAccountUserLoginLogs(1);
+  }
+  function tableActionClicked(event: TableActionEvent) {
+    if (event.name === "1") {
+      setEditItems(event.data);
+      setShowModal(true);
+    }
+    if (event.name === "2") {
+      // handleDelete(event.data.id);
+    }
+  }
 
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event.target.value);
-  };
-
-   //new table props
-   const actions = ["Edit"];
-   const tableHeaders: TableColumn[] = [
-     {
-       name: "user",
-       title: "User"
-     },
-     {
-       name: "timestamp",
-       title: "Time Stamp"
-     },
-     {
-       name: "ip_address",
-       title: "IP Address"
-     },
-   ];
+  //new table props
+  const actions = ["Edit"];
+  const tableHeaders: TableColumn[] = [
+    {
+      name: "user",
+      title: "User",
+    },
+    {
+      name: "timestamp",
+      title: "Time Stamp",
+    },
+    {
+      name: "ip_address",
+      title: "IP Address",
+    },
+  ];
 
   return (
     <div>
-      {isLoading ? (
-        <UsersListLoading />
-      ) : (
-        <TableComponent
-          placeholder="Search User Logs"
-          actions={actions}
-          title="All User Logs"
-          totalPages={totalPages}
-          errorMessage={errorMess ?? ""}
-          handleDelete={() => {}}
-          handleSearch={(e) => handleSearchChange(e)}
-          tableHeaders={tableHeaders}
-          modal={<div className="mt-2"></div>}
-          filteredItems={filteredItems}
-          createBtn={false}
-          showActionBtn={false}
-          setEditItems={setEditItems}
+      <ComponentsheaderComponent
+        backbuttonClick={() => {}}
+        pageName="Users Logs"
+        requiredButton={[]}
+        buttonClick={(e) => {
+          // modal(e);
+        }}
+      />
+      {showEmpty ? (
+        <DefaultContent
+          pageHeader="All User Logs"
+          pageDescription="No record found"
+          loading={isLoading}
+          buttonValue="Refresh"
+          buttonClick={() => refreshrecord()}
+        />
+      ): (
+        <MainTableComponent
+          filterChange={(e: any) => filterUpdated(e)}
+          showActions={false}
+          showFilter={true}
+          actionClick={(e: any) => tableActionClicked(e)}
+          actions={tableActions}
+          userData={items}
+          tableColum={tableColumns}
+          totalItems={totalItems}
+          currentTablePage={currentPage}
+          loading={isLoading}
+          InputFileName="All User Logs"
+          filterFields={filterFields}
+          showCheckBox={true}
+          bulkactionClicked={(e: any) => {}}
+          Bulkactions={[]}
+          showBulkAction={true}
+          actionChecked={() => {}}
+          actionBulkChecked={() => {}}
+          pageChange={() => {}}
+          dateRangeChanged={() => {}}
+          toggleColumnsEvent={() => {}}
+          toggleCustomFilter={() => {}}
+          sortOptionSelected={() => {}}
+        />
+
+      )}
+
+      {/* {!showEmpty && (
+      )} */}
+
+      {showModal && (
+        <ModalAllUser
+          editItem={editItems}
+          isOpen={showModal}
+          handleHide={() => {
+            setShowModal(false);
+            setEditItems(false);
+          }}
+          onClearEdit={() => {
+            setEditItems(null);
+          }}
         />
       )}
       {/* <Content>

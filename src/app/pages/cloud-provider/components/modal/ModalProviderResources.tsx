@@ -7,10 +7,10 @@ import {
  } from "../../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
-import { CloudProviderProviderResourceTypesList200Response } from "../../../../api/axios-client";
+import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../../api/axios-client";
 
-const ModalProviderResources = ({ editItem, onClearEdit }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+  // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [resources, setResources] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
@@ -32,12 +32,12 @@ const ModalProviderResources = ({ editItem, onClearEdit }: any) => {
     error: editError,
   } = useUpdateCloudProviderResourceTypes(+valueId);
 
-  const datastsr: CloudProviderProviderResourceTypesList200Response | any = allResources;
+  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any = allResources;
 
   useEffect(() => {
     setResources(datastsr?.data?.data?.results);
     if (editItem) {
-      setIsOpen(true);
+      // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
       setNameValue(editItem?.name);
@@ -53,7 +53,7 @@ const ModalProviderResources = ({ editItem, onClearEdit }: any) => {
   }, [allResources, editItem]);
 
   const handleClose = () => {
-    setIsOpen(false);
+    // setIsOpen(false);
     hideAlert();
     setValueId("");
     onClearEdit();
@@ -116,20 +116,9 @@ const ModalProviderResources = ({ editItem, onClearEdit }: any) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary btn-sm"
-        onClick={() => {
-          setIsOpen(true), hideAlert();
-        }}
-      >
-        <KTIcon iconName="plus" className="fs-1" />
-        Add New
-      </button>
-
       <Modal
         show={isOpen}
-        onHide={handleClose}
+        onHide={handleHide}
         backdrop="static"
         keyboard={false}
       >
@@ -177,7 +166,7 @@ const ModalProviderResources = ({ editItem, onClearEdit }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleClose}>
+          <button type="button" className="btn btn-light" onClick={handleHide}>
             Close
           </button>
           <button
