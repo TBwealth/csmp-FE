@@ -23,23 +23,23 @@ const initialValues = {
 };
 
 const registrationSchema = Yup.object().shape({
-  firstname: Yup.string()
+  companyname: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
-    .required("First name is required"),
-  tenant: Yup.string()
-    .min(1, "Minimum 3 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Tenant is required"),
+    .required("Company name is required"),
+  // tenant: Yup.string()
+  //   .min(1, "Minimum 3 symbols")
+  //   .max(50, "Maximum 50 symbols")
+  //   .required("Tenant is required"),
   email: Yup.string()
     .email("Wrong email format")
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Email is required"),
-  lastname: Yup.string()
-    .min(3, "Minimum 3 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Last name is required"),
+  // lastname: Yup.string()
+  //   .min(3, "Minimum 3 symbols")
+  //   .max(50, "Maximum 50 symbols")
+  //   .required("Last name is required"),
   password: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
@@ -144,7 +144,7 @@ export function Registration() {
       </div> */}
         <div className="separator separator-content mb-5">
           <span className="w-300px text-gray-500 fw-semibold fs-7">
-            Create an Account
+            Create Tenant Account
           </span>
         </div>
 
@@ -158,10 +158,10 @@ export function Registration() {
           {/* begin::Form group Firstname */}
           <div className="fv-row mb-8 col-sm">
             <label className="form-label fw-bolder text-gray-900 fs-6">
-              First name
+              Company name
             </label>
             <input
-              placeholder="First name"
+              placeholder="Company name"
               type="text"
               autoComplete="off"
               {...formik.getFieldProps("firstname")}
@@ -186,8 +186,7 @@ export function Registration() {
             )}
           </div>
           {/* end::Form group */}
-          <div className="fv-row mb-8 col-sm">
-            {/* begin::Form group Lastname */}
+          {/* <div className="fv-row mb-8 col-sm">
             <label className="form-label fw-bolder text-gray-900 fs-6">
               Last name
             </label>
@@ -215,8 +214,7 @@ export function Registration() {
                 </div>
               </div>
             )}
-            {/* end::Form group */}
-          </div>
+          </div> */}
         </div>
         <div className="row">
           {/* begin::Form group Email */}
@@ -246,7 +244,7 @@ export function Registration() {
             )}
           </div>
           {/* end::Form group */}
-          <div className="fv-row mb-8 col-sm">
+          {/* <div className="fv-row mb-8 col-sm">
             {" "}
             <label className="form-label fw-bolder text-gray-900 fs-6">
               Tenant
@@ -270,7 +268,7 @@ export function Registration() {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
         </div>
 
         <div className="row">
