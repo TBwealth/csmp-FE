@@ -11,7 +11,10 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiUsersList200Response } from "../../../../api/axios-client";
 import { ModalAllUser } from "./modals/ModalAllUser";
 import TableComponent from "../../../../components/TableComponent";
-import { ColumnTypes, TableColumn } from "../../../../components/models";
+import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../../components/models";
+import { ComponentsheaderComponent } from "../../../../components/componentsheader/componentsheader.component";
+import { MainTableComponent } from "../../../../components/tableComponents/maincomponent/maintable";
+import DefaultContent from "../../../../components/defaultContent/defaultContent";
 
 const AllUsers = () => {
   const [page, setPage] = useState(1);
@@ -21,6 +24,51 @@ const AllUsers = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert } = useAlert();
+  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const currentPage = 0;
+  const [totalItems, settotalItems] = useState<number>(0);
+
+  const actions = ["Edit", "Delete"];
+  const filterFields:TableColumn [] = [
+    {name: 'keyword', title: 'Keyword', type:ColumnTypes.Text},
+  ];
+  const tableActions: TableAction[] = [    
+    { name: ACTIONS.EDIT, label: 'Edit' },
+  ];
+  const tableColumns: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "first_name",
+      title: "First Name",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "last_name",
+      title: "Last Name",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "email",
+      title: "Email",
+      type: ColumnTypes.Text,
+    },
+    // {
+    //   name: "role",
+    //   title: "Role",
+    //   type: ColumnTypes.Object,
+    //   objKey: "name",
+    // },
+    {
+      name: "tenant",
+      title: "Tenant",
+      type: ColumnTypes.Text,
+    },
+  ];
+
 
   const { data, isLoading, error } = useGetAccountUsers(page);
 
@@ -31,8 +79,8 @@ const AllUsers = () => {
 
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
-    setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
-    console.log(items);
+    setshowEmpty(datastsr?.data?.data?.results?.length === 0);
+    settotalItems(Math.ceil(datastsr?.data?.data?.count));
     hideAlert();
     if (error) {
       if (error instanceof Error) {
@@ -45,46 +93,72 @@ const AllUsers = () => {
   const handleDelete = (perm_id: any) => {
     mutate(perm_id);
   }
-  const filteredItems = items?.filter((item) =>
-    item.first_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
+ 
   const handleSearchChange = (event: any) => {
     setSearchTerm(event.target.value);
   };
 
-
-  const actions = ["Edit", "Delete"];
-  const tableHeaders: TableColumn[] = [
-    {
-      name: "id",
-      title: "Id"
-    },
-    {
-      name: "first_name",
-      title: "First Name"
-    },
-    {
-      name: "last_name",
-      title: "Last Name"
-    },
-    {
-      name: "email",
-      title: "Email"
-    },
-    {
-      name: "role",
-      title: "Role",
-      type: ColumnTypes.Object,
-      objKey: "name",
-    },
-    {
-      name: "tenant",
-      title: "Tenant"
-    },
+  const topActionButtons = [
+    { name: 'add_new_user', label: 'Add User', 'icon': 'plus', outline: false },
   ];
+  function  modal(buttion:any) {
+    if (buttion === 'add_new_user') {
+ 
+    }
+  }
+  function  refreshrecord() {
+    useGetAccountUsers(1);
+  }
+  function   filterUpdated(filter: any) {
+    filter.current = { ...filter.current, ...filter };
+    let nfilter = filter.current;
+    nfilter.pageIndex = filter.page;
+    filter.current = nfilter;
+    useGetAccountUsers(1);
+  }
+  function  tableActionClicked(event: TableActionEvent) {
+    if (event.name === '1') {      
+
+    }
+  }
+
   return (
     <div>
+      <ComponentsheaderComponent backbuttonClick={()=>{}}  pageName="Users" requiredButton={topActionButtons} buttonClick={(e)=>{modal(e)}} />
+
+      {showEmpty && (
+ <DefaultContent pageHeader="All Users" pageDescription="No record found"
+ loading={isLoading} buttonValue="Refresh" buttonClick={()=>refreshrecord()} />
+          )}
+            {!showEmpty && (
+            <MainTableComponent
+              filterChange={(e: any) => filterUpdated(e)}
+              showActions={true}
+              showFilter={true}
+              actionClick={(e: any) => tableActionClicked(e)}
+              actions={tableActions}
+              userData={items}
+              tableColum={tableColumns}
+              totalItems={totalItems}
+              currentTablePage={currentPage}
+              loading={isLoading}
+              InputFileName="All Users"
+              filterFields={filterFields}
+              showCheckBox={true}
+              bulkactionClicked={(e:any)=>{}} 
+              Bulkactions={[]}
+              showBulkAction={true}
+              actionChecked={() => { }}
+              actionBulkChecked={() => { }}
+              pageChange={() => { }}
+              dateRangeChanged={() => { }}
+              toggleColumnsEvent={() => { }}
+              toggleCustomFilter={() => { }}
+              sortOptionSelected={() => { }}
+            />
+        
+          )}
+{/* 
       {isLoading || deleteLoading ? (
         <UsersListLoading />
       ) : (
@@ -103,7 +177,7 @@ const AllUsers = () => {
           showActionBtn={false}
           setEditItems={setEditItems}
         />
-      )}
+      )} */}
       {/* <Content>
         <KTCardBody className="py-4">
           <ModalAllUser

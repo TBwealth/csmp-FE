@@ -1,11 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'dark',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {    
+        transparent: 'transparent',
+        current: 'currentColor',
+        primary: '#006AE6',
+        bgDark: "#0F1014",
+        lightDark:"#2A2C38",   
+      },
+    },
   },
   plugins: [],
 }

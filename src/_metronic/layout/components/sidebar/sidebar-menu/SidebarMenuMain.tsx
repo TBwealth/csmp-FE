@@ -14,22 +14,46 @@ const SidebarMenuMain = () => {
         title={intl.formatMessage({ id: "MENU.DASHBOARD" })}
         fontIcon="bi-app-indicator"
       />
-      <SidebarMenuItem
-        to="/policy"
-        icon="element-11"
-        title="Policy"
-        fontIcon="bi-app-indicator"
-      />
-      {/* <SidebarMenuItem
+         {/* <SidebarMenuItem
         to="/builder"
         icon="switch"
         title="Layout Builder"
         fontIcon="bi-layers"
       /> */}
+         <div className="menu-item">
+        <div className="menu-content pt-8 pb-2">
+          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+            Main
+          </span>
+        </div>
+      </div>
+   
+      <SidebarMenuItemWithSub
+        to="/tickets/tickets"
+        title="Tickets"
+        icon="cheque"
+        fontIcon="bi-person"
+      >
+        <SidebarMenuItem
+          to="/tickets/tickets-list"
+          title="Tickets"
+          hasBullet={true}
+        ></SidebarMenuItem>
+        <SidebarMenuItem
+          to="/tickets/ticket-activities"
+          title="Ticket Activities"
+          hasBullet={true}
+        ></SidebarMenuItem>
+     <SidebarMenuItem
+          to="/tickets/ticket-activities"
+          title="Tenant Ticket"
+          hasBullet={true}
+        ></SidebarMenuItem>
+      </SidebarMenuItemWithSub>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            Account Manager
+            Administration
           </span>
         </div>
       </div>
@@ -54,11 +78,6 @@ const SidebarMenuMain = () => {
           title="Role Permissions"
           hasBullet={true}
         ></SidebarMenuItem>
-        <SidebarMenuItem
-          to="/account-manager/account/tenants"
-          title="Tenant"
-          hasBullet={true}
-        ></SidebarMenuItem>
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
         to="/account-manager/users"
@@ -71,6 +90,12 @@ const SidebarMenuMain = () => {
           title="All Users"
           hasBullet={true}
         ></SidebarMenuItem>
+        
+        <SidebarMenuItem
+          to="/account-manager/account/tenants"
+          title="Tenants"
+          hasBullet={true}
+        ></SidebarMenuItem>
         <SidebarMenuItem
           to="/account-manager/users/user-logs"
           title="User Logs"
@@ -80,56 +105,47 @@ const SidebarMenuMain = () => {
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            Cloud Provider
+           Account & Settings
           </span>
         </div>
       </div>
-      <SidebarMenuItemWithSub
+      <SidebarMenuItem
+        to="/policy"
+        icon="element-11"
+        title="Policy"
+        fontIcon="bi-app-indicator"
+      />
+       
+       <SidebarMenuItemWithSub
         to="/cloud-provider/cloud"
-        title="Cloud Provider"
+        title="Assets"
         icon="cloud"
         fontIcon="bi-person"
       >
         <SidebarMenuItem
           to="/cloud-provider/cloud/provider-resource"
-          title="Provider Resource"
+          title="Cloud Providers"
           hasBullet={true}
         ></SidebarMenuItem>
-        <SidebarMenuItem
+        {/* <SidebarMenuItem
           to="/cloud-provider/cloud/provider-service"
           title="Provider Service"
           hasBullet={true}
-        ></SidebarMenuItem>
+        ></SidebarMenuItem> */}
       </SidebarMenuItemWithSub>
-      <div className="menu-item">
-        <div className="menu-content pt-8 pb-2">
-          <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-            Tickets
-          </span>
-        </div>
-      </div>
+   
       <SidebarMenuItemWithSub
         to="/tickets/tickets"
         title="Tickets"
         icon="cheque"
         fontIcon="bi-person"
-      >
-        <SidebarMenuItem
-          to="/tickets/tickets-list"
-          title="Tickets List"
-          hasBullet={true}
-        ></SidebarMenuItem>
-        <SidebarMenuItem
-          to="/tickets/ticket-activities"
-          title="Ticket Activities"
-          hasBullet={true}
-        ></SidebarMenuItem>
-        <SidebarMenuItem
+      > <SidebarMenuItem
           to="tickets/ticket-types"
-          title="Ticket Types"
+          title="Setup Ticket Types"
           hasBullet={true}
         ></SidebarMenuItem>
       </SidebarMenuItemWithSub>
+      
 
       {/* COMMENT OUT EVERYTHING BELOW WHEN YOU FINISH USING IT */}
 

@@ -35,9 +35,6 @@ const AccountManagerPage: React.FC = () => {
           path="all-users"
           element={
             <>
-              <PageTitle breadcrumbs={accountManagerBreadCrumbs}>
-                All Users
-              </PageTitle>
               <AllUsers />
             </>
           }

@@ -1,0 +1,55 @@
+.center {
+display: flex;
+flex-direction: column;
+align-content: center;
+
+  }
+.centWrapper{
+  display: flex;
+  align-items: center;
+justify-content: center;
+min-height: 300px;
+}
+  .my-button {
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    border-radius: 3px;
+    background-color: #4847E0;
+}
+
+.mylabel {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.mydiv{
+  padding-bottom: 12px;
+}
+
+.mylink {
+  cursor: pointer;
+  color: #4847E0;
+  text-decoration: underline;
+}
+
+.cancel-button{
+  padding: 10px;
+  cursor: pointer;
+  color: #4847E0;
+  border: 2px #4847E0;
+  border-radius: 5px;
+  border-style: solid;
+  background-color: transparent;
+}
+
+/* turn it off completely */
+select:active, select:hover {
+  outline: none
+}
+
+/* make it red instead (with with same width and style) */
+select:active, select:hover {
+  outline-color: red
+}
+
