@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // import { Content } from "../../../../_metronic/layout/components/content";
-import { useGetTickets} from "../../../api/api-services/ticketQuery";
+import { useGetTickets } from "../../../api/api-services/ticketQuery";
 // import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
@@ -8,8 +8,73 @@ import useAlert from "../../components/useAlert";
 import { TicketsTicketTypesList200Response } from "../../../api/axios-client";
 import { ModalTicketsList } from "./modals/ModalTicketsList";
 import TableComponent from "../../../components/TableComponent";
-import { ColumnTypes, TableColumn } from "../../../components/models";
+import {
+  ACTIONS,
+  ColumnTypes,
+  TableAction,
+  TableActionEvent,
+  TableColumn,
+} from "../../../components/models";
+import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
+import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
+import DefaultContent from "../../../components/defaultContent/defaultContent";
+import {
+  IStatus,
+  MyColor,
+} from "../../../components/tableComponents/status/status";
 
+export class TicketWithStatus implements IStatus {
+  id: string = "";
+  ticket_type_id: string = "";
+  ticket_type_name: string = "";
+  ticket_type_code: string = "";
+  ticket_type_status: string = "";
+  description: string = "";
+  code: string = "";
+  subject: string = "";
+  asset_code: string = "";
+  asset_name: string = "";
+  asset_description: string = "";
+  createdBy: string = "";
+  tenant: string = "";
+  assigned_to_id: string = "";
+  assigned_to_first_name: string = "";
+  assigned_to_last_name: string = "";
+  assigned_to_email: string = "";
+  status: boolean = false;
+
+  constructor(ticket: any) {
+    this.id = ticket.id;
+    this.ticket_type_id = ticket.ticket_type_id;
+    this.ticket_type_name = ticket.ticket_type_name;
+    this.ticket_type_code = ticket.ticket_type_code;
+    this.ticket_type_status = ticket.ticket_type_status;
+    this.code = ticket.code;
+    this.description = ticket.description;
+    this.subject = ticket.subject;
+    this.status = ticket.status;
+    this.asset_code = ticket.asset_code;
+    this.asset_name = ticket.asset_code;
+    this.asset_description = ticket.asset_description;
+    this.createdBy = ticket.createdBy;
+    this.tenant = ticket.tenant;
+    this.assigned_to_id = ticket.assigned_to_id;
+    this.assigned_to_first_name = ticket.assigned_to_first_name;
+    this.assigned_to_last_name = ticket.assigned_to_last_name;
+    this.assigned_to_email = ticket.assigned_to_email;
+  }
+
+  getStatusLabel() {
+    if (this.status) return "Active";
+    if (!this.status) return "InActive";
+    return "";
+  }
+  getStatusColor() {
+    if (this.status) return new MyColor(33, 150, 83);
+    if (!this.status) return new MyColor(242, 153, 74);
+    return new MyColor(242, 0, 74);
+  }
+}
 const TicketsTickets = () => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<any[]>([]);
@@ -18,15 +83,103 @@ const TicketsTickets = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { showAlert, hideAlert } = useAlert();
   const [errorMess, setErrorMess] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const currentPage = 0;
+  const [totalItems, settotalItems] = useState<number>(0);
+
+  const filterFields: TableColumn[] = [
+    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+  ];
+  const tableActions: TableAction[] = [
+    { name: ACTIONS.EDIT, label: "Edit" },
+    { name: ACTIONS.DELETE, label: "Delete" },
+  ];
+  const tableColumns: TableColumn[] = [
+    {
+      name: "asset_name",
+      title: "Asset",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "ticket_type_name",
+      title: "Ticket Name",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "code",
+      title: "Code",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "createdBy",
+      title: "Created By",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "subject",
+      title: "Subject",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "tenant",
+      title: "Tenant",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "assigned_to_first_name",
+      title: "Assigned To",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "status",
+      title: "Status",
+      type: ColumnTypes.Status,
+      statusEnum: [
+        { key: true, value: "Active" },
+        { key: false, value: "InActive" },
+      ],
+    },
+  ];
 
   const { data, isLoading, error } = useGetTickets(page);
-  console.log(data)
+  console.log(data);
 
   const datastsr: TicketsTicketTypesList200Response | any = data;
 
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results);
-    setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
+    const mapped = datastsr?.data?.data?.results.map((res: any) => {
+      return {
+        id: res?.id,
+        ticket_type_id: res?.ticket_type?.id,
+        ticket_type_name: res?.ticket_type?.name,
+        ticket_type_code: res?.ticket_type?.code,
+        ticket_type_status: res?.ticket_type?.status,
+        subject: res?.subject,
+        description: res?.description,
+        code: res?.code,
+        asset_id: res?.asset?.id,
+        asset_code: res?.asset?.code,
+        asset_name: res?.asset?.name,
+        asset_description: res?.asset?.description,
+        status: res?.status,
+        createdBy: res?.createdBy,
+        tenant: res?.tenant,
+        assigned_to_id: res?.assigned_to?.id,
+        assigned_to_first_name: res?.assigned_to?.first_name,
+        assigned_to_last_name: res?.assigned_to?.last_name,
+        assigned_to_email: res?.assigned_to?.email,
+      };
+    });
+    if(mapped) {
+      setItems(mapped.map((x: any) => new TicketWithStatus(x)));
+    }
+    setshowEmpty(
+      datastsr?.data?.data?.results
+        ? datastsr?.data?.data?.results.length === 0
+        : true
+    );
+    settotalItems(Math.ceil(datastsr?.data?.data?.count));
     console.log(items);
     hideAlert();
     if (error) {
@@ -37,93 +190,95 @@ const TicketsTickets = () => {
     }
   }, [data, error]);
 
-  
-
-  const filteredItems = items?.filter((item) =>
-    item?.subject?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  console.log('fillllllll', filteredItems)
-
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const actions = ["Edit"];
-  const tableHeaders: TableColumn[] = [
-    // {
-    //   name: "asset",
-    //   title: "Asset",
-    //   type: ColumnTypes.Object,
-    //   objKey: "name",
-    // },
-    {
-      name: "user",
-      title: "Name",
-      type: ColumnTypes.Object,
-      objKey: "first_name",
-    },
-    {
-      name: "id",
-      title: "Code",
-    },
-    {
-      name: "created_by",
-      title: "Created By",
-    },
-    {
-      name: "status",
-      title: "Status",
-      type: ColumnTypes.Bool,
-    },
-    {
-      name: "ticket",
-      title: "Description",
-      type:ColumnTypes.Object,
-      objKey: "description",
-    },
-    {
-      name: "tenant",
-      title: "Tenant"
-    },
-    {
-      name: "ticket",
-      title: "Subject",
-      type:ColumnTypes.Object,
-      objKey: "subject",
-    },
-    {
-      name: "activity_type",
-      title: "Ticket Type",
-    },
+  const topActionButtons = [
+    { name: "add_new_user", label: "Add Ticket", icon: "plus", outline: false },
   ];
+  function modal(buttion: any) {
+    if (buttion === "add_new_user") {
+      setShowModal(true);
+      setEditItems(null);
+    }
+  }
+  function refreshrecord() {
+    useGetTickets(1);
+  }
+  function filterUpdated(filter: any) {
+    filter.current = { ...filter.current, ...filter };
+    let nfilter = filter.current;
+    nfilter.pageIndex = filter.page;
+    filter.current = nfilter;
+    useGetTickets(1);
+  }
+  function tableActionClicked(event: TableActionEvent) {
+    if (event.name === "1") {
+      setEditItems(event.data);
+      setShowModal(true);
+    }
+    if (event.name === "2") {
+      // handleDelete(event.data.id);
+    }
+  }
 
+  console.log(items);
   return (
     <div>
-      {
-        isLoading ? (
-          <UsersListLoading />
-        ) : (
-          <TableComponent
-            placeholder="Search Tickets"
-            actions={actions}
-            title="All Tickets"
-            totalPages={totalPages}
-            errorMessage={errorMess ?? ""}
-            tableHeaders={tableHeaders}
-            handleDelete={() => {}}
-            handleSearch={(e) => handleSearchChange(e)}
-            modal= {
-              <ModalTicketsList
-                editItem={editItems}
-                onClearEdit={() => setEditItems(null)}
-              />
-            }
-            filteredItems={items}
-            createBtn={true}
-            showActionBtn={false}
-            setEditItems={setEditItems}
-            />
-        )}
+      <ComponentsheaderComponent
+        backbuttonClick={() => {}}
+        pageName="Tickets"
+        requiredButton={topActionButtons}
+        buttonClick={(e) => {
+          modal(e);
+        }}
+      />
+      {showEmpty ? (
+        <DefaultContent
+          pageHeader="All Tickets"
+          pageDescription="No record found"
+          loading={isLoading}
+          buttonValue="Refresh"
+          buttonClick={() => refreshrecord()}
+        />
+      ) : (
+        <MainTableComponent
+          filterChange={(e: any) => filterUpdated(e)}
+          showActions={true}
+          showFilter={true}
+          actionClick={(e: any) => tableActionClicked(e)}
+          actions={tableActions}
+          userData={items}
+          tableColum={tableColumns}
+          totalItems={totalItems}
+          currentTablePage={currentPage}
+          loading={isLoading}
+          InputFileName="All Tickets"
+          filterFields={filterFields}
+          showCheckBox={true}
+          bulkactionClicked={(e: any) => {}}
+          Bulkactions={[]}
+          showBulkAction={true}
+          actionChecked={() => {}}
+          actionBulkChecked={() => {}}
+          pageChange={() => {}}
+          dateRangeChanged={() => {}}
+          toggleColumnsEvent={() => {}}
+          toggleCustomFilter={() => {}}
+          sortOptionSelected={() => {}}
+        />
+      )}
+
+      {showModal && (
+        <ModalTicketsList
+          editItem={editItems}
+          isOpen={showModal}
+          handleHide={() => {
+            setShowModal(false);
+            setEditItems(false);
+          }}
+          onClearEdit={() => {
+            setEditItems(null);
+          }}
+        />
+      )}
       {/* <Content>
         <KTCardBody className="py-4">
           <div

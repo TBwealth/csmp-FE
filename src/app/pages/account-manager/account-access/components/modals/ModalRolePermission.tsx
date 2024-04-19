@@ -10,8 +10,8 @@ import useAlert from "../../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 import { AccountsApiRolesList200Response } from "../../../../../api/axios-client";
 
-const AddRolePermissionModal = ({ editItem, onClearEdit }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AddRolePermissionModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+  // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<any[] | undefined>([]);
   const [permissions, setPermissions] = useState<any[] | undefined>([]);
@@ -45,7 +45,7 @@ const AddRolePermissionModal = ({ editItem, onClearEdit }: any) => {
     setRoles(datastsr?.data?.data?.results);
     setPermissions(datastsr2?.data?.data?.results);
     if (editItem) {
-      setIsOpen(true);
+      // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
       setRoleValue(editItem?.role_id);
@@ -59,7 +59,7 @@ const AddRolePermissionModal = ({ editItem, onClearEdit }: any) => {
   }, [allRoles, allPermissions, editItem]);
 
   const handleClose = () => {
-    setIsOpen(false);
+    // setIsOpen(false);
     hideAlert();
     setValueId("");
     onClearEdit();
@@ -120,19 +120,9 @@ const AddRolePermissionModal = ({ editItem, onClearEdit }: any) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary btn-sm"
-        onClick={() => {
-          setIsOpen(true), hideAlert();
-        }}
-      >
-        <KTIcon iconName="plus" className="fs-1" />
-        Add New
-      </button>
       <Modal
         show={isOpen}
-        onHide={handleClose}
+        onHide={handleHide}
         backdrop="static"
         keyboard={false}
       >
@@ -177,7 +167,7 @@ const AddRolePermissionModal = ({ editItem, onClearEdit }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleClose}>
+          <button type="button" className="btn btn-light" onClick={handleHide}>
             Close
           </button>
           <button

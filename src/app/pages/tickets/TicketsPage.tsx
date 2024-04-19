@@ -5,6 +5,7 @@ import TicketsHeader from "./TicketsHeader";
 import TicketsTickets from "./components/TicketsTickets";
 import TicketsActivities from "./components/TicketActivities";
 import TicketTypes from "./components/TicketTypes";
+import TenantTickets from "./components/TenantTickets";
 
 const ticketsBreadCrumbs: Array<PageLink> = [
   {
@@ -27,7 +28,7 @@ const TicketsPage: React.FC = () => {
       <Route
         element={
           <>
-            <TicketsHeader />
+            {/* <TicketsHeader /> */}
             <Outlet />
           </>
         }
@@ -66,16 +67,17 @@ const TicketsPage: React.FC = () => {
           }
         />
 
-        {/* <Route
-          path="provider-service"
+        <Route
+          path="tenant-tickets"
           element={
             <>
               <PageTitle breadcrumbs={ticketsBreadCrumbs}>
-                Provider Services
+                Tenant Tickets
               </PageTitle>
+              <TenantTickets/>
             </>
           }
-        /> */}
+        />
 
     <Route index element={<Navigate to="/tickets" />} />
 

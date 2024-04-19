@@ -8,29 +8,56 @@ import useAlert from "../../../components/useAlert";
 // import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiPermissionsList200Response } from "../../../../api/axios-client";
 import TableComponent from "../../../../components/TableComponent";
-import { TableColumn } from "../../../../components/models";
+import {
+  ACTIONS,
+  ColumnTypes,
+  TableAction,
+  TableActionEvent,
+  TableColumn,
+} from "../../../../components/models";
+import { ComponentsheaderComponent } from "../../../../components/componentsheader/componentsheader.component";
+import DefaultContent from "../../../../components/defaultContent/defaultContent";
+import { MainTableComponent } from "../../../../components/tableComponents/maincomponent/maintable";
 
 const Permissions = () => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
-  const [totalPages, setTotalPages] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
-  // const [currentPage, setcurrentPage] = useState<number>(0);
+  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
+  const currentPage = 0;
+  const [totalItems, settotalItems] = useState<number>(0);
+  const filterFields: TableColumn[] = [
+    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+  ];
+  const tableActions: TableAction[] = [
+    { name: ACTIONS.EDIT, label: "Edit" },
+    { name: ACTIONS.DELETE, label: "Delete" },
+  ];
+  const tableColumns: TableColumn[] = [
+    {
+      name: "id",
+      title: "Id",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "name",
+      title: "Name",
+      type: ColumnTypes.Text,
+    },
+  ];
 
   const { data, isLoading, error } = useGetAccountPermssion(page);
   console.log("permiiiit", data);
 
   const datastsr: AccountsApiPermissionsList200Response | any = data;
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event.target.value);
-  };
+
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
-    setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
-    console.log(items);
+    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0 : true);
+    settotalItems(Math.ceil(datastsr?.data?.data?.count));
     hideAlert();
     if (error) {
       if (error instanceof Error) {
@@ -40,45 +67,100 @@ const Permissions = () => {
     }
   }, [data, error]);
 
-  //new table props
-  const actions = ["Edit"];
-  const tableHeaders: TableColumn[] = [
+  const topActionButtons = [
     {
-      name: "id",
-      title: "Id"
-    },
-    {
-      name: "name",
-      title: "Name"
+      name: "add_new_perm",
+      label: "Add Permission",
+      icon: "plus",
+      outline: false,
     },
   ];
+
+  function modal(buttion: any) {
+    if (buttion === "add_new_perm") {
+      setShowModal(true);
+      setEditItems(null);
+    }
+  }
+  function refreshrecord() {
+    useGetAccountPermssion(1);
+  }
+  function filterUpdated(filter: any) {
+    filter.current = { ...filter.current, ...filter };
+    let nfilter = filter.current;
+    nfilter.pageIndex = filter.page;
+    filter.current = nfilter;
+    useGetAccountPermssion(1);
+  }
+  function tableActionClicked(event: TableActionEvent) {
+    if (event.name === "1") {
+      setEditItems(event.data);
+      setShowModal(true);
+    }
+    if (event.name === "2") {
+    }
+  }
+
   return (
     <div>
-      {
-        isLoading ? (
-          <UsersListLoading />
-        ) : (
-          <TableComponent
-          title="All Permission"
-            placeholder="Search Permission"
-            actions={actions}
-            totalPages={totalPages}
-            errorMessage={errorMess ?? ""}
-            tableHeaders={tableHeaders}
-            handleDelete={() => {}}
-            handleSearch={(e) => handleSearchChange(e)}
-            modal= {
-              <AddPermissionModal
-                editItem={editItems}
-                onClearEdit={() => setEditItems(null)}
-              />
-            }
-            filteredItems={items}
-            createBtn={true}
-            showActionBtn={true}
-            setEditItems={setEditItems}
-            />
-        )}
+      <ComponentsheaderComponent
+        backbuttonClick={() => {}}
+        pageName="Permissions"
+        requiredButton={topActionButtons}
+        buttonClick={(e: any) => {
+          modal(e);
+        }}
+      />
+      {showEmpty ? (
+        <DefaultContent
+          pageHeader="All Permissions"
+          pageDescription="No record found"
+          loading={isLoading}
+          buttonValue="Refresh"
+          buttonClick={() => refreshrecord()}
+        />
+      ): (
+        <MainTableComponent
+          filterChange={(e: any) => filterUpdated(e)}
+          showActions={true}
+          showFilter={true}
+          actionClick={(e: any) => tableActionClicked(e)}
+          actions={tableActions}
+          userData={items}
+          tableColum={tableColumns}
+          totalItems={totalItems}
+          currentTablePage={currentPage}
+          loading={isLoading}
+          InputFileName="All Permissions"
+          filterFields={filterFields}
+          showCheckBox={true}
+          bulkactionClicked={(e: any) => {}}
+          Bulkactions={[]}
+          showBulkAction={true}
+          actionChecked={() => {}}
+          actionBulkChecked={() => {}}
+          pageChange={() => {}}
+          dateRangeChanged={() => {}}
+          toggleColumnsEvent={() => {}}
+          toggleCustomFilter={() => {}}
+          sortOptionSelected={() => {}}
+        />
+        
+      )}
+
+      {showModal && (
+        <AddPermissionModal
+          editItem={editItems}
+          isOpen={showModal}
+          handleHide={() => {
+            setShowModal(false);
+            setEditItems(false);
+          }}
+          onClearEdit={() => {
+            setEditItems(null);
+          }}
+        />
+      )}
       {/* <Content>
         <KTCardBody className="py-4">
           <div

@@ -10,8 +10,8 @@ import { Modal } from "react-bootstrap";
 import { TicketsTicketTypesList200Response  } from "../../../../api/axios-client";
 
 
-const ModalTicketTypes = ({ editItem, onClearEdit }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+  // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
 
   const [tickets, setTickets] = useState<any[] | undefined>([]);
@@ -39,7 +39,7 @@ const ModalTicketTypes = ({ editItem, onClearEdit }: any) => {
   useEffect(() => {
     setTickets(datastsr?.data?.data?.results);
     if (editItem) {
-      setIsOpen(true);
+      // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
       setNameValue(editItem?.name);
@@ -55,7 +55,7 @@ const ModalTicketTypes = ({ editItem, onClearEdit }: any) => {
   }, [allTickets, editItem]);
 
   const handleClose = () => {
-    setIsOpen(false);
+    // setIsOpen(false);
     hideAlert();
     setValueId("");
     onClearEdit();
@@ -120,20 +120,9 @@ const ModalTicketTypes = ({ editItem, onClearEdit }: any) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary btn-sm"
-        onClick={() => {
-          setIsOpen(true), hideAlert();
-        }}
-      >
-        <KTIcon iconName="plus" className="fs-1" />
-        Add New
-      </button>
-
       <Modal
         show={isOpen}
-        onHide={handleClose}
+        onHide={handleHide}
         backdrop="static"
         keyboard={false}
       >
@@ -181,7 +170,7 @@ const ModalTicketTypes = ({ editItem, onClearEdit }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleClose}>
+          <button type="button" className="btn btn-light" onClick={handleHide}>
             Close
           </button>
           <button

@@ -8,13 +8,13 @@ import {
 import useAlert from "../../../components/useAlert";
 import Select from 'react-select';
 import { Modal } from "react-bootstrap";
-import { TicketsTicketsList200Response } from "../../../../api/axios-client";
+import { TicketsTicketTypesList200Response } from "../../../../api/axios-client";
 import { opendirSync } from "fs";
 
 
-const ModalTicketsList = ({ editItem, onClearEdit }: any) => {
+const ModalTicketsList = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
 
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
 
   const [tickets, setTickets] = useState<any[] | undefined>([]);
@@ -46,12 +46,12 @@ const ModalTicketsList = ({ editItem, onClearEdit }: any) => {
     error: editError,
   } = useUpdateTickets(+valueId);
 
-  const datastsr: TicketsTicketsList200Response | any = allTickets;
+  const datastsr: TicketsTicketTypesList200Response | any = allTickets;
  
   useEffect(() => {
     setTickets(datastsr?.data?.data?.results);
     if (editItem) {
-      setIsOpen(true);
+      // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
       setAssignedToValue(editItem?.assigned_to);
@@ -79,7 +79,7 @@ const ModalTicketsList = ({ editItem, onClearEdit }: any) => {
   }, [allTickets, editItem]);
 
   const handleClose = () => {
-    setIsOpen(false);
+    // setIsOpen(false);
     hideAlert();
     setValueId("");
     onClearEdit();
@@ -88,15 +88,28 @@ const ModalTicketsList = ({ editItem, onClearEdit }: any) => {
   const handleSubmit = () => {
     mutate(
       {
-        assigned_to: assignedToValue,
+        assigned_to: {
+          email: editItem?.assigned_to_email ?? "",
+          first_name: editItem?.assigned_to_first_name ?? "",
+          last_name: editItem?.assigned_to_last_name ?? "",
+        },
         code: codeValue,
-        status: statusValue === "open" ? true : false,
-        asset: assetValue,
-        created_by: 0,
-        description: descriptionValue,
-        subject: subjectValue,
-        tenant: 1,
-        ticket_type: ticketType,
+        status: statusValue === "open" ? "true" : "false",
+        asset: {
+          code: editItem?.asset_code ?? "",
+          description: editItem?.asset_description ?? "",
+          name: editItem?.asset_name ?? "",
+          id: editItem?.asset_id ?? "",
+        },
+        created_by: editItem?.createdBy ?? "",
+        description: editItem?.description ?? "",
+        subject: editItem?.subject,
+        tenant: editItem?.tenant,
+        ticket_type: {
+          code: editItem?.ticket_type_code,
+          name: editItem?.ticket_type_name,
+          id: editItem?.ticket_type_id,
+        },
       },
       {
         onSuccess: (res) => {
@@ -126,17 +139,30 @@ const ModalTicketsList = ({ editItem, onClearEdit }: any) => {
   const editHandleSubmit = () => {
     editMutate(
       {
-        id: +valueId,
+        id: valueId,
         data:{
-          assigned_to: assignedToValue,
+          assigned_to: {
+            email: editItem?.assigned_to_email ?? "",
+            first_name: editItem?.assigned_to_first_name ?? "",
+            last_name: editItem?.assigned_to_last_name ?? "",
+          },
           code: codeValue,
-          status: statusValue === "open" ? true : false,
-          asset: assetValue,
-          created_by: 0,
-          description: descriptionValue,
-          subject: subjectValue,
-          tenant: 1,
-          ticket_type: ticketType,
+          status: statusValue === "open" ? "true" : "false",
+          asset: {
+            code: editItem?.asset_code ?? "",
+            description: editItem?.asset_description ?? "",
+            name: editItem?.asset_name ?? "",
+            id: editItem?.asset_id ?? "",
+          },
+          created_by: editItem?.createdBy ?? "",
+          description: editItem?.description ?? "",
+          subject: editItem?.subject,
+          tenant: editItem?.tenant,
+          ticket_type: {
+            code: editItem?.ticket_type_code,
+            name: editItem?.ticket_type_name,
+            id: editItem?.ticket_type_id,
+          },
         
         },
       },
@@ -166,20 +192,9 @@ const ModalTicketsList = ({ editItem, onClearEdit }: any) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary btn-sm"
-        onClick={() => {
-          setIsOpen(true), hideAlert();
-        }}
-      >
-        <KTIcon iconName="plus" className="fs-1" />
-        Add New
-      </button>
-
       <Modal
         show={isOpen}
-        onHide={handleClose}
+        onHide={handleHide}
         backdrop="static"
         keyboard={false}
       >
@@ -300,7 +315,7 @@ const ModalTicketsList = ({ editItem, onClearEdit }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleClose}>
+          <button type="button" className="btn btn-light" onClick={handleHide}>
             Close
           </button>
           <button

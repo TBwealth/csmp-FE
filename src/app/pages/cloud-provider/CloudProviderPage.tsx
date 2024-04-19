@@ -27,7 +27,7 @@ const CloudProviderPage: React.FC = () => {
       <Route
         element={
           <>
-            <CloudProviderHeader />
+            {/* <CloudProviderHeader /> */}
             <Outlet />
           </>
         }

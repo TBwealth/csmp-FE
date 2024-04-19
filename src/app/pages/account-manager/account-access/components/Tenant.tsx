@@ -12,11 +12,20 @@ import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiCustomTenantsList200Response } from "../../../../api/axios-client";
 import TableComponent from "../../../../components/TableComponent";
-import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../../components/models";
+import {
+  ACTIONS,
+  ColumnTypes,
+  TableAction,
+  TableActionEvent,
+  TableColumn,
+} from "../../../../components/models";
 import { ComponentsheaderComponent } from "../../../../components/componentsheader/componentsheader.component";
 import DefaultContent from "../../../../components/defaultContent/defaultContent";
 import { MainTableComponent } from "../../../../components/tableComponents/maincomponent/maintable";
-import { IStatus, MyColor } from "../../../../components/tableComponents/status/status";
+import {
+  IStatus,
+  MyColor,
+} from "../../../../components/tableComponents/status/status";
 
 export class TenantWithStatus implements IStatus {
   id: string = "";
@@ -26,11 +35,11 @@ export class TenantWithStatus implements IStatus {
   status: string = "";
 
   constructor(tenant: any) {
-    this.id = tenant.id
-    this.tenant_name = tenant.tenant_name
-    this.admin_email = tenant.admin_email
-    this.code = tenant.code
-    this.status = tenant.status
+    this.id = tenant.id;
+    this.tenant_name = tenant.tenant_name;
+    this.admin_email = tenant.admin_email;
+    this.code = tenant.code;
+    this.status = tenant.status;
   }
 
   getStatusLabel() {
@@ -53,17 +62,17 @@ const Tenant = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
-
+  const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
 
-  const filterFields:TableColumn [] = [
-    {name: 'keyword', title: 'Keyword', type:ColumnTypes.Text},
+  const filterFields: TableColumn[] = [
+    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
   ];
-  const tableActions: TableAction[] = [    
-    { name: ACTIONS.EDIT, label: 'Edit' },
-    { name: ACTIONS.DELETE, label: 'Delete' },
+  const tableActions: TableAction[] = [
+    { name: ACTIONS.EDIT, label: "Edit" },
+    { name: ACTIONS.DELETE, label: "Delete" },
   ];
 
   const { data, isLoading, error } = useGetAccountTenant(page);
@@ -71,8 +80,10 @@ const Tenant = () => {
   const datastsr: AccountsApiCustomTenantsList200Response | any = data;
 
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results.map((x:any) => new TenantWithStatus(x)));
-    setshowEmpty(datastsr?.data?.data?.results?.length === 0);
+    setItems(
+      datastsr?.data?.data?.results.map((x: any) => new TenantWithStatus(x))
+    );
+    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0 : true);
     settotalItems(Math.ceil(datastsr?.data?.data?.count));
 
     hideAlert();
@@ -83,14 +94,6 @@ const Tenant = () => {
       }
     }
   }, [data, error]);
-
-  const filteredItems = items?.filter((item) =>
-    item.tenant_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event.target.value);
-  };
 
 
   const tableColumns: TableColumn[] = [
@@ -126,90 +129,93 @@ const Tenant = () => {
   ];
 
   const topActionButtons = [
-    { name: 'add_new_user', label: 'Add User', 'icon': 'plus', outline: false },
+    { name: "add_new_user", label: "Add Tenant", icon: "plus", outline: false },
   ];
-  function  modal(buttion:any) {
-    if (buttion === 'add_new_user') {
- 
+  function modal(buttion: any) {
+    if (buttion === "add_new_user") {
+      setShowModal(true);
+      setEditItems(null);
     }
-    
   }
-  function  refreshrecord() {
+  function refreshrecord() {
     useGetAccountTenant(1);
   }
-  function   filterUpdated(filter: any) {
+  function filterUpdated(filter: any) {
     filter.current = { ...filter.current, ...filter };
     let nfilter = filter.current;
     nfilter.pageIndex = filter.page;
     filter.current = nfilter;
     useGetAccountTenant(1);
   }
-  function  tableActionClicked(event: TableActionEvent) {
-    if (event.name === '1') {      
-
+  function tableActionClicked(event: TableActionEvent) {
+    if (event.name === "1") {
+      setEditItems(event.data);
+      setShowModal(true);
     }
-    if (event.name === '2') {      
-
+    if (event.name === "2") {
     }
   }
 
   return (
     <div>
-       <ComponentsheaderComponent backbuttonClick={()=>{}}  pageName="Tenants" requiredButton={topActionButtons} buttonClick={(e)=>{modal(e)}} />
-
-{showEmpty && (
-<DefaultContent pageHeader="All Tenants" pageDescription="No record found"
-loading={isLoading} buttonValue="Refresh" buttonClick={()=>refreshrecord()} />
-    )}
-      {!showEmpty && (
-      <MainTableComponent
-        filterChange={(e: any) => filterUpdated(e)}
-        showActions={true}
-        showFilter={true}
-        actionClick={(e: any) => tableActionClicked(e)}
-        actions={tableActions}
-        userData={items}
-        tableColum={tableColumns}
-        totalItems={totalItems}
-        currentTablePage={currentPage}
-        loading={isLoading}
-        InputFileName="All Tenants"
-        filterFields={filterFields}
-        showCheckBox={true}
-        bulkactionClicked={(e:any)=>{}} 
-        Bulkactions={[]}
-        showBulkAction={true}
-        actionChecked={() => { }}
-        actionBulkChecked={() => { }}
-        pageChange={() => { }}
-        dateRangeChanged={() => { }}
-        toggleColumnsEvent={() => { }}
-        toggleCustomFilter={() => { }}
-        sortOptionSelected={() => { }}
+      <ComponentsheaderComponent
+        backbuttonClick={() => {}}
+        pageName="Tenants"
+        requiredButton={topActionButtons}
+        buttonClick={(e) => {
+          modal(e);
+        }}
       />
-      // {isLoading ? (
-      //   <UsersListLoading />
-      // ) : (
-      //   <TableComponent
-      //     placeholder="Search Tenant Name"
-      //     actions={actions}
-      //     title="All tenants"
-      //     totalPages={totalPages}
-      //     handleDelete={() => {}}
-      //     errorMessage={errorMess ?? ""}
-      //     handleSearch={(e) => handleSearchChange(e)}
-      //     tableHeaders={tableHeaders}
-      //     modal={
-      //       <AddTenantModal
-      //         editItem={editItems}
-      //         onClearEdit={() => setEditItems(null)}
-      //       />
-      //     }
-      //     filteredItems={filteredItems}
-      //     createBtn={true}
-      //     showActionBtn={true}
-      //     setEditItems={setEditItems}
-      //   />
+
+      {showEmpty ? (
+        <DefaultContent
+          pageHeader="All Tenants"
+          pageDescription="No record found"
+          loading={isLoading}
+          buttonValue="Refresh"
+          buttonClick={() => refreshrecord()}
+        />
+      ) : (
+        <MainTableComponent
+          filterChange={(e: any) => filterUpdated(e)}
+          showActions={true}
+          showFilter={true}
+          actionClick={(e: any) => tableActionClicked(e)}
+          actions={tableActions}
+          userData={items}
+          tableColum={tableColumns}
+          totalItems={totalItems}
+          currentTablePage={currentPage}
+          loading={isLoading}
+          InputFileName="All Tenants"
+          filterFields={filterFields}
+          showCheckBox={true}
+          bulkactionClicked={(e: any) => {}}
+          Bulkactions={[]}
+          showBulkAction={true}
+          actionChecked={() => {}}
+          actionBulkChecked={() => {}}
+          pageChange={() => {}}
+          dateRangeChanged={() => {}}
+          toggleColumnsEvent={() => {}}
+          toggleCustomFilter={() => {}}
+          sortOptionSelected={() => {}}
+        />
+      )}
+      {/* {!showEmpty && (
+      )} */}
+      {showModal && (
+        <AddTenantModal
+          editItem={editItems}
+          isOpen={showModal}
+          handleHide={() => {
+            setShowModal(false);
+            setEditItems(false);
+          }}
+          onClearEdit={() => {
+            setEditItems(null);
+          }}
+        />
       )}
       {/* <Content>
         <KTCardBody className="py-4">

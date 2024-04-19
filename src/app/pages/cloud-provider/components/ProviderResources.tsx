@@ -8,8 +8,36 @@ import { Dropdown, DropdownButton } from "react-bootstrap";
 import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../api/axios-client";
 import { ModalProviderResources } from "./modal/ModalProviderResources";
 import TableComponent from "../../../components/TableComponent";
-import { ColumnTypes, TableColumn } from "../../../components/models";
+import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../components/models";
+import { IStatus, MyColor } from "../../../components/tableComponents/status/status";
+import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
+import DefaultContent from "../../../components/defaultContent/defaultContent";
+import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
 
+export class ProviderWithStatus implements IStatus {
+  id: string = "";
+  name: string = "";
+  code: string = "";
+  status: boolean = false;
+
+  constructor(provider: any) {
+    this.id = provider.id;
+    this.name = provider.name;
+    this.code = provider.code;
+    this.status = provider.status;
+  }
+
+  getStatusLabel() {
+    if (this.status) return "Active";
+    if (!this.status) return "InActive";
+    return "";
+  }
+  getStatusColor() {
+    if (this.status) return new MyColor(33, 150, 83);
+    if (!this.status) return new MyColor(242, 153, 74);
+    return new MyColor(242, 0, 74);
+  }
+}
 
 const ProviderResources = () => {
   const [page, setPage] = useState(1);
@@ -19,16 +47,26 @@ const ProviderResources = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert } = useAlert();
-
+  const [showModal, setShowModal] = useState(false);
+  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const currentPage = 0;
+  const [totalItems, settotalItems] = useState<number>(0);
+  const filterFields: TableColumn[] = [
+    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+  ];
+  const tableActions: TableAction[] = [
+    { name: ACTIONS.EDIT, label: "Edit" },
+    { name: ACTIONS.DELETE, label: "Delete" },
+  ];
   const { data, isLoading, error } = useGetCloudProviderResourceTypes(page);
     console.log('saaaaa', data)
   const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
     data;
 
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results);
-    setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
-    console.log(items);
+    setItems(datastsr?.data?.data?.results.map((x: any) => new ProviderWithStatus(x)));
+    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0 : true);
+    settotalItems(Math.ceil(datastsr?.data?.data?.count));
     hideAlert();
     if (error) {
       if (error instanceof Error) {
@@ -37,62 +75,123 @@ const ProviderResources = () => {
       }
     }
   }, [data, error]);
-
-  const filteredItems = items?.filter((item) =>
-    item?.cloud_provider?.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const actions = ["Edit"];
-  const tableHeaders: TableColumn[] = [
+  const tableColumns: TableColumn[] = [
     {
       name: "id",
-      title: "Id"
+      title: "Id",
+      type: ColumnTypes.Text,
     },
     {
-      name: "cloud_provider",
+      name: "name",
       title: "Name",
-      type: ColumnTypes.Object,
+      type: ColumnTypes.Text,
     },
     {
-      name: "cloud_provider",
+      name: "code",
       title: "Code",
-      type: ColumnTypes.Object,
+      type: ColumnTypes.Text,
     },
     {
       name: "status",
       title: "Status",
-      type: ColumnTypes.Bool
+      type: ColumnTypes.Status,
+      statusEnum: [
+        { key: true, value: "Active" },
+        { key: false, value: "InActive" },
+      ],
     },
   ];
 
+  const topActionButtons = [
+    { name: "add_new_user", label: "Add Provider", icon: "plus", outline: false },
+  ];
+  function modal(buttion: any) {
+    if (buttion === "add_new_user") {
+      setShowModal(true);
+      setEditItems(null);
+    }
+  }
+  function refreshrecord() {
+    useGetCloudProviderResourceTypes(1);
+  }
+
+  function filterUpdated(filter: any) {
+    filter.current = { ...filter.current, ...filter };
+    let nfilter = filter.current;
+    nfilter.pageIndex = filter.page;
+    filter.current = nfilter;
+    useGetCloudProviderResourceTypes(1);
+  }
+  function tableActionClicked(event: TableActionEvent) {
+    if (event.name === "1") {
+      setShowModal(true);
+      setEditItems(event.data);
+      // handleViewPolicyRules(event.data.id);
+    }
+    if (event.name === "2") {
+    }
+  }
+
   return (
     <div>
-      {isLoading ? (
-        <UsersListLoading />
-      ) : (
-        <TableComponent
-          placeholder="Search Resource"
-          actions={actions}
-          title="All Resources"
-          totalPages={totalPages}
-          errorMessage={errorMess ?? ""}
-          handleDelete={() => {}}
-          handleSearch={(e) => handleSearchChange(e)}
-          tableHeaders={tableHeaders}
-          modal={
-            <ModalProviderResources
-              editItem={editItems}
-              onClearEdit={() => setEditItems(null)}
-            />
-          }
-          filteredItems={filteredItems}
-          createBtn={true}
-          showActionBtn={true}
-          setEditItems={setEditItems}
+       <ComponentsheaderComponent
+        backbuttonClick={() => {}}
+        pageName="Providers"
+        requiredButton={topActionButtons}
+        buttonClick={(e) => {
+          modal(e);
+        }}
+      />
+
+      {showEmpty ? (
+        <DefaultContent
+          pageHeader="All Providers"
+          pageDescription="No record found"
+          loading={isLoading}
+          buttonValue="Refresh"
+          buttonClick={() => refreshrecord()}
+        />
+      ): (
+        <MainTableComponent
+          filterChange={(e: any) => filterUpdated(e)}
+          showActions={true}
+          showFilter={true}
+          actionClick={(e: any) => tableActionClicked(e)}
+          actions={tableActions}
+          userData={items}
+          tableColum={tableColumns}
+          totalItems={totalItems}
+          currentTablePage={currentPage}
+          loading={isLoading}
+          InputFileName="All Providers"
+          filterFields={filterFields}
+          showCheckBox={true}
+          bulkactionClicked={(e: any) => {}}
+          Bulkactions={[]}
+          showBulkAction={true}
+          actionChecked={() => {}}
+          actionBulkChecked={() => {}}
+          pageChange={() => {}}
+          dateRangeChanged={() => {}}
+          toggleColumnsEvent={() => {}}
+          toggleCustomFilter={() => {}}
+          sortOptionSelected={() => {}}
+        />
+
+      )}
+      {/* {!showEmpty && (
+      )} */}
+      {showModal && (
+        <ModalProviderResources
+          editItem={editItems}
+          isOpen={showModal}
+          handleHide={() => {
+            setShowModal(false);
+            setEditItems(false);
+          }}
+          onClearEdit={() => {
+            setEditItems(null);
+          }}
         />
       )}
       {/* <Content>

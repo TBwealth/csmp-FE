@@ -30,13 +30,15 @@ export enum ActionsType {
 
 export const formatNumber = (num: any) => {
   if (num !== undefined) {
-    return parseFloat(Number(num).toFixed(2)).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    return parseFloat(Number(num).toFixed(2))
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   }
-  return 0
-}
+  return 0;
+};
 
-export function numberWithCommas(x:any) {
-  return x? x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","):"";
+export function numberWithCommas(x: any) {
+  return x ? x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") : "";
 }
 
 export const DropdownChild = () => {
@@ -152,7 +154,7 @@ export const printAsPDF = (theader: any, tbody: any, fileNane: any) => {
   const doc = new jsPDF({ orientation: "portrait" });
   const dateStamp = moment(new Date()).format("MMM dd, yyyy h:mm a");
   doc.text(dateStamp, 145, 7);
-//  doc.addImage(logo, "PNG", 140, 12, 40, 10);
+  //  doc.addImage(logo, "PNG", 140, 12, 40, 10);
   const finalY = 15;
   doc.text(fileNane, 14, finalY + 15);
   autoTable(doc, {
@@ -385,7 +387,7 @@ export const MainTableComponent = ({
       settableData(usersTableData);
     } else {
       settableData(
-        [...usersTableData!].sort((a:any, b:any) => {
+        [...usersTableData!].sort((a: any, b: any) => {
           const res = compare(a[column], b[column]);
           return direction === "asc" ? res : -res;
         })
@@ -439,7 +441,7 @@ export const MainTableComponent = ({
   }
   function handleSortChange(event: any) {
     let innUserData = [...usersTableData!];
-    innUserData = innUserData?.sort((a:any, b:any) => {
+    innUserData = innUserData?.sort((a: any, b: any) => {
       const res = compare(a[event.data.name], b[event.data.name]);
       return event.direction === "Asc" ? res : -res;
     });
@@ -590,7 +592,6 @@ export const MainTableComponent = ({
   return (
     <>
       <div className="space-y-3 m-8 p-5 bg-lightDark dark:bg-lightDark shadow-lg rounded-md">
-        
         {showFilter && selectedRecord! <= 0 && (
           <TableheaderComponent
             filterFields={filterFields}
@@ -715,8 +716,8 @@ export const MainTableComponent = ({
             </thead>
             {!loading && (
               <tbody className="divide-y divide-gray-200 font-normal">
-                {usersTableData?.map((data:any, i) => (
-                  <tr >
+                {usersTableData?.map((data: any, i) => (
+                  <tr>
                     {showCheckBox && (
                       <td className="py-3 px-3">
                         <div className="items-center flex">
@@ -728,9 +729,7 @@ export const MainTableComponent = ({
                       </td>
                     )}
                     {showSerialNumb && (
-                      <td className="py-3 px-3 text-sm text-left">
-                        {i + 1}
-                      </td>
+                      <td className="py-3 px-3 text-sm text-left">{i + 1}</td>
                     )}
                     {tableColum.map((col) => (
                       <td className="py-3 px-3 text-sm text-left">
@@ -749,7 +748,10 @@ export const MainTableComponent = ({
                           {(col.type === COLUMN_TYPES.Text ||
                             col.type === undefined) &&
                             data[col.name]?.toString().length > 25 && (
-                              <Tooltip className="text-bgDark" content={getCleanText(data[col.name])}>
+                              <Tooltip
+                                className="text-bgDark"
+                                content={getCleanText(data[col.name])}
+                              >
                                 <div
                                   dangerouslySetInnerHTML={{
                                     __html: data[col.name]?.toString(),
@@ -840,45 +842,42 @@ export const MainTableComponent = ({
                   </tr>
                 ))}
               </tbody>
-            )}          
+            )}
           </table>
           {loading && (
             <div className="w-full flex items-center justify-center">
               <div className="w-full flex items-center justify-center">
-              <span className="flex flex-row ">
-                            <svg
-                              className="animate-spin w-5 text-primary "
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              ></circle>
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              ></path>
-                            </svg>
-                            &nbsp;Loading...
-                          </span>
+                <span className="flex flex-row ">
+                  <svg
+                    className="animate-spin w-5 text-primary "
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  &nbsp;Loading...
+                </span>
               </div>
-            </div>           
-            )}
+            </div>
+          )}
         </div>
         {!table2 && showPagination && (
           <div className="pagination flex justify-between">
             <div>
-              <div
-                className="flex flex-row space-x-2"
-               
-              >
+              <div className="flex flex-row space-x-2">
                 <span className="flex items-center">
                   <span>Rows per page</span>
                 </span>

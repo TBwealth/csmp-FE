@@ -11,8 +11,8 @@ import {
 import useAlert from "../../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 
-const AddRoleModal = ({ editItem, onClearEdit }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AddRoleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+  // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
@@ -28,7 +28,7 @@ const AddRoleModal = ({ editItem, onClearEdit }: any) => {
 
   useEffect(() => {
     if (editItem) {
-      setIsOpen(true);
+      // setIsOpen(true);
       setValueId(editItem?.id);
       setRoleName(editItem?.name);
     } else {
@@ -39,7 +39,7 @@ const AddRoleModal = ({ editItem, onClearEdit }: any) => {
   }, [editItem]);
 
   const handleClose = () => {
-    setIsOpen(false);
+    // setIsOpen(false);
     hideAlert();
     setValueId("");
     onClearEdit();
@@ -52,7 +52,7 @@ const AddRoleModal = ({ editItem, onClearEdit }: any) => {
       },
       {
         onSuccess: (res) => {
-          setIsOpen(false);
+          // setIsOpen(false);
           console.log(res);
           setRoleName("");
         },
@@ -94,19 +94,9 @@ const AddRoleModal = ({ editItem, onClearEdit }: any) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary btn-sm"
-        onClick={() => {
-          setIsOpen(true), hideAlert();
-        }}
-      >
-        <KTIcon iconName="plus" className="fs-1" />
-        Add Role
-      </button>
       <Modal
         show={isOpen}
-        onHide={handleClose}
+        onHide={handleHide}
         backdrop="static"
         keyboard={false}
       >
@@ -147,7 +137,7 @@ const AddRoleModal = ({ editItem, onClearEdit }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleClose}>
+          <button type="button" className="btn btn-light" onClick={handleHide}>
             Close
           </button>
           <button
