@@ -48,7 +48,7 @@ li {
 }
 
 .low {
-    border-color: yellow;
+    border-color: rgb(255, 255, 0);
 }
 
 .top_issues__container {

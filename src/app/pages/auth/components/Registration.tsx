@@ -3,9 +3,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { getUserByToken, register } from "../core/_requests";
+import { Alert } from "react-bootstrap";
+import { Upload, UploadProps } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { PasswordMeterComponent } from "../../../../_metronic/assets/ts/components";
 import { useAuth } from "../core/Auth";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   useAccountRegister,
   useGetAccountCustomTenant,
@@ -51,9 +54,22 @@ const registrationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Password and Confirm Password didn't match"),
 });
 
+// const uploadButton = (
+//   <button style={{ border: 0, background: 'none' }} type="button">
+//     {loading ? <LoadingOutlined /> : <PlusOutlined />}
+//     <div style={{ marginTop: 8 }}>Upload</div>
+//   </button>
+// );
+
 export function Registration() {
   const [loading, setLoading] = useState(false);
   const [active, setIsActive] = useState(true);
+  const allowedFileType = ["jpg", "png", "jpeg"];
+  const maxFileSize = 1050000;
+  const [fileList, setFileList] = useState<any[]>([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+  const [imageUrl, setImageUrl] = useState<string>();
   const [listTenants, setListTenants] = useState<any[] | undefined>([]);
   const { saveAuth, setCurrentUser } = useAuth();
   const navigate = useNavigate();
@@ -84,6 +100,7 @@ export function Registration() {
           password2: values.confirmpassword,
           role: 2,
           tenant: +values.tenant,
+          // company_url: imageUrl
         },
         {
           onSuccess: (res: any) => {
@@ -107,19 +124,130 @@ export function Registration() {
 
   const handleSwitchMode = (e: any) => {
     setIsActive(e.target.checked);
+  };
+
+  function getBase64(rfile: any) {
+    return new Promise((resolved, rejected) => {
+      let file = rfile;
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      let b64 = "";
+      reader.onload = function () {
+        //  b64 = reader.result.toString().split(",")[1];
+        b64 = reader!.result!.toString();
+        resolved(b64);
+      };
+
+      reader.onerror = function (error) {
+        console.log("Error: ", error);
+      };
+    });
   }
+  function formatBytes(bytes: any, decimals = 2) {
+    if (bytes === 0 || bytes == null) return "0 Bytes";
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  }
+  const props: UploadProps = {
+    name: "file",
+    multiple: false,
+    onRemove: (file: any) => {
+      const index = fileList.indexOf(file);
+      const newFileList = fileList.slice();
+      newFileList.splice(index, 1);
+      setImageUrl("");
+      setFileList(newFileList);
+    },
+    beforeUpload: (file: any) => {
+      const splitedName = file.name.split(".");
+      const fileExt = splitedName[splitedName.length - 1];
+      const fileSize = file.size;
+      if (allowedFileType.includes(fileExt.toLowerCase())) {
+        if (fileSize > maxFileSize) {
+          setErrMessage(
+            `Maximum file size allowed is ${formatBytes(maxFileSize)} - ${
+              file.name
+            }`
+          );
+          setShowAlert(true);
+          return Upload.LIST_IGNORE;
+        }
+      } else {
+        setErrMessage(
+          `${file.name} - Please Upload any of these file type: JPEG, PNG,JPEG`
+        );
+        setShowAlert(true);
+        return Upload.LIST_IGNORE;
+      }
+      getBase64(file).then((base64data: any) => {
+        setImageUrl(base64data);
+        // setValue("profile_image", base64data);
+      });
+      setFileList([...fileList, file]);
+      return false;
+    },
+    onDrop(e: any) {
+      let dataTrasferFiles = e.dataTransfer.files;
+      const file = dataTrasferFiles[0];
+      const splitedName = file.name.split(".");
+      const fileExt = splitedName[splitedName.length - 1];
+      const fileSize = file.size;
+      if (allowedFileType.includes(fileExt.toLowerCase())) {
+        if (fileSize > maxFileSize) {
+          setErrMessage(
+            `Maximum file size allowed is ${formatBytes(maxFileSize)} - ${
+              file.name
+            }`
+          );
+          setShowAlert(true);
+          return Upload.LIST_IGNORE;
+        }
+      } else {
+        setErrMessage(
+          `${file.name} - Please Upload any of these file type: JPEG, PNG,JPEG`
+        );
+        setShowAlert(true);
+        return Upload.LIST_IGNORE;
+      }
+      getBase64(file).then((base64data: any) => {
+        setImageUrl(base64data);
+        // setValue("profile_image", base64data);
+      });
+      setFileList([...fileList, file]);
+      return false;
+    },
+  };
+
+  const uploadButton = (
+    <div className="">
+      <PlusOutlined color="white"/>
+      <div style={{ marginTop: 8, color:"white" }}>Upload</div>
+    </div>
+  );
 
   return (
-    <div className="form_container md:w-[80%] mr-60 md:gap-20">
-      <div className="left_container">
+    <div className="grid md:grid-cols-3 md:w-[80%] mr-60 md:gap-20 mt-20">
+      <div className="md:col-span-1 left_container">
         <div>LOGO</div>
         <button className={active ? "active" : "inactive"}>
-          <input type="checkbox" defaultChecked name="toggle" id="toggle" onChange={(e) => handleSwitchMode(e)} />
+          <input
+            type="checkbox"
+            defaultChecked
+            name="toggle"
+            id="toggle"
+            onChange={(e) => handleSwitchMode(e)}
+          />
           <div className="button"></div>
-        </button>  
+        </button>
       </div>
       <form
-        className="form login-form w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border border-2"
+        className="md:col-span-2 bg-lightDark rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border border-2"
         // style={{ backgroundColor: "white" }}
         noValidate
         id="kt_login_signup_form"
@@ -215,9 +343,6 @@ export function Registration() {
               </div>
             )}
           </div> */}
-        </div>
-        <div className="row">
-          {/* begin::Form group Email */}
           <div className="fv-row mb-8 col-sm">
             <label className="form-label fw-bolder text-gray-900 fs-6">
               Email
@@ -243,6 +368,34 @@ export function Registration() {
               </div>
             )}
           </div>
+        </div>
+        <div className="row">
+          {/* begin::Form group Email */}
+          {/* <div className="fv-row mb-8 col-sm">
+            <label className="form-label fw-bolder text-gray-900 fs-6">
+              Email
+            </label>
+            <input
+              placeholder="Email"
+              type="email"
+              autoComplete="off"
+              {...formik.getFieldProps("email")}
+              className={clsx(
+                "form-control bg-transparent",
+                { "is-invalid": formik.touched.email && formik.errors.email },
+                {
+                  "is-valid": formik.touched.email && !formik.errors.email,
+                }
+              )}
+            />
+            {formik.touched.email && formik.errors.email && (
+              <div className="fv-plugins-message-container">
+                <div className="fv-help-block">
+                  <span role="alert">{formik.errors.email}</span>
+                </div>
+              </div>
+            )}
+          </div> */}
           {/* end::Form group */}
           {/* <div className="fv-row mb-8 col-sm">
             {" "}
@@ -359,36 +512,67 @@ export function Registration() {
         </div>
 
         {/* begin::Form group */}
-
-        <div className="row row-cols-3 my-5">
-          <div></div>{" "}
-          <Link to="/auth/login" className="col">
-            <button
-              type="button"
-              id="kt_login_signup_form_cancel_button"
-              className="btn btn-lg btn-light-primary w-100"
+        <div className="row">
+          <div className="fv-row mb-8 col-sm flex gap-3 items-center">
+            <label className="form-label fw-bolder text-gray-900 fs-6">
+              Company Logo
+            </label>
+            <Upload
+              name="avatar"
+              listType="picture-circle"
+              className="avatar-uploader"
+              showUploadList={false}
+              beforeUpload={props.beforeUpload}
             >
-              Cancel
+              {imageUrl ? (
+                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+              ) : (
+                uploadButton
+              )}
+            </Upload>
+          </div>
+          <div className="fv-row mb-8 col-sm">
+            <div></div>{" "}
+            <Link to="/auth/login" className="col">
+              <button
+                type="button"
+                id="kt_login_signup_form_cancel_button"
+                className="btn btn-lg btn-light-primary mr-6 w-30"
+              >
+                Cancel
+              </button>
+            </Link>
+            <button
+              type="submit"
+              id="kt_sign_up_submit"
+              className="btn btn-lg btn-primary col w-30"
+              disabled={
+                formik.isSubmitting || !formik.isValid || !formik.values.role
+              }
+            >
+              {!loading && <span className="indicator-label">Submit</span>}
+              {loading && (
+                <span
+                  className="indicator-progress"
+                  style={{ display: "block" }}
+                >
+                  Please wait...{" "}
+                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+              )}
             </button>
-          </Link>
-          <button
-            type="submit"
-            id="kt_sign_up_submit"
-            className="btn btn-lg btn-primary col"
-            disabled={
-              formik.isSubmitting || !formik.isValid || !formik.values.role
-            }
-          >
-            {!loading && <span className="indicator-label">Submit</span>}
-            {loading && (
-              <span className="indicator-progress" style={{ display: "block" }}>
-                Please wait...{" "}
-                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-              </span>
-            )}
-          </button>
+          </div>
         </div>
 
+        <Alert
+          show={showAlert}
+          variant="danger"
+          onClose={() => setShowAlert(false)}
+          dismissible
+        >
+          <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+          <p>{errMessage}</p>
+        </Alert>
         {/* end::Form group */}
       </form>
     </div>

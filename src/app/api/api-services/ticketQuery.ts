@@ -18,6 +18,12 @@ export const useGetTickets = (page: number) => {
     );
     return query;
 };
+export const useGetTenantTickets = (page: number) => {
+    const query = useQuery(["tenant_tickets"], () =>
+      ticketApi.ticketsAssignedTenantUserTicketList({ page })
+    );
+    return query;
+};
 
 export const useCreateTickets = () => {
     const queryClient = useQueryClient();

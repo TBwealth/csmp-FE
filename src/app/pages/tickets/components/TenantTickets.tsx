@@ -5,18 +5,47 @@ import DefaultContent from "../../../components/defaultContent/defaultContent";
 import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
 import { IStatus, MyColor } from "../../../components/tableComponents/status/status";
 import useAlert from "../../components/useAlert";
-
+import { useGetTenantTickets} from "../../../api/api-services/ticketQuery";
+import { TicketsAssignedTenantUserTicketList200Response } from "../../../api/axios-client";
 export class TicketWithStatus implements IStatus {
     id: string = "";
-    name: string = "";
-    code: string = "";
-    status: string = "";
+  ticket_type_id: string = "";
+  ticket_type_name: string = "";
+  ticket_type_code: string = "";
+  ticket_type_status: string = "";
+  description: string = "";
+  code: string = "";
+  subject: string = "";
+  asset_code: string = "";
+  asset_name: string = "";
+  asset_description: string = "";
+  createdBy: string = "";
+  tenant: string = "";
+  assigned_to_id: string = "";
+  assigned_to_first_name: string = "";
+  assigned_to_last_name: string = "";
+  assigned_to_email: string = "";
+  status: boolean = false;
   
     constructor(tenant: any) {
-      this.id = tenant.id;
-      this.name = tenant.name;
-      this.code = tenant.code;
-      this.status = tenant.status;
+        this.id = ticket.id;
+        this.ticket_type_id = ticket.ticket_type_id;
+        this.ticket_type_name = ticket.ticket_type_name;
+        this.ticket_type_code = ticket.ticket_type_code;
+        this.ticket_type_status = ticket.ticket_type_status;
+        this.code = ticket.code;
+        this.description = ticket.description;
+        this.subject = ticket.subject;
+        this.status = ticket.status;
+        this.asset_code = ticket.asset_code;
+        this.asset_name = ticket.asset_code;
+        this.asset_description = ticket.asset_description;
+        this.createdBy = ticket.createdBy;
+        this.tenant = ticket.tenant;
+        this.assigned_to_id = ticket.assigned_to_id;
+        this.assigned_to_first_name = ticket.assigned_to_first_name;
+        this.assigned_to_last_name = ticket.assigned_to_last_name;
+        this.assigned_to_email = ticket.assigned_to_email;
     }
   
     getStatusLabel() {
@@ -52,18 +81,38 @@ const TenantTickets = () => {
   ];
   const tableColumns: TableColumn[] = [
     {
-      name: "id",
-      title: "Id",
+      name: "asset_name",
+      title: "Asset",
       type: ColumnTypes.Text,
     },
     {
-      name: "name",
-      title: "Name",
+      name: "ticket_type_name",
+      title: "Ticket Name",
       type: ColumnTypes.Text,
     },
     {
       name: "code",
       title: "Code",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "createdBy",
+      title: "Created By",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "subject",
+      title: "Subject",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "tenant",
+      title: "Tenant",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "assigned_to_first_name",
+      title: "Assigned To",
       type: ColumnTypes.Text,
     },
     {
@@ -77,18 +126,47 @@ const TenantTickets = () => {
     },
   ];
 
+  const { data, isLoading, error } = useGetTenantTickets(page);
+  console.log(data)
+
+  const datastsr: TicketsAssignedTenantUserTicketList200Response | any = data;
   useEffect(() => {
-    setItems([].map((x: any) => new TicketWithStatus(x)));
-    setshowEmpty(true);
-    settotalItems(Math.ceil(items.length));
-    // hideAlert();
-    // if (error) {
-    //   if (error instanceof Error) {
-    //     setErrorMess(error?.message);
-    //     showAlert(error?.message || "An unknown error occurred", "danger");
-    //   }
-    // }
-  }, []);
+    const mapped = datastsr?.data?.data?.results.map((res: any) => {
+        return {
+          id: res?.id,
+          ticket_type_id: res?.ticket_type?.id,
+          ticket_type_name: res?.ticket_type?.name,
+          ticket_type_code: res?.ticket_type?.code,
+          ticket_type_status: res?.ticket_type?.status,
+          subject: res?.subject,
+          description: res?.description,
+          code: res?.code,
+          asset_id: res?.asset?.id,
+          asset_code: res?.asset?.code,
+          asset_name: res?.asset?.name,
+          asset_description: res?.asset?.description,
+          status: res?.status,
+          createdBy: res?.createdBy,
+          tenant: res?.tenant,
+          assigned_to_id: res?.assigned_to?.id,
+          assigned_to_first_name: res?.assigned_to?.first_name,
+          assigned_to_last_name: res?.assigned_to?.last_name,
+          assigned_to_email: res?.assigned_to?.email,
+        };
+      });
+      if(mapped) {
+        setItems(mapped.map((x: any) => new TicketWithStatus(x)));
+      }
+    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0 : true);
+    settotalItems(Math.ceil(datastsr?.data?.data?.count));
+    hideAlert();
+    if (error) {
+      if (error instanceof Error) {
+        setErrorMess(error?.message);
+        showAlert(error?.message || "An unknown error occurred", "danger");
+      }
+    }
+  }, [data, error]);
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add Tenant Ticket", icon: "plus", outline: false },
@@ -133,7 +211,7 @@ const TenantTickets = () => {
         <DefaultContent
           pageHeader="All Tenants Tickets"
           pageDescription="No record found"
-          loading={false}
+          loading={isLoading}
           buttonValue="Refresh"
           buttonClick={() => refreshrecord()}
         />
@@ -148,7 +226,7 @@ const TenantTickets = () => {
           tableColum={tableColumns}
           totalItems={totalItems}
           currentTablePage={currentPage}
-          loading={false}
+          loading={isLoading}
           InputFileName="All Tenant Tickets"
           filterFields={filterFields}
           showCheckBox={true}

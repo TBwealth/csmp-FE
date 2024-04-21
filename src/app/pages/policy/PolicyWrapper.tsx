@@ -11,9 +11,8 @@ import {
   TableActionEvent,
   TableColumn,
 } from "../../components/models";
-import { UsersListLoading } from "../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
-import TableComponent from "../../components/TableComponent";
 import ModalPolicyList from "./modals/ModalPolicyList";
+import RunPolicyModal from "./modals/RunPolicyModal";
 import {
   IStatus,
   MyColor,
@@ -54,7 +53,7 @@ const PolicyWrapper = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { showAlert, hideAlert } = useAlert();
   const navigate = useNavigate();
-  // const [isLoading, setIsLoading] = useState(false);
+  const [showPolicy, setShowPolicy] = useState(false);
   const [errorMess, setErrorMess] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
@@ -64,8 +63,8 @@ const PolicyWrapper = () => {
     { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
-    { name: ACTIONS.VIEW, label: "View" },
-    { name: ACTIONS.DELETE, label: "Delete" },
+    { name: ACTIONS.VIEW, label: "View Rules" },
+    { name: ACTIONS.DELETE, label: "Run Policy" },
   ];
   const { data, isLoading, error } = useGetPolicies(page);
   console.log(data);
@@ -141,6 +140,7 @@ const PolicyWrapper = () => {
       handleViewPolicyRules(event.data.id);
     }
     if (event.name === "2") {
+        setShowPolicy(true);
     }
   }
 
@@ -205,6 +205,15 @@ const PolicyWrapper = () => {
           }}
           onClearEdit={() => {
             setEditItems(null);
+          }}
+        />
+      )}
+      {showPolicy && (
+        <RunPolicyModal
+          isOpen={showPolicy}
+          state="policy"
+          handleHide={() => {
+            setShowPolicy(false);
           }}
         />
       )}

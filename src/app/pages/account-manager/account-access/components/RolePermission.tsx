@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   useDeleteAccountRolesPermission,
   useGetAccountRolesPermission,
+  useGetAccountPermssion,
 } from "../../../../api/api-services/accountQuery";
 // import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
 import { AddRolePermissionModal } from "./modals/ModalRolePermission";
@@ -26,6 +27,7 @@ import { MainTableComponent } from "../../../../components/tableComponents/mainc
 const RolePermission = () => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<any[]>([]);
+  const [perms, setPerms] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,6 +38,7 @@ const RolePermission = () => {
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
   const { data, isLoading, error } = useGetAccountRolesPermission(page);
+  const { data:permissions,  } = useGetAccountPermssion(page);
   const filterFields: TableColumn[] = [
     { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
   ];
