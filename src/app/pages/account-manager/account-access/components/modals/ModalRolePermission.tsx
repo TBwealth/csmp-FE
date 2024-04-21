@@ -128,7 +128,7 @@ const AddRolePermissionModal = ({ editItem, onClearEdit, isOpen, handleHide }: a
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            {editItem ? "Edit Tenant" : "Create New Tenant"}
+            {editItem ? "Edit Permission" : "Create New Permission"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

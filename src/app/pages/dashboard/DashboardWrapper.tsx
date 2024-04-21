@@ -71,34 +71,34 @@ const DashboardPage: FC = () => {
         {/* begin::Row */}
         <div className="w-full mb-6">
           <h5>Security issues:</h5>
-          <div className="flex items-center flex-col md:flex-row w-full gap-2">
-            <div className="w-full lg:w-[20%] border-2 p-3 rounded-md border-[#3B4852]">
+          <div className="grid md:grid-cols-5 w-full gap-2">
+            <div className="w-full md:col-span-1  p-3 rounded-md border-2 border-[#3B4852] bg-lightDark shadow-md">
               <p className="mb-3">Security issues by severity</p>
-              <ul className="grid grid-cols-2 gap-4 md:block">
-                <li className="critical">
+              <ul className="grid grid-cols-2 gap-6 md:block">
+                <li className="border-l-3 border-l-rose-900 pl-2">
                   <p>Critical</p>
-                  <h1>0</h1>
+                  <h1 className="text-xl font-semibold">0</h1>
                 </li>
-                <li className="high">
+                <li className="border-l-3 border-l-red-500 pl-2">
                   <p>High</p>
-                  <h1>456</h1>
+                  <h1 className="text-xl font-semibold">456</h1>
                 </li>
-                <li className="med">
+                <li className="border-l-3 border-l-orange-400 pl-2">
                   <p>Medium</p>
-                  <h1>45</h1>
+                  <h1 className="text-xl font-semibold">45</h1>
                 </li>
-                <li className="low">
+                <li className="border-l-3 border-l-yellow-400 pl-2">
                   <p>Low</p>
-                  <h1>0</h1>
+                  <h1 className="text-xl font-semibold">0</h1>
                 </li>
               </ul>
             </div>
-            <div className="w-full border-2 p-3 md:p-6 rounded-md border-[#3B4852] lg:h-[32vh]">
+            <div className="w-full md:col-span-4 border-2 p-3 md:p-6 rounded-md border-[#3B4852] bg-lightDark shadow-md">
               <p className="mb-3">Top security issues</p>
               <div>
-                <div className="flex md:flex-col gap-3 lg:flex-row items-center justify-between">
+                <div className="flex flex-col gap-3 lg:flex-row items-start justify-between">
                   <p>Publicly exposed virtual machine with high priviledges</p>
-                  <p className="flex items-center justify-center gap-2">
+                  <p className="flex items-start justify-center gap-2">
                     <span>
                       <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
                       High
@@ -106,11 +106,11 @@ const DashboardPage: FC = () => {
                     <span>499 security issues </span>
                   </p>
                 </div>
-                <div className="my-3 flex md:flex-col gap-3 lg:flex-row items-center justify-between">
+                <div className="my-3 flex flex-col gap-3 lg:flex-row items-start justify-between">
                   <p className="">
                     IAM Role with third party access and high priviledges
                   </p>
-                  <p className="flex items-center justify-center gap-2">
+                  <p className="flex mr-6 items-start justify-center gap-2">
                     <span>
                       <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
                       High
@@ -118,9 +118,9 @@ const DashboardPage: FC = () => {
                     <span>4 security issues </span>
                   </p>
                 </div>
-                <div className="flex md:flex-col gap-3 lg:flex-row items-center justify-between">
+                <div className="flex flex-col gap-3 lg:flex-row items-start justify-between">
                   <p>Partially public virtual machine with high priviledges</p>
-                  <p className="flex items-center gap-2">
+                  <p className="flex items-start gap-2">
                     <span>
                       <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
                       Medium
@@ -135,23 +135,23 @@ const DashboardPage: FC = () => {
         <div className="w-full mb-6">
           <h5>Assets at high risk</h5>
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
-            <div className="border-2 p-3 rounded-md border-[#3B4852]">
+            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-lightDark">
               <h4 className="mb-3">In total</h4>
               <h1>
                 <i className="fa-sharp fa-regular fa-gem fs-2 mr-1"></i>46
               </h1>
             </div>
-            <div className="border-2 p-3 rounded-md border-[#3B4852]">
+            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-lightDark">
               <h4 className="mb-3">Public</h4>
-              <section className="public_inner">
-                <aside className="flex items-start">
+              <section className="flex items-center justify-between mt-3">
+                <aside className="flex items-start mt-3 gap-2">
                   <i className="bi bi-globe fs-2"></i>
                   <div className="border-0 -mt-4">
                     <span>Network</span>
                     <h3>0</h3>
                   </div>
                 </aside>
-                <aside className="flex items-start">
+                <aside className="flex items-start mt-3 gap-2">
                   <i className="bi bi-globe fs-2 padding-2"></i>
                   <div className="border-0 -mt-4">
                     <span>IAM</span>
@@ -160,22 +160,22 @@ const DashboardPage: FC = () => {
                 </aside>
               </section>
             </div>
-            <div className="border-2 p-3 rounded-md border-[#3B4852]">
+            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-lightDark">
               <h4 className="mb-3">With critical/high severity secrets</h4>
               <h1>
-                <i className="bi bi-key fs-2 rotate-45"></i>0
+                <i className="bi bi-key fs-2 rotate-45 mr-2"></i>0
               </h1>
             </div>
-            <div className="border-2 p-3 rounded-md border-[#3B4852]">
+            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-lightDark">
               <h4 className="mb-3">With critical/high severity CVEs</h4>
               <h1>
-                <i className="bi bi-bug fs-2"></i>0
+                <i className="bi bi-bug fs-2 mr-2"></i>0
               </h1>
             </div>
-            <div className="border-2 p-3 rounded-md border-[#3B4852]">
+            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-lightDark">
               <h4 className="mb-3">With sensitive data</h4>
               <h1>
-                <i className="bi bi-file-earmark-lock fs-2"></i>0
+                <i className="bi bi-file-earmark-lock fs-2 mr-2"></i>0
               </h1>
             </div>
           </div>
@@ -183,7 +183,7 @@ const DashboardPage: FC = () => {
         <div className="w-full mb-6">
           <h5>Riskiest entities:</h5>
           <div className="grid gap-2 md:grid-cols-5">
-            <div className="md:col-span-2 border-2 border-[#3B4852] rounded-md p-3">
+            <div className="md:col-span-2 border-2 border-[#3B4852] rounded-md p-3 shadow-md bg-lightDark">
               <p>By asset type</p>
               <div className="table">
                 <div className="table_top">
@@ -250,7 +250,7 @@ const DashboardPage: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="md:col-span-2 border-2 border-[#3B4852] rounded-md p-3">
+            <div className="md:col-span-2 border-2 border-[#3B4852] rounded-md p-3 shadow-md bg-lightDark">
               <p>By asset</p>
               <div className="table">
                 <div className="table_top">
@@ -305,24 +305,24 @@ const DashboardPage: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="border-2 border-[#3B4852] rounded-md p-3 ">
+            <div className="border-2 border-[#3B4852] rounded-md p-3 shadow-md bg-lightDark">
               <p className="mb-3">Environment by risk</p>
               <ul className="grid grid-cols-2 gap-4 md:block">
-                <li className="critical">
+                <li className="border-l-3 border-l-rose-900 pl-2">
                   <p>Critical</p>
-                  <h1>0</h1>
+                  <h1 className="text-xl font-semibold">0</h1>
                 </li>
-                <li className="high">
+                <li className="border-l-3 border-l-red-500 pl-2">
                   <p>High</p>
-                  <h1>456</h1>
+                  <h1 className="text-xl font-semibold">456</h1>
                 </li>
-                <li className="med">
+                <li className="border-l-3 border-l-orange-400 pl-2">
                   <p>Medium</p>
-                  <h1>45</h1>
+                  <h1 className="text-xl font-semibold">45</h1>
                 </li>
-                <li className="low">
+                <li className="border-l-3 border-l-yellow-400 pl-2">
                   <p>Low</p>
-                  <h1>0</h1>
+                  <h1 className="text-xl font-semibold">0</h1>
                 </li>
               </ul>
             </div>

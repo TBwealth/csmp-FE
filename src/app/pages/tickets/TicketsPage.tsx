@@ -45,6 +45,7 @@ const TicketsPage: React.FC = () => {
           }
         />
         <Route
+          // path="ticket-activities/:id"
           path="ticket-activities"
           element={
             <>
@@ -78,6 +79,7 @@ const TicketsPage: React.FC = () => {
             </>
           }
         />
+        
 
     <Route index element={<Navigate to="/tickets" />} />
 

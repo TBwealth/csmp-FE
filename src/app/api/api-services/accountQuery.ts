@@ -221,6 +221,12 @@ export const useGetAccountUsers = (page: number) => {
   );
   return query;
 };
+export const useGetSingleAccountUsers = (id: string) => {
+  const query = useQuery(["single_users"], () =>
+    accountApi.accountsApiUsersRead({id})
+  );
+  return query;
+};
 
 export const useUpdateAccountUsers = (id: number) => {
   const queryClient = useQueryClient();

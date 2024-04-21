@@ -1,20 +1,31 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import useAlert from '../components/useAlert';
+import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import useAlert from "../components/useAlert";
+import { ComponentsheaderComponent } from "../../components/componentsheader/componentsheader.component";
 import {
-    useGetPolicies,
-    useGetSinglePolicyRules
-   } from "../../api/api-services/policyQuery";
-
+  useGetPolicies,
+  useGetSinglePolicyRules,
+} from "../../api/api-services/policyQuery";
 
 const PolicyRule = () => {
-    const {id} = useParams();
-    const {data} = useGetSinglePolicyRules(+id!);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { data } = useGetSinglePolicyRules(+id!);
 
-    console.log(data);
+  console.log(data);
   return (
-    <div>PolicyRule</div>
-  )
-}
+    <div className="mt-10">
+      <ComponentsheaderComponent
+        backbuttonClick={() => console.log("back")}
+        showbackbutton={true}
+        pageName="Policy Rule"
+        requiredButton={[]}
+        buttonClick={(e) => {
+          //   modal(e);
+        }}
+      />
+    </div>
+  );
+};
 
-export default PolicyRule
+export default PolicyRule;

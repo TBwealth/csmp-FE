@@ -7,13 +7,12 @@ import useAlert from "../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../api/axios-client";
 import { ModalProviderResources } from "./modal/ModalProviderResources";
-import TableComponent from "../../../components/TableComponent";
 import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../components/models";
 import { IStatus, MyColor } from "../../../components/tableComponents/status/status";
 import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
 import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
-
+import RunPolicyModal from "../../policy/modals/RunPolicyModal";
 export class ProviderWithStatus implements IStatus {
   id: string = "";
   name: string = "";
@@ -44,7 +43,7 @@ const ProviderResources = () => {
   const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [showPolModal, setShowPolModal] = useState(false);
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
@@ -56,7 +55,7 @@ const ProviderResources = () => {
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.DELETE, label: "Delete" },
+    { name: ACTIONS.DELETE, label: "Run Policy" },
   ];
   const { data, isLoading, error } = useGetCloudProviderResourceTypes(page);
     console.log('saaaaa', data)
@@ -129,6 +128,7 @@ const ProviderResources = () => {
       // handleViewPolicyRules(event.data.id);
     }
     if (event.name === "2") {
+      setShowPolModal(true);
     }
   }
 
@@ -191,6 +191,15 @@ const ProviderResources = () => {
           }}
           onClearEdit={() => {
             setEditItems(null);
+          }}
+        />
+      )}
+      {showPolModal && (
+        <RunPolicyModal
+          isOpen={showPolModal}
+          state="cloud"
+          handleHide={() => {
+            setShowPolModal(false);
           }}
         />
       )}

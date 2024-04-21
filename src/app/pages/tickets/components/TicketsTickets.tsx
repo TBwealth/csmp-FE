@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-// import { Content } from "../../../../_metronic/layout/components/content";
+import { useNavigate } from "react-router-dom";
 import { useGetTickets } from "../../../api/api-services/ticketQuery";
-// import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
 // import { Dropdown, DropdownButton } from "react-bootstrap";
 import { TicketsTicketTypesList200Response } from "../../../api/axios-client";
 import { ModalTicketsList } from "./modals/ModalTicketsList";
-import TableComponent from "../../../components/TableComponent";
 import {
   ACTIONS,
   ColumnTypes,
@@ -87,13 +85,15 @@ const TicketsTickets = () => {
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
+  const navigate = useNavigate();
 
   const filterFields: TableColumn[] = [
     { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.DELETE, label: "Delete" },
+    { name: ACTIONS.VIEW, label: "View Activities" },
+    // { name: ACTIONS.DELETE, label: "Delete" },
   ];
   const tableColumns: TableColumn[] = [
     {
@@ -214,7 +214,8 @@ const TicketsTickets = () => {
       setEditItems(event.data);
       setShowModal(true);
     }
-    if (event.name === "2") {
+    if (event.name === "3") {
+      navigate(`/tickets/ticket-activities/${event.data.id}`);
       // handleDelete(event.data.id);
     }
   }

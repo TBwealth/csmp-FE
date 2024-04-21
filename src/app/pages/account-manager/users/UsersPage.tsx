@@ -4,6 +4,7 @@ import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
 import UsersHeader from "./UsersHeader";
 import AllUsers from "./components/AllUsers";
 import UserLogs from "./components/UserLogs";
+import Profile from "./components/Profile";
 
 const accountManagerBreadCrumbs: Array<PageLink> = [
   {
@@ -26,7 +27,7 @@ const AccountManagerPage: React.FC = () => {
       <Route
         element={
           <div>
-            <UsersHeader />
+            {/* <UsersHeader /> */}
             <Outlet />
           </div>
         }
@@ -50,8 +51,19 @@ const AccountManagerPage: React.FC = () => {
             </>
           }
         />
+        <Route
+          path="all-users/:id"
+          element={
+            <>
+              <PageTitle breadcrumbs={accountManagerBreadCrumbs}>
+                User Profile
+              </PageTitle>
+              <Profile />
+            </>
+          }
+        />
         
-        <Route index element={<Navigate to="/account-manager/users" />} />
+        <Route index element={<Navigate to="/account-manager/all-users" />} />
       </Route>
     </Routes>
   );

@@ -7,7 +7,7 @@ import {
 import useAlert from "../../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 
-const AddPermissionModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+const AddPermissionModal = ({ editItem, onClearEdit, isOpen, handleHide, selectedRole }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [valueId, setValueId] = useState("");
   const [roleName, setRoleName] = useState("");
@@ -105,6 +105,19 @@ const AddPermissionModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) 
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className="mb-10">
+            <label className="form-label fs-6 fw-bold">Role:</label>
+            <input
+              placeholder="Enter Name"
+              type="text"
+              name="text"
+              autoComplete="off"
+              className="form-control bg-transparent"
+              value={selectedRole}
+              disabled
+              // onChange={(e) => setRoleName(e.target.value)}
+            />
+          </div>
           <div className="mb-10">
             <label className="form-label fs-6 fw-bold">Name:</label>
             <input
