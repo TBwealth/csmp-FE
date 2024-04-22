@@ -50,6 +50,17 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         ></SidebarMenuItem>
       </SidebarMenuItemWithSub>
+      <SidebarMenuItem
+          to=""
+          title="Assets"
+          hasBullet={true}
+      ></SidebarMenuItem>
+        <SidebarMenuItem
+          to=""
+          title="Assets Assessment"
+          hasBullet={true}
+      ></SidebarMenuItem>
+      
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
@@ -116,36 +127,24 @@ const SidebarMenuMain = () => {
         fontIcon="bi-app-indicator"
       />
        
-       <SidebarMenuItemWithSub
-        to="/cloud-provider/cloud"
-        title="Assets"
-        icon="cloud"
-        fontIcon="bi-person"
-      >
-        <SidebarMenuItem
+      <SidebarMenuItem
+          to="/"
+          title="Cloud Region"
+          hasBullet={true}
+        ></SidebarMenuItem>
+      <SidebarMenuItem
           to="/cloud-provider/cloud/provider-resource"
           title="Cloud Providers"
           hasBullet={true}
         ></SidebarMenuItem>
-        {/* <SidebarMenuItem
-          to="/cloud-provider/cloud/provider-service"
-          title="Provider Service"
-          hasBullet={true}
-        ></SidebarMenuItem> */}
-      </SidebarMenuItemWithSub>
-   
-      <SidebarMenuItemWithSub
-        to="/tickets/tickets"
-        title="Tickets"
-        icon="cheque"
-        fontIcon="bi-person"
-      > <SidebarMenuItem
+
+      <SidebarMenuItem
           to="tickets/ticket-types"
           title="Setup Ticket Types"
           hasBullet={true}
         ></SidebarMenuItem>
-      </SidebarMenuItemWithSub>
-      
+
+
 
       {/* COMMENT OUT EVERYTHING BELOW WHEN YOU FINISH USING IT */}
 
