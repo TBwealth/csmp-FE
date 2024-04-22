@@ -76,7 +76,14 @@ const Roles = () => {
 
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
-    setPerms(permstsr?.data?.data?.results);
+    const mapped = permstsr?.data?.data?.results.map((res: any) => {
+      return {
+        id: res?.id,
+        name: res?.name,
+        isPerm:false,
+      }
+    })
+    setPerms(mapped);
     setRolePerms(rolepermstsr?.data?.data?.results);
     setshowEmpty(
       datastsr?.data?.data?.results
@@ -92,7 +99,7 @@ const Roles = () => {
         setErrorMess(error?.message);
       }
     }
-  }, [data, error]);
+  }, [data, error, permstsr, rolepermstsr]);
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add Role", icon: "plus", outline: false },
@@ -181,7 +188,18 @@ const Roles = () => {
                 }
                 onClick={() => {
                   setSelected(item);
-                  const filtered = roleperms?.filter((role) => role.role.toLowerCase() === item.name.toLowerCase());
+                  const filtered = roleperms?.filter((role) => role.role.toLowerCase() === item.name.toLowerCase()).map((res:any) => res?.permission);
+                  if(filtered) {
+                    setPerms(perms?.map((perm: any) => {
+                      if(filtered.includes(perm?.name)) {
+                        return {
+                          ...perm,
+                          isPerm: true,
+                        };
+                      }
+                      return {...perm, isPerm:false};
+                      }))
+                  }
                 }}
               >
                 {item.name}
@@ -214,14 +232,16 @@ const Roles = () => {
               </thead>
               <tbody>
                 {perms?.length > 0 ? (
-                  perms?.map((perm, i) => (
+                  perms?.map((perm) => (
                     <tr key={perm.id}>
                       <td className="p-4 text-start border">{perm.name}</td>
                       <td className="p-4 text-start border">
                         <label className="inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
-                            value={i % 2 === 0 ? 1 : 0}
+                            disabled
+                            checked={perm.isPerm}
+                            value={perm.isPerm}
                             className="sr-only peer"
                           />
                           <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>

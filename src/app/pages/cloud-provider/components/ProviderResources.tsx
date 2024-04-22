@@ -13,6 +13,7 @@ import { MainTableComponent } from "../../../components/tableComponents/maincomp
 import DefaultContent from "../../../components/defaultContent/defaultContent";
 import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
 import RunPolicyModal from "../../policy/modals/RunPolicyModal";
+import AssetsModal from "./modal/AssetsModal";
 export class ProviderWithStatus implements IStatus {
   id: string = "";
   name: string = "";
@@ -42,8 +43,8 @@ const ProviderResources = () => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
-  const [totalPages, setTotalPages] = useState(0);
   const [showPolModal, setShowPolModal] = useState(false);
+  const [showAsset, setShowPolModalAsset] = useState(false);
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
@@ -55,10 +56,10 @@ const ProviderResources = () => {
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
+    { name: ACTIONS.VIEW, label: "Add Asset" },
     { name: ACTIONS.DELETE, label: "Run Policy" },
   ];
   const { data, isLoading, error } = useGetCloudProviderResourceTypes(page);
-    console.log('saaaaa', data)
   const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
     data;
 
@@ -130,6 +131,9 @@ const ProviderResources = () => {
     if (event.name === "2") {
       setShowPolModal(true);
     }
+    if (event.name === "3") {
+      setShowPolModalAsset(true);
+    }
   }
 
   return (
@@ -179,8 +183,6 @@ const ProviderResources = () => {
         />
 
       )}
-      {/* {!showEmpty && (
-      )} */}
       {showModal && (
         <ModalProviderResources
           editItem={editItems}
@@ -200,6 +202,14 @@ const ProviderResources = () => {
           state="cloud"
           handleHide={() => {
             setShowPolModal(false);
+          }}
+        />
+      )}
+      {showAsset && (
+        <AssetsModal
+          isOpen={showAsset}
+          handleHide={() => {
+            setShowPolModalAsset(false);
           }}
         />
       )}
