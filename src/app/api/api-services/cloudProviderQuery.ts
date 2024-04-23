@@ -1,14 +1,15 @@
 import {
-  CloudProviderApiCloudProviderCloudProviderResourceTypesUpdateRequest,
   CloudProviderResourceTypes,
   CloudProviderApiCloudProviderCloudProviderCreateRequest,
   CloudProviderApiCloudProviderCloudProviderUpdateRequest,
-  
 } from "../axios-client";
 import { cloudApi } from "./index";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-//CLOUD PROVIDER RESOURCE
+
+
+
+//CLOUD PROVIDER
 
 export const useGetCloudProviderResourceTypes = (page: number) => {
   const query = useQuery(["resource"], () =>
@@ -16,6 +17,93 @@ export const useGetCloudProviderResourceTypes = (page: number) => {
   );
   return query;
 };
+
+export const useCloudProviderCreate = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: CloudProviderApiCloudProviderCloudProviderCreateRequest) =>
+      cloudApi.cloudProviderCloudProviderCreate({ data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["resource"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+
+export const useUpdateCloudProviderResourceTypes = (id: number) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({
+      id,
+      data,
+    }: CloudProviderApiCloudProviderCloudProviderUpdateRequest) =>
+      cloudApi.cloudProviderResourceTypesUpdate({ id, data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["resource"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+//CLOUD PROVIDER SERVICE
+
+export const useGetCloudProviderServicesList = (page: number) => {
+  const query = useQuery(["service"], () =>
+    cloudApi.cloudProviderCloudProviderResourceTypesList({ page })
+  );
+  return query;
+};
+
+export const usePostCloudProviderServices = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    // (data: CloudProviderApiCloudProviderCloudProviderCreateRequest) =>
+    (data: any) => cloudApi.cloudProviderResourceTypesCreate({ data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["service"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+// export const useUpdateCloudProviderServices = (id: number) => {
+//   const queryClient = useQueryClient();
+
+//   const mutation = useMutation(
+//     ({
+//       id,
+//       data,
+//     }: // }: CloudProviderApiCloudProviderProviderServicesUpdateRequest) =>
+//     any) =>
+//       cloudApi.cloudProviderCloudProviderResourceTypesUpdate({ id, data }),
+//     {
+//       onSuccess: () => {
+//         queryClient.invalidateQueries(["services"]);
+//       },
+//     }
+//   );
+
+//   return mutation;
+// };
+
+// CLOUD PROVIDER RESOURCE
+
+export const useGetCloudProviderResourceList = (page: number) => {
+  const query = useQuery(["resource-list"], () =>
+    cloudApi.cloudProviderResourceTypesList({ page })
+  );
+  return query;
+};
+
 
 export const usePostCloudProviderResourceTypes = () => {
   const queryClient = useQueryClient();
@@ -31,66 +119,5 @@ export const usePostCloudProviderResourceTypes = () => {
   return mutation;
 };
 
-export const useUpdateCloudProviderResourceTypes = (id: number) => {
-  const queryClient = useQueryClient();
 
-  const mutation = useMutation(
-    ({
-      id,
-      data,
-    // }: CloudProviderApiCloudProviderProviderResourceTypesUpdateRequest) =>
-    }: any) =>
-      cloudApi.cloudProviderCloudProviderResourceTypesUpdate({ id, data }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["resource"]);
-      },
-    }
-  );
 
-  return mutation;
-};
-
-//CLOUD PROVIDER SERVICE
-
-export const useGetCloudProviderServicesList = (page: number) => {
-    const query = useQuery(["service"], () =>
-      cloudApi.cloudProviderCloudProviderResourceTypesList({ page })
-    );
-    return query;
-  };
-
-  export const usePostCloudProviderServices = () => {
-    const queryClient = useQueryClient();
-    const mutation = useMutation(
-      // (data: CloudProviderApiCloudProviderCloudProviderCreateRequest) =>
-      (data: any) =>
-        cloudApi.cloudProviderResourceTypesCreate({data}),
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries(["service"]);
-        },
-      }
-    );
-    return mutation;
-  };
-
-  export const useUpdateCloudProviderServices = (id: number) => {
-    const queryClient = useQueryClient();
-  
-    const mutation = useMutation(
-      ({
-        id,
-        data,
-      // }: CloudProviderApiCloudProviderProviderServicesUpdateRequest) =>
-      }: any) =>
-        cloudApi.cloudProviderCloudProviderResourceTypesUpdate({ id, data }),
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries(["services"]);
-        },
-      }
-    );
-  
-    return mutation;
-  };

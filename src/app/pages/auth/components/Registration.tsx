@@ -13,9 +13,10 @@ import {
   useAccountRegister,
   useGetAccountCustomTenant,
 } from "../../../api/api-services/accountQuery";
-import { AccountsApiCustomTenantsList200Response } from "../../../api/axios-client";
+import { AccountsApiTenantsList200Response } from "../../../api/axios-client";
 
 const initialValues = {
+  companyname: "",
   firstname: "",
   lastname: "",
   email: "",
@@ -30,6 +31,14 @@ const registrationSchema = Yup.object().shape({
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Company name is required"),
+  firstname: Yup.string()
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("First name is required"),
+  lastname: Yup.string()
+    .min(3, "Minimum 3 symbols")
+    .max(50, "Maximum 50 symbols")
+    .required("Last name is required"),
   // tenant: Yup.string()
   //   .min(1, "Minimum 3 symbols")
   //   .max(50, "Maximum 50 symbols")
@@ -64,13 +73,13 @@ const registrationSchema = Yup.object().shape({
 export function Registration() {
   const [loading, setLoading] = useState(false);
   const [active, setIsActive] = useState(true);
-  const allowedFileType = ["jpg", "png", "jpeg"];
-  const maxFileSize = 1050000;
-  const [fileList, setFileList] = useState<any[]>([]);
+  // const allowedFileType = ["jpg", "png", "jpeg"];
+  // const maxFileSize = 1050000;
+  // const [fileList, setFileList] = useState<any[]>([]);
   const [showAlert, setShowAlert] = useState(false);
   const [errMessage, setErrMessage] = useState("");
-  const [imageUrl, setImageUrl] = useState<string>();
-  const [listTenants, setListTenants] = useState<any[] | undefined>([]);
+  // const [imageUrl, setImageUrl] = useState<string>();
+  // const [listTenants, setListTenants] = useState<any[] | undefined>([]);
   const { saveAuth, setCurrentUser } = useAuth();
   const navigate = useNavigate();
   const {
@@ -80,11 +89,11 @@ export function Registration() {
   } = useGetAccountCustomTenant(1);
   const { mutate, isLoading } = useAccountRegister();
 
-  const datastsr: AccountsApiCustomTenantsList200Response | any = tenantData;
+  const datastsr: AccountsApiTenantsList200Response | any = tenantData;
 
-  useEffect(() => {
-    setListTenants(datastsr?.data?.data?.results);
-  }, [tenantData]);
+  // useEffect(() => {
+  //   setListTenants(datastsr?.data?.data?.results);
+  // }, [tenantData]);
 
   const formik = useFormik({
     initialValues,
@@ -126,110 +135,110 @@ export function Registration() {
     setIsActive(e.target.checked);
   };
 
-  function getBase64(rfile: any) {
-    return new Promise((resolved, rejected) => {
-      let file = rfile;
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      let b64 = "";
-      reader.onload = function () {
-        //  b64 = reader.result.toString().split(",")[1];
-        b64 = reader!.result!.toString();
-        resolved(b64);
-      };
+  // function getBase64(rfile: any) {
+  //   return new Promise((resolved, rejected) => {
+  //     let file = rfile;
+  //     let reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     let b64 = "";
+  //     reader.onload = function () {
+  //       //  b64 = reader.result.toString().split(",")[1];
+  //       b64 = reader!.result!.toString();
+  //       resolved(b64);
+  //     };
 
-      reader.onerror = function (error) {
-        console.log("Error: ", error);
-      };
-    });
-  }
-  function formatBytes(bytes: any, decimals = 2) {
-    if (bytes === 0 || bytes == null) return "0 Bytes";
+  //     reader.onerror = function (error) {
+  //       console.log("Error: ", error);
+  //     };
+  //   });
+  // }
+  // function formatBytes(bytes: any, decimals = 2) {
+  //   if (bytes === 0 || bytes == null) return "0 Bytes";
 
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  //   const k = 1024;
+  //   const dm = decimals < 0 ? 0 : decimals;
+  //   const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
+  //   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-  }
-  const props: UploadProps = {
-    name: "file",
-    multiple: false,
-    onRemove: (file: any) => {
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setImageUrl("");
-      setFileList(newFileList);
-    },
-    beforeUpload: (file: any) => {
-      const splitedName = file.name.split(".");
-      const fileExt = splitedName[splitedName.length - 1];
-      const fileSize = file.size;
-      if (allowedFileType.includes(fileExt.toLowerCase())) {
-        if (fileSize > maxFileSize) {
-          setErrMessage(
-            `Maximum file size allowed is ${formatBytes(maxFileSize)} - ${
-              file.name
-            }`
-          );
-          setShowAlert(true);
-          return Upload.LIST_IGNORE;
-        }
-      } else {
-        setErrMessage(
-          `${file.name} - Please Upload any of these file type: JPEG, PNG,JPEG`
-        );
-        setShowAlert(true);
-        return Upload.LIST_IGNORE;
-      }
-      getBase64(file).then((base64data: any) => {
-        setImageUrl(base64data);
-        // setValue("profile_image", base64data);
-      });
-      setFileList([...fileList, file]);
-      return false;
-    },
-    onDrop(e: any) {
-      let dataTrasferFiles = e.dataTransfer.files;
-      const file = dataTrasferFiles[0];
-      const splitedName = file.name.split(".");
-      const fileExt = splitedName[splitedName.length - 1];
-      const fileSize = file.size;
-      if (allowedFileType.includes(fileExt.toLowerCase())) {
-        if (fileSize > maxFileSize) {
-          setErrMessage(
-            `Maximum file size allowed is ${formatBytes(maxFileSize)} - ${
-              file.name
-            }`
-          );
-          setShowAlert(true);
-          return Upload.LIST_IGNORE;
-        }
-      } else {
-        setErrMessage(
-          `${file.name} - Please Upload any of these file type: JPEG, PNG,JPEG`
-        );
-        setShowAlert(true);
-        return Upload.LIST_IGNORE;
-      }
-      getBase64(file).then((base64data: any) => {
-        setImageUrl(base64data);
-        // setValue("profile_image", base64data);
-      });
-      setFileList([...fileList, file]);
-      return false;
-    },
-  };
+  //   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+  // }
+  // const props: UploadProps = {
+  //   name: "file",
+  //   multiple: false,
+  //   onRemove: (file: any) => {
+  //     const index = fileList.indexOf(file);
+  //     const newFileList = fileList.slice();
+  //     newFileList.splice(index, 1);
+  //     setImageUrl("");
+  //     setFileList(newFileList);
+  //   },
+  //   beforeUpload: (file: any) => {
+  //     const splitedName = file.name.split(".");
+  //     const fileExt = splitedName[splitedName.length - 1];
+  //     const fileSize = file.size;
+  //     if (allowedFileType.includes(fileExt.toLowerCase())) {
+  //       if (fileSize > maxFileSize) {
+  //         setErrMessage(
+  //           `Maximum file size allowed is ${formatBytes(maxFileSize)} - ${
+  //             file.name
+  //           }`
+  //         );
+  //         setShowAlert(true);
+  //         return Upload.LIST_IGNORE;
+  //       }
+  //     } else {
+  //       setErrMessage(
+  //         `${file.name} - Please Upload any of these file type: JPEG, PNG,JPEG`
+  //       );
+  //       setShowAlert(true);
+  //       return Upload.LIST_IGNORE;
+  //     }
+  //     getBase64(file).then((base64data: any) => {
+  //       setImageUrl(base64data);
+  //       // setValue("profile_image", base64data);
+  //     });
+  //     setFileList([...fileList, file]);
+  //     return false;
+  //   },
+  //   onDrop(e: any) {
+  //     let dataTrasferFiles = e.dataTransfer.files;
+  //     const file = dataTrasferFiles[0];
+  //     const splitedName = file.name.split(".");
+  //     const fileExt = splitedName[splitedName.length - 1];
+  //     const fileSize = file.size;
+  //     if (allowedFileType.includes(fileExt.toLowerCase())) {
+  //       if (fileSize > maxFileSize) {
+  //         setErrMessage(
+  //           `Maximum file size allowed is ${formatBytes(maxFileSize)} - ${
+  //             file.name
+  //           }`
+  //         );
+  //         setShowAlert(true);
+  //         return Upload.LIST_IGNORE;
+  //       }
+  //     } else {
+  //       setErrMessage(
+  //         `${file.name} - Please Upload any of these file type: JPEG, PNG,JPEG`
+  //       );
+  //       setShowAlert(true);
+  //       return Upload.LIST_IGNORE;
+  //     }
+  //     getBase64(file).then((base64data: any) => {
+  //       setImageUrl(base64data);
+  //       // setValue("profile_image", base64data);
+  //     });
+  //     setFileList([...fileList, file]);
+  //     return false;
+  //   },
+  // };
 
-  const uploadButton = (
-    <div className="">
-      <PlusOutlined color="white"/>
-      <div style={{ marginTop: 8, color:"white" }}>Upload</div>
-    </div>
-  );
+  // const uploadButton = (
+  //   <div className="">
+  //     <PlusOutlined color="white"/>
+  //     <div style={{ marginTop: 8, color:"white" }}>Upload</div>
+  //   </div>
+  // );
 
   return (
     <div className="grid md:grid-cols-3 md:w-[80%] mr-60 md:gap-20 mt-20">
@@ -292,6 +301,36 @@ export function Registration() {
               placeholder="Company name"
               type="text"
               autoComplete="off"
+              {...formik.getFieldProps("companyname")}
+              className={clsx(
+                "form-control bg-transparent",
+                {
+                  "is-invalid":
+                    formik.touched.companyname && formik.errors.companyname,
+                },
+                {
+                  "is-valid":
+                    formik.touched.companyname && !formik.errors.companyname,
+                }
+              )}
+            />
+            {formik.touched.companyname && formik.errors.companyname && (
+              <div className="fv-plugins-message-container">
+                <div className="fv-help-block">
+                  <span role="alert">{formik.errors.companyname}</span>
+                </div>
+              </div>
+            )}
+          </div>
+          {/* end::Form group */}
+          <div className="fv-row mb-8 col-sm">
+            <label className="form-label fw-bolder text-gray-900 fs-6">
+              Admin First Name
+            </label>
+            <input
+              placeholder="First Name"
+              type="text"
+              autoComplete="off"
               {...formik.getFieldProps("firstname")}
               className={clsx(
                 "form-control bg-transparent",
@@ -313,10 +352,11 @@ export function Registration() {
               </div>
             )}
           </div>
-          {/* end::Form group */}
-          {/* <div className="fv-row mb-8 col-sm">
+        </div>
+        <div className="row">
+          <div className="fv-row mb-8 col-sm">
             <label className="form-label fw-bolder text-gray-900 fs-6">
-              Last name
+              Admin Last name
             </label>
             <input
               placeholder="Last name"
@@ -342,10 +382,10 @@ export function Registration() {
                 </div>
               </div>
             )}
-          </div> */}
+          </div>
           <div className="fv-row mb-8 col-sm">
             <label className="form-label fw-bolder text-gray-900 fs-6">
-              Email
+              Admin Email
             </label>
             <input
               placeholder="Email"
@@ -512,7 +552,7 @@ export function Registration() {
         </div>
 
         {/* begin::Form group */}
-        <div className="row">
+        {/* <div className="row">
           <div className="fv-row mb-8 col-sm flex gap-3 items-center">
             <label className="form-label fw-bolder text-gray-900 fs-6">
               Company Logo
@@ -531,37 +571,32 @@ export function Registration() {
               )}
             </Upload>
           </div>
-          <div className="fv-row mb-8 col-sm">
-            <div></div>{" "}
-            <Link to="/auth/login" className="col">
-              <button
-                type="button"
-                id="kt_login_signup_form_cancel_button"
-                className="btn btn-lg btn-light-primary mr-6 w-30"
-              >
-                Cancel
-              </button>
-            </Link>
-            <button
-              type="submit"
-              id="kt_sign_up_submit"
-              className="btn btn-lg btn-primary col w-30"
-              disabled={
-                formik.isSubmitting || !formik.isValid || !formik.values.role
-              }
-            >
-              {!loading && <span className="indicator-label">Submit</span>}
-              {loading && (
-                <span
-                  className="indicator-progress"
-                  style={{ display: "block" }}
-                >
-                  Please wait...{" "}
-                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-              )}
-            </button>
-          </div>
+        </div> */}
+        <div className="row gap-6">
+          <button
+            type="button"
+            id="kt_login_signup_form_cancel_button"
+            className="btn btn-lg btn-light-primary w-50"
+            onClick={() => navigate("/auth/login")}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            id="kt_sign_up_submit"
+            className="btn btn-lg btn-primary col"
+            disabled={
+              formik.isSubmitting || !formik.isValid || !formik.values.role
+            }
+          >
+            {!loading && <span className="indicator-label">Submit</span>}
+            {loading && (
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            )}
+          </button>
         </div>
 
         <Alert

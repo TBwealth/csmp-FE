@@ -10,7 +10,7 @@ import { UsersListLoading } from "../../../../modules/apps/user-management/users
 import { AddTenantModal } from "./modals/ModalTenant";
 import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { AccountsApiCustomTenantsList200Response } from "../../../../api/axios-client";
+import { AccountsApiTenantsList200Response } from "../../../../api/axios-client";
 import TableComponent from "../../../../components/TableComponent";
 import {
   ACTIONS,
@@ -77,7 +77,7 @@ const Tenant = () => {
 
   const { data, isLoading, error } = useGetAccountTenant(page);
 
-  const datastsr: AccountsApiCustomTenantsList200Response | any = data;
+  const datastsr: AccountsApiTenantsList200Response | any = data;
 
   useEffect(() => {
     setItems(

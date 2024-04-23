@@ -14,20 +14,20 @@ const SidebarMenuMain = () => {
         title={intl.formatMessage({ id: "MENU.DASHBOARD" })}
         fontIcon="bi-app-indicator"
       />
-         {/* <SidebarMenuItem
+      {/* <SidebarMenuItem
         to="/builder"
         icon="switch"
         title="Layout Builder"
         fontIcon="bi-layers"
       /> */}
-         <div className="menu-item">
+      <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
             Main
           </span>
         </div>
       </div>
-   
+
       <SidebarMenuItemWithSub
         to="/tickets/tickets"
         title="Tickets"
@@ -44,23 +44,19 @@ const SidebarMenuMain = () => {
           title="Ticket Activities"
           hasBullet={true}
         ></SidebarMenuItem>
-     <SidebarMenuItem
+        <SidebarMenuItem
           to="/tickets/tenant-tickets"
           title="Tenant Ticket"
           hasBullet={true}
         ></SidebarMenuItem>
       </SidebarMenuItemWithSub>
+      <SidebarMenuItem to="/assets/assets-list" title="Assets" hasBullet={true}></SidebarMenuItem>
       <SidebarMenuItem
-          to=""
-          title="Assets"
-          hasBullet={true}
+        to=""
+        title="Assets Assessment"
+        hasBullet={true}
       ></SidebarMenuItem>
-        <SidebarMenuItem
-          to=""
-          title="Assets Assessment"
-          hasBullet={true}
-      ></SidebarMenuItem>
-      
+
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
@@ -101,7 +97,7 @@ const SidebarMenuMain = () => {
           title="All Users"
           hasBullet={true}
         ></SidebarMenuItem>
-        
+
         <SidebarMenuItem
           to="/account-manager/account/tenants"
           title="Tenants"
@@ -116,7 +112,7 @@ const SidebarMenuMain = () => {
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-           Account & Settings
+            Account & Settings
           </span>
         </div>
       </div>
@@ -126,25 +122,23 @@ const SidebarMenuMain = () => {
         title="Policy"
         fontIcon="bi-app-indicator"
       />
-       
-      <SidebarMenuItem
-          to="/"
-          title="Cloud Region"
-          hasBullet={true}
-        ></SidebarMenuItem>
-      <SidebarMenuItem
-          to="/cloud-provider/cloud/provider-resource"
-          title="Cloud Providers"
-          hasBullet={true}
-        ></SidebarMenuItem>
 
       <SidebarMenuItem
-          to="tickets/ticket-types"
-          title="Setup Ticket Types"
-          hasBullet={true}
-        ></SidebarMenuItem>
+        to="/"
+        title="Cloud Region"
+        hasBullet={true}
+      ></SidebarMenuItem>
+      <SidebarMenuItem
+        to="/cloud-provider/cloud/provider-resource"
+        title="Cloud Providers"
+        hasBullet={true}
+      ></SidebarMenuItem>
 
-
+      <SidebarMenuItem
+        to="tickets/ticket-types"
+        title="Setup Ticket Types"
+        hasBullet={true}
+      ></SidebarMenuItem>
 
       {/* COMMENT OUT EVERYTHING BELOW WHEN YOU FINISH USING IT */}
 

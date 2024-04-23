@@ -1,7 +1,6 @@
 import {
   Policy,
   PolicyApiPolicyPoliciesUpdateRequest,
-  PolicyApiPolicyPolicyRulesUpdateRequest,
   PolicyApiPolicyRulesUpdateRequest,
   Rule,
 } from "../axios-client";
