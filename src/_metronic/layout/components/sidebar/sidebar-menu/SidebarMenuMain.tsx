@@ -14,36 +14,34 @@ const SidebarMenuMain = () => {
         title={intl.formatMessage({ id: "MENU.DASHBOARD" })}
         fontIcon="bi-app-indicator"
       />
-         {/* <SidebarMenuItem
+      {/* <SidebarMenuItem
         to="/builder"
         icon="switch"
         title="Layout Builder"
         fontIcon="bi-layers"
       /> */}
-         <div className="menu-item">
+      <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
             Main
           </span>
         </div>
       </div>
+
    
       <SidebarMenuItem
+
           to="/tickets/tickets-list"
           title="Tasks"
           hasBullet={true}
         ></SidebarMenuItem>
+
       <SidebarMenuItem
-          to=""
-          title="Assets"
-          hasBullet={true}
+        to=""
+        title="Assets Assessment"
+        hasBullet={true}
       ></SidebarMenuItem>
-        <SidebarMenuItem
-          to=""
-          title="Assets Assessment"
-          hasBullet={true}
-      ></SidebarMenuItem>
-      
+
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
@@ -76,7 +74,7 @@ const SidebarMenuMain = () => {
           title="All Users"
           hasBullet={true}
         ></SidebarMenuItem>
-        
+
         <SidebarMenuItem
           to="/account-manager/account/tenants"
           title="Tenants"
@@ -91,7 +89,7 @@ const SidebarMenuMain = () => {
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-           Account & Settings
+            Account & Settings
           </span>
         </div>
       </div>
@@ -101,6 +99,7 @@ const SidebarMenuMain = () => {
         title="Policy"
         fontIcon="bi-app-indicator"
       />
+
        <SidebarMenuItem
           to="tickets/ticket-types"
           title="Setup Ticket Types"
@@ -117,9 +116,6 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         ></SidebarMenuItem>
      
-
-      
-
 
 
       {/* COMMENT OUT EVERYTHING BELOW WHEN YOU FINISH USING IT */}
