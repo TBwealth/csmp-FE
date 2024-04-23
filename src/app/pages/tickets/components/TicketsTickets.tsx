@@ -225,7 +225,7 @@ const TicketsTickets = () => {
     <div>
       <ComponentsheaderComponent
         backbuttonClick={() => {}}
-        pageName="Tickets"
+        pageName="Tasks"
         requiredButton={topActionButtons}
         buttonClick={(e) => {
           modal(e);
@@ -233,7 +233,7 @@ const TicketsTickets = () => {
       />
       {showEmpty ? (
         <DefaultContent
-          pageHeader="All Tickets"
+          pageHeader="All Tasks"
           pageDescription="No record found"
           loading={isLoading}
           buttonValue="Refresh"
@@ -251,7 +251,7 @@ const TicketsTickets = () => {
           totalItems={totalItems}
           currentTablePage={currentPage}
           loading={isLoading}
-          InputFileName="All Tickets"
+          InputFileName="All "
           filterFields={filterFields}
           showCheckBox={true}
           bulkactionClicked={(e: any) => {}}
