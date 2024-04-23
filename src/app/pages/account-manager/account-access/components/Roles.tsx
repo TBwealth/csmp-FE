@@ -205,14 +205,20 @@ const Roles = () => {
                 {item.name}
               </button>
             ))}
+            <button
+            className="w-full text-primary text-center underline rounded-md p-3 mt-4 text-lg"
+            onClick={() => setShowModal(true)}
+          >
+            <i className="bi bi-plus text-lg fs-2 text-primary"></i>&nbsp;Add Role
+          </button>
           </div>
           <div className="md:col-span-3 relative ">
             <div className="w-full flex items-end justify-end gap-4">
               <button
-                className="w-fit bg-primary rounded-md p-3"
+                className="w-fit text-primary text-center underline rounded-md p-3 text-lg"
                 onClick={() => setShowPermModal(true)}
               >
-                Add Permissions
+               <i className="bi bi-plus fs-2 text-primary"></i>&nbsp; Add Permissions
               </button>
               <div className="md:w-[30%]">
                 <input
@@ -255,12 +261,7 @@ const Roles = () => {
               </tbody>
             </table>
           </div>
-          <button
-            className="w-24 bg-primary rounded-md p-3"
-            onClick={() => setShowModal(true)}
-          >
-            Add Role
-          </button>
+          
         </div>
       )}
       {/* {!showEmpty && (

@@ -28,28 +28,11 @@ const SidebarMenuMain = () => {
         </div>
       </div>
    
-      <SidebarMenuItemWithSub
-        to="/tickets/tickets"
-        title="Tickets"
-        icon="cheque"
-        fontIcon="bi-person"
-      >
-        <SidebarMenuItem
+      <SidebarMenuItem
           to="/tickets/tickets-list"
-          title="Tickets"
+          title="Tasks"
           hasBullet={true}
         ></SidebarMenuItem>
-        <SidebarMenuItem
-          to="/tickets/ticket-activities"
-          title="Ticket Activities"
-          hasBullet={true}
-        ></SidebarMenuItem>
-     <SidebarMenuItem
-          to="/tickets/tenant-tickets"
-          title="Tenant Ticket"
-          hasBullet={true}
-        ></SidebarMenuItem>
-      </SidebarMenuItemWithSub>
       <SidebarMenuItem
           to=""
           title="Assets"
@@ -74,21 +57,13 @@ const SidebarMenuMain = () => {
         fontIcon="bi-archive"
         icon="element-plus"
       >
-        <SidebarMenuItem
-          to="/account-manager/account/permissions"
-          title="Permissions"
-          hasBullet={true}
-        ></SidebarMenuItem>
-        <SidebarMenuItem
+      
+       <SidebarMenuItem
           to="/account-manager/account/roles"
-          title="Roles"
+          title="Roles and Permission"
           hasBullet={true}
         ></SidebarMenuItem>
-        <SidebarMenuItem
-          to="/account-manager/account/role-permissions"
-          title="Role Permissions"
-          hasBullet={true}
-        ></SidebarMenuItem>
+     
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
         to="/account-manager/users"
@@ -126,23 +101,24 @@ const SidebarMenuMain = () => {
         title="Policy"
         fontIcon="bi-app-indicator"
       />
-       
+       <SidebarMenuItem
+          to="tickets/ticket-types"
+          title="Setup Ticket Types"
+          hasBullet={true}
+      ></SidebarMenuItem>
+       <SidebarMenuItem
+          to="/cloud-provider/cloud/provider-resource"
+          title="Cloud Providers"
+          hasBullet={true}
+        ></SidebarMenuItem>
       <SidebarMenuItem
           to="/"
           title="Cloud Region"
           hasBullet={true}
         ></SidebarMenuItem>
-      <SidebarMenuItem
-          to="/cloud-provider/cloud/provider-resource"
-          title="Cloud Providers"
-          hasBullet={true}
-        ></SidebarMenuItem>
+     
 
-      <SidebarMenuItem
-          to="tickets/ticket-types"
-          title="Setup Ticket Types"
-          hasBullet={true}
-        ></SidebarMenuItem>
+      
 
 
 
