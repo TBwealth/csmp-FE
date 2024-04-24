@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetCloudProviderServicesList,
   useAddResourceToProvider,
+  useGetCloudProviderResourceList,
 } from "../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../components/useAlert";
 import { CloudProviderCloudProviderList200Response } from "../../../api/axios-client";
@@ -65,7 +66,7 @@ const ProviderServices = () => {
     { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
-    // { name: ACTIONS.EDIT, label: "Edit" },
+    { name: ACTIONS.EDIT, label: "Edit" },
     {
       name: ACTIONS.DEACTIVATE,
       label: "Deactivate",
@@ -104,17 +105,20 @@ const ProviderServices = () => {
     },
   ];
   const { data, isLoading, error } = useGetCloudProviderServicesList(page);
+  const { data: provResource } = useGetCloudProviderResourceList(+id!);
 
   const datastsr: CloudProviderCloudProviderList200Response | any = data;
+  const provresource: CloudProviderCloudProviderList200Response | any =
+    provResource;
 
   const { mutate } = useAddResourceToProvider();
 
-  const handleAddResourceToProvider = (resource_id: number) => {
+  const handleAddResourceToProvider = (resource_id: any) => {
     mutate(
       {
         data: {
           cloud_provider_id: +id!,
-          resource_types__id: [resource_id],
+          resource_types__id: resource_id,
         },
       },
       {
@@ -128,15 +132,6 @@ const ProviderServices = () => {
 
   useEffect(() => {
     if (datastsr) {
-      const mapped = datastsr?.data?.data?.results
-        .map((res: any) => {
-          return {
-            ...res,
-            isDefault: false,
-          };
-        })
-        .map((x: any) => new ResourceWithStatus(x));
-      setItems(mapped);
       setshowEmpty(
         datastsr?.data?.data?.results
           ? datastsr?.data?.data?.results?.length === 0
@@ -151,7 +146,26 @@ const ProviderServices = () => {
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
-  }, [data, error]);
+
+    if (provResource && datastsr) {
+      const mapped = provresource?.data?.data?.resource_type.map(
+        (res: any) => res?.name
+      );
+      const trans = datastsr?.data?.data?.results.map((res: any) => {
+        if (mapped.includes(res?.name)) {
+          return {
+            ...res,
+            isDefault: true,
+          };
+        }
+        return {
+          ...res,
+          isDefault: false,
+        };
+      });
+      setItems(() => trans.map((x: any) => new ResourceWithStatus(x)));
+    }
+  }, [data, error, provResource]);
 
   const topActionButtons = [
     {
@@ -183,7 +197,14 @@ const ProviderServices = () => {
       setShowModal(true);
     }
     if (event.name === "6") {
-      handleAddResourceToProvider(event?.data?.id);
+      if(!event.data?.isDefault) {
+        const allIds = items.filter((item) => item?.isDefault).map((it) => it.id);
+        handleAddResourceToProvider([...allIds, event?.data?.id]);
+      } else {
+        const allIds = provresource?.data?.data.resource_type.filter((item: any) => item?.id !== event?.data?.id).map((it: any) => it.id);
+        handleAddResourceToProvider(allIds);
+      }
+      
     }
   }
 

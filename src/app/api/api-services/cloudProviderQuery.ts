@@ -114,7 +114,7 @@ export const useAddResourceToProvider = () => {
 
 export const useGetCloudProviderResourceList = (id: number) => {
   const query = useQuery(["resource-list"], () =>
-    cloudApi.cloudProviderResourceTypesRead({ id })
+    cloudApi.cloudProviderCloudProviderResourceTypesRead({ id })
   );
   return query;
 };
