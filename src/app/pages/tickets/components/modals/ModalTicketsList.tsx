@@ -4,15 +4,22 @@ import {
   useGetTickets,
   useUpdateTickets,
   useCreateTickets,
-  useGetTicketsTypes
+  useGetTicketsTypes,
 } from "../../../../api/api-services/ticketQuery";
 import {
   useGetAccountUsers,
+  useGetAccountTenant,
 } from "../../../../api/api-services/accountQuery";
+import { useGetAssets } from "../../../../api/api-services/systemQuery";
 import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
-import { AccountsApiUsersList200Response, TicketsTicketTypesList200Response } from "../../../../api/axios-client";
-import { opendirSync } from "fs";
+import {
+  AccountsApiTenantsList200Response,
+  AccountsApiUsersList200Response,
+  SystemSettingsAssetManagementsList200Response,
+  TicketsTicketTypesList200Response,
+} from "../../../../api/axios-client";
+import axios from "axios";
 
 const ModalTicketsList = ({
   editItem,
@@ -22,21 +29,23 @@ const ModalTicketsList = ({
 }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
-
+  const [token, setToken] = useState("");
   const [tickets, setTickets] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [assignedToValue, setAssignedToValue] = useState<any>(null);
   const [valueId, setValueId] = useState("");
   const [nameValue, setNameValue] = useState("");
-  const [assetValue, setAssetValue] = useState(0);
+  const [assetValue, setAssetValue] = useState<any>(null);
   const [createdByValue, setCreatedByValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
-  const [tenant, setTenantValue] = useState("");
   const [ticketType, setTicketType] = useState<any>(null);
   const [codeValue, setCodeValue] = useState("");
-  const [statusValue, setStatusValue] = useState("open");
+  const [statusValue, setStatusValue] = useState("");
   const [subjectValue, setSubjectValue] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
+  const [listTenants, setListTenants] = useState<any[]>([]);
+  const [ticketAssets, setTicketAssets] = useState<any[]>([]);
+  const [authUser, setAuthUser] = useState<any>(null);
 
   // const {
   //   data: allTickets,
@@ -45,27 +54,50 @@ const ModalTicketsList = ({
   // } = useGetTickets(page);
   // console.log("daaaaa", allTickets);
 
-  const {
-    data: ticketTypes
-  } = useGetTicketsTypes(page);
+  const { data: ticketTypes } = useGetTicketsTypes(page);
+  const { data: tenantData } = useGetAccountTenant(1);
+  const { data: assets } = useGetAssets(1);
 
-  const { data:userData } = useGetAccountUsers(page);
+  const { data: userData } = useGetAccountUsers(page);
   const userstsr: AccountsApiUsersList200Response | any = userData;
-
-  
+  const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
+  const assetstsr: SystemSettingsAssetManagementsList200Response | any = assets;
   const { mutate, isLoading, error } = useCreateTickets();
   const {
     mutate: editMutate,
     isLoading: editLoading,
     error: editError,
   } = useUpdateTickets(+valueId);
-  
+
   const datastsr: TicketsTicketTypesList200Response | any = ticketTypes;
   // console.log(datastsr);
+  const handleFetchTenantUsers = (val: string) => {
+    const filtered = userstsr?.data?.data?.results.filter(
+      (user: any) => user?.tenant === val
+    );
+    setUsers(filtered);
+  };
+
+  useEffect(() => {
+    const localToken = localStorage.getItem("token");
+    const localuser = localStorage.getItem("user");
+    setToken(localToken!);
+    if (localuser) {
+      const parsedUser = JSON.parse(localuser);
+      setAuthUser(parsedUser);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (authUser?.role?.name.toLowerCase() === "tenant") {
+      handleFetchTenantUsers(authUser?.role?.name);
+    }
+  }, [authUser, userstsr]);
 
   useEffect(() => {
     setTickets(datastsr?.data?.data?.results);
-    setUsers(userstsr?.data?.data?.results);
+    setListTenants(tenantstsr?.data?.data?.results);
+    setTicketAssets(assetstsr?.data?.data?.results);
     if (editItem) {
       // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
@@ -76,7 +108,6 @@ const ModalTicketsList = ({
       setAssetValue(editItem?.asset);
       setCreatedByValue(editItem?.created_by);
       setDescriptionValue(editItem?.description);
-      setTenantValue(editItem?.tenant);
       setTicketType(editItem?.ticket_type);
       setSubjectValue(editItem?.subject);
     } else {
@@ -87,12 +118,11 @@ const ModalTicketsList = ({
       setAssetValue(0);
       setCreatedByValue("");
       setDescriptionValue("");
-      setTenantValue("");
       setTicketType(0);
       setSubjectValue("");
       handleClose();
     }
-  }, [ticketTypes, editItem, userstsr]);
+  }, [ticketTypes, editItem, tenantstsr, assetstsr]);
 
   const handleClose = () => {
     // setIsOpen(false);
@@ -108,17 +138,10 @@ const ModalTicketsList = ({
       {
         assigned_to: assignedToValue,
         code: codeValue,
-        status: statusValue === "open" ? "true" : "false",
-        asset: {
-          code: editItem?.asset_code ?? "",
-          description: editItem?.asset_description ?? "",
-          name: editItem?.asset_name ?? "",
-          id: editItem?.asset_id ?? "",
-        },
-        created_by: createdByValue,
+        status: statusValue,
+        asset: assetValue,
         description: descriptionValue,
         subject: subjectValue,
-        tenant: tenant,
         ticket_type: ticketType,
       },
       {
@@ -132,7 +155,6 @@ const ModalTicketsList = ({
           setCreatedByValue("");
           setDescriptionValue("");
           setSubjectValue("");
-          setTenantValue("");
           setTicketType(0);
         },
 
@@ -153,18 +175,16 @@ const ModalTicketsList = ({
         data: {
           assigned_to: assignedToValue,
           code: codeValue,
-          status: statusValue === "open" ? "true" : "false",
+          status: statusValue,
           asset: {
             code: editItem?.asset_code ?? "",
             description: editItem?.asset_description ?? "",
             name: editItem?.asset_name ?? "",
             id: editItem?.asset_id ?? "",
           },
-          created_by: createdByValue,
-        description: descriptionValue,
-        subject: subjectValue,
-        tenant: tenant,
-        ticket_type: ticketType,
+          description: descriptionValue,
+          subject: subjectValue,
+          ticket_type: ticketType,
         },
       },
       {
@@ -179,7 +199,6 @@ const ModalTicketsList = ({
           setCreatedByValue("");
           setDescriptionValue("");
           setSubjectValue("");
-          setTenantValue("");
           setTicketType(0);
         },
         onError: (err) => {
@@ -207,45 +226,88 @@ const ModalTicketsList = ({
         <Modal.Body>
           <div className="grid md:grid-cols-2 gap-3">
             <div className="">
-              <label className="form-label fs-6 fw-bold">Asset:</label>
-              <input
-                placeholder="Asset Name"
-                type="text"
-                name="Asset"
-                autoComplete="off"
+              <label className="form-label fs-6 fw-bold">Ticket Type:</label>
+              <select
+                name="ticket_type"
+                id="ticket_type"
                 className="form-control bg-transparent"
-                value={assetValue}
-                onChange={(e) => setAssetValue(parseInt(e.target.value))}
-              />
+                onChange={(e) => {
+                  const selected = tickets.filter(
+                    (ticket) => ticket?.id === +e.target.value
+                  );
+                  setTicketType(selected[0]);
+                }}
+              >
+                <option value="">Select Type</option>
+                {tickets?.map((data: any) => (
+                  <option value={data.id} key={data.name}>
+                    {data.name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="">
+              <label className="form-label fs-6 fw-bold">Asset:</label>
+              <select
+                name="assets"
+                id="assets"
+                value={assetValue?.id}
+                className="form-control bg-transparent"
+                onChange={(e) => {
+                  const selected = ticketAssets.filter(
+                    (tick) => tick.id === +e.target.value
+                  );
+                  setAssetValue(selected[0]);
+                }}
+              >
+                <option value="">Select Assets</option>
+                {ticketAssets?.map((data: any) => (
+                  <option key={data?.id} value={data?.id}>
+                    {data?.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {authUser?.role.name.toLowerCase() != "tenant" && (
+              <div className="">
+                <label className="form-label fs-6 fw-bold">Tenant:</label>
+                <select
+                  name="tenant"
+                  id="tenant"
+                  className="form-control bg-transparent"
+                  onChange={(e) => handleFetchTenantUsers(e.target.value)}
+                >
+                  <option value="">Select Tenant</option>
+                  {listTenants?.map((data: any) => (
+                    <option key={data?.id} value={data?.tenant_name}>
+                      {data?.tenant_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <div className="">
               <label className="form-label fs-6 fw-bold">Assigned To:</label>
-              <select 
-              name="assigned_to" 
-              id="assigned_to" 
-              className="form-control bg-transparent"
-              onChange={(e) => {
-                const selected = users.filter((user) => user?.id === +e.target.value);
-                console.log(selected[0]);
-                setAssignedToValue(selected[0]);
-              }}
+              <select
+                name="assigned_to"
+                id="assigned_to"
+                className="form-control bg-transparent"
+                onChange={(e) => {
+                  const selected = users.filter(
+                    (user) => user?.id === +e.target.value
+                  );
+                  setAssignedToValue(selected[0]);
+                }}
               >
                 <option value="">Select User</option>
-                {
-                  users?.map((data: any) => <option value={data.id} key={`${data.first_name}_${data.last_name}`}>{`${data.first_name} ${data.last_name}`}</option>)
-                }
+                {users?.map((data: any) => (
+                  <option
+                    value={data.id}
+                    key={`${data.first_name}_${data.last_name}`}
+                  >{`${data.first_name} ${data.last_name}`}</option>
+                ))}
               </select>
-              {/* <input
-                placeholder=" "
-                type="text"
-                name="assignedTo"
-                autoComplete="off"
-                className="form-control bg-transparent"
-                value={assignedToValue}
-                onChange={(e) => setAssignedToValue(parseInt(e.target.value))}
-              /> */}
             </div>
-
             <div className="">
               <label className="form-label fs-6 fw-bold">Code:</label>
               <input
@@ -256,30 +318,6 @@ const ModalTicketsList = ({
                 className="form-control bg-transparent"
                 value={codeValue}
                 onChange={(e) => setCodeValue(e.target.value)}
-              />
-            </div>
-            <div className="">
-              <label className="form-label fs-6 fw-bold">Created By:</label>
-              <input
-                placeholder=""
-                type="text"
-                name="createdBy"
-                autoComplete="off"
-                className="form-control bg-transparent"
-                value={createdByValue}
-                onChange={(e) => setCreatedByValue(e.target.value)}
-              />
-            </div>
-            <div className="">
-              <label className="form-label fs-6 fw-bold">Description:</label>
-              <input
-                placeholder=""
-                type="text"
-                name="description"
-                autoComplete="off"
-                className="form-control bg-transparent"
-                value={descriptionValue}
-                onChange={(e) => setDescriptionValue(e.target.value)}
               />
             </div>
             <div className="">
@@ -294,55 +332,34 @@ const ModalTicketsList = ({
                 onChange={(e) => setSubjectValue(e.target.value)}
               />
             </div>
-            <div className="">
-              <label className="form-label fs-6 fw-bold">Tenant:</label>
-              <input
-                placeholder=""
-                type="text"
-                name="text"
-                autoComplete="off"
-                className="form-control bg-transparent"
-                value={tenant}
-                onChange={(e) => setTenantValue(e.target.value)}
-              />
-            </div>
-            <div className="">
-              <label className="form-label fs-6 fw-bold">Ticket Type:</label>
-              <select 
-              name="ticket_type" 
-              id="ticket_type" 
-              className="form-control bg-transparent"
-              onChange={(e) => {
-                const selected = tickets.filter((ticket) => ticket?.id === +e.target.value);
-                setTicketType(selected[0]);
-              }}
-              >
-                <option value="">Select Type</option>
-                {
-                  tickets?.map((data: any) => <option value={data.id} key={data.name}>{data.name}</option>)
-                }
-              </select>
-              {/* <input
-                placeholder=""
-                type="text"
-                name="text"
-                autoComplete="off"
-                className="form-control bg-transparent"
-                value={ticketType}
-                onChange={(e) => setTicketType(parseInt(e.target.value))}
-              /> */}
-            </div>
             <div>
               <label className="form-label fs-6 fw-bold">Status:</label>
-              <input
-                className="form-check-input w-15px h-15px mx-1 mt-1"
-                type="checkbox"
-                id="flexSwitchCheckChecked"
-                checked={statusValue === "open"}
-                onChange={(e) =>
-                  setStatusValue(e.target.checked ? "open" : "close")
-                }
-              />
+              <select
+                name="tenant"
+                id="tenant"
+                className="form-control bg-transparent"
+                value={statusValue}
+                onChange={(e) => setStatusValue(e.target.value)}
+              >
+                <option value="">Select Status</option>
+                {["Open", "Closed", "Pending"].map((data: any) => (
+                  <option key={data} value={data}>
+                    {data}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-span-2">
+              <label className="form-label fs-6 fw-bold">Description:</label>
+              <textarea
+                name="desc"
+                id="desc"
+                cols={30}
+                className="form-control bg-transparent"
+                rows={3}
+                value={descriptionValue}
+                onChange={(e) => setDescriptionValue(e.target.value)}
+              ></textarea>
             </div>
           </div>
         </Modal.Body>
@@ -355,10 +372,14 @@ const ModalTicketsList = ({
             type="button"
             className="btn btn-primary"
             disabled={
-              codeValue === "" ||
-              descriptionValue === "" ||
-              subjectValue === "" ||
-              tenant === ""
+              !codeValue  ||
+              !descriptionValue ||
+              !subjectValue ||
+              !statusValue ||
+              !ticketType?.name ||
+              !assignedToValue?.first_name ||
+              !assetValue?.name
+              
             }
             onClick={editItem ? editHandleSubmit : handleSubmit}
           >

@@ -17,9 +17,9 @@ import { ComponentsheaderComponent } from "../../components/componentsheader/com
 
 const Assets = () => {
   const [items, setItems] = useState<any[]>([]);
-  const { showAlert, hideAlert } = useAlert(); 
-  const [showModal, setShowModal] = useState(false); 
-  const [showEmpty, setshowEmpty] = useState(false); 
+  const { showAlert, hideAlert } = useAlert();
+  const [showModal, setShowModal] = useState(false);
+  const [showEmpty, setshowEmpty] = useState(false);
   const [action, setAction] = useState("");
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
@@ -155,16 +155,14 @@ const Assets = () => {
         />
       )}
 
-      {
-        showModal && (
-            < AssetModal
-                isOpen = {showModal}
-                editItem={editItems}
-                handleHide = {() => setShowModal(false)}
-                action = {action}
-            />
-        )
-      }
+      {showModal && (
+        <AssetModal
+          isOpen={showModal}
+          editItem={editItems}
+          handleHide={() => setShowModal(false)}
+          action={action}
+        />
+      )}
     </div>
   );
 };

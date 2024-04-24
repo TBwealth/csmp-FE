@@ -97,9 +97,9 @@ export const usePostCloudProviderServices = () => {
 
 // CLOUD PROVIDER RESOURCE
 
-export const useGetCloudProviderResourceList = (page: number) => {
+export const useGetCloudProviderResourceList = (id: number) => {
   const query = useQuery(["resource-list"], () =>
-    cloudApi.cloudProviderResourceTypesList({ page })
+    cloudApi.cloudProviderResourceTypesRead({ id })
   );
   return query;
 };

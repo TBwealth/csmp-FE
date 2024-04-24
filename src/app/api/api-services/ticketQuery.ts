@@ -142,3 +142,8 @@ export const useUpdateTicketActivities = (id: number) => {
   
     return mutation;
   };
+
+  export const useGetSingleTicketActivity = (id: number) => {
+      const query = useQuery(["activity-id"], () => ticketApi.ticketsTicketActivitiesRead({id}));
+      return query;
+  }

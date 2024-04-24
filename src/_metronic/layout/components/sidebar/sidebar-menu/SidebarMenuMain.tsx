@@ -70,21 +70,21 @@ const SidebarMenuMain = () => {
         fontIcon="bi-archive"
         icon="element-plus"
       >
-        <SidebarMenuItem
+        {/* <SidebarMenuItem
           to="/account-manager/account/permissions"
           title="Permissions"
           hasBullet={true}
-        ></SidebarMenuItem>
+        ></SidebarMenuItem> */}
         <SidebarMenuItem
           to="/account-manager/account/roles"
           title="Roles"
           hasBullet={true}
         ></SidebarMenuItem>
-        <SidebarMenuItem
+        {/* <SidebarMenuItem
           to="/account-manager/account/role-permissions"
           title="Role Permissions"
           hasBullet={true}
-        ></SidebarMenuItem>
+        ></SidebarMenuItem> */}
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
         to="/account-manager/users"
