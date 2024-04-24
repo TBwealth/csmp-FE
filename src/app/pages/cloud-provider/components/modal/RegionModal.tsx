@@ -53,11 +53,12 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
             longitude: "",
             name: "",
           });
+          console.log(res);
           handleHide();
         },
-        onError: () => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknow error occurred", "danger");
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknow error occurred", "danger");
           }
         },
       }
@@ -80,9 +81,9 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
           });
           handleHide();
         },
-        onError: () => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknow error occurred", "danger");
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknow error occurred", "danger");
           }
         },
       }
