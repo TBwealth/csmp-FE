@@ -2,6 +2,7 @@ import {
   Policy,
   PolicyApiPolicyPoliciesUpdateRequest,
   PolicyApiPolicyRulesUpdateRequest,
+  PolicyApiPolicyUpdatePolicyRuleUpdateRequest,
   Rule,
 } from "../axios-client";
 import { policyApi } from "./index";
@@ -69,8 +70,8 @@ export const useUpdateSinglePolicyRules = (id: number) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({id, data}: PolicyApiPolicyRulesUpdateRequest) =>
-      policyApi.policyRulesUpdate({id, data}),
+    ({ id, data }: PolicyApiPolicyRulesUpdateRequest) =>
+      policyApi.policyRulesUpdate({ id, data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["policy_rules"]);
@@ -78,5 +79,24 @@ export const useUpdateSinglePolicyRules = (id: number) => {
     }
   );
 
+  return mutation;
+};
+
+export const useGetRulesList = (page: number) => {
+  const query = useQuery(["rules"], () => policyApi.policyRulesList({ page }));
+  return query;
+};
+
+export const useAddPolicyRule = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: PolicyApiPolicyUpdatePolicyRuleUpdateRequest) =>
+      policyApi.policyUpdatePolicyRuleUpdate({ ...data }),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["rules"]);
+      },
+    }
+  );
   return mutation;
 };

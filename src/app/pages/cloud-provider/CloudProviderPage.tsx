@@ -46,7 +46,7 @@ const CloudProviderPage: React.FC = () => {
         />
 
         <Route
-          path="provider-service"
+          path="resource/:id"
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
@@ -68,7 +68,7 @@ const CloudProviderPage: React.FC = () => {
           }
         />
 
-        <Route index element={<Navigate to="clouder-provider/cloud" />} />
+        <Route index element={<Navigate to="clouder-provider/cloud/provider-resource" />} />
       </Route>
     </Routes>
   );

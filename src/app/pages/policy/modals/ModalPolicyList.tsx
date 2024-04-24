@@ -186,8 +186,8 @@ const ModalPolicyList = ({ editItem, onClearEdit, isOpen, handleHide }: any) => 
                   {editItem ? "Edit" : "Continue"}
                 </span>
               )}
-              {isLoading ||
-                (editLoading && (
+              {(isLoading ||
+               editLoading) && (
                   <span
                     className="indicator-progress"
                     style={{ display: "block" }}
@@ -195,7 +195,7 @@ const ModalPolicyList = ({ editItem, onClearEdit, isOpen, handleHide }: any) => 
                     Please wait...{" "}
                     <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                   </span>
-                ))}
+              )}
             </button>
           </Modal.Footer>
         </Modal>

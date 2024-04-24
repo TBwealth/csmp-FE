@@ -128,13 +128,13 @@ const ModalTicketsList = ({
       setSubjectValue(editItem?.subject);
     } else {
       setValueId("");
-      setAssignedToValue(0);
+      setAssignedToValue(null);
       setCodeValue("");
       setStatusValue("open");
-      setAssetValue(0);
+      setAssetValue(null);
       setCreatedByValue("");
       setDescriptionValue("");
-      setTicketType(0);
+      setTicketType(null);
       setSubjectValue("");
       handleClose();
     }
@@ -150,13 +150,13 @@ const ModalTicketsList = ({
   const handleSubmit = () => {
     mutate(
       {
-        assigned_to: assignedToValue,
+        assigned_to: { id: assignedToValue?.id },
         code: codeValue,
-        status: statusValue,
-        asset: assetValue,
+        status: statusValue.toUpperCase(),
+        asset: { id: assetValue?.id },
         description: descriptionValue,
         subject: subjectValue,
-        ticket_type: ticketType,
+        ticket_type: { id: ticketType?.id },
         // date_joined: new Date()
       },
       {
@@ -186,18 +186,15 @@ const ModalTicketsList = ({
       {
         id: valueId,
         data: {
-          assigned_to: assignedToValue,
+          assigned_to: { id: assignedToValue?.id },
           code: codeValue,
-          status: statusValue,
+          status: statusValue.toUpperCase(),
           asset: {
-            code: editItem?.asset_code ?? "",
-            description: editItem?.asset_description ?? "",
-            name: editItem?.asset_name ?? "",
             id: editItem?.asset_id ?? "",
           },
           description: descriptionValue,
           subject: subjectValue,
-          ticket_type: ticketType,
+          ticket_type: { id: ticketType?.id },
         },
       },
       {
@@ -400,7 +397,7 @@ const ModalTicketsList = ({
                 {editItem ? "Edit" : "Continue"}
               </span>
             )}
-            {isLoading || editLoading && (
+            {(isLoading || editLoading) && (
                 <span
                   className="indicator-progress"
                   style={{ display: "block" }}
@@ -408,7 +405,7 @@ const ModalTicketsList = ({
                   Please wait...{" "}
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
-              )}
+            )}
           </button>
         </Modal.Footer>
       </Modal>

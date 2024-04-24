@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Content } from "../../../../_metronic/layout/components/content";
 import { useGetCloudProviderResourceTypes } from "../../../api/api-services/cloudProviderQuery";
 import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
@@ -49,6 +50,7 @@ const ProviderResources = () => {
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const navigate = useNavigate();
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
   const filterFields: TableColumn[] = [
@@ -56,7 +58,7 @@ const ProviderResources = () => {
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.VIEW, label: "Add Asset" },
+    { name: ACTIONS.VIEW, label: "Add Resource" },
     { name: ACTIONS.DELETE, label: "Run Policy" },
   ];
   const { data, isLoading, error } = useGetCloudProviderResourceTypes(page);
@@ -132,7 +134,8 @@ const ProviderResources = () => {
       setShowPolModal(true);
     }
     if (event.name === "3") {
-      setShowPolModalAsset(true);
+      navigate(`/cloud-provider/cloud/resource/${event?.data?.id}`);
+      // setShowPolModalAsset(true);
     }
   }
 

@@ -27,7 +27,7 @@ export class TicketWithStatus implements IStatus {
   assigned_to_email: string = "";
   status: boolean = false;
   
-    constructor(tenant: any) {
+    constructor(ticket: any) {
         this.id = ticket.id;
         this.ticket_type_id = ticket.ticket_type_id;
         this.ticket_type_name = ticket.ticket_type_name;

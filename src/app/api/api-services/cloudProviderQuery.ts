@@ -2,6 +2,8 @@ import {
   CloudProviderResourceTypes,
   CloudProviderApiCloudProviderCloudProviderCreateRequest,
   CloudProviderApiCloudProviderCloudProviderUpdateRequest,
+  CloudProviderApiCloudProviderResourceTypesUpdateRequest,
+  CloudProviderApiCloudProviderUpdateCloudResourceUpdateRequest
 } from "../axios-client";
 import { cloudApi } from "./index";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -56,7 +58,7 @@ export const useUpdateCloudProviderResourceTypes = (id: number) => {
 
 export const useGetCloudProviderServicesList = (page: number) => {
   const query = useQuery(["service"], () =>
-    cloudApi.cloudProviderCloudProviderResourceTypesList({ page })
+    cloudApi.cloudProviderResourceTypesList({ page })
   );
   return query;
 };
@@ -75,15 +77,14 @@ export const usePostCloudProviderServices = () => {
   return mutation;
 };
 
-export const useUpdateCloudProviderServices = (id: number) => {
+export const useUpdateCloudProviderServices = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
     ({
       id,
       data,
-    }: // }: CloudProviderApiCloudProviderProviderServicesUpdateRequest) =>
-    any) =>
+    }: CloudProviderApiCloudProviderResourceTypesUpdateRequest) =>
       cloudApi.cloudProviderResourceTypesUpdate({ id, data }),
     {
       onSuccess: () => {
@@ -94,6 +95,20 @@ export const useUpdateCloudProviderServices = (id: number) => {
 
   return mutation;
 };
+
+export const useAddResourceToProvider = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    // (data: CloudProviderApiCloudProviderCloudProviderCreateRequest) =>
+    (data: CloudProviderApiCloudProviderUpdateCloudResourceUpdateRequest) => cloudApi.cloudProviderUpdateCloudResourceUpdate({ ...data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["service"]);
+      },
+    }
+  );
+  return mutation;
+}
 
 // CLOUD PROVIDER RESOURCE
 
