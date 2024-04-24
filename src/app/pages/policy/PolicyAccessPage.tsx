@@ -24,7 +24,6 @@ const PolicyAccessPage: React.FC = () => {
       <Route
         element={
           <>
-            {/* <PolicyAccessHeader /> */}
             <Outlet />
           </>
         }

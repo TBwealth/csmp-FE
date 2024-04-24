@@ -1,11 +1,8 @@
 import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
-import RolePermission from "./components/RolePermission";
-import Permissions from "./components/Permissions";
 import Roles from "./components/Roles";
 import AccountManagerHeader from "./AccountAccessHeader";
-import Tenant from "./components/Tenant";
 
 const accountManagerBreadCrumbs: Array<PageLink> = [
   {
@@ -34,17 +31,6 @@ const AccountManagerPage: React.FC = () => {
         }
       >
         <Route
-          path="permissions"
-          element={
-            <>
-              <PageTitle breadcrumbs={accountManagerBreadCrumbs}>
-                Permissions
-              </PageTitle>
-              <Permissions />
-            </>
-          }
-        />
-        <Route
           path="roles"
           element={
             <>
@@ -55,28 +41,8 @@ const AccountManagerPage: React.FC = () => {
             </>
           }
         />
-        <Route
-          path="role-permissions"
-          element={
-            <>
-              <PageTitle breadcrumbs={accountManagerBreadCrumbs}>
-                Role Permissions
-              </PageTitle>
-              <RolePermission />
-            </>
-          }
-        />
-        <Route
-          path="tenants"
-          element={
-            <>
-              {/* <PageTitle breadcrumbs={accountManagerBreadCrumbs}>
-                Tenants
-              </PageTitle> */}
-              <Tenant />
-            </>
-          }
-        />
+        
+       
         <Route index element={<Navigate to="/account-manager/account" />} />
       </Route>
     </Routes>

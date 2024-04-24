@@ -11,7 +11,7 @@ import {
   TableActionEvent,
   TableColumn,
 } from "../../components/models";
-import ModalPolicyList from "./modals/ModalPolicyList";
+import ModalPolicyList from "./modals/RuleModal";
 import RunPolicyModal from "./modals/RunPolicyModal";
 import {
   IStatus,

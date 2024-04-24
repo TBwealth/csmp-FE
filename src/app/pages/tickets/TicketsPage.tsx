@@ -1,11 +1,9 @@
 import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
-import TicketsHeader from "./TicketsHeader";
 import TicketsTickets from "./components/TicketsTickets";
 import TicketsActivities from "./components/TicketActivities";
 import TicketTypes from "./components/TicketTypes";
-import TenantTickets from "./components/TenantTickets";
 
 const ticketsBreadCrumbs: Array<PageLink> = [
   {
@@ -28,7 +26,6 @@ const TicketsPage: React.FC = () => {
       <Route
         element={
           <>
-            {/* <TicketsHeader /> */}
             <Outlet />
           </>
         }
@@ -67,19 +64,6 @@ const TicketsPage: React.FC = () => {
             </>
           }
         />
-
-        <Route
-          path="tenant-tickets"
-          element={
-            <>
-              <PageTitle breadcrumbs={ticketsBreadCrumbs}>
-                Tenant Tickets
-              </PageTitle>
-              <TenantTickets/>
-            </>
-          }
-        />
-        
 
     <Route index element={<Navigate to="/tickets" />} />
 

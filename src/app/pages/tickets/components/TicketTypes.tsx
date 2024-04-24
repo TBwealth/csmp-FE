@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import { Content } from "../../../../_metronic/layout/components/content";
 import { useGetTicketsTypes} from "../../../api/api-services/ticketQuery";
-import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
-import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
 import { TicketsTicketTypesList200Response } from "../../../api/axios-client";
 import { ModalTicketTypes } from "./modals/ModalTicketTypes";
-import TableComponent from "../../../components/TableComponent";
 import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../components/models";
 import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
@@ -108,11 +103,6 @@ const TicketTypes = () => {
   const filteredItems = items?.filter((item) =>
     item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  console.log('fillllllll', filteredItems)
-
-  const handleSearchChange = (event: any) => {
-    setSearchTerm(event.target.value);
-  };
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add Ticket Type", icon: "plus", outline: false },

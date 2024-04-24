@@ -14,7 +14,6 @@ import { MainTableComponent } from "../../../components/tableComponents/maincomp
 import DefaultContent from "../../../components/defaultContent/defaultContent";
 import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
 import RunPolicyModal from "../../policy/modals/RunPolicyModal";
-import AssetsModal from "./modal/AssetsModal";
 export class ProviderWithStatus implements IStatus {
   id: string = "";
   name: string = "";
@@ -208,14 +207,7 @@ const ProviderResources = () => {
           }}
         />
       )}
-      {showAsset && (
-        <AssetsModal
-          isOpen={showAsset}
-          handleHide={() => {
-            setShowPolModalAsset(false);
-          }}
-        />
-      )}
+      
       {/* <Content>
         <KTCardBody className="py-4">
           <div

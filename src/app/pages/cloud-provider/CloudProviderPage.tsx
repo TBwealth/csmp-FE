@@ -1,8 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
-import CloudProviderHeader from "./CloudProviderHeader";
-import Resources from "./components/ProviderResources";
 import ProviderResources from "./components/ProviderResources";
 import ProviderServices from "./components/ProviderServices";
 import CloudRegion from "./components/CloudRegion";
@@ -28,7 +26,6 @@ const CloudProviderPage: React.FC = () => {
       <Route
         element={
           <>
-            {/* <CloudProviderHeader /> */}
             <Outlet />
           </>
         }

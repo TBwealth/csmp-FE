@@ -7,12 +7,10 @@ import {
  } from "../../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
-import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../../api/axios-client";
 
 
 const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
   const [page, setPage] = useState(1);
-  const [services, setServices] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
   const [nameValue, setNameValue] = useState("");
   const [codeValue, setCodeValue] = useState("");
@@ -32,10 +30,7 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
     error: editError,
   } = useUpdateCloudProviderServices();
 
-  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any = allServices;
-
   useEffect(() => {
-    setServices(datastsr?.data?.data?.results);
     if (editItem) {
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
@@ -47,9 +42,8 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
       setNameValue("");
       setCodeValue("");
       setStatusValue(true);
-      // handleClose();
     }
-  }, [allServices, editItem]);
+  }, [editItem]);
 
   // const handleClose = () => {
   //   hideAlert();

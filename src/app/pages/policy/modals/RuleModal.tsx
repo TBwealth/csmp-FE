@@ -5,10 +5,10 @@ import { Modal } from "react-bootstrap";
 import {
     PolicyPoliciesList200Response
 } from "../../../api/axios-client"
-import { useCreatePolicies, useGetPolicies, useUpdatePolicies } from "../../../api/api-services/policyQuery";
+import { useRuleCreate, useGetPolicies, useRuleUpdate } from "../../../api/api-services/policyQuery";
 
 
-const ModalPolicyList = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     // const [isOpen, setIsOpen] = useState(false);
     const [page, setPage] = useState(1);
     const [policies, setPolicies] = useState<any[] | undefined>([]);
@@ -25,12 +25,12 @@ const ModalPolicyList = ({ editItem, onClearEdit, isOpen, handleHide }: any) => 
     error: serviceError
   } = useGetPolicies(page);
 
-  const {mutate, isLoading, error } = useCreatePolicies();
+  const {mutate, isLoading, error } = useRuleCreate();
   const {
     mutate:editMutate,
     isLoading: editLoading,
     error: editError
-  } = useUpdatePolicies(+valueId);
+  } = useRuleUpdate();
 
   const datastsr: PolicyPoliciesList200Response | any = allPolicies;
   useEffect(() => {
@@ -128,7 +128,7 @@ const ModalPolicyList = ({ editItem, onClearEdit, isOpen, handleHide }: any) => 
         >
           <Modal.Header closeButton>
             <Modal.Title>
-              {editItem ? "Edit Policy" : "Create New Policy"}
+              {editItem ? "Edit Rule" : "Create New Rule"}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -203,4 +203,4 @@ const ModalPolicyList = ({ editItem, onClearEdit, isOpen, handleHide }: any) => 
   )
 }
 
-export default ModalPolicyList
+export default RuleModal

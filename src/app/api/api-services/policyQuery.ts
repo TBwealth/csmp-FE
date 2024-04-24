@@ -1,6 +1,7 @@
 import {
   Policy,
   PolicyApiPolicyPoliciesUpdateRequest,
+  PolicyApiPolicyRulesCreateRequest,
   PolicyApiPolicyRulesUpdateRequest,
   PolicyApiPolicyUpdatePolicyRuleUpdateRequest,
   Rule,
@@ -87,6 +88,35 @@ export const useGetRulesList = (page: number) => {
   return query;
 };
 
+export const useRuleCreate = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: Rule) => policyApi.policyRulesCreate({ data }),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["rules"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useRuleUpdate = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    ({ id, data }: PolicyApiPolicyRulesUpdateRequest) =>
+      policyApi.policyRulesUpdate({id, data}), {
+        onSuccess: (res) => {
+          console.log(res);
+          queryClient.invalidateQueries(["rules"]);
+        }
+      }
+  );
+
+  return mutation;
+};
+
 export const useAddPolicyRule = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
@@ -95,6 +125,7 @@ export const useAddPolicyRule = () => {
     {
       onSuccess: (res) => {
         queryClient.invalidateQueries(["rules"]);
+        console.log(res);
       },
     }
   );

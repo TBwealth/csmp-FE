@@ -1,7 +1,6 @@
 import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
-import UsersHeader from "./UsersHeader";
 import AllUsers from "./components/AllUsers";
 import UserLogs from "./components/UserLogs";
 import Profile from "./components/Profile";
@@ -27,7 +26,6 @@ const AccountManagerPage: React.FC = () => {
       <Route
         element={
           <div>
-            {/* <UsersHeader /> */}
             <Outlet />
           </div>
         }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { useGetCloudProviderResourceTypes } from "../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../components/useAlert";
 import { useGetPolicies } from "../../../api/api-services/policyQuery";

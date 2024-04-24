@@ -20,6 +20,7 @@ import {
   IStatus,
   MyColor,
 } from "../../components/tableComponents/status/status";
+import RuleModal from "./modals/RuleModal";
 
 export class RulesWithStatus implements IStatus {
   id: string = "";
@@ -106,6 +107,11 @@ const PolicyRule = () => {
         })
         .map((x: any) => new RulesWithStatus(x));
       setItems(mapped);
+      setshowEmpty(
+        datastsr?.data?.data?.results
+          ? datastsr?.data?.data?.results.length === 0
+          : true
+      );
       setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
     }
     hideAlert();
@@ -114,8 +120,7 @@ const PolicyRule = () => {
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
-  }, [datastsr, error]);
-  console.log(data);
+  }, [data, error]);
   const tableColumns: TableColumn[] = [
     {
       name: "id",
@@ -171,7 +176,6 @@ const PolicyRule = () => {
     }
   }
 
-  
   return (
     <div className="">
       <ComponentsheaderComponent
@@ -180,43 +184,56 @@ const PolicyRule = () => {
         pageName="Rules"
         requiredButton={topActionButtons}
         buttonClick={(e) => {
-          //   modal(e);
+          modal(e);
         }}
       />
 
-      {isLoading ? (
-        <DefaultContent
-          pageHeader="Rule"
-          pageDescription="No record found"
-          loading={isLoading}
-          buttonValue="Refresh"
-          buttonClick={() => refreshrecord()}
-        />
-      ) : (
-        <MainTableComponent
-          filterChange={(e: any) => filterUpdated(e)}
-          showActions={true}
-          showFilter={true}
-          actionClick={(e: any) => tableActionClicked(e)}
-          actions={tableActions}
-          userData={items}
-          tableColum={tableColumns}
-          totalItems={totalPages}
-          currentTablePage={currentPage}
-          loading={isLoading}
-          InputFileName="All Rules"
-          filterFields={filterFields}
-          showCheckBox={true}
-          bulkactionClicked={(e: any) => {}}
-          Bulkactions={[]}
-          showBulkAction={true}
-          actionChecked={() => {}}
-          actionBulkChecked={() => {}}
-          pageChange={() => {}}
-          dateRangeChanged={() => {}}
-          toggleColumnsEvent={() => {}}
-          toggleCustomFilter={() => {}}
-          sortOptionSelected={() => {}}
+      <div className="mt-20">
+        {showEmpty ? (
+          <DefaultContent
+            pageHeader="Rules"
+            pageDescription="No record found"
+            loading={isLoading}
+            buttonValue="Refresh"
+            buttonClick={() => refreshrecord()}
+          />
+        ) : (
+          <MainTableComponent
+            filterChange={(e: any) => filterUpdated(e)}
+            showActions={true}
+            showFilter={true}
+            actionClick={(e: any) => tableActionClicked(e)}
+            actions={tableActions}
+            userData={items}
+            tableColum={tableColumns}
+            totalItems={totalPages}
+            currentTablePage={currentPage}
+            loading={isLoading}
+            InputFileName="All Rules"
+            filterFields={filterFields}
+            showCheckBox={true}
+            bulkactionClicked={(e: any) => {}}
+            Bulkactions={[]}
+            showBulkAction={true}
+            actionChecked={() => {}}
+            actionBulkChecked={() => {}}
+            pageChange={() => {}}
+            dateRangeChanged={() => {}}
+            toggleColumnsEvent={() => {}}
+            toggleCustomFilter={() => {}}
+            sortOptionSelected={() => {}}
+          />
+        )}
+      </div>
+
+      {showModal && (
+        <RuleModal
+          editItem={editItems}
+          isOpen={showModal}
+          handleHide={() => {
+            setShowModal(false);
+            setEditItems(null);
+          }}
         />
       )}
     </div>
