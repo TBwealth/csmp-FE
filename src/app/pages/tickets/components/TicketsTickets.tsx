@@ -30,6 +30,7 @@ export class TicketWithStatus implements IStatus {
   description: string = "";
   code: string = "";
   subject: string = "";
+  asset_id: string = "";
   asset_code: string = "";
   asset_name: string = "";
   asset_description: string = "";
@@ -51,6 +52,7 @@ export class TicketWithStatus implements IStatus {
     this.description = ticket.description;
     this.subject = ticket.subject;
     this.status = ticket.status;
+    this.asset_id = ticket.asset_id;
     this.asset_code = ticket.asset_code;
     this.asset_name = ticket.asset_code;
     this.asset_description = ticket.asset_description;
@@ -96,6 +98,11 @@ const TicketsTickets = () => {
     // { name: ACTIONS.DELETE, label: "Delete" },
   ];
   const tableColumns: TableColumn[] = [
+    {
+      name: "asset_id",
+      title: "Asset ID",
+      type: ColumnTypes.Text,
+    },
     {
       name: "asset_name",
       title: "Asset",

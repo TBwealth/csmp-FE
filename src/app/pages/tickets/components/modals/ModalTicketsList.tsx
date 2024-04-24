@@ -28,6 +28,7 @@ const ModalTicketsList = ({
   handleHide,
 }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
+  console.log(editItem);
   const [page, setPage] = useState(1);
   const [token, setToken] = useState("");
   const [tickets, setTickets] = useState<any[]>([]);
@@ -102,13 +103,28 @@ const ModalTicketsList = ({
       // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
-      setAssignedToValue(editItem?.assigned_to);
+      setAssignedToValue({
+        first_name: editItem?.assigned_to_first_name,
+        last_name: editItem?.assigned_to_last_name,
+        id: editItem?.assigned_to_id,
+        email: editItem?.assigned_to_email,
+      });
       setCodeValue(editItem?.code);
       setStatusValue(editItem?.status);
-      setAssetValue(editItem?.asset);
+      setAssetValue({
+        name: editItem?.asset_name,
+        description: editItem?.asset_description,
+        code: editItem?.asset_code,
+        id: editItem?.asset_id,
+      });
       setCreatedByValue(editItem?.created_by);
       setDescriptionValue(editItem?.description);
-      setTicketType(editItem?.ticket_type);
+      setTicketType({
+        name: editItem?.ticket_type_name,
+        id: editItem?.ticket_type_id,
+        code: editItem?.ticket_type_code,
+        status: editItem?.ticket_type_status,
+      });
       setSubjectValue(editItem?.subject);
     } else {
       setValueId("");
@@ -131,8 +147,6 @@ const ModalTicketsList = ({
     onClearEdit();
   };
 
-  console.log(users);
-
   const handleSubmit = () => {
     mutate(
       {
@@ -143,25 +157,24 @@ const ModalTicketsList = ({
         description: descriptionValue,
         subject: subjectValue,
         ticket_type: ticketType,
+        // date_joined: new Date()
       },
       {
         onSuccess: (res) => {
           handleClose();
           console.log(res);
           // showAlert(res?.data?.message, "success");
-          setAssignedToValue(0);
+          setAssignedToValue(null);
           setCodeValue("");
-          setAssetValue(0);
-          setCreatedByValue("");
+          setAssetValue(null);
           setDescriptionValue("");
           setSubjectValue("");
-          setTicketType(0);
+          setTicketType(null);
+          setStatusValue("");
         },
-
         onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
-            // showAlert(err?.response?.data?.message, "danger");
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
           }
         },
       }
@@ -192,14 +205,13 @@ const ModalTicketsList = ({
           handleClose();
           console.log(res);
           // showAlert(res?.data?.message, "success");
-          setAssignedToValue(0);
+          setAssignedToValue(null);
           setCodeValue("");
-          setStatusValue("open");
-          setAssetValue(0);
-          setCreatedByValue("");
+          setAssetValue(null);
           setDescriptionValue("");
           setSubjectValue("");
-          setTicketType(0);
+          setTicketType(null);
+          setStatusValue("");
         },
         onError: (err) => {
           if (err instanceof Error) {
@@ -231,6 +243,7 @@ const ModalTicketsList = ({
                 name="ticket_type"
                 id="ticket_type"
                 className="form-control bg-transparent"
+                value={ticketType?.id}
                 onChange={(e) => {
                   const selected = tickets.filter(
                     (ticket) => ticket?.id === +e.target.value
@@ -372,14 +385,13 @@ const ModalTicketsList = ({
             type="button"
             className="btn btn-primary"
             disabled={
-              !codeValue  ||
+              !codeValue ||
               !descriptionValue ||
               !subjectValue ||
               !statusValue ||
               !ticketType?.name ||
               !assignedToValue?.first_name ||
               !assetValue?.name
-              
             }
             onClick={editItem ? editHandleSubmit : handleSubmit}
           >
@@ -388,8 +400,7 @@ const ModalTicketsList = ({
                 {editItem ? "Edit" : "Continue"}
               </span>
             )}
-            {isLoading ||
-              (editLoading && (
+            {isLoading || editLoading && (
                 <span
                   className="indicator-progress"
                   style={{ display: "block" }}
@@ -397,7 +408,7 @@ const ModalTicketsList = ({
                   Please wait...{" "}
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
-              ))}
+              )}
           </button>
         </Modal.Footer>
       </Modal>
