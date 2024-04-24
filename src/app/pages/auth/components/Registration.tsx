@@ -256,7 +256,7 @@ export function Registration() {
         </button>
       </div>
       <form
-        className="md:col-span-2 bg-lightDark rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border border-2"
+        className="md:col-span-2 bg-lightDark rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border"
         // style={{ backgroundColor: "white" }}
         noValidate
         id="kt_login_signup_form"

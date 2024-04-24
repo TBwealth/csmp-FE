@@ -119,11 +119,6 @@ const TicketsTickets = () => {
       type: ColumnTypes.Text,
     },
     {
-      name: "createdBy",
-      title: "Created By",
-      type: ColumnTypes.Text,
-    },
-    {
       name: "subject",
       title: "Subject",
       type: ColumnTypes.Text,

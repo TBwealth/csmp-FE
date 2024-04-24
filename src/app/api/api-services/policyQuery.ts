@@ -1,7 +1,9 @@
 import {
   Policy,
   PolicyApiPolicyPoliciesUpdateRequest,
+  PolicyApiPolicyRulesCreateRequest,
   PolicyApiPolicyRulesUpdateRequest,
+  PolicyApiPolicyUpdatePolicyRuleUpdateRequest,
   Rule,
 } from "../axios-client";
 import { policyApi } from "./index";
@@ -69,8 +71,8 @@ export const useUpdateSinglePolicyRules = (id: number) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({id, data}: PolicyApiPolicyRulesUpdateRequest) =>
-      policyApi.policyRulesUpdate({id, data}),
+    ({ id, data }: PolicyApiPolicyRulesUpdateRequest) =>
+      policyApi.policyRulesUpdate({ id, data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["policy_rules"]);
@@ -78,5 +80,54 @@ export const useUpdateSinglePolicyRules = (id: number) => {
     }
   );
 
+  return mutation;
+};
+
+export const useGetRulesList = (page: number) => {
+  const query = useQuery(["rules"], () => policyApi.policyRulesList({ page }));
+  return query;
+};
+
+export const useRuleCreate = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: Rule) => policyApi.policyRulesCreate({ data }),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["rules"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useRuleUpdate = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    ({ id, data }: PolicyApiPolicyRulesUpdateRequest) =>
+      policyApi.policyRulesUpdate({id, data}), {
+        onSuccess: (res) => {
+          console.log(res);
+          queryClient.invalidateQueries(["rules"]);
+        }
+      }
+  );
+
+  return mutation;
+};
+
+export const useAddPolicyRule = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: PolicyApiPolicyUpdatePolicyRuleUpdateRequest) =>
+      policyApi.policyUpdatePolicyRuleUpdate({ ...data }),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["rules"]);
+        console.log(res);
+      },
+    }
+  );
   return mutation;
 };

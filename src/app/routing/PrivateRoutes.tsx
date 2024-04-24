@@ -30,7 +30,6 @@ const PrivateRoutes = () => {
 
   const Policy = lazy(() => import("../pages/policy/PolicyWrapper"));
   const PolicyRule = lazy(() => import("../pages/policy/PolicyRule"));
-  const ActorsPage = lazy(() => import("../pages/system-actors/SystemActorsPage"));
   const AssetsPage = lazy(() => import("../pages/assets/AssetsPage"));
   
 
@@ -83,14 +82,6 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <AssetsPage />
-            </SuspensedView>
-          }
-        />
-        <Route
-          path="/actors/*"
-          element={
-            <SuspensedView>
-              <ActorsPage />
             </SuspensedView>
           }
         />

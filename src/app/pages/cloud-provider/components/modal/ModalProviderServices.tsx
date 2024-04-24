@@ -7,13 +7,10 @@ import {
  } from "../../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
-import { CloudProviderProviderServicesList200Response } from "../../../../api/axios-client";
 
 
-const ModalProviderServices = ({ editItem, onClearEdit }: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
   const [page, setPage] = useState(1);
-  const [services, setServices] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
   const [nameValue, setNameValue] = useState("");
   const [codeValue, setCodeValue] = useState("");
@@ -31,14 +28,10 @@ const ModalProviderServices = ({ editItem, onClearEdit }: any) => {
     mutate: editMutate,
     isLoading: editLoading,
     error: editError,
-  } = useUpdateCloudProviderServices(+valueId);
-
-  const datastsr: CloudProviderProviderServicesList200Response | any = allServices;
+  } = useUpdateCloudProviderServices();
 
   useEffect(() => {
-    setServices(datastsr?.data?.data?.results);
     if (editItem) {
-      setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
       setNameValue(editItem?.name);
@@ -49,16 +42,14 @@ const ModalProviderServices = ({ editItem, onClearEdit }: any) => {
       setNameValue("");
       setCodeValue("");
       setStatusValue(true);
-      handleClose();
     }
-  }, [allServices, editItem]);
+  }, [editItem]);
 
-  const handleClose = () => {
-    setIsOpen(false);
-    hideAlert();
-    setValueId("");
-    onClearEdit();
-  };
+  // const handleClose = () => {
+  //   hideAlert();
+  //   setValueId("");
+  //   onClearEdit();
+  // };
 
   const handleSubmit = () => {
     mutate(
@@ -69,7 +60,7 @@ const ModalProviderServices = ({ editItem, onClearEdit }: any) => {
       },
       {
         onSuccess: (res) => {
-          handleClose();
+          handleHide();
           console.log(res);
           // showAlert(res?.data?.message, "success");
           setNameValue("");
@@ -99,8 +90,7 @@ const ModalProviderServices = ({ editItem, onClearEdit }: any) => {
       },
       {
         onSuccess: (res) => {
-          handleClose();
-          console.log(res);
+          handleHide();
           // showAlert(res?.data?.message, "success");
           setNameValue("");
           setCodeValue("");
@@ -119,26 +109,15 @@ const ModalProviderServices = ({ editItem, onClearEdit }: any) => {
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary btn-sm"
-        onClick={() => {
-          setIsOpen(true), hideAlert();
-        }}
-      >
-        <KTIcon iconName="plus" className="fs-1" />
-        Add New
-      </button>
-
       <Modal
         show={isOpen}
-        onHide={handleClose}
+        onHide={handleHide}
         backdrop="static"
         keyboard={false}
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            {editItem ? "Edit Services" : "Create New Service"}
+            {editItem ? "Edit Resource" : "Create New Resource"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -180,7 +159,7 @@ const ModalProviderServices = ({ editItem, onClearEdit }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleClose}>
+          <button type="button" className="btn btn-light" onClick={handleHide}>
             Close
           </button>
           <button

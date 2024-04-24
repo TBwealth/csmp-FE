@@ -116,7 +116,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
                   setRegion({ ...region, cloud_provider: +e.target.value })
                 }
               >
-                <option value="">Select Tenant</option>
+                <option value="">Select Provider</option>
                 {listClouds?.map((item) => (
                   <option key={item?.id} value={item?.id}>
                     {item?.name}

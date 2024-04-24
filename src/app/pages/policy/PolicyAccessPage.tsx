@@ -1,12 +1,7 @@
 import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
-import PolicyAccessHeader from "./PolicyAccessHeader";
 import PolicyRule from "./PolicyRule";
-import RolePermission from "../account-manager/account-access/components/RolePermission";
-import Roles from "../account-manager/account-access/components/Roles";
-import Permissions from "../account-manager/account-access/components/Permissions";
-import Tenant from "../account-manager/account-access/components/Tenant";
 
 
 const policyBreadCrumbs: Array<PageLink> = [
@@ -29,7 +24,6 @@ const PolicyAccessPage: React.FC = () => {
       <Route
         element={
           <>
-            {/* <PolicyAccessHeader /> */}
             <Outlet />
           </>
         }
