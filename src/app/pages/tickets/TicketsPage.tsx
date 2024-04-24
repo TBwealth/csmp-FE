@@ -45,8 +45,8 @@ const TicketsPage: React.FC = () => {
           }
         />
         <Route
-          // path="ticket-activities/:id"
-          path="ticket-activities"
+          path="ticket-activities/:id"
+          // path="ticket-activities"
           element={
             <>
               <PageTitle breadcrumbs={ticketsBreadCrumbs}>

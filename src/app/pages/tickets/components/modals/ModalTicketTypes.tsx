@@ -79,8 +79,8 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
         },
 
         onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
             // showAlert(err?.response?.data?.message, "danger");
           }
         },
@@ -109,8 +109,8 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
         },
 
         onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
           }
           // showAlert(err?.response?.data?.message, "danger");
         },

@@ -98,7 +98,7 @@ export const useUpdateRegion = (id: number) => {
         systemApi.systemSettingsRegionsUpdate({id, data }),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["assets"]);
+          queryClient.invalidateQueries(["regions"]);
         },
       }
     );

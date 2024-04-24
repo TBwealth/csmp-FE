@@ -5,13 +5,15 @@ import {
   useGetRegions,
 } from "../../../api/api-services/systemQuery";
 import useAlert from "../../components/useAlert";
-import { useGetCloudProviderResourceTypes, useGetCloudProviderResourceList } from "../../../api/api-services/cloudProviderQuery";
+import axios from "axios";
+import {
+  useGetCloudProviderResourceTypes,
+} from "../../../api/api-services/cloudProviderQuery";
 import { Modal } from "react-bootstrap";
 import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
 import {
   AccountsApiTenantsList200Response,
   CloudProviderCloudProviderResourceTypesList200Response,
-  CloudProviderResourceTypesList200Response,
 } from "../../../api/axios-client";
 
 type Asset = {
@@ -27,6 +29,8 @@ type Asset = {
   region: number;
 };
 
+///cloud_provider/cloud_provider/{id}/
+
 const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
   const [asset, setAsset] = useState<Asset>({
     tenant: editItem?.tenant ?? 0,
@@ -37,25 +41,26 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
     description: editItem?.description ?? "",
     name: editItem?.name ?? "",
     resource_types: editItem?.resource_types ?? 0,
+    public_ip: editItem?.public_ip ?? "",
   });
+
+  const [token, setToken] = useState("");
   const [listTenants, setListTenants] = useState<any[]>([]);
   const [listRegions, setListRegions] = useState<any[]>([]);
   const [listClouds, setListClouds] = useState<any[]>([]);
   const [listResources, setListResources] = useState<any[]>([]);
   const { showAlert, hideAlert, Alert } = useAlert();
-  const {
-    data: tenantData,
-  } = useGetAccountTenant(1);
+  const { data: tenantData } = useGetAccountTenant(1);
 
   const { data: cloud } = useGetCloudProviderResourceTypes(1);
   const { data: regions } = useGetRegions(1);
-  const { data: resource } = useGetCloudProviderResourceList(1);
+
   const cloudstsr:
     | CloudProviderCloudProviderResourceTypesList200Response
     | any = cloud;
   const datastsr: AccountsApiTenantsList200Response | any = tenantData;
   const regionstsr: AccountsApiTenantsList200Response | any = regions;
-  const resourcestsr: CloudProviderResourceTypesList200Response | any = resource;
+
   const { mutate, isLoading, error } = useCreateAssets();
 
   const {
@@ -65,13 +70,15 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
   } = useUpdateAssets(editItem ? editItem?.id : 0);
 
   const handleSubmit = () => {
-    mutate({
+    mutate(
+      {
         data: {
-            ...asset
-        }
-    }, {
-      onSuccess: (res) => {
-        setAsset({
+          ...asset,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          setAsset({
             tenant: 0,
             region: 0,
             cloud_identifier: "",
@@ -81,20 +88,27 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
             name: "",
             resource_types: 0,
           });
-        handleHide();
-        showAlert("data created successfully", "success");
-      },
-      onError: () => {
-        if (error instanceof Error) {
-          showAlert(error?.message || "An unknow error occurred", "danger");
-        }
-      },
-    });
+          handleHide();
+          showAlert("data created successfully", "success");
+        },
+        onError: () => {
+          if (error instanceof Error) {
+            showAlert(error?.message || "An unknow error occurred", "danger");
+          }
+        },
+      }
+    );
   };
+
+  useEffect(() => {
+    const localToken = localStorage.getItem("token") ?? "";
+    console.log(localToken);
+    setToken(localToken);
+  }, []);
 
   const editHandleSubmit = () => {
     assetEdit(
-      {id: editItem?.id, data: {...asset}},
+      { id: editItem?.id, data: { ...asset } },
       {
         onSuccess: (res) => {
           setAsset({
@@ -124,13 +138,33 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
     );
   };
 
+  const handleFetchProviderResource = async (id: number) => {
+    try {
+      const res = await axios.get(
+        `https://cspm-api.midrapps.com/cloud_provider/cloud_provider_resource_types/${id ? id : 0}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (res?.status === 200) {
+        setListResources(res?.data?.data?.resource_type);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     setListTenants(datastsr?.data?.data?.results);
     setListClouds(cloudstsr?.data?.data?.results);
     setListRegions(regionstsr?.data?.data?.results);
-    setListResources(resourcestsr?.data?.data?.results);
-  }, [tenantData, cloud, regionstsr, resourcestsr]);
-  
+    if(cloudstsr) {
+        handleFetchProviderResource(editItem?.cloud_provider);
+    }
+  }, [tenantData, cloud, regionstsr]);
+
   return (
     <>
       <Modal
@@ -195,9 +229,10 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 className="form-select form-select-solid fw-bolder"
                 data-placeholder="Select option"
                 value={asset.cloud_provider}
-                onChange={(e) =>
-                  setAsset({ ...asset, cloud_provider: +e.target.value })
-                }
+                onChange={(e) => {
+                  handleFetchProviderResource(+e.target.value);
+                  setAsset({ ...asset, cloud_provider: +e.target.value });
+                }}
               >
                 <option value="">Select a Provider</option>
                 {listClouds?.map((item) => (

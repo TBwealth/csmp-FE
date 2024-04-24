@@ -9,7 +9,7 @@ import useAlert from "../../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 import { AccountsApiRolesList200Response } from "../../../../../api/axios-client";
 
-const ModalAllUser = ({  editItem, onClearEdit, isOpen, handleHide }: any) => {
+const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [roles, setRoles] = useState<any[] | undefined>([]);
@@ -109,78 +109,82 @@ const ModalAllUser = ({  editItem, onClearEdit, isOpen, handleHide }: any) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>{editItem ? "Edit this User" : "Create new User"}</Modal.Title>
+          <Modal.Title>
+            {editItem ? "Edit this User" : "Create new User"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">First Name:</label>
-            <input
-              placeholder="Enter First Name"
-              type="text"
-              name="text"
-              autoComplete="off"
-              className="form-control bg-transparent"
-              value={firstNameValue}
-              onChange={(e) => setFirstNameValue(e.target.value)}
-            />
-          </div>
-          <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">Last Name:</label>
-            <input
-              placeholder="Enter Last Name"
-              type="text"
-              name="text"
-              autoComplete="off"
-              className="form-control bg-transparent"
-              value={lastNameValue}
-              onChange={(e) => setLastNameValue(e.target.value)}
-            />
-          </div>
-          <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">Email:</label>
-            <input
-              placeholder="Enter Email"
-              type="text"
-              name="text"
-              autoComplete="off"
-              className="form-control bg-transparent"
-              value={emailValue}
-              onChange={(e) => setEmailValue(e.target.value)}
-            />
-          </div>
-          <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">Role:</label>
-            <select
-              className="form-select form-select-solid fw-bolder"
-              data-placeholder="Select option"
-              value={roleValue}
-              onChange={(e) => setRoleValue(e.target.value)}
-            >
-              <option value="">Select a Role</option>
-              {roles?.map((item) => (
-                <option key={item?.id} value={item?.name}>
-                  {item?.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">
-              Tenant: {tenantValue}
-            </label>
-            <select
-              className="form-select form-select-solid fw-bolder"
-              data-placeholder="Select option"
-              value={tenantValue}
-              onChange={(e) => setTenantValue(e.target.value)}
-            >
-              <option value="">Select a Tenant</option>
-              {tenant?.map((item) => (
-                <option key={item?.id} value={item?.name}>
-                  {item?.name}
-                </option>
-              ))}
-            </select>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="mb-10">
+              <label className="form-label fs-6 fw-bold">First Name:</label>
+              <input
+                placeholder="Enter First Name"
+                type="text"
+                name="text"
+                autoComplete="off"
+                className="form-control bg-transparent"
+                value={firstNameValue}
+                onChange={(e) => setFirstNameValue(e.target.value)}
+              />
+            </div>
+            <div className="mb-10">
+              <label className="form-label fs-6 fw-bold">Last Name:</label>
+              <input
+                placeholder="Enter Last Name"
+                type="text"
+                name="text"
+                autoComplete="off"
+                className="form-control bg-transparent"
+                value={lastNameValue}
+                onChange={(e) => setLastNameValue(e.target.value)}
+              />
+            </div>
+            <div className="mb-10">
+              <label className="form-label fs-6 fw-bold">Email:</label>
+              <input
+                placeholder="Enter Email"
+                type="text"
+                name="text"
+                autoComplete="off"
+                className="form-control bg-transparent"
+                value={emailValue}
+                onChange={(e) => setEmailValue(e.target.value)}
+              />
+            </div>
+            <div className="mb-10">
+              <label className="form-label fs-6 fw-bold">Role:</label>
+              <select
+                className="form-select form-select-solid fw-bolder"
+                data-placeholder="Select option"
+                value={roleValue}
+                onChange={(e) => setRoleValue(e.target.value)}
+              >
+                <option value="">Select a Role</option>
+                {roles?.map((item) => (
+                  <option key={item?.id} value={item?.name}>
+                    {item?.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-10">
+              <label className="form-label fs-6 fw-bold">
+                Tenant: {tenantValue}
+              </label>
+              <select
+                className="form-select form-select-solid fw-bolder"
+                data-placeholder="Select option"
+                value={tenantValue}
+                onChange={(e) => setTenantValue(e.target.value)}
+              >
+                <option value="">Select a Tenant</option>
+                {tenant?.map((item) => (
+                  <option key={item?.id} value={item?.tenant_name}>
+                    {item?.tenant_name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </Modal.Body>
         <Alert />

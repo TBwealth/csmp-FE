@@ -1,37 +1,36 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { MainTableComponent } from "../../components/tableComponents/maincomponent/maintable";
-import { useGetAssets } from "../../api/api-services/systemQuery";
+import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
 import {
-  ACTIONS,
-  ColumnTypes,
-  TableAction,
-  TableActionEvent,
-  TableColumn,
-} from "../../components/models";
-import DefaultContent from "../../components/defaultContent/defaultContent";
-import { SystemSettingsAssetManagementsList200Response } from "../../api/axios-client";
-import useAlert from "../components/useAlert";
-import AssetModal from "./modals/AssetModal";
-import { ComponentsheaderComponent } from "../../components/componentsheader/componentsheader.component";
+ useGetRegions,
+ useCreateRegion
+} from "../../../api/api-services/systemQuery";
+import {
+    ACTIONS,
+    ColumnTypes,
+    TableAction,
+    TableActionEvent,
+    TableColumn,
+  } from "../../../components/models";
+  import useAlert from "../../components/useAlert";
+  import RegionModal from "./modal/RegionModal";
+  import DefaultContent from "../../../components/defaultContent/defaultContent";
+  import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
+import { SystemSettingsRegionsList200Response } from "../../../api/axios-client";
 
-const Assets = () => {
-  const [items, setItems] = useState<any[]>([]);
+const CloudRegion = () => {
+    const [items, setItems] = useState<any[]>([]);
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState(false);
-  const [action, setAction] = useState("");
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
-  const navigate = useNavigate();
   const [editItems, setEditItems] = useState<any | undefined>();
-
   const filterFields: TableColumn[] = [
     { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.VIEW, label: "View" },
+    // { name: ACTIONS.VIEW, label: "View" },
   ];
   const tableColumns: TableColumn[] = [
     {
@@ -51,14 +50,18 @@ const Assets = () => {
     },
 
     {
-      name: "public_ip",
-      title: "Public IP",
+      name: "longitude",
+      title: "Longitude",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "latitude",
+      title: "Latitude",
       type: ColumnTypes.Text,
     },
   ];
-
-  const { data, isLoading, error } = useGetAssets(1);
-  const datastsr: SystemSettingsAssetManagementsList200Response | any = data;
+  const { data, isLoading, error } = useGetRegions(1);
+  const datastsr: SystemSettingsRegionsList200Response | any = data;
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
     setshowEmpty(
@@ -75,53 +78,51 @@ const Assets = () => {
       }
     }
   }, [data, error]);
-
+  
   const topActionButtons = [
-    { name: "add_new_user", label: "Add Asset", icon: "plus", outline: false },
+    { name: "add_new_user", label: "Add Region", icon: "plus", outline: false },
   ];
   function modal(buttion: any) {
     if (buttion === "add_new_user") {
-      setShowModal(true);
-      setAction("create");
+    setShowModal(true);
       setEditItems(null);
     }
   }
   function refreshrecord() {
-    useGetAssets(1);
+    useGetRegions(1);
   }
   function filterUpdated(filter: any) {
     filter.current = { ...filter.current, ...filter };
     let nfilter = filter.current;
     nfilter.pageIndex = filter.page;
     filter.current = nfilter;
-    useGetAssets(1);
+    useGetRegions(1);
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
       setEditItems(event.data);
-      setAction("edit");
       setShowModal(true);
     }
     if (event.name === "3") {
-      navigate(`/assets/assets-list/${event.data.id}`);
+    //   navigate(`/assets/assets-list/${event.data.id}`);
       // handleDelete(event.data.id);
     }
   }
 
   return (
     <div>
-      <ComponentsheaderComponent
+        <ComponentsheaderComponent
         backbuttonClick={() => {}}
-        pageName="Assets"
+        pageName="Regions"
         requiredButton={topActionButtons}
         buttonClick={(e) => {
           modal(e);
         }}
       />
-
+      
       {showEmpty ? (
         <DefaultContent
-          pageHeader="All Assets"
+          pageHeader="All Regions"
           pageDescription="No record found"
           loading={isLoading}
           buttonValue="Refresh"
@@ -139,7 +140,7 @@ const Assets = () => {
           totalItems={totalItems}
           currentTablePage={currentPage}
           loading={isLoading}
-          InputFileName="All Assets"
+          InputFileName="All Region"
           filterFields={filterFields}
           showCheckBox={true}
           bulkactionClicked={(e: any) => {}}
@@ -154,17 +155,16 @@ const Assets = () => {
           sortOptionSelected={() => {}}
         />
       )}
-
+      
       {showModal && (
-        <AssetModal
+        <RegionModal
           isOpen={showModal}
           editItem={editItems}
           handleHide={() => setShowModal(false)}
-          action={action}
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Assets;
+export default CloudRegion

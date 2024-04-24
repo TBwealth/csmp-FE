@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import {
-  useDeleteAccountRolesPermission,
   useGetAccountUsers,
 } from "../../../../api/api-services/accountQuery";
 import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
@@ -79,8 +78,7 @@ const AllUsers = () => {
 
   const { data, isLoading, error } = useGetAccountUsers(page);
 
-  const { mutate, isLoading: deleteLoading } =
-    useDeleteAccountRolesPermission();
+
 
   const datastsr: AccountsApiUsersList200Response | any = data;
 
@@ -96,10 +94,6 @@ const AllUsers = () => {
       }
     }
   }, [data, error]);
-
-  const handleDelete = (perm_id: any) => {
-    mutate(perm_id);
-  };
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add User", icon: "plus", outline: false },

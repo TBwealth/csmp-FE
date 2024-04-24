@@ -37,6 +37,11 @@ const SidebarMenuMain = () => {
         ></SidebarMenuItem>
 
       <SidebarMenuItem
+        to="/assets/assets-list"
+        title="Assets"
+        hasBullet={true}
+      ></SidebarMenuItem>
+      <SidebarMenuItem
         to=""
         title="Assets Assessment"
         hasBullet={true}
@@ -111,7 +116,7 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         ></SidebarMenuItem>
       <SidebarMenuItem
-          to="/"
+          to="/cloud-provider/cloud/region"
           title="Cloud Region"
           hasBullet={true}
         ></SidebarMenuItem>

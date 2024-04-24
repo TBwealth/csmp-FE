@@ -6,7 +6,7 @@ import { ComponentsheaderComponent } from "../../../components/componentsheader/
 import { IStatus, MyColor } from "../../../components/tableComponents/status/status";
 import useAlert from "../../components/useAlert";
 import { useGetTenantTickets} from "../../../api/api-services/ticketQuery";
-import { TicketsAssignedTenantUserTicketList200Response } from "../../../api/axios-client";
+import { TicketsTicketsList200Response } from "../../../api/axios-client";
 export class TicketWithStatus implements IStatus {
     id: string = "";
   ticket_type_id: string = "";
@@ -129,7 +129,7 @@ const TenantTickets = () => {
   const { data, isLoading, error } = useGetTenantTickets(page);
   console.log(data)
 
-  const datastsr: TicketsAssignedTenantUserTicketList200Response | any = data;
+  const datastsr: TicketsTicketsList200Response | any = data;
   useEffect(() => {
     const mapped = datastsr?.data?.data?.results.map((res: any) => {
         return {
