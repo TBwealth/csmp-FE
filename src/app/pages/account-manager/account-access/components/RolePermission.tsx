@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 // import { Content } from "../../../../../_metronic/layout/components/content";
 import {
-  useDeleteAccountRolesPermission,
   useGetAccountRolesPermission,
   useGetAccountPermssion,
 } from "../../../../api/api-services/accountQuery";
@@ -74,9 +73,6 @@ const RolePermission = () => {
     },
   ];
 
-  const { mutate, isLoading: deleteLoading } =
-    useDeleteAccountRolesPermission();
-
   const datastsr: AccountsApiRolePermissionsList200Response | any = data;
 
   useEffect(() => {
@@ -92,23 +88,23 @@ const RolePermission = () => {
     }
   }, [data, error]);
 
-  const handleDelete = (id: any) => {
-    hideAlert();
-    console.log(id);
-    const isConfirmed = window.confirm("Are you sure you want to delete?");
-    if (isConfirmed) {
-      mutate(id, {
-        onError: (err) => {
-          if (err instanceof Error) {
-            showAlert("Error, Unable to Delete", "danger");
-          }
-        },
-      });
-    } else {
-      console.log("failed");
-      console.log(id);
-    }
-  };
+  // const handleDelete = (id: any) => {
+  //   hideAlert();
+  //   console.log(id);
+  //   const isConfirmed = window.confirm("Are you sure you want to delete?");
+  //   if (isConfirmed) {
+  //     mutate(id, {
+  //       onError: (err) => {
+  //         if (err instanceof Error) {
+  //           showAlert("Error, Unable to Delete", "danger");
+  //         }
+  //       },
+  //     });
+  //   } else {
+  //     console.log("failed");
+  //     console.log(id);
+  //   }
+  // };
 
   const topActionButtons = [
     {
@@ -140,7 +136,7 @@ const RolePermission = () => {
       setShowModal(true);
     }
     if (event.name === "2") {
-      handleDelete(event.data.id);
+      // handleDelete(event.data.id);
     }
   }
 

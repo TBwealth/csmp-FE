@@ -20,7 +20,7 @@ export const useGetTickets = (page: number) => {
 };
 export const useGetTenantTickets = (page: number) => {
     const query = useQuery(["tenant_tickets"], () =>
-      ticketApi.ticketsAssignedTenantUserTicketList({ page })
+      ticketApi.ticketsTicketsList({ page })
     );
     return query;
 };

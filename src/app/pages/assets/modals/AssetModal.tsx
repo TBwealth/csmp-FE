@@ -8,14 +8,12 @@ import useAlert from "../../components/useAlert";
 import axios from "axios";
 import {
   useGetCloudProviderResourceTypes,
-  useGetCloudProviderResourceList,
 } from "../../../api/api-services/cloudProviderQuery";
 import { Modal } from "react-bootstrap";
 import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
 import {
   AccountsApiTenantsList200Response,
   CloudProviderCloudProviderResourceTypesList200Response,
-  CloudProviderResourceTypesList200Response,
 } from "../../../api/axios-client";
 
 type Asset = {

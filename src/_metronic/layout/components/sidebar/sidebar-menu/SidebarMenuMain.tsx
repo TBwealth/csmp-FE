@@ -111,7 +111,7 @@ const SidebarMenuMain = () => {
           hasBullet={true}
         ></SidebarMenuItem>
       <SidebarMenuItem
-          to="/"
+          to="/cloud-provider/cloud/region"
           title="Cloud Region"
           hasBullet={true}
         ></SidebarMenuItem>

@@ -1,11 +1,10 @@
 import {
-  AccountsApiAccountsApiRolePermissionsUpdateRequest,
+  AccountsApiAccountsApiPermissionsUpdateRequest,
   AccountsApiAccountsApiRolesUpdateRequest,
   AccountsApiAccountsApiTenantsUpdateRequest,
-  AccountsApiAccountsApiUserLoginLogsUpdateRequest,
   AccountsApiAccountsApiUsersUpdateRequest,
+  AccountsApiAccountsApiUpdateRolePermissionUpdateRequest,
   CustomPasswordReset,
-  DeleteRolePermission,
   Login,
   Register,
   Role,
@@ -37,7 +36,7 @@ export const useAccountLogout = () => {
 
 export const useAccountRegister = () => {
   const mutation = useMutation((data: Register) =>
-    accountApi.accountsApiRegisterCreate({ data })
+    accountApi.accountsApiTenantUserRegisterCreate({ data })
   );
   return mutation;
 };
@@ -69,6 +68,14 @@ export const usePostAccountPermission = () => {
   return mutation;
 };
 
+export const useUpdateRolePermission = () => {
+  const mutation = useMutation(
+    (data: AccountsApiAccountsApiUpdateRolePermissionUpdateRequest) =>
+      accountApi.accountsApiUpdateRolePermissionUpdate({ ...data })
+  );
+
+  return mutation;
+};
 export const useUpdateAccountPermission = (id: number) => {
   const queryClient = useQueryClient();
 
@@ -142,26 +149,26 @@ export const usePostAccountRolesPermission = () => {
   return mutation;
 };
 
-export const useDeleteAccountRolesPermission = () => {
-  const queryClient = useQueryClient();
-  const mutation = useMutation(
-    (data: DeleteRolePermission) =>
-      accountApi.accountsApiDeleteRolePermissionDelete({ data }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["get_roles_permission"]);
-      },
-    }
-  );
-  return mutation;
-};
+// export const useDeleteAccountRolesPermission = () => {
+//   const queryClient = useQueryClient();
+//   const mutation = useMutation(
+//     (data: DeleteRolePermission) =>
+//       accountApi.accountsApiDeleteRolePermissionDelete({ data }),
+//     {
+//       onSuccess: () => {
+//         queryClient.invalidateQueries(["get_roles_permission"]);
+//       },
+//     }
+//   );
+//   return mutation;
+// };
 
 export const useUpdateAccountRolePermission = (id: number) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({ id, data }: AccountsApiAccountsApiRolePermissionsUpdateRequest) =>
-      accountApi.accountsApiRolePermissionsUpdate({ id, data }),
+    ({ id, data }: AccountsApiAccountsApiPermissionsUpdateRequest) =>
+      accountApi.accountsApiPermissionsUpdate({ id, data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["get_roles_permission"]);
@@ -181,7 +188,7 @@ export const useGetAccountTenant = (page: number) => {
 
 export const useGetAccountCustomTenant = (page: number) => {
   const query = useQuery(["custom_tenants", page], () =>
-    accountApi.accountsApiCustomTenantsList({ page })
+    accountApi.accountsApiTenantsList({ page })
   );
   return query;
 };
@@ -223,7 +230,7 @@ export const useGetAccountUsers = (page: number) => {
 };
 export const useGetSingleAccountUsers = (id: string) => {
   const query = useQuery(["single_users"], () =>
-    accountApi.accountsApiUsersRead({id})
+    accountApi.accountsApiUsersRead({ id })
   );
   return query;
 };

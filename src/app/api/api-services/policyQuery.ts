@@ -47,7 +47,7 @@ export const useUpdatePolicies = (id: number) => {
 // Rules
 export const useGetSinglePolicyRules = (id: number) => {
   const query = useQuery(["policy_rules"], () =>
-    policyApi.policyRulesRead({ id })
+    policyApi.policyPolicyRulesRead({ id })
   );
   return query;
 };

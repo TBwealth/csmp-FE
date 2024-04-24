@@ -5,6 +5,7 @@ import CloudProviderHeader from "./CloudProviderHeader";
 import Resources from "./components/ProviderResources";
 import ProviderResources from "./components/ProviderResources";
 import ProviderServices from "./components/ProviderServices";
+import CloudRegion from "./components/CloudRegion";
 
 const cloudProviderBreadCrumbs: Array<PageLink> = [
   {
@@ -55,9 +56,19 @@ const CloudProviderPage: React.FC = () => {
             </>
           }
         />
+        <Route
+          path="region"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Provider Services
+              </PageTitle>
+              <CloudRegion />
+            </>
+          }
+        />
 
-    <Route index element={<Navigate to="clouder-provider/cloud" />} />
-
+        <Route index element={<Navigate to="clouder-provider/cloud" />} />
       </Route>
     </Routes>
   );
