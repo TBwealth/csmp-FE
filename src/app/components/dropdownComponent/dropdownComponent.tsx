@@ -103,7 +103,7 @@ export const DropdownComponent = ({
   isOpen={isShowdataPanel}
   positions={[ 'bottom', 'left', 'top','right']} // preferred positions by priority
         content={<div>
-      <div key={17} className="flex flex-col shadow-md bg-lightDark rounded">             
+      <div key={17} className="flex flex-col shadow-md bg-white dark:bg-lightDark rounded">             
                   <div key={20} id="dropdown" className="z-10 divide-y divide-gray-100 rounded-sm shadow px-2" style={{minWidth:"11rem"}}>
                    
                   <ul key={28} className="py-2 text-sm text-gray-700 space-y-2 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">

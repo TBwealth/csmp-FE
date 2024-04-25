@@ -591,7 +591,7 @@ export const MainTableComponent = ({
   };
   return (
     <>
-      <div className="space-y-3 m-8 p-5 bg-lightDark dark:bg-lightDark shadow-lg rounded-md">
+      <div className="space-y-3 m-8 p-5 bg-white dark:bg-lightDark shadow-lg rounded-md">
         {showFilter && selectedRecord! <= 0 && (
           <TableheaderComponent
             filterFields={filterFields}
@@ -656,7 +656,7 @@ export const MainTableComponent = ({
           </div>
         )}
         <div className="relative overflow-x-auto">
-          <table className="w-full text-[#D1D4E5]">
+          <table className="w-full text-bgDark">
             <thead>
               <tr className="border-b boder-gray-300">
                 {showCheckBox && (

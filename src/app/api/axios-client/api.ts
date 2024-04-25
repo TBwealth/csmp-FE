@@ -2383,7 +2383,7 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
         accountsApiRolePermissionsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('accountsApiRolePermissionsRead', 'id', id)
-            const localVarPath = `/accounts/api/role_permissions/{id}/`
+            const localVarPath = `/accounts/api/role_permission/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

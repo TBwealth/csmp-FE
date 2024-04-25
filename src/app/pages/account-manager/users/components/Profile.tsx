@@ -42,7 +42,7 @@ const Profile = () => {
         />
       ) : (
         <div className="w-full md:w-[95%] md:mx-auto mt-16  gap-4 grid md:grid-cols-3">
-          <div className="bg-lightDark p-4 md:p-6 rounded-md md:col-span-1 flex items-center gap-2 justify-center flex-col">
+          <div className="bg-white shadow-md dark:bg-lightDark p-4 md:p-6 rounded-md md:col-span-1 flex items-center gap-2 justify-center flex-col">
             {user?.user_image ? (
               <img
                 src={user?.user_image}
@@ -67,36 +67,36 @@ const Profile = () => {
             )}
             <h3 className="text-lg">{`${user?.first_name} ${user?.last_name}`}</h3>
           </div>
-          <div className="bg-lightDark p-4 md:p-6 rounded-md md:col-span-2">
+          <div className="bg-white shadow-md dark:bg-lightDark p-4 md:p-6 rounded-md md:col-span-2">
             <h1 className="text-lg pb-3 border-bottom border-white">
               Personal Information
             </h1>
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
               <p className="md:col-span-1">Full Name:</p>
               <div className="col-span-2 flex items-center gap-4">
-                <p className="bg-bgDark p-3 rounded-md w-full">
+                <p className="bg-white shadow-md dark:bg-lightDark p-3 rounded-md w-full">
                   {user?.first_name}
                 </p>
-                <p className="bg-bgDark p-3 rounded-md w-full">
+                <p className="bg-white shadow-md dark:bg-lightDark p-3 rounded-md w-full">
                   {user?.last_name}
                 </p>
               </div>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
               <p className="md:col-span-1">Email:</p>
-              <div className="col-span-2 bg-bgDark p-3 rounded-md w-full">
+              <div className="col-span-2 bg-white shadow-md dark:bg-lightDark p-3 rounded-md w-full">
                 {user?.email}
               </div>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
               <p className="md:col-span-1">Role:</p>
-              <div className="col-span-2 bg-bgDark p-3 rounded-md w-full">
+              <div className="col-span-2 bg-white shadow-md dark:bg-lightDark p-3 rounded-md w-full">
                 {user?.role?.name}
               </div>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
               <p className="md:col-span-1">Tenant:</p>
-              <div className="col-span-2 bg-bgDark p-3 rounded-md w-full">
+              <div className="col-span-2 bg-white shadow-md dark:bg-lightDark p-3 rounded-md w-full">
                 {user?.tenant}
               </div>
             </div>

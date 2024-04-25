@@ -196,8 +196,8 @@ const Roles = () => {
                 key={item.name}
                 className={
                   item.id === selected.id
-                    ? "bg-primary uppercase rounded-md p-2 mb-3 text-lg w-full"
-                    : "bg-lightDark uppercase p-2 mb-3 text-lg w-full rounded-md"
+                    ? "bg-primary text-white uppercase rounded-md p-2 mb-3 text-lg w-full shadow-md"
+                    : "bg-white dark:bg-lightDark uppercase p-2 mb-3 text-lg w-full rounded-md shadow-md"
                 }
                 onClick={() => {
                   setSelected(item);

@@ -928,6 +928,15 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-datepicker@^6.2.0":
+  "integrity" "sha512-+JtO4Fm97WLkJTH8j8/v3Ldh7JCNRwjMYjRaKh4KHH0M3jJoXtwiD3JBCsdlg3tsFIw9eQSqyAPeVDN2H2oM9Q=="
+  "resolved" "https://registry.npmjs.org/@types/react-datepicker/-/react-datepicker-6.2.0.tgz"
+  "version" "6.2.0"
+  dependencies:
+    "@floating-ui/react" "^0.26.2"
+    "@types/react" "*"
+    "date-fns" "^3.3.1"
+
 "@types/react-dom@^18.2.7":
   "integrity" "sha512-aZvQL6uUbIJpjZk4U8JZGbau9KDeAwMfmhyWorxgBkqDIEf6ROjRozcmPIicqsUwPUjbkDfHKgGee1Lq65APcA=="
   "resolved" "https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.19.tgz"
