@@ -14,7 +14,6 @@ import useAlert from "../../../components/useAlert";
 import {
   AccountsApiRolesList200Response,
   AccountsApiPermissionsList200Response,
-  AccountsApiRolePermissionsList200Response,
 } from "../../../../api/axios-client";
 import { AddRolePermissionModal } from "./modals/ModalRolePermission";
 import { ComponentsheaderComponent } from "../../../../components/componentsheader/componentsheader.component";
@@ -50,7 +49,7 @@ const Roles = () => {
   const handleFetchRolePerm = async (id: number) => {
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/accounts/api/role_permissions/${id}/`,
+        `https://cspm-api.midrapps.com/accounts/api/role_permission/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -130,7 +130,7 @@ export const useUpdateAccountRole = (id: number) => {
 
 export const useGetAccountRolesPermission = (page: number) => {
   const query = useQuery(["get_roles_permission", page], () =>
-    accountApi.accountsApiRolePermissionsList({ page })
+    accountApi.accountsApiRolePermissionList({ page })
   );
   return query;
 };
@@ -139,7 +139,7 @@ export const usePostAccountRolesPermission = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
     (data: RolePermission) =>
-      accountApi.accountsApiRolePermissionsCreate({ data }),
+      accountApi.accountsApiRolePermissionCreate({ data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["get_roles_permission"]);
@@ -253,7 +253,7 @@ export const useUpdateAccountUsers = (id: number) => {
 
 export const useGetAccountUserLoginLogs = (page: number) => {
   const query = useQuery(["user_login_logs", page], () =>
-    accountApi.accountsApiUserLoginLogsList({ page })
+    accountApi.accountsApiActivityLogsList({ page })
   );
   return query;
 };

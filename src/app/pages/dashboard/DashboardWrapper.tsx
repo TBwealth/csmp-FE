@@ -26,8 +26,6 @@ import {
   useGetAccountUsers,
 } from "../../api/api-services/accountQuery";
 import {
-  AccountsApiCustomTenantsList200Response,
-  AccountsApiRolePermissionsList200Response,
   AccountsApiRolesList200Response,
   AccountsApiUsersList200Response,
 } from "../../api/axios-client";
@@ -57,10 +55,10 @@ const DashboardPage: FC = () => {
   } = useGetAccountPermssion(1);
 
   const allUserData: AccountsApiUsersList200Response | any = userData;
-  const allPermissionData: AccountsApiRolePermissionsList200Response | any =
+  const allPermissionData: any =
     permissionData;
   const allRoleData: AccountsApiRolesList200Response | any = rolesData;
-  const allTenantData: AccountsApiCustomTenantsList200Response | any =
+  const allTenantData: any =
     tenantData;
 
   // console.log(rolesData, "rolesData")

@@ -8,7 +8,7 @@ import {
   useGetSinglePolicyRules,
 } from "../../api/api-services/policyQuery";
 import DefaultContent from "../../components/defaultContent/defaultContent";
-import { PolicyPolicyRulesList200Response, PolicyRulesList200Response } from "../../api/axios-client";
+import { PolicyRulesList200Response } from "../../api/axios-client";
 import { MainTableComponent } from "../../components/tableComponents/maincomponent/maintable";
 import {
   ACTIONS,
@@ -39,13 +39,13 @@ export class RulesWithStatus implements IStatus {
   }
 
   getStatusLabel() {
-    if (this.status) return "Active";
-    if (!this.status) return "InActive";
+    if (this.isDefault) return "Active";
+    if (!this.isDefault) return "InActive";
     return "";
   }
   getStatusColor() {
-    if (this.status) return new MyColor(33, 150, 83);
-    if (!this.status) return new MyColor(242, 153, 74);
+    if (this.isDefault) return new MyColor(33, 150, 83);
+    if (!this.isDefault) return new MyColor(242, 153, 74);
     return new MyColor(242, 0, 74);
   }
 }
@@ -81,7 +81,7 @@ const PolicyRule = () => {
   ];
   const { data, isLoading, error } = useGetRulesList(1);
   const {data: policyRule } = useGetSinglePolicyRules(+id!)
-  const datastsr: PolicyPolicyRulesList200Response | any = data;
+  const datastsr:  any = data;
   const policyrule: PolicyRulesList200Response | any = policyRule;
 
   const { mutate } = useAddPolicyRule();

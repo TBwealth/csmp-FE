@@ -100,9 +100,8 @@ const SidebarMenuMain = () => {
       </div>
       <SidebarMenuItem
         to="/policy"
-        icon="element-11"
         title="Policy"
-        fontIcon="bi-app-indicator"
+        hasBullet={true}
       />
 
        <SidebarMenuItem
