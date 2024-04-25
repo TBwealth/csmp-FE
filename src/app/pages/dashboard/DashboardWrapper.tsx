@@ -14,7 +14,6 @@ import {
 } from "../../api/api-services/accountQuery";
 import {
   AccountsApiTenantsList200Response,
-  AccountsApiRolePermissionsList200Response,
   AccountsApiRolesList200Response,
   AccountsApiUsersList200Response,
 } from "../../api/axios-client";
