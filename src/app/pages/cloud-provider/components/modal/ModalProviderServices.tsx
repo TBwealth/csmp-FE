@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { KTIcon, KTSVG } from "../../../../../_metronic/helpers";
 import {
-    useGetCloudProviderServicesList,
- useUpdateCloudProviderServices,
-  usePostCloudProviderServices
- } from "../../../../api/api-services/cloudProviderQuery";
+  useGetCloudProviderServicesList,
+  useUpdateCloudProviderServices,
+  usePostCloudProviderServices,
+} from "../../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
-
 
 const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
   const [page, setPage] = useState(1);
@@ -17,11 +16,11 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
   const [statusValue, setStatusValue] = useState(false);
   const { showAlert, hideAlert, Alert } = useAlert();
 
-    const{
-        data: allServices,
-        isLoading: serviceLoading,
-        error: serviceError
-    } = useGetCloudProviderServicesList(page);
+  const {
+    data: allServices,
+    isLoading: serviceLoading,
+    error: serviceError,
+  } = useGetCloudProviderServicesList(page);
 
   const { mutate, isLoading, error } = usePostCloudProviderServices();
   const {
@@ -155,7 +154,6 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
               onChange={(e) => setStatusValue(e.target.checked)}
             />
           </div>
-
         </Modal.Body>
         <Alert />
         <Modal.Footer>
@@ -165,9 +163,7 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
           <button
             type="button"
             className="btn btn-primary"
-            disabled={
-              nameValue === "" || codeValue === ""
-            }
+            disabled={nameValue === "" || codeValue === ""}
             onClick={editItem ? editHandleSubmit : handleSubmit}
           >
             {!isLoading && !editLoading && (
@@ -175,16 +171,12 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
                 {editItem ? "Edit" : "Continue"}
               </span>
             )}
-            {isLoading ||
-              (editLoading && (
-                <span
-                  className="indicator-progress"
-                  style={{ display: "block" }}
-                >
-                  Please wait...{" "}
-                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-              ))}
+            {(isLoading || editLoading) && (
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            )}
           </button>
         </Modal.Footer>
       </Modal>
@@ -192,5 +184,4 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
   );
 };
 
-export {ModalProviderServices };
- 
+export { ModalProviderServices };

@@ -1,33 +1,45 @@
 import { useEffect, useState } from "react";
 import { KTIcon, KTSVG } from "../../../../../_metronic/helpers";
 import {
-    useGetTicketsActivities,
- useUpdateTicketActivities,
-  useCreateTicketActivities
- } from "../../../../api/api-services/ticketQuery";
+  useGetTickets,
+  useUpdateTicketActivities,
+  useCreateTicketActivities,
+} from "../../../../api/api-services/ticketQuery";
+import {
+ useGetAccountUsers
+} from "../../../../api/api-services/accountQuery"
 import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
-import { TicketsTicketActivitiesList200Response  } from "../../../../api/axios-client";
+import { TicketsTicketActivitiesList200Response } from "../../../../api/axios-client";
 
-
-const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+const ModalTicketActivities = ({
+  editItem,
+  onClearEdit,
+  isOpen,
+  handleHide,
+  ticketId
+}: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
-
-  const [tickets, setTickets] = useState<any[] | undefined>([]);
+  console.log(editItem);
+  const [user, setUsers] = useState<any[]>([]);
   const [valueId, setValueId] = useState("");
   const [timestampValue, setTimestampValue] = useState("");
-  const [ticketValue, setTicketValue] = useState("");
-  const [userValue, setUserValue] = useState("");
+  const [ticketValue, setTicketValue] = useState<any>(null);
+  const [userValue, setUserValue] = useState<any>(null);
   const [commentValue, setCommentValue] = useState("");
   const [activityTypeValue, setActivityType] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
 
-    const{
-        data: allTickets,
-        isLoading: serviceLoading,
-        error: serviceError
-    } =   useGetTicketsActivities(page);
+  const {
+    data: allTickets,
+    isLoading: serviceLoading,
+    error: serviceError,
+  } = useGetTickets(page);
+
+  const {
+    data: users,
+  } = useGetAccountUsers(page);
 
   const { mutate, isLoading, error } = useCreateTicketActivities();
   const {
@@ -36,29 +48,26 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
     error: editError,
   } = useUpdateTicketActivities(+valueId);
 
-  const datastsr: TicketsTicketActivitiesList200Response  | any = allTickets;
+  const datastsr: TicketsTicketActivitiesList200Response | any = allTickets;
+  const userstsr: TicketsTicketActivitiesList200Response | any = users;
 
   useEffect(() => {
-    setTickets(datastsr?.data?.data?.results);
+    if(datastsr && ticketId) {
+      const filtered = datastsr?.data?.data?.results?.filter((tick: any) => tick?.id === ticketId);
+      setTicketValue(filtered[0]);
+    } 
+    setUsers(userstsr?.data?.data?.results);
     if (editItem) {
       // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
-      setTimestampValue(editItem?.timestamp)
+      setTimestampValue(editItem?.timestamp);
       setTicketValue(editItem?.ticket);
       setUserValue(editItem?.user);
-      setCommentValue(editItem?.comment);
+      setCommentValue(editItem?.comments);
       setActivityType(editItem?.activity_type);
-    } else {
-      setValueId("");
-      setTimestampValue("");
-      setTicketValue("");
-      setUserValue("");
-      setCommentValue("");
-      setActivityType("");
-      handleClose();
     }
-  }, [allTickets, editItem]);
+  }, [datastsr, editItem, userstsr]);
 
   const handleClose = () => {
     // setIsOpen(false);
@@ -71,35 +80,30 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
     mutate(
       {
         ticket: {
-          id: editItem.ticket_id ?? 0, 
-          description: editItem.description ?? "", 
-          subject: editItem.subject ?? "",
+          id: ticketValue?.id,
         },
         timestamp: timestampValue,
         user: {
-          first_name: editItem.first_name ?? "",
-          last_name: editItem.last_name ?? "",
-          email: editItem.email ?? "",
+          id: userValue?.id
         },
         comments: commentValue,
         activity_type: activityTypeValue,
-
       },
       {
         onSuccess: (res) => {
-          handleClose();
+          handleHide();
           console.log(res);
           // showAlert(res?.data?.message, "success");
-          setTimestampValue(new Date().toISOString())
-          setTicketValue("");
-          setUserValue("");
+          setTimestampValue(new Date().toISOString());
+          setTicketValue(null);
+          setUserValue(null);
           setCommentValue("");
           setActivityType("");
         },
 
         onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
             // showAlert(err?.response?.data?.message, "danger");
           }
         },
@@ -112,41 +116,36 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
       {
         id: +valueId,
         data: {
-            ticket: {
-              id: editItem.ticket_id ?? 0, 
-              description: editItem.description ?? "", 
-              subject: editItem.subject ?? "",
-            },
-            user: {
-              first_name: editItem.first_name ?? "",
-              last_name: editItem.last_name ?? "",
-              email: editItem.email ?? "",
-            },
-            comments: commentValue,
-            activity_type: activityTypeValue,
+          ticket: {
+            id: ticketValue?.id 
+          },
+          user: {
+            id: userValue?.id
+          },
+          comments: commentValue,
+          activity_type: activityTypeValue,
         },
       },
       {
         onSuccess: (res) => {
-          handleClose();
+          handleHide();
           console.log(res);
           // showAlert(res?.data?.message, "success");
-          setTicketValue("");
-          setUserValue("");
+          setTicketValue(null);
+          setUserValue(null);
           setCommentValue("");
           setActivityType("");
         },
 
         onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
           }
           // showAlert(err?.response?.data?.message, "danger");
         },
       }
     );
   };
-
   return (
     <>
       <Modal
@@ -164,31 +163,40 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
           <div className="mb-10">
             <label className="form-label fs-6 fw-bold">Ticket:</label>
             <input
-              placeholder=" "
+              placeholder=""
               type="text"
-              name="Ticket"
+              name="Comments"
               autoComplete="off"
               className="form-control bg-transparent"
-              value={ticketValue}
-              onChange={(e) => setTicketValue(e.target.value)}
+              value={ticketValue ? ticketValue?.id : ""}
+              disabled
             />
           </div>
           <div className="mb-10">
             <label className="form-label fs-6 fw-bold">User:</label>
-            <input
-              placeholder="Enter Code"
-              type="text"
-              name="User"
-              autoComplete="off"
-              className="form-control bg-transparent"
-              value={userValue}
-              onChange={(e) => setUserValue(e.target.value)}
-            />
+            <select
+              className="form-select form-select-solid fw-bolder"
+              data-placeholder="Select option"
+              value={userValue?.id}
+              onChange={(e) => {
+                const selected = user?.filter(
+                  (tick) => tick.id === +e.target.value
+                );
+                setUserValue({id: selected[0]?.id});
+              }}
+            >
+              <option value="">Select user</option>
+              {user?.map((item: any) => (
+                <option key={item?.id} value={item?.id}>
+                  {`${item?.first_name} ${item?.last_name}`}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="mb-10">
             <label className="form-label fs-6 fw-bold">Comments:</label>
             <input
-              placeholder="Enter Code"
+              placeholder="Enter Comment"
               type="text"
               name="Comments"
               autoComplete="off"
@@ -200,7 +208,7 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
           <div className="mb-10">
             <label className="form-label fs-6 fw-bold">Activity Type:</label>
             <input
-              placeholder="Enter Code"
+              placeholder="Enter activity type"
               type="text"
               name="Activity Type"
               autoComplete="off"
@@ -209,8 +217,6 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
               onChange={(e) => setActivityType(e.target.value)}
             />
           </div>
-          
-
         </Modal.Body>
         <Alert />
         <Modal.Footer>
@@ -221,7 +227,10 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
             type="button"
             className="btn btn-primary"
             disabled={
-              ticketValue === "" || userValue === "" || commentValue ==="" || activityTypeValue ===""
+              !ticketValue?.id ||
+              !userValue?.id ||
+              !commentValue ||
+              !activityTypeValue
             }
             onClick={editItem ? editHandleSubmit : handleSubmit}
           >
@@ -230,16 +239,12 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
                 {editItem ? "Edit" : "Continue"}
               </span>
             )}
-            {isLoading ||
-              (editLoading && (
-                <span
-                  className="indicator-progress"
-                  style={{ display: "block" }}
-                >
-                  Please wait...{" "}
-                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-              ))}
+            {(isLoading || editLoading) && (
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            )}
           </button>
         </Modal.Footer>
       </Modal>
@@ -247,5 +252,4 @@ const ModalTicketActivities = ({ editItem, onClearEdit, isOpen, handleHide }: an
   );
 };
 
-export {ModalTicketActivities };
- 
+export { ModalTicketActivities };

@@ -43,7 +43,7 @@ export const useUpdateCloudProviderResourceTypes = (id: number) => {
       id,
       data,
     }: CloudProviderApiCloudProviderCloudProviderUpdateRequest) =>
-      cloudApi.cloudProviderResourceTypesUpdate({ id, data }),
+      cloudApi.cloudProviderCloudProviderUpdate({ id, data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["resource"]);

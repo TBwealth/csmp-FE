@@ -37,7 +37,7 @@ const ModalTicketsList = ({
   const [valueId, setValueId] = useState("");
   const [nameValue, setNameValue] = useState("");
   const [assetValue, setAssetValue] = useState<any>(null);
-  const [createdByValue, setCreatedByValue] = useState("");
+  const [tenantValue, setTenantValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState("");
   const [ticketType, setTicketType] = useState<any>(null);
   const [codeValue, setCodeValue] = useState("");
@@ -117,7 +117,8 @@ const ModalTicketsList = ({
         code: editItem?.asset_code,
         id: editItem?.asset_id,
       });
-      setCreatedByValue(editItem?.created_by);
+      setTenantValue(editItem?.tenant);
+      handleFetchTenantUsers(editItem?.tenant);
       setDescriptionValue(editItem?.description);
       setTicketType({
         name: editItem?.ticket_type_name,
@@ -132,7 +133,7 @@ const ModalTicketsList = ({
       setCodeValue("");
       setStatusValue("open");
       setAssetValue(null);
-      setCreatedByValue("");
+      setTenantValue("");
       setDescriptionValue("");
       setTicketType(null);
       setSubjectValue("");
@@ -161,7 +162,7 @@ const ModalTicketsList = ({
       },
       {
         onSuccess: (res) => {
-          handleClose();
+          handleHide();
           console.log(res);
           // showAlert(res?.data?.message, "success");
           setAssignedToValue(null);
@@ -199,7 +200,7 @@ const ModalTicketsList = ({
       },
       {
         onSuccess: (res) => {
-          handleClose();
+          handleHide();
           console.log(res);
           // showAlert(res?.data?.message, "success");
           setAssignedToValue(null);
@@ -284,6 +285,7 @@ const ModalTicketsList = ({
                 <select
                   name="tenant"
                   id="tenant"
+                  value={tenantValue}
                   className="form-control bg-transparent"
                   onChange={(e) => handleFetchTenantUsers(e.target.value)}
                 >
@@ -302,6 +304,7 @@ const ModalTicketsList = ({
                 name="assigned_to"
                 id="assigned_to"
                 className="form-control bg-transparent"
+                value={assignedToValue?.id}
                 onChange={(e) => {
                   const selected = users.filter(
                     (user) => user?.id === +e.target.value
