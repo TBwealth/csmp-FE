@@ -3,13 +3,19 @@ import { KTIcon, KTSVG } from "../../../../../_metronic/helpers";
 import {
   useGetCloudProviderResourceTypes,
   useUpdateCloudProviderResourceTypes,
-  usePostCloudProviderResourceTypes
- } from "../../../../api/api-services/cloudProviderQuery";
+  usePostCloudProviderResourceTypes,
+  useCloudProviderCreate,
+} from "../../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../../api/axios-client";
 
-const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+const ModalProviderResources = ({
+  editItem,
+  onClearEdit,
+  isOpen,
+  handleHide,
+}: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [resources, setResources] = useState<any[] | undefined>([]);
@@ -19,20 +25,21 @@ const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: a
   const [statusValue, setStatusValue] = useState(false);
   const { showAlert, hideAlert, Alert } = useAlert();
 
-  const{
+  const {
     data: allResources,
     isLoading: resourceLoading,
-    error: resourceError
+    error: resourceError,
   } = useGetCloudProviderResourceTypes(page);
 
-  const { mutate, isLoading, error } =  usePostCloudProviderResourceTypes();
+  const { mutate, isLoading, error } = useCloudProviderCreate();
   const {
     mutate: editMutate,
     isLoading: editLoading,
     error: editError,
   } = useUpdateCloudProviderResourceTypes(+valueId);
 
-  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any = allResources;
+  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
+    allResources;
 
   useEffect(() => {
     setResources(datastsr?.data?.data?.results);
@@ -62,13 +69,15 @@ const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: a
   const handleSubmit = () => {
     mutate(
       {
-        name: nameValue,
-        code: codeValue,
-        status: statusValue,
+        data: {
+          code: codeValue,
+          name: nameValue,
+          status: statusValue,
+        }
       },
       {
         onSuccess: (res) => {
-          handleClose();
+          handleHide();
           console.log(res);
           setNameValue("");
           setCodeValue("");
@@ -97,7 +106,7 @@ const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: a
       },
       {
         onSuccess: (res) => {
-          handleClose();
+          handleHide();
           console.log(res);
           setNameValue("");
           setCodeValue("");
@@ -108,7 +117,6 @@ const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: a
           if (error instanceof Error) {
             showAlert(error?.message || "An unknown error occurred", "danger");
           }
-
         },
       }
     );
@@ -162,7 +170,6 @@ const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: a
               onChange={(e) => setStatusValue(e.target.checked)}
             />
           </div>
-
         </Modal.Body>
         <Alert />
         <Modal.Footer>
@@ -172,9 +179,7 @@ const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: a
           <button
             type="button"
             className="btn btn-primary"
-            disabled={
-              nameValue === "" || codeValue === ""
-            }
+            disabled={nameValue === "" || codeValue === ""}
             onClick={editItem ? editHandleSubmit : handleSubmit}
           >
             {!isLoading && !editLoading && (
@@ -182,16 +187,12 @@ const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: a
                 {editItem ? "Edit" : "Continue"}
               </span>
             )}
-            {isLoading ||
-              (editLoading && (
-                <span
-                  className="indicator-progress"
-                  style={{ display: "block" }}
-                >
-                  Please wait...{" "}
-                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-              ))}
+            {(isLoading || editLoading) && (
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            )}
           </button>
         </Modal.Footer>
       </Modal>
@@ -199,4 +200,4 @@ const ModalProviderResources = ({ editItem, onClearEdit, isOpen, handleHide }: a
   );
 };
 
-export {ModalProviderResources };
+export { ModalProviderResources };

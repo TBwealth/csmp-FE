@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Content } from "../../../../_metronic/layout/components/content";
 import { useGetCloudProviderResourceTypes } from "../../../api/api-services/cloudProviderQuery";
-import { KTCardBody, KTIcon } from "../../../../_metronic/helpers";
-import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
 import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../api/axios-client";
 import { ModalProviderResources } from "./modal/ModalProviderResources";
 import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../components/models";

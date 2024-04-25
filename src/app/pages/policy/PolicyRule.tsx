@@ -5,9 +5,10 @@ import { ComponentsheaderComponent } from "../../components/componentsheader/com
 import {
   useGetRulesList,
   useAddPolicyRule,
+  useGetSinglePolicyRules,
 } from "../../api/api-services/policyQuery";
 import DefaultContent from "../../components/defaultContent/defaultContent";
-import { PolicyApiPolicyRulesListRequest } from "../../api/axios-client";
+import { PolicyPolicyRulesList200Response, PolicyRulesList200Response } from "../../api/axios-client";
 import { MainTableComponent } from "../../components/tableComponents/maincomponent/maintable";
 import {
   ACTIONS,
@@ -64,6 +65,10 @@ const PolicyRule = () => {
   ];
   const tableActions: TableAction[] = [
     {
+      name: ACTIONS.EDIT,
+      label: "Edit"
+    },
+    {
       name: ACTIONS.DEACTIVATE,
       label: "Deactivate",
       isFieldDependant: true,
@@ -75,16 +80,18 @@ const PolicyRule = () => {
     },
   ];
   const { data, isLoading, error } = useGetRulesList(1);
-  const datastsr: PolicyApiPolicyRulesListRequest | any = data;
+  const {data: policyRule } = useGetSinglePolicyRules(+id!)
+  const datastsr: PolicyPolicyRulesList200Response | any = data;
+  const policyrule: PolicyRulesList200Response | any = policyRule;
 
   const { mutate } = useAddPolicyRule();
 
-  const handleAddRuleToPolicy = (rule_id: number) => {
+  const handleAddRuleToPolicy = (rule_ids: any) => {
     mutate(
       {
         data: {
           policy_id: +id!,
-          rule__id: [rule_id],
+          rule__id: rule_ids,
         },
       },
       {
@@ -98,15 +105,6 @@ const PolicyRule = () => {
 
   useEffect(() => {
     if (datastsr) {
-      const mapped = datastsr?.data?.data?.results
-        .map((res: any) => {
-          return {
-            ...res,
-            isDefault: false,
-          };
-        })
-        .map((x: any) => new RulesWithStatus(x));
-      setItems(mapped);
       setshowEmpty(
         datastsr?.data?.data?.results
           ? datastsr?.data?.data?.results.length === 0
@@ -120,7 +118,25 @@ const PolicyRule = () => {
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
-  }, [data, error]);
+    if(policyrule && datastsr) {
+      const mapped = policyrule?.data?.data.rules.map((rule: any) => rule?.name);
+      const trans = datastsr?.data?.data?.results.map((tran : any) => {
+        if(mapped.includes(tran?.name)) {
+          return {
+            ...tran,
+            isDefault: true,
+          }
+        }
+
+        return {
+          ...tran,
+          isDefault: false,
+        }
+      })
+      setItems(() => trans.map((x: any) => new RulesWithStatus(x)));
+
+    }
+  }, [data, error, policyrule]);
   const tableColumns: TableColumn[] = [
     {
       name: "id",
@@ -168,11 +184,18 @@ const PolicyRule = () => {
     useGetRulesList(1);
   }
   function tableActionClicked(event: TableActionEvent) {
-    if (event.name === "3") {
-      // handleViewPolicyRules(event.data.id);
+    if (event.name === "1") {
+      setEditItems(event.data);
+      setShowModal(true);
     }
     if (event.name === "6") {
-      handleAddRuleToPolicy(event.data?.id);
+      if(!event.data?.isDefault) {
+        const allIds = items.filter((item) => item?.isDefault).map((it) => it.id);
+        handleAddRuleToPolicy([...allIds, event?.data?.id]);
+      } else {
+        const allIds = policyrule?.data?.data.rules.filter((item: any) => item?.id !== event?.data?.id).map((it: any) => it.id);
+        handleAddRuleToPolicy(allIds);
+      }
     }
   }
 

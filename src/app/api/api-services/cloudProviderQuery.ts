@@ -43,7 +43,7 @@ export const useUpdateCloudProviderResourceTypes = (id: number) => {
       id,
       data,
     }: CloudProviderApiCloudProviderCloudProviderUpdateRequest) =>
-      cloudApi.cloudProviderResourceTypesUpdate({ id, data }),
+      cloudApi.cloudProviderCloudProviderUpdate({ id, data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["resource"]);
@@ -114,7 +114,7 @@ export const useAddResourceToProvider = () => {
 
 export const useGetCloudProviderResourceList = (id: number) => {
   const query = useQuery(["resource-list"], () =>
-    cloudApi.cloudProviderResourceTypesRead({ id })
+    cloudApi.cloudProviderCloudProviderResourceTypesRead({ id })
   );
   return query;
 };
