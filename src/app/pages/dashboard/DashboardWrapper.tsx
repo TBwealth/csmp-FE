@@ -1,22 +1,9 @@
 import { FC } from "react";
 import { useIntl } from "react-intl";
 import { toAbsoluteUrl } from "../../../_metronic/helpers";
+import { Chart } from "react-google-charts";
 import { PageTitle } from "../../../_metronic/layout/core";
-import {
-  ListsWidget2,
-  ListsWidget3,
-  ListsWidget4,
-  ListsWidget6,
-  TablesWidget5,
-  TablesWidget10,
-  MixedWidget8,
-  CardsWidget7,
-  CardsWidget17,
-  CardsWidget20,
-  ListsWidget26,
-  EngageWidget10,
-  ChartsWidget3,
-} from "../../../_metronic/partials/widgets";
+import { ChartsWidget3 } from "../../../_metronic/partials/widgets";
 import { ToolbarWrapper } from "../../../_metronic/layout/components/toolbar";
 import { Content } from "../../../_metronic/layout/components/content";
 import {
@@ -26,13 +13,24 @@ import {
   useGetAccountUsers,
 } from "../../api/api-services/accountQuery";
 import {
-  AccountsApiCustomTenantsList200Response,
+  AccountsApiTenantsList200Response,
   AccountsApiRolePermissionsList200Response,
   AccountsApiRolesList200Response,
   AccountsApiUsersList200Response,
 } from "../../api/axios-client";
 
 import "./style.css";
+
+export const data = [
+  ["Country", "Availability"],
+  ["Germany", 200],
+  ["United States", 700],
+  ["Brazil", 400],
+  ["Canada", 500],
+  ["France", 600],
+  ["RU", 700],
+  ["South Africa", 200],
+];
 
 const DashboardPage: FC = () => {
   const {
@@ -60,8 +58,7 @@ const DashboardPage: FC = () => {
   const allPermissionData: AccountsApiRolePermissionsList200Response | any =
     permissionData;
   const allRoleData: AccountsApiRolesList200Response | any = rolesData;
-  const allTenantData: AccountsApiCustomTenantsList200Response | any =
-    tenantData;
+  const allTenantData: AccountsApiTenantsList200Response | any = tenantData;
 
   // console.log(rolesData, "rolesData")
   return (
@@ -395,9 +392,24 @@ const DashboardPage: FC = () => {
         </div> */}
 
         <div className="row g-5 gx-xxl-8">
-          <div>
-            <ChartsWidget3 className="card-xl-stretch mb-5 mb-xl-8" />
-          </div>
+          <Chart
+            chartEvents={[
+              {
+                eventName: "select",
+                callback: ({ chartWrapper }) => {
+                  const chart = chartWrapper.getChart();
+                  const selection = chart.getSelection();
+                  if (selection.length === 0) return;
+                  const region = data[selection[0].row + 1];
+                  console.log("Selected : " + region);
+                },
+              },
+            ]}
+            chartType="GeoChart"
+            width="100%"
+            height="400px"
+            data={data}
+          />
         </div>
       </Content>
     </>
