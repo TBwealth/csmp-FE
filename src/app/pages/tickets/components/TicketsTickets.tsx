@@ -40,7 +40,7 @@ export class TicketWithStatus implements IStatus {
   assigned_to_first_name: string = "";
   assigned_to_last_name: string = "";
   assigned_to_email: string = "";
-  status: boolean = false;
+  status: string="";
 
   constructor(ticket: any) {
     this.id = ticket.id;
@@ -65,14 +65,14 @@ export class TicketWithStatus implements IStatus {
   }
 
   getStatusLabel() {
-    if (this.status) return "Active";
-    if (!this.status) return "InActive";
-    return "";
+    if (this.status === "CLOSED") return "Closed";
+    if (this.status === "OPEN") return "Open";
+    return "Pending";
   }
   getStatusColor() {
-    if (this.status) return new MyColor(33, 150, 83);
-    if (!this.status) return new MyColor(242, 153, 74);
-    return new MyColor(242, 0, 74);
+    if (this.status  === "OPEN") return new MyColor(33, 150, 83);
+    if (this.status  === "CLOSED") return new MyColor(242, 0, 74);
+    return new MyColor(242, 153, 74);
   }
 }
 const TicketsTickets = () => {

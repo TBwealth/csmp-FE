@@ -243,7 +243,7 @@ export const TableheaderComponent = ({
                 startDate={nstartDate}
                 maxDate={new Date()}
                 endDate={nendDate}
-                onChange={(date) => {
+                onChange={(date:any) => {
                   setDateRange(date);
                   dateChanged(date);
                 }}
@@ -548,7 +548,7 @@ export const TableheaderComponent = ({
                           </label>
                           <div className="w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary flex justify-between">
                             <DatePicker
-                              onChange={(date) =>
+                              onChange={(date:any) =>
                                 fieldValueChanged(date, field.name)
                               }
                               placeholderText="Select Date"

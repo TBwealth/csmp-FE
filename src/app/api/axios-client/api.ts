@@ -24,6 +24,37 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface AccountsApiActivityLogsList200Response
+ */
+export interface AccountsApiActivityLogsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof AccountsApiActivityLogsList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccountsApiActivityLogsList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof AccountsApiActivityLogsList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<ActivityLog>}
+     * @memberof AccountsApiActivityLogsList200Response
+     */
+    'results': Array<ActivityLog>;
+}
+/**
+ * 
+ * @export
  * @interface AccountsApiPermissionsList200Response
  */
 export interface AccountsApiPermissionsList200Response {
@@ -55,31 +86,31 @@ export interface AccountsApiPermissionsList200Response {
 /**
  * 
  * @export
- * @interface AccountsApiRolePermissionsList200Response
+ * @interface AccountsApiRolePermissionList200Response
  */
-export interface AccountsApiRolePermissionsList200Response {
+export interface AccountsApiRolePermissionList200Response {
     /**
      * 
      * @type {number}
-     * @memberof AccountsApiRolePermissionsList200Response
+     * @memberof AccountsApiRolePermissionList200Response
      */
     'count': number;
     /**
      * 
      * @type {string}
-     * @memberof AccountsApiRolePermissionsList200Response
+     * @memberof AccountsApiRolePermissionList200Response
      */
     'next'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof AccountsApiRolePermissionsList200Response
+     * @memberof AccountsApiRolePermissionList200Response
      */
     'previous'?: string | null;
     /**
      * 
      * @type {Array<RolePermission>}
-     * @memberof AccountsApiRolePermissionsList200Response
+     * @memberof AccountsApiRolePermissionList200Response
      */
     'results': Array<RolePermission>;
 }
@@ -148,37 +179,6 @@ export interface AccountsApiTenantsList200Response {
 /**
  * 
  * @export
- * @interface AccountsApiUserLoginLogsList200Response
- */
-export interface AccountsApiUserLoginLogsList200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof AccountsApiUserLoginLogsList200Response
-     */
-    'count': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountsApiUserLoginLogsList200Response
-     */
-    'next'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AccountsApiUserLoginLogsList200Response
-     */
-    'previous'?: string | null;
-    /**
-     * 
-     * @type {Array<UserLoginLog>}
-     * @memberof AccountsApiUserLoginLogsList200Response
-     */
-    'results': Array<UserLoginLog>;
-}
-/**
- * 
- * @export
  * @interface AccountsApiUsersList200Response
  */
 export interface AccountsApiUsersList200Response {
@@ -207,6 +207,80 @@ export interface AccountsApiUsersList200Response {
      */
     'results': Array<TenantUser>;
 }
+/**
+ * 
+ * @export
+ * @interface ActivityLog
+ */
+export interface ActivityLog {
+    /**
+     * 
+     * @type {number}
+     * @memberof ActivityLog
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ActivityLog
+     */
+    'actor'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActivityLog
+     */
+    'action_type': ActivityLogActionTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActivityLog
+     */
+    'action_time'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActivityLog
+     */
+    'remarks'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActivityLog
+     */
+    'status'?: ActivityLogStatusEnum;
+    /**
+     * 
+     * @type {object}
+     * @memberof ActivityLog
+     */
+    'data'?: object;
+    /**
+     * 
+     * @type {number}
+     * @memberof ActivityLog
+     */
+    'tenant'?: number | null;
+}
+
+export const ActivityLogActionTypeEnum = {
+    Create: 'Create',
+    Read: 'Read',
+    Update: 'Update',
+    Delete: 'Delete',
+    Login: 'Login',
+    Logout: 'Logout',
+    LoginFailed: 'Login Failed'
+} as const;
+
+export type ActivityLogActionTypeEnum = typeof ActivityLogActionTypeEnum[keyof typeof ActivityLogActionTypeEnum];
+export const ActivityLogStatusEnum = {
+    Success: 'Success',
+    Failed: 'Failed'
+} as const;
+
+export type ActivityLogStatusEnum = typeof ActivityLogStatusEnum[keyof typeof ActivityLogStatusEnum];
+
 /**
  * 
  * @export
@@ -658,31 +732,31 @@ export interface PolicyPoliciesList200Response {
 /**
  * 
  * @export
- * @interface PolicyPolicyRulesList200Response
+ * @interface PolicyPolicyRuleList200Response
  */
-export interface PolicyPolicyRulesList200Response {
+export interface PolicyPolicyRuleList200Response {
     /**
      * 
      * @type {number}
-     * @memberof PolicyPolicyRulesList200Response
+     * @memberof PolicyPolicyRuleList200Response
      */
     'count': number;
     /**
      * 
      * @type {string}
-     * @memberof PolicyPolicyRulesList200Response
+     * @memberof PolicyPolicyRuleList200Response
      */
     'next'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof PolicyPolicyRulesList200Response
+     * @memberof PolicyPolicyRuleList200Response
      */
     'previous'?: string | null;
     /**
      * 
      * @type {Array<PolicyRule>}
-     * @memberof PolicyPolicyRulesList200Response
+     * @memberof PolicyPolicyRuleList200Response
      */
     'results': Array<PolicyRule>;
 }
@@ -1805,31 +1879,6 @@ export interface User {
      */
     'password2': string;
 }
-/**
- * 
- * @export
- * @interface UserLoginLog
- */
-export interface UserLoginLog {
-    /**
-     * 
-     * @type {number}
-     * @memberof UserLoginLog
-     */
-    'user': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserLoginLog
-     */
-    'timestamp'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserLoginLog
-     */
-    'ip_address'?: string | null;
-}
 
 /**
  * AccountsApi - axios parameter creator
@@ -1837,6 +1886,81 @@ export interface UserLoginLog {
  */
 export const AccountsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * List ActivityLogs
+         * @summary List created ActivityLogs
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiActivityLogsList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/accounts/api/activity_logs/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * retrieves an ActivityLog
+         * @summary Retrieves an instance of a ActivityLog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiActivityLogsRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('accountsApiActivityLogsRead', 'id', id)
+            const localVarPath = `/accounts/api/activity_logs/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * Admin Registers a New Tenant
          * @summary Admin Registers/Onboards a New Tenant
@@ -2297,16 +2421,15 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Create RolePermission
-         * @summary Creates new RolePermission
+         * 
          * @param {RolePermission} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiRolePermissionsCreate: async (data: RolePermission, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        accountsApiRolePermissionCreate: async (data: RolePermission, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('accountsApiRolePermissionsCreate', 'data', data)
-            const localVarPath = `/accounts/api/role_permissions/`;
+            assertParamExists('accountsApiRolePermissionCreate', 'data', data)
+            const localVarPath = `/accounts/api/role_permission/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2336,14 +2459,13 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * List RolePermissions
-         * @summary List created RolePermissions
+         * 
          * @param {number} [page] A page number within the paginated result set.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiRolePermissionsList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/accounts/api/role_permissions/`;
+        accountsApiRolePermissionList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/accounts/api/role_permission/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2376,15 +2498,15 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * retrieves a RolePermission (Please pass role id for the id field)
          * @summary Retrieves an instance of a Role and its Permissions
-         * @param {number} id A unique integer value identifying this role permission.
+         * @param {string} roleId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiRolePermissionsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('accountsApiRolePermissionsRead', 'id', id)
-            const localVarPath = `/accounts/api/role_permission/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        accountsApiRolePermissionRead: async (roleId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'roleId' is not null or undefined
+            assertParamExists('accountsApiRolePermissionRead', 'roleId', roleId)
+            const localVarPath = `/accounts/api/role_permission/{role_id}`
+                .replace(`{${"role_id"}}`, encodeURIComponent(String(roleId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -2966,206 +3088,6 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Create LoginLog
-         * @summary Creates new UserLoginLog
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsCreate: async (data: UserLoginLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('accountsApiUserLoginLogsCreate', 'data', data)
-            const localVarPath = `/accounts/api/user_login_logs/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * List LoginLogs
-         * @summary List created LoginLogs
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/accounts/api/user_login_logs/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * partially update LoginLog
-         * @summary partially updates a LoginLog property
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsPartialUpdate: async (id: number, data: UserLoginLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('accountsApiUserLoginLogsPartialUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('accountsApiUserLoginLogsPartialUpdate', 'data', data)
-            const localVarPath = `/accounts/api/user_login_logs/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * retrieves a LoginLog
-         * @summary Retrieves an instance of a LoginLog
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('accountsApiUserLoginLogsRead', 'id', id)
-            const localVarPath = `/accounts/api/user_login_logs/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * update LoginLog
-         * @summary updates a LoginLog property
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsUpdate: async (id: number, data: UserLoginLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('accountsApiUserLoginLogsUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('accountsApiUserLoginLogsUpdate', 'data', data)
-            const localVarPath = `/accounts/api/user_login_logs/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * List Users
          * @summary List created Users in Request User Tenant
          * @param {number} [page] A page number within the paginated result set.
@@ -3337,6 +3259,28 @@ export const AccountsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AccountsApiAxiosParamCreator(configuration)
     return {
         /**
+         * List ActivityLogs
+         * @summary List created ActivityLogs
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async accountsApiActivityLogsList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccountsApiActivityLogsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiActivityLogsList(page, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * retrieves an ActivityLog
+         * @summary Retrieves an instance of a ActivityLog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async accountsApiActivityLogsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiActivityLogsRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Admin Registers a New Tenant
          * @summary Admin Registers/Onboards a New Tenant
          * @param {Register} data 
@@ -3467,36 +3411,34 @@ export const AccountsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Create RolePermission
-         * @summary Creates new RolePermission
+         * 
          * @param {RolePermission} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiRolePermissionsCreate(data: RolePermission, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RolePermission>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionsCreate(data, options);
+        async accountsApiRolePermissionCreate(data: RolePermission, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RolePermission>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * List RolePermissions
-         * @summary List created RolePermissions
+         * 
          * @param {number} [page] A page number within the paginated result set.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiRolePermissionsList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccountsApiRolePermissionsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionsList(page, options);
+        async accountsApiRolePermissionList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccountsApiRolePermissionList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionList(page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * retrieves a RolePermission (Please pass role id for the id field)
          * @summary Retrieves an instance of a Role and its Permissions
-         * @param {number} id A unique integer value identifying this role permission.
+         * @param {string} roleId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiRolePermissionsRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RolePermission>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionsRead(id, options);
+        async accountsApiRolePermissionRead(roleId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RolePermission>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionRead(roleId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -3657,63 +3599,6 @@ export const AccountsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Create LoginLog
-         * @summary Creates new UserLoginLog
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async accountsApiUserLoginLogsCreate(data: UserLoginLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserLoginLog>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiUserLoginLogsCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * List LoginLogs
-         * @summary List created LoginLogs
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async accountsApiUserLoginLogsList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccountsApiUserLoginLogsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiUserLoginLogsList(page, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * partially update LoginLog
-         * @summary partially updates a LoginLog property
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async accountsApiUserLoginLogsPartialUpdate(id: number, data: UserLoginLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserLoginLog>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiUserLoginLogsPartialUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * retrieves a LoginLog
-         * @summary Retrieves an instance of a LoginLog
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async accountsApiUserLoginLogsRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserLoginLog>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiUserLoginLogsRead(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * update LoginLog
-         * @summary updates a LoginLog property
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async accountsApiUserLoginLogsUpdate(id: number, data: UserLoginLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserLoginLog>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiUserLoginLogsUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
          * List Users
          * @summary List created Users in Request User Tenant
          * @param {number} [page] A page number within the paginated result set.
@@ -3769,6 +3654,26 @@ export const AccountsApiFp = function(configuration?: Configuration) {
 export const AccountsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = AccountsApiFp(configuration)
     return {
+        /**
+         * List ActivityLogs
+         * @summary List created ActivityLogs
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiActivityLogsList(page?: number, options?: any): AxiosPromise<AccountsApiActivityLogsList200Response> {
+            return localVarFp.accountsApiActivityLogsList(page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * retrieves an ActivityLog
+         * @summary Retrieves an instance of a ActivityLog
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiActivityLogsRead(id: string, options?: any): AxiosPromise<ActivityLog> {
+            return localVarFp.accountsApiActivityLogsRead(id, options).then((request) => request(axios, basePath));
+        },
         /**
          * Admin Registers a New Tenant
          * @summary Admin Registers/Onboards a New Tenant
@@ -3888,34 +3793,32 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.accountsApiPermissionsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
-         * Create RolePermission
-         * @summary Creates new RolePermission
+         * 
          * @param {RolePermission} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiRolePermissionsCreate(data: RolePermission, options?: any): AxiosPromise<RolePermission> {
-            return localVarFp.accountsApiRolePermissionsCreate(data, options).then((request) => request(axios, basePath));
+        accountsApiRolePermissionCreate(data: RolePermission, options?: any): AxiosPromise<RolePermission> {
+            return localVarFp.accountsApiRolePermissionCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * List RolePermissions
-         * @summary List created RolePermissions
+         * 
          * @param {number} [page] A page number within the paginated result set.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiRolePermissionsList(page?: number, options?: any): AxiosPromise<AccountsApiRolePermissionsList200Response> {
-            return localVarFp.accountsApiRolePermissionsList(page, options).then((request) => request(axios, basePath));
+        accountsApiRolePermissionList(page?: number, options?: any): AxiosPromise<AccountsApiRolePermissionList200Response> {
+            return localVarFp.accountsApiRolePermissionList(page, options).then((request) => request(axios, basePath));
         },
         /**
          * retrieves a RolePermission (Please pass role id for the id field)
          * @summary Retrieves an instance of a Role and its Permissions
-         * @param {number} id A unique integer value identifying this role permission.
+         * @param {string} roleId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiRolePermissionsRead(id: number, options?: any): AxiosPromise<RolePermission> {
-            return localVarFp.accountsApiRolePermissionsRead(id, options).then((request) => request(axios, basePath));
+        accountsApiRolePermissionRead(roleId: string, options?: any): AxiosPromise<RolePermission> {
+            return localVarFp.accountsApiRolePermissionRead(roleId, options).then((request) => request(axios, basePath));
         },
         /**
          * Create Role
@@ -4061,58 +3964,6 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.accountsApiUpdateRolePermissionUpdate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * Create LoginLog
-         * @summary Creates new UserLoginLog
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsCreate(data: UserLoginLog, options?: any): AxiosPromise<UserLoginLog> {
-            return localVarFp.accountsApiUserLoginLogsCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * List LoginLogs
-         * @summary List created LoginLogs
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsList(page?: number, options?: any): AxiosPromise<AccountsApiUserLoginLogsList200Response> {
-            return localVarFp.accountsApiUserLoginLogsList(page, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * partially update LoginLog
-         * @summary partially updates a LoginLog property
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsPartialUpdate(id: number, data: UserLoginLog, options?: any): AxiosPromise<UserLoginLog> {
-            return localVarFp.accountsApiUserLoginLogsPartialUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * retrieves a LoginLog
-         * @summary Retrieves an instance of a LoginLog
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsRead(id: number, options?: any): AxiosPromise<UserLoginLog> {
-            return localVarFp.accountsApiUserLoginLogsRead(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * update LoginLog
-         * @summary updates a LoginLog property
-         * @param {number} id A unique integer value identifying this user login log.
-         * @param {UserLoginLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiUserLoginLogsUpdate(id: number, data: UserLoginLog, options?: any): AxiosPromise<UserLoginLog> {
-            return localVarFp.accountsApiUserLoginLogsUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
          * List Users
          * @summary List created Users in Request User Tenant
          * @param {number} [page] A page number within the paginated result set.
@@ -4156,6 +4007,34 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
         },
     };
 };
+
+/**
+ * Request parameters for accountsApiActivityLogsList operation in AccountsApi.
+ * @export
+ * @interface AccountsApiAccountsApiActivityLogsListRequest
+ */
+export interface AccountsApiAccountsApiActivityLogsListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof AccountsApiAccountsApiActivityLogsList
+     */
+    readonly page?: number
+}
+
+/**
+ * Request parameters for accountsApiActivityLogsRead operation in AccountsApi.
+ * @export
+ * @interface AccountsApiAccountsApiActivityLogsReadRequest
+ */
+export interface AccountsApiAccountsApiActivityLogsReadRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AccountsApiAccountsApiActivityLogsRead
+     */
+    readonly id: string
+}
 
 /**
  * Request parameters for accountsApiAdminTenantUserRegisterCreate operation in AccountsApi.
@@ -4312,45 +4191,45 @@ export interface AccountsApiAccountsApiPermissionsUpdateRequest {
 }
 
 /**
- * Request parameters for accountsApiRolePermissionsCreate operation in AccountsApi.
+ * Request parameters for accountsApiRolePermissionCreate operation in AccountsApi.
  * @export
- * @interface AccountsApiAccountsApiRolePermissionsCreateRequest
+ * @interface AccountsApiAccountsApiRolePermissionCreateRequest
  */
-export interface AccountsApiAccountsApiRolePermissionsCreateRequest {
+export interface AccountsApiAccountsApiRolePermissionCreateRequest {
     /**
      * 
      * @type {RolePermission}
-     * @memberof AccountsApiAccountsApiRolePermissionsCreate
+     * @memberof AccountsApiAccountsApiRolePermissionCreate
      */
     readonly data: RolePermission
 }
 
 /**
- * Request parameters for accountsApiRolePermissionsList operation in AccountsApi.
+ * Request parameters for accountsApiRolePermissionList operation in AccountsApi.
  * @export
- * @interface AccountsApiAccountsApiRolePermissionsListRequest
+ * @interface AccountsApiAccountsApiRolePermissionListRequest
  */
-export interface AccountsApiAccountsApiRolePermissionsListRequest {
+export interface AccountsApiAccountsApiRolePermissionListRequest {
     /**
      * A page number within the paginated result set.
      * @type {number}
-     * @memberof AccountsApiAccountsApiRolePermissionsList
+     * @memberof AccountsApiAccountsApiRolePermissionList
      */
     readonly page?: number
 }
 
 /**
- * Request parameters for accountsApiRolePermissionsRead operation in AccountsApi.
+ * Request parameters for accountsApiRolePermissionRead operation in AccountsApi.
  * @export
- * @interface AccountsApiAccountsApiRolePermissionsReadRequest
+ * @interface AccountsApiAccountsApiRolePermissionReadRequest
  */
-export interface AccountsApiAccountsApiRolePermissionsReadRequest {
+export interface AccountsApiAccountsApiRolePermissionReadRequest {
     /**
-     * A unique integer value identifying this role permission.
-     * @type {number}
-     * @memberof AccountsApiAccountsApiRolePermissionsRead
+     * 
+     * @type {string}
+     * @memberof AccountsApiAccountsApiRolePermissionRead
      */
-    readonly id: number
+    readonly roleId: string
 }
 
 /**
@@ -4578,90 +4457,6 @@ export interface AccountsApiAccountsApiUpdateRolePermissionUpdateRequest {
 }
 
 /**
- * Request parameters for accountsApiUserLoginLogsCreate operation in AccountsApi.
- * @export
- * @interface AccountsApiAccountsApiUserLoginLogsCreateRequest
- */
-export interface AccountsApiAccountsApiUserLoginLogsCreateRequest {
-    /**
-     * 
-     * @type {UserLoginLog}
-     * @memberof AccountsApiAccountsApiUserLoginLogsCreate
-     */
-    readonly data: UserLoginLog
-}
-
-/**
- * Request parameters for accountsApiUserLoginLogsList operation in AccountsApi.
- * @export
- * @interface AccountsApiAccountsApiUserLoginLogsListRequest
- */
-export interface AccountsApiAccountsApiUserLoginLogsListRequest {
-    /**
-     * A page number within the paginated result set.
-     * @type {number}
-     * @memberof AccountsApiAccountsApiUserLoginLogsList
-     */
-    readonly page?: number
-}
-
-/**
- * Request parameters for accountsApiUserLoginLogsPartialUpdate operation in AccountsApi.
- * @export
- * @interface AccountsApiAccountsApiUserLoginLogsPartialUpdateRequest
- */
-export interface AccountsApiAccountsApiUserLoginLogsPartialUpdateRequest {
-    /**
-     * A unique integer value identifying this user login log.
-     * @type {number}
-     * @memberof AccountsApiAccountsApiUserLoginLogsPartialUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {UserLoginLog}
-     * @memberof AccountsApiAccountsApiUserLoginLogsPartialUpdate
-     */
-    readonly data: UserLoginLog
-}
-
-/**
- * Request parameters for accountsApiUserLoginLogsRead operation in AccountsApi.
- * @export
- * @interface AccountsApiAccountsApiUserLoginLogsReadRequest
- */
-export interface AccountsApiAccountsApiUserLoginLogsReadRequest {
-    /**
-     * A unique integer value identifying this user login log.
-     * @type {number}
-     * @memberof AccountsApiAccountsApiUserLoginLogsRead
-     */
-    readonly id: number
-}
-
-/**
- * Request parameters for accountsApiUserLoginLogsUpdate operation in AccountsApi.
- * @export
- * @interface AccountsApiAccountsApiUserLoginLogsUpdateRequest
- */
-export interface AccountsApiAccountsApiUserLoginLogsUpdateRequest {
-    /**
-     * A unique integer value identifying this user login log.
-     * @type {number}
-     * @memberof AccountsApiAccountsApiUserLoginLogsUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {UserLoginLog}
-     * @memberof AccountsApiAccountsApiUserLoginLogsUpdate
-     */
-    readonly data: UserLoginLog
-}
-
-/**
  * Request parameters for accountsApiUsersList operation in AccountsApi.
  * @export
  * @interface AccountsApiAccountsApiUsersListRequest
@@ -4738,6 +4533,30 @@ export interface AccountsApiAccountsApiUsersUpdateRequest {
  * @extends {BaseAPI}
  */
 export class AccountsApi extends BaseAPI {
+    /**
+     * List ActivityLogs
+     * @summary List created ActivityLogs
+     * @param {AccountsApiAccountsApiActivityLogsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AccountsApi
+     */
+    public accountsApiActivityLogsList(requestParameters: AccountsApiAccountsApiActivityLogsListRequest = {}, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiActivityLogsList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * retrieves an ActivityLog
+     * @summary Retrieves an instance of a ActivityLog
+     * @param {AccountsApiAccountsApiActivityLogsReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AccountsApi
+     */
+    public accountsApiActivityLogsRead(requestParameters: AccountsApiAccountsApiActivityLogsReadRequest, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiActivityLogsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * Admin Registers a New Tenant
      * @summary Admin Registers/Onboards a New Tenant
@@ -4879,39 +4698,37 @@ export class AccountsApi extends BaseAPI {
     }
 
     /**
-     * Create RolePermission
-     * @summary Creates new RolePermission
-     * @param {AccountsApiAccountsApiRolePermissionsCreateRequest} requestParameters Request parameters.
+     * 
+     * @param {AccountsApiAccountsApiRolePermissionCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountsApi
      */
-    public accountsApiRolePermissionsCreate(requestParameters: AccountsApiAccountsApiRolePermissionsCreateRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiRolePermissionsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public accountsApiRolePermissionCreate(requestParameters: AccountsApiAccountsApiRolePermissionCreateRequest, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiRolePermissionCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * List RolePermissions
-     * @summary List created RolePermissions
-     * @param {AccountsApiAccountsApiRolePermissionsListRequest} requestParameters Request parameters.
+     * 
+     * @param {AccountsApiAccountsApiRolePermissionListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountsApi
      */
-    public accountsApiRolePermissionsList(requestParameters: AccountsApiAccountsApiRolePermissionsListRequest = {}, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiRolePermissionsList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    public accountsApiRolePermissionList(requestParameters: AccountsApiAccountsApiRolePermissionListRequest = {}, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiRolePermissionList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * retrieves a RolePermission (Please pass role id for the id field)
      * @summary Retrieves an instance of a Role and its Permissions
-     * @param {AccountsApiAccountsApiRolePermissionsReadRequest} requestParameters Request parameters.
+     * @param {AccountsApiAccountsApiRolePermissionReadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountsApi
      */
-    public accountsApiRolePermissionsRead(requestParameters: AccountsApiAccountsApiRolePermissionsReadRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiRolePermissionsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public accountsApiRolePermissionRead(requestParameters: AccountsApiAccountsApiRolePermissionReadRequest, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiRolePermissionRead(requestParameters.roleId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -5079,66 +4896,6 @@ export class AccountsApi extends BaseAPI {
      */
     public accountsApiUpdateRolePermissionUpdate(requestParameters: AccountsApiAccountsApiUpdateRolePermissionUpdateRequest, options?: AxiosRequestConfig) {
         return AccountsApiFp(this.configuration).accountsApiUpdateRolePermissionUpdate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Create LoginLog
-     * @summary Creates new UserLoginLog
-     * @param {AccountsApiAccountsApiUserLoginLogsCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AccountsApi
-     */
-    public accountsApiUserLoginLogsCreate(requestParameters: AccountsApiAccountsApiUserLoginLogsCreateRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiUserLoginLogsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * List LoginLogs
-     * @summary List created LoginLogs
-     * @param {AccountsApiAccountsApiUserLoginLogsListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AccountsApi
-     */
-    public accountsApiUserLoginLogsList(requestParameters: AccountsApiAccountsApiUserLoginLogsListRequest = {}, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiUserLoginLogsList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * partially update LoginLog
-     * @summary partially updates a LoginLog property
-     * @param {AccountsApiAccountsApiUserLoginLogsPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AccountsApi
-     */
-    public accountsApiUserLoginLogsPartialUpdate(requestParameters: AccountsApiAccountsApiUserLoginLogsPartialUpdateRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiUserLoginLogsPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * retrieves a LoginLog
-     * @summary Retrieves an instance of a LoginLog
-     * @param {AccountsApiAccountsApiUserLoginLogsReadRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AccountsApi
-     */
-    public accountsApiUserLoginLogsRead(requestParameters: AccountsApiAccountsApiUserLoginLogsReadRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiUserLoginLogsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * update LoginLog
-     * @summary updates a LoginLog property
-     * @param {AccountsApiAccountsApiUserLoginLogsUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AccountsApi
-     */
-    public accountsApiUserLoginLogsUpdate(requestParameters: AccountsApiAccountsApiUserLoginLogsUpdateRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiUserLoginLogsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7001,10 +6758,10 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRulesCreate: async (data: PolicyRule, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyRuleCreate: async (data: PolicyRule, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('policyPolicyRulesCreate', 'data', data)
-            const localVarPath = `/policy/policy_rules/`;
+            assertParamExists('policyPolicyRuleCreate', 'data', data)
+            const localVarPath = `/policy/policy_rule/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -7039,8 +6796,8 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRulesList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/policy/policy_rules/`;
+        policyPolicyRuleList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/policy/policy_rule/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -7071,17 +6828,17 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * Retrieve all rules under a policy
-         * @summary retrieves all rules under a policy. Please pass policy id as id
-         * @param {number} id A unique integer value identifying this policy rule.
+         * retrieves a PolicyRule (Please pass policy id for the id field)
+         * @summary Retrieves an instance of a Policy and its Rules
+         * @param {string} policyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRulesRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('policyPolicyRulesRead', 'id', id)
-            const localVarPath = `/policy/policy_rules/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        policyPolicyRuleRead: async (policyId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'policyId' is not null or undefined
+            assertParamExists('policyPolicyRuleRead', 'policyId', policyId)
+            const localVarPath = `/policy/policy_rule/{policy_id}`
+                .replace(`{${"policy_id"}}`, encodeURIComponent(String(policyId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -7409,8 +7166,8 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRulesCreate(data: PolicyRule, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRule>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRulesCreate(data, options);
+        async policyPolicyRuleCreate(data: PolicyRule, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRuleCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7419,19 +7176,19 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRulesList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRulesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRulesList(page, options);
+        async policyPolicyRuleList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRuleList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRuleList(page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Retrieve all rules under a policy
-         * @summary retrieves all rules under a policy. Please pass policy id as id
-         * @param {number} id A unique integer value identifying this policy rule.
+         * retrieves a PolicyRule (Please pass policy id for the id field)
+         * @summary Retrieves an instance of a Policy and its Rules
+         * @param {string} policyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRulesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRule>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRulesRead(id, options);
+        async policyPolicyRuleRead(policyId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRuleRead(policyId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7560,8 +7317,8 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRulesCreate(data: PolicyRule, options?: any): AxiosPromise<PolicyRule> {
-            return localVarFp.policyPolicyRulesCreate(data, options).then((request) => request(axios, basePath));
+        policyPolicyRuleCreate(data: PolicyRule, options?: any): AxiosPromise<PolicyRule> {
+            return localVarFp.policyPolicyRuleCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7569,18 +7326,18 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRulesList(page?: number, options?: any): AxiosPromise<PolicyPolicyRulesList200Response> {
-            return localVarFp.policyPolicyRulesList(page, options).then((request) => request(axios, basePath));
+        policyPolicyRuleList(page?: number, options?: any): AxiosPromise<PolicyPolicyRuleList200Response> {
+            return localVarFp.policyPolicyRuleList(page, options).then((request) => request(axios, basePath));
         },
         /**
-         * Retrieve all rules under a policy
-         * @summary retrieves all rules under a policy. Please pass policy id as id
-         * @param {number} id A unique integer value identifying this policy rule.
+         * retrieves a PolicyRule (Please pass policy id for the id field)
+         * @summary Retrieves an instance of a Policy and its Rules
+         * @param {string} policyId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRulesRead(id: number, options?: any): AxiosPromise<PolicyRule> {
-            return localVarFp.policyPolicyRulesRead(id, options).then((request) => request(axios, basePath));
+        policyPolicyRuleRead(policyId: string, options?: any): AxiosPromise<PolicyRule> {
+            return localVarFp.policyPolicyRuleRead(policyId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7727,45 +7484,45 @@ export interface PolicyApiPolicyPoliciesUpdateRequest {
 }
 
 /**
- * Request parameters for policyPolicyRulesCreate operation in PolicyApi.
+ * Request parameters for policyPolicyRuleCreate operation in PolicyApi.
  * @export
- * @interface PolicyApiPolicyPolicyRulesCreateRequest
+ * @interface PolicyApiPolicyPolicyRuleCreateRequest
  */
-export interface PolicyApiPolicyPolicyRulesCreateRequest {
+export interface PolicyApiPolicyPolicyRuleCreateRequest {
     /**
      * 
      * @type {PolicyRule}
-     * @memberof PolicyApiPolicyPolicyRulesCreate
+     * @memberof PolicyApiPolicyPolicyRuleCreate
      */
     readonly data: PolicyRule
 }
 
 /**
- * Request parameters for policyPolicyRulesList operation in PolicyApi.
+ * Request parameters for policyPolicyRuleList operation in PolicyApi.
  * @export
- * @interface PolicyApiPolicyPolicyRulesListRequest
+ * @interface PolicyApiPolicyPolicyRuleListRequest
  */
-export interface PolicyApiPolicyPolicyRulesListRequest {
+export interface PolicyApiPolicyPolicyRuleListRequest {
     /**
      * A page number within the paginated result set.
      * @type {number}
-     * @memberof PolicyApiPolicyPolicyRulesList
+     * @memberof PolicyApiPolicyPolicyRuleList
      */
     readonly page?: number
 }
 
 /**
- * Request parameters for policyPolicyRulesRead operation in PolicyApi.
+ * Request parameters for policyPolicyRuleRead operation in PolicyApi.
  * @export
- * @interface PolicyApiPolicyPolicyRulesReadRequest
+ * @interface PolicyApiPolicyPolicyRuleReadRequest
  */
-export interface PolicyApiPolicyPolicyRulesReadRequest {
+export interface PolicyApiPolicyPolicyRuleReadRequest {
     /**
-     * A unique integer value identifying this policy rule.
-     * @type {number}
-     * @memberof PolicyApiPolicyPolicyRulesRead
+     * 
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyRuleRead
      */
-    readonly id: number
+    readonly policyId: string
 }
 
 /**
@@ -7930,36 +7687,36 @@ export class PolicyApi extends BaseAPI {
 
     /**
      * 
-     * @param {PolicyApiPolicyPolicyRulesCreateRequest} requestParameters Request parameters.
+     * @param {PolicyApiPolicyPolicyRuleCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPolicyRulesCreate(requestParameters: PolicyApiPolicyPolicyRulesCreateRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRulesCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyRuleCreate(requestParameters: PolicyApiPolicyPolicyRuleCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRuleCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PolicyApiPolicyPolicyRulesListRequest} requestParameters Request parameters.
+     * @param {PolicyApiPolicyPolicyRuleListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPolicyRulesList(requestParameters: PolicyApiPolicyPolicyRulesListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRulesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyRuleList(requestParameters: PolicyApiPolicyPolicyRuleListRequest = {}, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRuleList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Retrieve all rules under a policy
-     * @summary retrieves all rules under a policy. Please pass policy id as id
-     * @param {PolicyApiPolicyPolicyRulesReadRequest} requestParameters Request parameters.
+     * retrieves a PolicyRule (Please pass policy id for the id field)
+     * @summary Retrieves an instance of a Policy and its Rules
+     * @param {PolicyApiPolicyPolicyRuleReadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPolicyRulesRead(requestParameters: PolicyApiPolicyPolicyRulesReadRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRulesRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyRuleRead(requestParameters: PolicyApiPolicyPolicyRuleReadRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRuleRead(requestParameters.policyId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8114,12 +7871,12 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {AssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsPartialUpdate: async (id: number, data: AssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsPartialUpdate: async (id: string, data: AssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('systemSettingsAssetManagementsPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -8156,11 +7913,11 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('systemSettingsAssetManagementsRead', 'id', id)
             const localVarPath = `/system_settings/asset_managements/{id}/`
@@ -8192,12 +7949,12 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {AssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsUpdate: async (id: number, data: AssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsUpdate: async (id: string, data: AssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('systemSettingsAssetManagementsUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -9044,33 +8801,33 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {AssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsPartialUpdate(id: number, data: AssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
+        async systemSettingsAssetManagementsPartialUpdate(id: string, data: AssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsPartialUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
+        async systemSettingsAssetManagementsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {AssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsUpdate(id: number, data: AssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
+        async systemSettingsAssetManagementsUpdate(id: string, data: AssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -9312,31 +9069,31 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {AssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsPartialUpdate(id: number, data: AssetManagement, options?: any): AxiosPromise<AssetManagement> {
+        systemSettingsAssetManagementsPartialUpdate(id: string, data: AssetManagement, options?: any): AxiosPromise<AssetManagement> {
             return localVarFp.systemSettingsAssetManagementsPartialUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsRead(id: number, options?: any): AxiosPromise<AssetManagement> {
+        systemSettingsAssetManagementsRead(id: string, options?: any): AxiosPromise<AssetManagement> {
             return localVarFp.systemSettingsAssetManagementsRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this asset management.
+         * @param {string} id 
          * @param {AssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsUpdate(id: number, data: AssetManagement, options?: any): AxiosPromise<AssetManagement> {
+        systemSettingsAssetManagementsUpdate(id: string, data: AssetManagement, options?: any): AxiosPromise<AssetManagement> {
             return localVarFp.systemSettingsAssetManagementsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
@@ -9565,11 +9322,11 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsListRequest {
  */
 export interface SystemSettingsApiSystemSettingsAssetManagementsPartialUpdateRequest {
     /**
-     * A unique integer value identifying this asset management.
-     * @type {number}
+     * 
+     * @type {string}
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsPartialUpdate
      */
-    readonly id: number
+    readonly id: string
 
     /**
      * 
@@ -9586,11 +9343,11 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsPartialUpdateReq
  */
 export interface SystemSettingsApiSystemSettingsAssetManagementsReadRequest {
     /**
-     * A unique integer value identifying this asset management.
-     * @type {number}
+     * 
+     * @type {string}
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsRead
      */
-    readonly id: number
+    readonly id: string
 }
 
 /**
@@ -9600,11 +9357,11 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsReadRequest {
  */
 export interface SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest {
     /**
-     * A unique integer value identifying this asset management.
-     * @type {number}
+     * 
+     * @type {string}
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsUpdate
      */
-    readonly id: number
+    readonly id: string
 
     /**
      * 

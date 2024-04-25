@@ -5,7 +5,6 @@ import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
 import { UsersListLoading } from "../../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../../components/useAlert";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { AccountsApiUserLoginLogsList200Response } from "../../../../api/axios-client";
 import { ModalAllUser } from "./modals/ModalAllUser";
 import TableComponent from "../../../../components/TableComponent";
 import {
@@ -60,7 +59,7 @@ const UserLogs = () => {
   const { data, isLoading, error } = useGetAccountUserLoginLogs(page);
   console.log("daaaaa", data);
 
-  const datastsr: AccountsApiUserLoginLogsList200Response | any = data;
+  const datastsr:  any = data;
 
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);

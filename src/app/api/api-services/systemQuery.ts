@@ -2,8 +2,6 @@ import {
   SystemSettingsApiSystemSettingsAssetManagementsCreateRequest,
   SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest,
   SystemSettingsApiSystemSettingsRegionsCreateRequest,
-  SystemSettingsApiSystemSettingsSystemSettingsUpdateRequest,
-  SystemSetting,
 } from "../axios-client";
 
 import { systemApi } from "./apiUrl";
@@ -18,7 +16,7 @@ export const useGetAssets = (page: number) => {
   return query;
 };
 
-export const useGetSingleAsset = (id: number) => {
+export const useGetSingleAsset = (id: any) => {
   const query = useQuery(["asset-id"], () =>
     systemApi.systemSettingsAssetManagementsRead({ id })
   );

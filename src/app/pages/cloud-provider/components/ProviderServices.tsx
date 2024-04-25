@@ -39,13 +39,13 @@ export class ResourceWithStatus implements IStatus {
   }
 
   getStatusLabel() {
-    if (this.status) return "Active";
-    if (!this.status) return "InActive";
+    if (this.isDefault) return "Active";
+    if (!this.isDefault) return "InActive";
     return "";
   }
   getStatusColor() {
-    if (this.status) return new MyColor(33, 150, 83);
-    if (!this.status) return new MyColor(242, 153, 74);
+    if (this.isDefault) return new MyColor(33, 150, 83);
+    if (!this.isDefault) return new MyColor(242, 153, 74);
     return new MyColor(242, 0, 74);
   }
 }
@@ -123,8 +123,9 @@ const ProviderServices = () => {
       },
       {
         onSuccess: (res) => {
-          console.log(res);
-          navigate(-1);
+          refreshrecord();
+          // console.log(res);
+          // navigate(-1);
         },
       }
     );
