@@ -2502,11 +2502,11 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiRolePermissionRead: async (roleId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'roleId' is not null or undefined
-            assertParamExists('accountsApiRolePermissionRead', 'roleId', roleId)
-            const localVarPath = `/accounts/api/role_permission/{role_id}`
-                .replace(`{${"role_id"}}`, encodeURIComponent(String(roleId)));
+        accountsApiRolePermissionsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('accountsApiRolePermissionsRead', 'id', id)
+            const localVarPath = `/accounts/api/role_permissions/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

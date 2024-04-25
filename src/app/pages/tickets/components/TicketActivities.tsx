@@ -88,7 +88,7 @@ const TicketsActivities = () => {
               />
             </div> */}
             {activity?.map((act: any) => (
-              <div className="bg-lightDark w-[95%] mx-auto rounded-md p-4 md:p-8 mt-10">
+              <div className="bg-white shadow-md dark:bg-lightDark w-[95%] mx-auto rounded-md p-4 md:p-8 mt-10">
                 <div className="p-3">
                   <div className="flex items-center gap-4">
                     <span className="bg-primary rounded-full p-2 text-white flex items-center justify-center">

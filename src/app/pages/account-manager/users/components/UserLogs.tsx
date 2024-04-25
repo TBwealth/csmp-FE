@@ -40,18 +40,33 @@ const UserLogs = () => {
   ];
   const tableColumns: TableColumn[] = [
     {
-      name: "user",
-      title: "User",
+      name: "id",
+      title: "ID",
       type: ColumnTypes.Text,
     },
     {
-      name: "timestamp",
-      title: "Time Stamp",
+      name: "actor",
+      title: "Actor",
       type: ColumnTypes.Text,
     },
     {
-      name: "ip_address",
-      title: "IP Address",
+      name: "action_type",
+      title: "Action Type",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "action_time",
+      title: "Action Time",
+      type: ColumnTypes.Date,
+    },
+    {
+      name: "remarks",
+      title: "Remarks",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "status",
+      title: "Status",
       type: ColumnTypes.Text,
     },
   ];
@@ -105,21 +120,7 @@ const UserLogs = () => {
   }
 
   //new table props
-  const actions = ["Edit"];
-  const tableHeaders: TableColumn[] = [
-    {
-      name: "user",
-      title: "User",
-    },
-    {
-      name: "timestamp",
-      title: "Time Stamp",
-    },
-    {
-      name: "ip_address",
-      title: "IP Address",
-    },
-  ];
+ 
 
   return (
     <div>

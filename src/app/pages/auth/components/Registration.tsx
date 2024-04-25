@@ -256,7 +256,7 @@ export function Registration() {
         </button>
       </div>
       <form
-        className="md:col-span-2 bg-lightDark rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border"
+        className="md:col-span-2 bg-bgDark dark:bg-lightDark rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border"
         // style={{ backgroundColor: "white" }}
         noValidate
         id="kt_login_signup_form"
@@ -271,11 +271,11 @@ export function Registration() {
         </p>
       </div> */}
         <div className="text-center mb-11">
-          <h1 className="text-gray-900 fw-bolder mb-3">Sign Up</h1>
+          <h1 className="text-white dark:text-gray-900 fw-bolder mb-3">Sign Up</h1>
         </div>
         {/* <div className="mt-10">
         <h2 className="fs-20 fw-bold">Personal Information</h2>
-        <p className="fs-5 fw-light text-gray-900">
+        <p className="fs-5 fw-light text-white dark:text-gray-900">
           Provide the following details below
         </p>
       </div> */}
@@ -294,7 +294,7 @@ export function Registration() {
         <div className="row ">
           {/* begin::Form group Firstname */}
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-gray-900 fs-6">
+            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
               Company name
             </label>
             <input
@@ -324,7 +324,7 @@ export function Registration() {
           </div>
           {/* end::Form group */}
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-gray-900 fs-6">
+            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
               Admin First Name
             </label>
             <input
@@ -355,7 +355,7 @@ export function Registration() {
         </div>
         <div className="row">
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-gray-900 fs-6">
+            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
               Admin Last name
             </label>
             <input
@@ -384,7 +384,7 @@ export function Registration() {
             )}
           </div>
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-gray-900 fs-6">
+            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
               Admin Email
             </label>
             <input
@@ -412,7 +412,7 @@ export function Registration() {
         <div className="row">
           {/* begin::Form group Email */}
           {/* <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-gray-900 fs-6">
+            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
               Email
             </label>
             <input
@@ -439,7 +439,7 @@ export function Registration() {
           {/* end::Form group */}
           {/* <div className="fv-row mb-8 col-sm">
             {" "}
-            <label className="form-label fw-bolder text-gray-900 fs-6">
+            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
               Tenant
             </label>
             <select
@@ -469,7 +469,7 @@ export function Registration() {
           {/* begin::Form group Password */}
           <div className="fv-row mb-8 col-sm" data-kt-password-meter="true">
             <div className="mb-1">
-              <label className="form-label fw-bolder text-gray-900 fs-6">
+              <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
                 Password
               </label>
               <div className="position-relative mb-3">
@@ -517,7 +517,7 @@ export function Registration() {
           {/* end::Form group */}
           {/* begin::Form group Confirm password */}
           <div className="fv-row mb-5 col-sm">
-            <label className="form-label fw-bolder text-gray-900 fs-6">
+            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
               Confirm Password
             </label>
             <input
@@ -554,7 +554,7 @@ export function Registration() {
         {/* begin::Form group */}
         {/* <div className="row">
           <div className="fv-row mb-8 col-sm flex gap-3 items-center">
-            <label className="form-label fw-bolder text-gray-900 fs-6">
+            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
               Company Logo
             </label>
             <Upload
