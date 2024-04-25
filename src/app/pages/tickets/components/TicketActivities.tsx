@@ -14,6 +14,7 @@ const TicketsActivities = () => {
   const [errorMess, setErrorMess] = useState("");
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
+  const [showEmpty, setshowEmpty] = useState(true);
   const { data, isLoading, error } = useGetSingleTicketActivity(+id!);
   console.log(data);
   const topActionButtons = [
@@ -27,6 +28,7 @@ const TicketsActivities = () => {
   const datastsr: any = data;
   useEffect(() => {
     setActivity(datastsr?.data?.data);
+    setshowEmpty(datastsr?.data?.data.length > 0 ? false : true);
     hideAlert();
     if (error) {
       if (error instanceof Error) {
@@ -52,14 +54,14 @@ const TicketsActivities = () => {
       <ComponentsheaderComponent
         backbuttonClick={() => navigate(-1)}
         showbackbutton={true}
-        pageName={`Ticket Activities ${id}`}
+        pageName={`Ticket Activities - ${id}`}
         requiredButton={topActionButtons}
         buttonClick={(e) => {
           modal(e);
         }}
       />
       <div className="mt-20">
-        {isLoading ? (
+        {showEmpty ? (
           <DefaultContent
             pageHeader="Ticket Activities"
             pageDescription="No record found"
