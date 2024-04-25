@@ -18,7 +18,7 @@ export default function DefaultContent({
   return (
     <>
       <div
-        className="w-full lg:w-[90%] mt-20 rounded-md bg-white dark:bg-[#3B4852] mx-auto lg:flex justify-center items-center"
+        className="w-full lg:w-[90%] mt-20 rounded-md shadow-md bg-white dark:bg-[#3B4852] mx-auto lg:flex justify-center items-center"
         style={{ minHeight: "300px" }}
       >
         <div className="space-y-10 w-full flex flex-col items-center">
@@ -31,7 +31,7 @@ export default function DefaultContent({
                 {pageHeader || "Nothing to see here"}
               </h5>
               <p
-                className="text-[16px] font-normal text-white dark:text-white"
+                className="text-[16px] font-normal text-bgDark dark:text-white"
                 style={{ textAlign: "center" }}
               >
                 {pageDescription || ""}

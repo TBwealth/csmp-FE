@@ -186,7 +186,7 @@ const Roles = () => {
                 type="text"
                 name="search"
                 autoComplete="off"
-                className="form-control bg-lightDark"
+                className="form-control bg-white shadow-md dark:bg-lightDark border border-primary"
                 onChange={(e) => handleRoleSearch(e)}
               />
             </div>
@@ -229,7 +229,7 @@ const Roles = () => {
                   type="text"
                   name="search"
                   autoComplete="off"
-                  className="form-control bg-lightDark"
+                  className="form-control bg-white shadow-md dark:bg-lightDark border border-primary"
                   onChange={(e) => handlePermissionSearch(e)}
                 />
               </div>

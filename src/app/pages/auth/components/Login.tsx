@@ -86,15 +86,15 @@ export function Login() {
   });
 
   return (
-    <div className="form_container">
+    <div className="flex items-center justify-center mt-20">
       <form
-        className="form login-form w-100 shadow-lg border border-2 p-10"
+        className="form w-100  border bg-bgDark z-10 rounded-md shadow-md p-10 text-white"
         onSubmit={formik.handleSubmit}
         noValidate
         id="kt_login_signin_form"
       >
         <div className="text-center mb-11">
-          <h1 className="text-gray-900 fw-bolder mb-3">Sign In</h1>
+          <h1 className="text-white dark:text-gray-900 fw-bolder mb-3">Sign In</h1>
         </div>
 
         <div className="separator separator-content my-14">
@@ -121,7 +121,7 @@ export function Login() {
 
         {/* begin::Form group */}
         <div className="fv-row mb-8">
-          <label className="form-label fs-6 fw-bolder text-gray-900">
+          <label className="form-label fs-6 fw-bolder text-white dark:text-gray-900">
             Email
           </label>
           <input
@@ -148,7 +148,7 @@ export function Login() {
 
         {/* begin::Form group */}
         <div className="fv-row mb-3">
-          <label className="form-label fw-bolder text-gray-900 fs-6 mb-0">
+          <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6 mb-0">
             Password
           </label>
           <input

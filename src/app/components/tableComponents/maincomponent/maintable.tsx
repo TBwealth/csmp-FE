@@ -749,7 +749,7 @@ export const MainTableComponent = ({
                             col.type === undefined) &&
                             data[col.name]?.toString().length > 25 && (
                               <Tooltip
-                                className="text-bgDark"
+                                className="text-bgDark bg-white shadow-md"
                                 content={getCleanText(data[col.name])}
                               >
                                 <div
