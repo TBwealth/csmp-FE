@@ -3437,8 +3437,8 @@ export const AccountsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiRolePermissionRead(roleId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RolePermission>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionRead(roleId, options);
+        async accountsApiRolePermissionRead(roleId: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RolePermission>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionsRead(roleId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**

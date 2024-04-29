@@ -389,7 +389,9 @@ const DashboardPage: FC = () => {
             />
           </div>
         </div> */}
-
+        <div className="py-2 border-b border-b-gray-300">
+          <span className="">Status per AWS Region</span>
+</div>
         <div className="row g-5 gx-xxl-8">
           <Chart
             chartEvents={[
