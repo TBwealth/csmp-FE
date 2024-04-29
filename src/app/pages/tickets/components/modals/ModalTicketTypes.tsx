@@ -69,10 +69,10 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
         status: statusValue,
       },
       {
-        onSuccess: (res) => {
-          handleClose();
+        onSuccess: (res: any) => {
+          // handleClose();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setNameValue("");
           setCodeValue("");
           setStatusValue(true);
@@ -99,10 +99,10 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
         },
       },
       {
-        onSuccess: (res) => {
-          handleClose();
+        onSuccess: (res: any) => {
+          // handleClose();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setNameValue("");
           setCodeValue("");
           setStatusValue(false);

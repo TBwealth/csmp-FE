@@ -45,7 +45,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
     mutate(
       { data: { ...region } },
       {
-        onSuccess: (res) => {
+        onSuccess: (res: any) => {
           setRegion({
             cloud_provider: 0,
             code: "",
@@ -53,8 +53,9 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
             longitude: "",
             name: "",
           });
+          showAlert(res?.data?.message, "success");
           console.log(res);
-          handleHide();
+          // handleHide();
         },
         onError: (err) => {
           if (err instanceof Error) {
@@ -71,7 +72,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
         data: { ...region },
       },
       {
-        onSuccess: (res) => {
+        onSuccess: (res: any) => {
           setRegion({
             cloud_provider: 0,
             code: "",
@@ -79,7 +80,9 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
             longitude: "",
             name: "",
           });
-          handleHide();
+          showAlert(res?.data?.message, "success");
+          console.log(res);
+          // handleHide();
         },
         onError: (err) => {
           if (err instanceof Error) {

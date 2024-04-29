@@ -26,10 +26,11 @@ const AddRolePermissionModal = ({
         name: permissionValue,
       },
       {
-        onSuccess: (res) => {
+        onSuccess: (res: any) => {
           console.log(res);
+          showAlert(res?.data?.message, "success");
           setPermissionValue("");
-          handleHide();
+          // handleHide();
         },
 
         onError: (err) => {

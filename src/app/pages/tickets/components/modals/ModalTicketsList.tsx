@@ -161,10 +161,10 @@ const ModalTicketsList = ({
         // date_joined: new Date()
       },
       {
-        onSuccess: (res) => {
-          handleHide();
+        onSuccess: (res: any) => {
+          // handleHide();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setAssignedToValue(null);
           setCodeValue("");
           setAssetValue(null);
@@ -199,10 +199,10 @@ const ModalTicketsList = ({
         },
       },
       {
-        onSuccess: (res) => {
-          handleHide();
+        onSuccess: (res: any) => {
+          // handleHide();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setAssignedToValue(null);
           setCodeValue("");
           setAssetValue(null);

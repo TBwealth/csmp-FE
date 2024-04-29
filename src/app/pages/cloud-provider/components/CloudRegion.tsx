@@ -120,7 +120,7 @@ const CloudRegion = () => {
         }}
       />
       
-      {showEmpty ? (
+      {(showEmpty || isLoading) ? (
         <DefaultContent
           pageHeader="All Regions"
           pageDescription="No record found"

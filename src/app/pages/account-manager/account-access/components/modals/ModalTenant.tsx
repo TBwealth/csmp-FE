@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { KTIcon, KTSVG } from "../../../../../../_metronic/helpers";
 import {
-  usePostAccountRolesPermission,
   usePostAccountTenant,
   useUpdateAccountTenant,
 } from "../../../../../api/api-services/accountQuery";
@@ -61,10 +59,10 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
         status: statusValue,
       },
       {
-        onSuccess: (res) => {
-          handleClose();
+        onSuccess: (res: any) => {
+          // handleClose();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setAdminEmailValue("");
           setNameValue("");
           setCodeValue("");
@@ -93,10 +91,10 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
         },
       },
       {
-        onSuccess: (res) => {
-          handleClose();
+        onSuccess: (res: any) => {
+          // handleClose();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setAdminEmailValue("");
           setNameValue("");
           setCodeValue("");
@@ -193,16 +191,12 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
                 {editItem ? "Edit" : "Continue"}
               </span>
             )}
-            {isLoading ||
-              (editLoading && (
-                <span
-                  className="indicator-progress"
-                  style={{ display: "block" }}
-                >
-                  Please wait...{" "}
-                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
-              ))}
+            {(isLoading || editLoading) && (
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            )}
           </button>
         </Modal.Footer>
       </Modal>

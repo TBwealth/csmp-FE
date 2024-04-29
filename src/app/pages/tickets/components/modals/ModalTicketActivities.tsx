@@ -90,10 +90,10 @@ const ModalTicketActivities = ({
         activity_type: activityTypeValue,
       },
       {
-        onSuccess: (res) => {
-          handleHide();
+        onSuccess: (res: any) => {
+          // handleHide();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setTimestampValue(new Date().toISOString());
           setTicketValue(null);
           setUserValue(null);
@@ -127,10 +127,10 @@ const ModalTicketActivities = ({
         },
       },
       {
-        onSuccess: (res) => {
-          handleHide();
+        onSuccess: (res: any) => {
+          // handleHide();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setTicketValue(null);
           setUserValue(null);
           setCommentValue("");
