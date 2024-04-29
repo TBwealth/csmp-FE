@@ -87,7 +87,8 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
       },
       {
         onSuccess: (res) => {
-          handleClose();
+          showAlert("User Added Successfully", "success");
+          // handleClose();
           console.log(res);
         },
 

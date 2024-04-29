@@ -72,7 +72,7 @@ const Tenant = () => {
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.DELETE, label: "Delete" },
+    // { name: ACTIONS.DELETE, label: "Delete" },
   ];
 
   const { data, isLoading, error } = useGetAccountTenant(page);
@@ -167,7 +167,7 @@ const Tenant = () => {
         }}
       />
 
-      {showEmpty ? (
+      {(showEmpty || isLoading) ? (
         <DefaultContent
           pageHeader="All Tenants"
           pageDescription="No record found"

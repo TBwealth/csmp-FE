@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../../_metronic/layout/core";
 import Roles from "./components/Roles";
-import AccountManagerHeader from "./AccountAccessHeader";
+import Tenant from "./components/Tenant";
 
 const accountManagerBreadCrumbs: Array<PageLink> = [
   {
@@ -38,6 +38,17 @@ const AccountManagerPage: React.FC = () => {
                 Roles
               </PageTitle>
               <Roles />
+            </>
+          }
+        />
+        <Route
+          path="tenants"
+          element={
+            <>
+              <PageTitle breadcrumbs={accountManagerBreadCrumbs}>
+                Tenants
+              </PageTitle>
+              <Tenant />
             </>
           }
         />

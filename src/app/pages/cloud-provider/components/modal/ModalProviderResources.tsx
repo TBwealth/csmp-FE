@@ -76,8 +76,9 @@ const ModalProviderResources = ({
         }
       },
       {
-        onSuccess: (res) => {
-          handleHide();
+        onSuccess: (res: any) => {
+          showAlert(res?.data?.message, "success");
+          // handleHide();
           console.log(res);
           setNameValue("");
           setCodeValue("");
@@ -105,8 +106,9 @@ const ModalProviderResources = ({
         },
       },
       {
-        onSuccess: (res) => {
-          handleHide();
+        onSuccess: (res: any) => {
+          showAlert(res?.data?.message, "success");
+          // handleHide();
           console.log(res);
           setNameValue("");
           setCodeValue("");

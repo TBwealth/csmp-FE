@@ -14,6 +14,7 @@ import {
   useGetAccountCustomTenant,
 } from "../../../api/api-services/accountQuery";
 import { AccountsApiTenantsList200Response } from "../../../api/axios-client";
+import { toAbsoluteUrl } from "../../../../_metronic/helpers";
 
 const initialValues = {
   companyname: "",
@@ -243,7 +244,13 @@ export function Registration() {
   return (
     <div className="grid md:grid-cols-3 md:w-[80%] mr-60 md:gap-20 mt-20">
       <div className="md:col-span-1 left_container">
-        <div>LOGO</div>
+        <div>
+          <img
+            alt="Logo"
+            src={toAbsoluteUrl("media/logos/logofile.jpg")}
+            className="h-85px app-sidebar-logo-default theme-light-show"
+          />
+        </div>
         <button className={active ? "active" : "inactive"}>
           <input
             type="checkbox"
@@ -271,7 +278,9 @@ export function Registration() {
         </p>
       </div> */}
         <div className="text-center mb-11">
-          <h1 className="text-white dark:text-gray-900 fw-bolder mb-3">Sign Up</h1>
+          <h1 className="text-white dark:text-gray-900 fw-bolder mb-3">
+            Sign Up
+          </h1>
         </div>
         {/* <div className="mt-10">
         <h2 className="fs-20 fw-bold">Personal Information</h2>

@@ -3,7 +3,6 @@ import useAlert from "../components/useAlert";
 import { useGetPolicies } from "../../api/api-services/policyQuery";
 import { PolicyPoliciesList200Response } from "../../api/axios-client";
 import { useNavigate } from "react-router-dom";
-import { ToolbarWrapper } from "../../../_metronic/layout/components/toolbar";
 import {
   ACTIONS,
   ColumnTypes,
@@ -11,7 +10,6 @@ import {
   TableActionEvent,
   TableColumn,
 } from "../../components/models";
-import ModalPolicyList from "./modals/RuleModal";
 import RunPolicyModal from "./modals/RunPolicyModal";
 import {
   IStatus,
@@ -48,14 +46,13 @@ export class PolicyWithStatus implements IStatus {
 const PolicyWrapper = () => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<any[]>([]);
-  const [editItems, setEditItems] = useState<any | undefined>();
+  const [editItems, setEditItems] = useState<any>(null);
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const { showAlert, hideAlert } = useAlert();
   const navigate = useNavigate();
   const [showPolicy, setShowPolicy] = useState(false);
   const [errorMess, setErrorMess] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
@@ -63,6 +60,7 @@ const PolicyWrapper = () => {
     { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
+    { name: ACTIONS.EDIT, label: "Edit" },
     { name: ACTIONS.VIEW, label: "View Rules" },
     { name: ACTIONS.DELETE, label: "Run Policy" },
   ];
@@ -116,7 +114,7 @@ const PolicyWrapper = () => {
   ];
   function modal(buttion: any) {
     if (buttion === "add_new_user") {
-      setShowModal(true);
+      setShowPolicy(true);
       setEditItems(null);
     }
   }
@@ -136,11 +134,16 @@ const PolicyWrapper = () => {
     useGetPolicies(1);
   }
   function tableActionClicked(event: TableActionEvent) {
+    if (event.name === "1") {
+      setEditItems(event.data);
+      setShowPolicy(true);
+    }
     if (event.name === "3") {
       handleViewPolicyRules(event.data.id);
     }
     if (event.name === "2") {
         setShowPolicy(true);
+
     }
   }
 
@@ -195,23 +198,10 @@ const PolicyWrapper = () => {
       )}
       {/* {!showEmpty && (
       )} */}
-      {showModal && (
-        <ModalPolicyList
-          editItem={editItems}
-          isOpen={showModal}
-          handleHide={() => {
-            setShowModal(false);
-            setEditItems(false);
-          }}
-          onClearEdit={() => {
-            setEditItems(null);
-          }}
-        />
-      )}
       {showPolicy && (
         <RunPolicyModal
           isOpen={showPolicy}
-          state="policy"
+          editItem={editItems}
           handleHide={() => {
             setShowPolicy(false);
           }}

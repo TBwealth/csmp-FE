@@ -106,7 +106,7 @@ const AddPermissionModal = ({ editItem, onClearEdit, isOpen, handleHide}: any) =
         </Modal.Header>
         <Modal.Body>
           <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">Name:</label>
+            <label className="form-label fs-6 fw-bold">Names:</label>
             <input
               placeholder="Enter Name"
               type="text"

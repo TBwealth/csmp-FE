@@ -58,10 +58,10 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
         status: statusValue,
       },
       {
-        onSuccess: (res) => {
-          handleHide();
+        onSuccess: (res: any) => {
+          // handleHide();
           console.log(res);
-          // showAlert(res?.data?.message, "success");
+          showAlert(res?.data?.message, "success");
           setNameValue("");
           setCodeValue("");
           setStatusValue(true);
@@ -88,9 +88,9 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
         },
       },
       {
-        onSuccess: (res) => {
-          handleHide();
-          // showAlert(res?.data?.message, "success");
+        onSuccess: (res: any) => {
+          // handleHide();
+          showAlert(res?.data?.message, "success");
           setNameValue("");
           setCodeValue("");
           setStatusValue(false);

@@ -30,7 +30,7 @@ export const useCreatePolicies = () => {
   return mutation;
 };
 
-export const useUpdatePolicies = (id: number) => {
+export const useUpdatePolicies = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(

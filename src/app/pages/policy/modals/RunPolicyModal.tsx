@@ -1,40 +1,67 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useGetCloudProviderResourceTypes } from "../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../components/useAlert";
-import { useGetPolicies } from "../../../api/api-services/policyQuery";
-import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../api/axios-client";
-import { PolicyPoliciesList200Response } from "../../../api/axios-client";
+import {
+  useCreatePolicies,
+  useUpdatePolicies,
+} from "../../../api/api-services/policyQuery";
 
-const RunPolicyModal = ({ isOpen, handleHide, state }: any) => {
-  const [items, setItems] = useState<any[]>([]);
-  const [selectedProvider, setSelectedProv] = useState<any>(null);
-  const { showAlert, hideAlert } = useAlert();
-  const { data, error } = useGetCloudProviderResourceTypes(1);
-  const { data:policies, error:PolicyErr } = useGetPolicies(1);
-  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
-    data;
-  const polstsr: CloudProviderCloudProviderResourceTypesList200Response | any =
-  policies;
+const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
+  const [policy, setPolicy] = useState<any>({
+    name: editItem ? editItem?.name : "",
+    code: editItem ? editItem?.code : "",
+    status: editItem ? editItem?.status : true,
+  });
+  const { showAlert, hideAlert, Alert } = useAlert();
+  const { mutate, isLoading } = useCreatePolicies();
+  const { mutate: editMutate, isLoading: editLoading } = useUpdatePolicies();
 
-  useEffect(() => {
-    if(state === "policy") {
-        setItems(datastsr?.data?.data?.results);
-    } else {
-        setItems(polstsr?.data?.data?.results);
-    }
-    hideAlert();
-    if (error) {
-      if (error instanceof Error) {
-        showAlert(error?.message || "An unknown error occurred", "danger");
+  const handleCreatePolicy = () => {
+    mutate(
+      {
+        name: policy.name,
+        code: policy?.code,
+        status: policy?.staus,
+      },
+      {
+        onSuccess: (res: any) => {
+          showAlert(res?.data?.message, "success");
+          console.log(res);
+        },
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
       }
-    }
-  }, [data, error, policies, PolicyErr]);
+    );
+    // handleHide();
+  };
 
-  const handleRunPolicy = () => {
-    console.log(selectedProvider);
-    handleHide();
-  }
+  const handleEditPolicy = () => {
+    editMutate(
+      {
+        id: editItem?.id,
+        data: {
+          id: editItem?.id,
+          name: policy?.name,
+          code: policy?.code,
+          status: policy?.status,
+        },
+      },
+      {
+        onSuccess: (res: any) => {
+          showAlert(res?.data?.message, "success");
+          console.log(res);
+        },
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -45,31 +72,49 @@ const RunPolicyModal = ({ isOpen, handleHide, state }: any) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Run Policy</Modal.Title>
+          <Modal.Title>
+            {editItem ? "Edit this policy" : "Create Policy"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">{state === "policy" ? "Providers:" : "Policy:"}</label>
-            <select
-              name="ticket_type"
-              id="ticket_type"
+            <label className="form-label fs-6 fw-bold">Name:</label>
+            <input
+              placeholder="Enter Name"
+              type="text"
+              name="text"
+              autoComplete="off"
               className="form-control bg-transparent"
-              onChange={(e) => {
-                const selected = items.filter(
-                  (item) => item?.id === +e.target.value
-                );
-                setSelectedProv(selected[0]);
-              }}
-            >
-              <option value="">Select {state === "policy" ? "Provider" : "Policy"}</option>
-              {items?.map((data: any) => (
-                <option value={data.id} key={data.name}>
-                  {data.name}
-                </option>
-              ))}
-            </select>
+              value={policy.name}
+              onChange={(e) => setPolicy({ ...policy, name: e.target.value })}
+            />
+          </div>
+          <div className="mb-10">
+            <label className="form-label fs-6 fw-bold">Code:</label>
+            <input
+              placeholder="Enter Code"
+              type="text"
+              name="text"
+              autoComplete="off"
+              className="form-control bg-transparent"
+              value={policy.code}
+              onChange={(e) => setPolicy({ ...policy, code: e.target.value })}
+            />
+          </div>
+          <div>
+            <label className="form-label fs-6 fw-bold">Active?:</label>
+            <input
+              className="form-check-input w-15px h-15px mx-1 mt-1"
+              type="checkbox"
+              id="flexSwitchCheckChecked"
+              checked={policy?.status}
+              onChange={(e) =>
+                setPolicy({ ...policy, status: e.target.checked })
+              }
+            />
           </div>
         </Modal.Body>
+        <Alert />
         <Modal.Footer>
           <button type="button" className="btn btn-light" onClick={handleHide}>
             Close
@@ -77,27 +122,20 @@ const RunPolicyModal = ({ isOpen, handleHide, state }: any) => {
           <button
             type="button"
             className="btn btn-primary"
-              disabled={
-               !selectedProvider
-              }
-              onClick={handleRunPolicy}
+            disabled={!policy?.name || !policy?.code}
+            onClick={editItem ? handleEditPolicy : handleCreatePolicy}
           >
-            {/* {!isLoading && !editLoading && (
-                <span className="indicator-label">
-                  {editItem ? "Edit" : "Continue"}
-                </span>
-              )}
-              {isLoading ||
-                (editLoading && (
-                  <span
-                    className="indicator-progress"
-                    style={{ display: "block" }}
-                  >
-                    Please wait...{" "}
-                    <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                  </span>
-                ))} */}
-            Continue
+            {!isLoading && !editLoading && (
+              <span className="indicator-label">
+                {editItem ? "Edit" : "Continue"}
+              </span>
+            )}
+            {(isLoading || editLoading) && (
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            )}
           </button>
         </Modal.Footer>
       </Modal>

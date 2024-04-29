@@ -51,8 +51,9 @@ const AddRoleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
         name: roleName,
       },
       {
-        onSuccess: (res) => {
+        onSuccess: (res: any) => {
           // setIsOpen(false);
+          showAlert(res?.data?.message, "success");
           console.log(res);
           setRoleName("");
         },
@@ -76,8 +77,9 @@ const AddRoleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
         },
       },
       {
-        onSuccess: (res) => {
-          handleClose();
+        onSuccess: (res: any) => {
+          // handleClose();
+          showAlert(res?.data?.message, "success");
           console.log(res);
           setRoleName("");
         },
