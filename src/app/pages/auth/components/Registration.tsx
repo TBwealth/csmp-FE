@@ -133,113 +133,25 @@ export function Registration() {
   }, []);
 
   const handleSwitchMode = (e: any) => {
-    setIsActive(e.target.checked);
+    const curMode = localStorage.getItem("kt_theme_mode_value"); 
+    if (curMode) {
+      if(curMode === "dark") {
+        localStorage.setItem("kt_theme_mode_value", "light");
+        location.reload();
+      } else {
+        localStorage.setItem("kt_theme_mode_value", "dark");
+        location.reload();
+      }
+    } else {
+      if(e) {
+        localStorage.setItem("kt_theme_mode_value", "dark");
+        location.reload();
+      } else {
+        localStorage.setItem("kt_theme_mode_value", "dark");
+        location.reload();
+      }
+    }
   };
-
-  // function getBase64(rfile: any) {
-  //   return new Promise((resolved, rejected) => {
-  //     let file = rfile;
-  //     let reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     let b64 = "";
-  //     reader.onload = function () {
-  //       //  b64 = reader.result.toString().split(",")[1];
-  //       b64 = reader!.result!.toString();
-  //       resolved(b64);
-  //     };
-
-  //     reader.onerror = function (error) {
-  //       console.log("Error: ", error);
-  //     };
-  //   });
-  // }
-  // function formatBytes(bytes: any, decimals = 2) {
-  //   if (bytes === 0 || bytes == null) return "0 Bytes";
-
-  //   const k = 1024;
-  //   const dm = decimals < 0 ? 0 : decimals;
-  //   const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-
-  //   const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  //   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
-  // }
-  // const props: UploadProps = {
-  //   name: "file",
-  //   multiple: false,
-  //   onRemove: (file: any) => {
-  //     const index = fileList.indexOf(file);
-  //     const newFileList = fileList.slice();
-  //     newFileList.splice(index, 1);
-  //     setImageUrl("");
-  //     setFileList(newFileList);
-  //   },
-  //   beforeUpload: (file: any) => {
-  //     const splitedName = file.name.split(".");
-  //     const fileExt = splitedName[splitedName.length - 1];
-  //     const fileSize = file.size;
-  //     if (allowedFileType.includes(fileExt.toLowerCase())) {
-  //       if (fileSize > maxFileSize) {
-  //         setErrMessage(
-  //           `Maximum file size allowed is ${formatBytes(maxFileSize)} - ${
-  //             file.name
-  //           }`
-  //         );
-  //         setShowAlert(true);
-  //         return Upload.LIST_IGNORE;
-  //       }
-  //     } else {
-  //       setErrMessage(
-  //         `${file.name} - Please Upload any of these file type: JPEG, PNG,JPEG`
-  //       );
-  //       setShowAlert(true);
-  //       return Upload.LIST_IGNORE;
-  //     }
-  //     getBase64(file).then((base64data: any) => {
-  //       setImageUrl(base64data);
-  //       // setValue("profile_image", base64data);
-  //     });
-  //     setFileList([...fileList, file]);
-  //     return false;
-  //   },
-  //   onDrop(e: any) {
-  //     let dataTrasferFiles = e.dataTransfer.files;
-  //     const file = dataTrasferFiles[0];
-  //     const splitedName = file.name.split(".");
-  //     const fileExt = splitedName[splitedName.length - 1];
-  //     const fileSize = file.size;
-  //     if (allowedFileType.includes(fileExt.toLowerCase())) {
-  //       if (fileSize > maxFileSize) {
-  //         setErrMessage(
-  //           `Maximum file size allowed is ${formatBytes(maxFileSize)} - ${
-  //             file.name
-  //           }`
-  //         );
-  //         setShowAlert(true);
-  //         return Upload.LIST_IGNORE;
-  //       }
-  //     } else {
-  //       setErrMessage(
-  //         `${file.name} - Please Upload any of these file type: JPEG, PNG,JPEG`
-  //       );
-  //       setShowAlert(true);
-  //       return Upload.LIST_IGNORE;
-  //     }
-  //     getBase64(file).then((base64data: any) => {
-  //       setImageUrl(base64data);
-  //       // setValue("profile_image", base64data);
-  //     });
-  //     setFileList([...fileList, file]);
-  //     return false;
-  //   },
-  // };
-
-  // const uploadButton = (
-  //   <div className="">
-  //     <PlusOutlined color="white"/>
-  //     <div style={{ marginTop: 8, color:"white" }}>Upload</div>
-  //   </div>
-  // );
 
   return (
     <div className="grid md:grid-cols-3 md:w-[80%] mr-60 md:gap-20 mt-20">
@@ -248,7 +160,7 @@ export function Registration() {
           <img
             alt="Logo"
             src={toAbsoluteUrl("media/logos/logofile.jpg")}
-            className="h-85px app-sidebar-logo-default theme-light-show"
+            className="h-85px app-sidebar-logo-default"
           />
         </div>
         <button className={active ? "active" : "inactive"}>
@@ -257,13 +169,13 @@ export function Registration() {
             defaultChecked
             name="toggle"
             id="toggle"
-            onChange={(e) => handleSwitchMode(e)}
+            onChange={(e) => handleSwitchMode(e.target.checked)}
           />
           <div className="button"></div>
         </button>
       </div>
       <form
-        className="md:col-span-2 bg-bgDark dark:bg-lightDark rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border"
+        className="md:col-span-2 rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border"
         // style={{ backgroundColor: "white" }}
         noValidate
         id="kt_login_signup_form"
@@ -278,7 +190,7 @@ export function Registration() {
         </p>
       </div> */}
         <div className="text-center mb-11">
-          <h1 className="text-white dark:text-gray-900 fw-bolder mb-3">
+          <h1 className=" fw-bolder mb-3">
             Sign Up
           </h1>
         </div>
@@ -289,7 +201,7 @@ export function Registration() {
         </p>
       </div> */}
         <div className="separator separator-content mb-5">
-          <span className="w-300px text-gray-500 fw-semibold fs-7">
+          <span className="w-300px  fw-semibold fs-7">
             Create Tenant Account
           </span>
         </div>
@@ -303,7 +215,7 @@ export function Registration() {
         <div className="row ">
           {/* begin::Form group Firstname */}
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
+            <label className="form-label fw-bolder fs-6">
               Company name
             </label>
             <input
@@ -333,7 +245,7 @@ export function Registration() {
           </div>
           {/* end::Form group */}
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
+            <label className="form-label fw-bolder  fs-6">
               Admin First Name
             </label>
             <input
@@ -364,7 +276,7 @@ export function Registration() {
         </div>
         <div className="row">
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
+            <label className="form-label fw-bolder fs-6">
               Admin Last name
             </label>
             <input
@@ -393,7 +305,7 @@ export function Registration() {
             )}
           </div>
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
+            <label className="form-label fw-bolder  fs-6">
               Admin Email
             </label>
             <input
@@ -478,7 +390,7 @@ export function Registration() {
           {/* begin::Form group Password */}
           <div className="fv-row mb-8 col-sm" data-kt-password-meter="true">
             <div className="mb-1">
-              <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
+              <label className="form-label fw-bolder fs-6">
                 Password
               </label>
               <div className="position-relative mb-3">
@@ -526,7 +438,7 @@ export function Registration() {
           {/* end::Form group */}
           {/* begin::Form group Confirm password */}
           <div className="fv-row mb-5 col-sm">
-            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
+            <label className="form-label fw-bolder fs-6">
               Confirm Password
             </label>
             <input

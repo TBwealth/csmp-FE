@@ -186,7 +186,7 @@ const Roles = () => {
                 type="text"
                 name="search"
                 autoComplete="off"
-                className="form-control bg-white shadow-md dark:bg-lightDark border border-primary"
+                className="form-control border border-primary"
                 onChange={(e) => handleRoleSearch(e)}
               />
             </div>
@@ -195,8 +195,8 @@ const Roles = () => {
                 key={item.name}
                 className={
                   item.id === selected.id
-                    ? "bg-primary text-white uppercase rounded-md p-2 mb-3 text-lg w-full shadow-md"
-                    : "bg-white dark:bg-lightDark uppercase p-2 mb-3 text-lg w-full rounded-md shadow-md"
+                    ? "bg-primary  uppercase rounded-md p-2 mb-3 text-lg w-full shadow-md"
+                    : " uppercase p-2 mb-3 text-lg w-full rounded-md shadow-md"
                 }
                 onClick={() => {
                   setSelected(item);
@@ -229,7 +229,7 @@ const Roles = () => {
                   type="text"
                   name="search"
                   autoComplete="off"
-                  className="form-control bg-white shadow-md dark:bg-lightDark border border-primary"
+                  className="form-control shadow-md  border border-primary"
                   onChange={(e) => handlePermissionSearch(e)}
                 />
               </div>

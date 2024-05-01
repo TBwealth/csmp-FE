@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { getUserByToken, login } from "../core/_requests";
 import { useAuth } from "../core/Auth";
 import { useAccountLogin } from "../../../api/api-services/accountQuery";
+import { toAbsoluteUrl } from "../../../../_metronic/helpers";
 import "./styles/loginstyles.css";
 
 const loginSchema = Yup.object().shape({
@@ -39,6 +40,7 @@ const initialValue = {
 export function Login() {
   const [loading, setLoading] = useState(false);
   const { saveAuth, setCurrentUser } = useAuth();
+  const [active, setIsActive] = useState(false);
   const navigate = useNavigate();
 
   const { mutate, isLoading } = useAccountLogin();
@@ -85,20 +87,66 @@ export function Login() {
     },
   });
 
+  const handleSwitchMode = (e: any) => {
+    
+    const curMode = localStorage.getItem("kt_theme_mode_value");
+    if (curMode) {
+      if (curMode === "dark") {
+        localStorage.setItem("kt_theme_mode_value", "light");
+        location.reload();
+        setIsActive(false);
+      } else {
+        localStorage.setItem("kt_theme_mode_value", "dark");
+        location.reload();
+        setIsActive(true);
+      }
+    } else {
+      if (e) {
+        localStorage.setItem("kt_theme_mode_value", "light");
+        location.reload();
+        setIsActive(false);
+      } else {
+        localStorage.setItem("kt_theme_mode_value", "dark");
+        location.reload();
+        setIsActive(true);
+      }
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center mt-20">
+    // <div className="flex items-center justify-center mt-20">
+    <div className="grid md:grid-cols-2 md:w-[80%] mr-60 md:gap-20 mt-20">
+      <div className="md:col-span-1 left_container">
+        <div>
+          <img
+            alt="Logo"
+            src={toAbsoluteUrl("media/logos/logofile.jpg")}
+            className="h-85px app-sidebar-logo-default"
+          />
+        </div>
+        <button className={active ? "active" : "inactive"}>
+          <input
+            type="checkbox"
+            defaultChecked
+            name="toggle"
+            id="toggle"
+            onChange={(e) => handleSwitchMode(e.target.checked)}
+          />
+          <div className="button"></div>
+        </button>
+      </div>
       <form
-        className="form w-100  border bg-bgDark z-10 rounded-md shadow-md p-10 text-white"
+        className="form w-100  border z-10 rounded-md shadow-md p-10"
         onSubmit={formik.handleSubmit}
         noValidate
         id="kt_login_signin_form"
       >
         <div className="text-center mb-11">
-          <h1 className="text-white dark:text-gray-900 fw-bolder mb-3">Sign In</h1>
+          <h1 className=" fw-bolder mb-3">Sign In</h1>
         </div>
 
         <div className="separator separator-content my-14">
-          <span className="w-300px text-gray-500 fw-semibold fs-7">
+          <span className="w-300px  fw-semibold fs-7">
             Enter your Login details
           </span>
         </div>
@@ -121,9 +169,7 @@ export function Login() {
 
         {/* begin::Form group */}
         <div className="fv-row mb-8">
-          <label className="form-label fs-6 fw-bolder text-white dark:text-gray-900">
-            Email
-          </label>
+          <label className="form-label fs-6 fw-bolder">Email</label>
           <input
             placeholder="Email"
             {...formik.getFieldProps("email")}
@@ -148,9 +194,7 @@ export function Login() {
 
         {/* begin::Form group */}
         <div className="fv-row mb-3">
-          <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6 mb-0">
-            Password
-          </label>
+          <label className="form-label fw-bolder fs-6 mb-0">Password</label>
           <input
             type="password"
             autoComplete="off"

@@ -15,6 +15,9 @@ export default {
         bgDark: "#0F1014",
         lightDark:"#2A2C38",   
       },
+      fontFamily: {
+        sans: ["Manrope", 'Inter', 'Arial']
+      }
     },
   },
   plugins: [],
