@@ -133,24 +133,15 @@ export function Registration() {
   }, []);
 
   const handleSwitchMode = (e: any) => {
-    const curMode = localStorage.getItem("kt_theme_mode_value"); 
-    if (curMode) {
+    setIsActive(e);
+    const curMode = document.documentElement.getAttribute("data-bs-theme"); 
       if(curMode === "dark") {
-        localStorage.setItem("kt_theme_mode_value", "light");
-        location.reload();
+        document.documentElement.setAttribute("data-bs-theme", "light");
+        // localStorage.setItem("kt_theme_mode_value", "light");
+        // location.reload();
       } else {
-        localStorage.setItem("kt_theme_mode_value", "dark");
-        location.reload();
+        document.documentElement.setAttribute("data-bs-theme", "dark");
       }
-    } else {
-      if(e) {
-        localStorage.setItem("kt_theme_mode_value", "dark");
-        location.reload();
-      } else {
-        localStorage.setItem("kt_theme_mode_value", "dark");
-        location.reload();
-      }
-    }
   };
 
   return (

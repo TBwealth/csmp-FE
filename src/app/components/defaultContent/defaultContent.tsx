@@ -18,7 +18,7 @@ export default function DefaultContent({
   return (
     <>
       <div
-        className="w-full lg:w-[90%] mt-20 rounded-md shadow-md mx-auto lg:flex justify-center items-center"
+        className="w-full lg:w-[90%] mt-20 rounded-md shadow-md mx-auto lg:flex justify-center items-center border"
         style={{ minHeight: "300px" }}
       >
         <div className="space-y-10 w-full flex flex-col items-center">
