@@ -88,10 +88,10 @@ const TicketsActivities = () => {
               />
             </div> */}
             {activity?.map((act: any) => (
-              <div className="bg-white shadow-md dark:bg-lightDark w-[95%] mx-auto rounded-md p-4 md:p-8 mt-10">
+              <div className="border shadow-md w-[95%] mx-auto rounded-md p-4 md:p-8 mt-10">
                 <div className="p-3">
                   <div className="flex items-center gap-4">
-                    <span className="bg-primary rounded-full p-2 text-white flex items-center justify-center">
+                    <span className="bg-primary rounded-full p-2  flex items-center justify-center">
                       <i className="bi bi-check2"></i>
                     </span>
                     <h3 className="font-semibold text-lg md:text-xl">
