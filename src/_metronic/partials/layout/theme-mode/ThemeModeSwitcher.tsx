@@ -66,8 +66,9 @@ const ThemeModeSwitcher = ({
               active: menuMode === "dark",
             })}
             onClick={() =>{
-              localStorage.setItem("kt_theme_mode_value", "dark");
-              location.reload();
+              document.documentElement.setAttribute("data-bs-theme", "dark")
+              // localStorage.setItem("kt_theme_mode_value", "dark");
+              // location.reload();
               }}
           >
             <span className="menu-icon" data-kt-element="icon">
@@ -86,8 +87,9 @@ const ThemeModeSwitcher = ({
               active: menuMode === "dark",
             })}
             onClick={() => {
-              localStorage.setItem("kt_theme_mode_value", "light");
-              location.reload();
+              document.documentElement.setAttribute("data-bs-theme", "light");
+              // localStorage.setItem("kt_theme_mode_value", "light");
+              // location.reload();
               // updateMode("light");
               // updateMenuMode("light");
             }}
