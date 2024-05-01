@@ -25,6 +25,8 @@ const ThemeModeSwitcher = ({
     updateMode(_mode);
   };
 
+  console.log("mode switcher");
+
   return (
     <>
       {/* begin::Menu toggle */}
@@ -63,7 +65,10 @@ const ThemeModeSwitcher = ({
             className={clsx("menu-link px-3 py-2", {
               active: menuMode === "dark",
             })}
-            onClick={() => switchMode("dark")}
+            onClick={() =>{
+              localStorage.setItem("kt_theme_mode_value", "dark");
+              location.reload();
+              }}
           >
             <span className="menu-icon" data-kt-element="icon">
               <KTIcon iconName="night-day" className="fs-1" />
@@ -80,7 +85,12 @@ const ThemeModeSwitcher = ({
             className={clsx("menu-link px-3 py-2", {
               active: menuMode === "dark",
             })}
-            onClick={() => switchMode("light")}
+            onClick={() => {
+              localStorage.setItem("kt_theme_mode_value", "light");
+              location.reload();
+              // updateMode("light");
+              // updateMenuMode("light");
+            }}
           >
             <span className="menu-icon" data-kt-element="icon">
               <KTIcon iconName="moon" className="fs-1" />

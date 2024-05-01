@@ -591,7 +591,7 @@ export const MainTableComponent = ({
   };
   return (
     <>
-      <div className="space-y-3 m-8 p-5 bg-white dark:bg-lightDark shadow-lg rounded-md">
+      <div className="space-y-3 m-8 p-5 shadow-md rounded-md border">
         {showFilter && selectedRecord! <= 0 && (
           <TableheaderComponent
             filterFields={filterFields}
@@ -623,7 +623,7 @@ export const MainTableComponent = ({
             <div className="flex flex-row space-x-5 items-center">
               {Bulkactions.map((mtext) => (
                 <div onClick={() => bulkSelectedItems(mtext)}>
-                  <div className="border-[0.5px] border-[#CED4DA] text-sm text-[#D1D4E5] py-2.5 px-3 rounded-md place-self-center flex cursor-pointer flex-row items-center">
+                  <div className="border-[0.5px] border-[#CED4DA] text-sm  py-2.5 px-3 rounded-md place-self-center flex cursor-pointer flex-row items-center">
                     {mtext.icon && (
                       <i className="fa fa-{{ mtext.icon }} ml-2 text-primary"></i>
                     )}
@@ -636,7 +636,7 @@ export const MainTableComponent = ({
               <div>
                 <button
                   onClick={() => setshowExportModal(!showExportModal)}
-                  className="flex space-x-1 border-[0.5px] border-[#CED4DA] text-sm text-[#D1D4E5] py-2.5 px-3 rounded-md place-self-center mr-2"
+                  className="flex space-x-1 border-[0.5px] border-[#CED4DA] text-sm py-2.5 px-3 rounded-md place-self-center mr-2"
                   data-modal-id="modal1"
                 >
                   <p className="text-sm hover:cursor-pointer">Export as</p>
@@ -645,7 +645,7 @@ export const MainTableComponent = ({
               <div className="flex space-x-3 items-center">
                 <span
                   onClick={() => handleExportAs("Print")}
-                  className="flex space-x-1 place-self-center cursor-pointer text-[#D1D4E5]"
+                  className="flex space-x-1 place-self-center cursor-pointer"
                 >
                   <i className="fa fa-print text-primary"></i>
                   <p className="text-sm">Print</p>
@@ -656,7 +656,7 @@ export const MainTableComponent = ({
           </div>
         )}
         <div className="relative overflow-x-auto">
-          <table className="w-full text-bgDark">
+          <table className="w-full">
             <thead>
               <tr className="border-b boder-gray-300">
                 {showCheckBox && (
@@ -749,7 +749,7 @@ export const MainTableComponent = ({
                             col.type === undefined) &&
                             data[col.name]?.toString().length > 25 && (
                               <Tooltip
-                                className="text-bgDark bg-white shadow-md"
+                                className="shadow-md"
                                 content={getCleanText(data[col.name])}
                               >
                                 <div

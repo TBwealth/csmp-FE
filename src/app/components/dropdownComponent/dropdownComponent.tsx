@@ -100,60 +100,76 @@ export const DropdownComponent = ({
     <>
       <Popover
         onClickOutside={() => setIsShowdataPanel(false)}
-  isOpen={isShowdataPanel}
-  positions={[ 'bottom', 'left', 'top','right']} // preferred positions by priority
-        content={<div>
-      <div key={17} className="flex flex-col shadow-md bg-white dark:bg-lightDark rounded">             
-                  <div key={20} id="dropdown" className="z-10 divide-y divide-gray-100 rounded-sm shadow px-2" style={{minWidth:"11rem"}}>
-                   
-                  <ul key={28} className="py-2 text-sm text-gray-700 space-y-2 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                    {actions.map((act:any) => (
-                 <li >
-                    {!act.isFieldDependant && (
-                  <button onClick={() => { itemSelected(act); toggleDataPanel() }}>
-                    <div className="flex flex-row w-full">
-                      {act.iconSrc && (
-                        <div className="flex justify-end space-x-3 items-center cursor-pointer pl-1 pr-1">
-                     <img src={act.iconSrc} alt="" />
-                   </div>
-                      )}
-                   
-                   <div className="flex flex-auto pr-7">
-                     { act.label }
-                   </div>  
-                 </div>
-               </button>
-                )}
-                {(act.isFieldDependant && getDropDownlabel(act)) && (
-                  <button onClick={()=>{itemSelected(act);toggleDataPanel()}} >
-                    <div className="flex flex-row w-full">
-                      {act.iconSrc && (
-                        <div className="flex justify-end space-x-3 items-center cursor-pointer pl-1 pr-1">
-                      <img src={act.iconSrc} alt="" />
-                    </div>
-                      )}
-                    
-                    <div className="flex flex-auto pr-7">
-                      {getDropDownlabel(act)}
-                    </div>
-              
-                  </div>
-                </button>
-               )}
-                 </li>
-          ))}
-                    </ul>
-                  </div>
+        isOpen={isShowdataPanel}
+        positions={["bottom", "left", "top", "right"]} // preferred positions by priority
+        content={
+          <div className="bg-gray-100 text-lightDark shadow-md  rounded-md">
+            <div key={17} className="flex flex-col">
+              <div
+                key={20}
+                id="dropdown"
+                className="z-10 divide-y divide-gray-100 rounded-sm shadow px-2"
+                style={{ minWidth: "11rem" }}
+              >
+                <ul
+                  key={28}
+                  className="py-2 text-sm space-y-2 "
+                  aria-labelledby="dropdownDefaultButton"
+                >
+                  {actions.map((act: any) => (
+                    <li>
+                      {!act.isFieldDependant && (
+                        <button
+                          onClick={() => {
+                            itemSelected(act);
+                            toggleDataPanel();
+                          }}
+                        >
+                          <div className="flex flex-row w-full">
+                            {act.iconSrc && (
+                              <div className="flex justify-end space-x-3 items-center cursor-pointer pl-1 pr-1">
+                                <img src={act.iconSrc} alt="" />
+                              </div>
+                            )}
 
-</div>
-  </div>}
->
-  <div  onClick={() => setIsShowdataPanel(!isShowdataPanel)}>
-  <DropdownChildren />
-  </div>
-</Popover>
+                            <div className="flex flex-auto pr-7">
+                              {act.label}
+                            </div>
+                          </div>
+                        </button>
+                      )}
+                      {act.isFieldDependant && getDropDownlabel(act) && (
+                        <button
+                          onClick={() => {
+                            itemSelected(act);
+                            toggleDataPanel();
+                          }}
+                        >
+                          <div className="flex flex-row w-full">
+                            {act.iconSrc && (
+                              <div className="flex justify-end space-x-3 items-center cursor-pointer pl-1 pr-1">
+                                <img src={act.iconSrc} alt="" />
+                              </div>
+                            )}
 
-    
+                            <div className="flex flex-auto pr-7">
+                              {getDropDownlabel(act)}
+                            </div>
+                          </div>
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        }
+      >
+        <div onClick={() => setIsShowdataPanel(!isShowdataPanel)}>
+          <DropdownChildren />
+        </div>
+      </Popover>
     </>
   );
 };

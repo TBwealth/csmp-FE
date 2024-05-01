@@ -22,7 +22,7 @@ export const RenderSortIconButton = () => {
       <div>
         <div className="dropdown relative">
           <span
-            className="dropdown-toggle mb-2 bg-[#1B1C22] rounded-md flex items-center py-4 px-3 text-sm rounded-md lg:px-3 px-1 space-x-3 transition duration-150 ease-in-out whitespace-nowrap cursor-pointer show_filter"
+            className="dropdown-toggle mb-2 border border-gray-300 flex items-center py-4 px-3 text-sm rounded-md lg:px-3 space-x-3 transition duration-150 ease-in-out whitespace-nowrap cursor-pointer show_filter"
             aria-expanded="false"
           >
             Sort By
@@ -230,10 +230,9 @@ export const TableheaderComponent = ({
 
   return (
     <>
-      <div className="flex flex-wrap justify-between items-center pt-5 text-sm text-[#D1D4E5]">
+      <div className="flex flex-wrap justify-between items-center pt-5 text-sm">
         <h1 className="font-bold mb-2 md:mb-0  text-2xl">{tableTitle}</h1>
         <div className="flex flex-wrap-reverse justify-between lg:space-x-2 space-x-1 items-center">
-        
           {showDateRange && (
             <div className="border-[0.5px] border-[#CED4DA] bg-white rounded-md flex items-center pl-2 space-x-1 text-sm cursor-pointer">
               <i className="fa fa-calendar"></i>
@@ -243,7 +242,7 @@ export const TableheaderComponent = ({
                 startDate={nstartDate}
                 maxDate={new Date()}
                 endDate={nendDate}
-                onChange={(date:any) => {
+                onChange={(date: any) => {
                   setDateRange(date);
                   dateChanged(date);
                 }}
@@ -252,8 +251,8 @@ export const TableheaderComponent = ({
               />
             </div>
           )}
-         
-         <div className="flex space-x-3 items-center print">
+
+          <div className="flex space-x-3 items-center print">
             <span
               onClick={() => downloadas("Print")}
               className="flex space-x-1 place-self-center cursor-pointer"
@@ -313,11 +312,10 @@ export const TableheaderComponent = ({
             className="flex space-x-1 border-[0.5px] mb-2 border-[#CED4DA] py-2.5 px-3 rounded-md place-self-center mr-3 export_btn"
             data-modal-id="modal1"
           >
-            <p className="text-base text-gray-700 font-normal hover:cursor-pointer">
+            <p className="text-base font-normal hover:cursor-pointer">
               Export as
             </p>
           </button>
-        
 
           {bulkDeactivate && (
             <button
@@ -339,7 +337,7 @@ export const TableheaderComponent = ({
               </p>
             </button>
           )}
-          
+
           {showSortBtn && (
             <Popover
               onClickOutside={() => setIsShowdataPanel(false)}
@@ -355,19 +353,19 @@ export const TableheaderComponent = ({
                   >
                     <ul
                       key={28}
-                      className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                      className="py-2 text-sm"
                       aria-labelledby="dropdownDefaultButton"
                     >
                       {showOtherFilter && (
                         <li onClick={() => sortRecentAndOldest("Desc")}>
-                          <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">
+                          <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
                             Most Recent
                           </span>
                         </li>
                       )}
                       {showOtherFilter && (
                         <li onClick={() => sortRecentAndOldest("Asc")}>
-                          <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">
+                          <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
                             Oldest
                           </span>
                         </li>
@@ -375,7 +373,7 @@ export const TableheaderComponent = ({
                       {tableHeader.map((sortList) => (
                         <li>
                           {sortList.title && (
-                            <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">
+                            <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
                               <div className="flex flex-row w-full">
                                 <div className="flex flex-auto pr-7">
                                   {sortList.title}
@@ -421,7 +419,7 @@ export const TableheaderComponent = ({
                     {sortList && (
                       <span
                         onClick={() => onSortOptionClick(sortList)}
-                        className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                        className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100"
                       >
                         <div className="flex flex-row w-full">
                           <div className="flex flex-auto pr-7">{sortList}</div>
@@ -433,24 +431,24 @@ export const TableheaderComponent = ({
               </Dropdown>
             </div>
           )}
-            {showSearch && (
+          {showSearch && (
             <div className="d-flex align-items-center position-relative my-1 mb-3 ">
-            <KTIcon
-              iconName="magnifier"
-              className="fs-1 position-absolute ms-6"
-            />
-            <input
-              type="text"
-              className="form-control form-control-solid w-250px ps-14"
-              placeholder="search"
-              onChange={handleSearch}
-            />
-          </div>
+              <KTIcon
+                iconName="magnifier"
+                className="fs-1 position-absolute ms-6"
+              />
+              <input
+                type="text"
+                className="form-control form-control-solid w-250px ps-14 border border-gray-300"
+                placeholder="search"
+                onChange={handleSearch}
+              />
+            </div>
           )}
-           {showfilterButton && !customFilter && (
+          {showfilterButton && !customFilter && (
             <button
               onClick={() => changeFilter()}
-              className=" bg-[#1B1C22] rounded-md flex items-center py-4 px-3 text-sm mb-2"
+              className=" rounded-md flex items-center py-4 px-3 text-sm mb-2"
             >
               <span className="md:mr-3 show_filter"> Filter </span>
               <img src={filterIcon} alt="filter" className="icon" />
@@ -466,216 +464,223 @@ export const TableheaderComponent = ({
             </button>
           )}
         </div>
-   
-        <Modal show={showFilter} onHide={()=>setshowFilter(!showFilter)}
-       
-          keyboard={false} >
+
+        <Modal
+          show={showFilter}
+          onHide={() => setshowFilter(!showFilter)}
+          keyboard={false}
+        >
           <Modal.Body>
-          <div>
-            <div className="px-10 space-y-12 pt-10 pb-16">
-              <div className="flex justify-between">
-                <h2 className="font-bold text-xl">Filter By</h2>
-              </div>
-              {headfilterFields.length > 0 && (
-                <form className="lg:self-start w-full grid md:grid-cols-2 gap-x-6 gap-y-10">
-                  {headfilterFields.map((field, i) => (
-                    <div className="w-full">
-                      {(field.type === COLUMN_TYPES.Text ||
-                        field.type === undefined) &&
-                        field.listValue!?.length < 1 && (
-                          <div>
-                            <label className="block mb-1 text-sm">
-                              {field.title}
-                            </label>
-                            <input
-                              type="text"
-                              name=""
-                              placeholder={field.title}
-                              onChange={(e) => fieldValueChanged(e, field.name)}
-                              className="text-sm w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary"
-                            />
-                          </div>
-                        )}
-
-                      {field.type === COLUMN_TYPES.List &&
-                        field.listValue!?.length > 0 && (
-                          <div>
-                            <label className="block mb-1 text-sm">
-                              {field.title}
-                            </label>
-                            <select
-                              name=""
-                              id=""
-                              onChange={(e) => fieldValueChanged(e, field.name)}
-                              className="bg-[#F2F5F9] w-full text-sm border-0 rounded-md focus:ring-1 focus:ring-primary"
-                            >
-                              <option value="">--Select {field.title}--</option>
-                              {field.listValue?.map((listv) => (
-                                <option value={listv[field.listIdField!]}>
-                                  {listv[field.listTextField!]}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        )}
-
-                      {field.type === COLUMN_TYPES.slider &&
-                        field.listValue!.length < 1 &&
-                        showFilter && (
-                          <div>
-                            <label className="block mb-1 text-sm justify-between">
-                              <span>{field.title}</span>
-                            </label>
-                            <div className="w-full custom-slider">
-                              <RangeSlider
-                                max={50}
-                                defaultValue={[
-                                  filterData[field!.sliderStartName!],
-                                  filterData[field!.sliderEndName!],
-                                ]}
-                                constraint={([start, end]) =>
-                                  start <= field?.sliderMin! &&
-                                  end >= field?.sliderMax!
+            <div>
+              <div className="px-10 space-y-12 pt-10 pb-16">
+                <div className="flex justify-between">
+                  <h2 className="font-bold text-xl">Filter By</h2>
+                </div>
+                {headfilterFields.length > 0 && (
+                  <form className="lg:self-start w-full grid md:grid-cols-2 gap-x-6 gap-y-10">
+                    {headfilterFields.map((field, i) => (
+                      <div className="w-full">
+                        {(field.type === COLUMN_TYPES.Text ||
+                          field.type === undefined) &&
+                          field.listValue!?.length < 1 && (
+                            <div>
+                              <label className="block mb-1 text-sm">
+                                {field.title}
+                              </label>
+                              <input
+                                type="text"
+                                name=""
+                                placeholder={field.title}
+                                onChange={(e) =>
+                                  fieldValueChanged(e, field.name)
                                 }
+                                className="text-sm w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary"
+                              />
+                            </div>
+                          )}
+
+                        {field.type === COLUMN_TYPES.List &&
+                          field.listValue!?.length > 0 && (
+                            <div>
+                              <label className="block mb-1 text-sm">
+                                {field.title}
+                              </label>
+                              <select
+                                name=""
+                                id=""
+                                onChange={(e) =>
+                                  fieldValueChanged(e, field.name)
+                                }
+                                className="bg-[#F2F5F9] w-full text-sm border-0 rounded-md focus:ring-1 focus:ring-primary"
+                              >
+                                <option value="">
+                                  --Select {field.title}--
+                                </option>
+                                {field.listValue?.map((listv) => (
+                                  <option value={listv[field.listIdField!]}>
+                                    {listv[field.listTextField!]}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          )}
+
+                        {field.type === COLUMN_TYPES.slider &&
+                          field.listValue!.length < 1 &&
+                          showFilter && (
+                            <div>
+                              <label className="block mb-1 text-sm justify-between">
+                                <span>{field.title}</span>
+                              </label>
+                              <div className="w-full custom-slider">
+                                <RangeSlider
+                                  max={50}
+                                  defaultValue={[
+                                    filterData[field!.sliderStartName!],
+                                    filterData[field!.sliderEndName!],
+                                  ]}
+                                  constraint={([start, end]) =>
+                                    start <= field?.sliderMin! &&
+                                    end >= field?.sliderMax!
+                                  }
+                                />
+                              </div>
+                            </div>
+                          )}
+                        {field.type === COLUMN_TYPES.Date && (
+                          <div>
+                            <label className="block mb-1 text-sm">
+                              {field.title}
+                            </label>
+                            <div className="w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary flex justify-between">
+                              <DatePicker
+                                onChange={(date: any) =>
+                                  fieldValueChanged(date, field.name)
+                                }
+                                placeholderText="Select Date"
                               />
                             </div>
                           </div>
                         )}
-                      {field.type === COLUMN_TYPES.Date && (
-                        <div>
-                          <label className="block mb-1 text-sm">
-                            {field.title}
-                          </label>
-                          <div className="w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary flex justify-between">
-                            <DatePicker
-                              onChange={(date:any) =>
-                                fieldValueChanged(date, field.name)
-                              }
-                              placeholderText="Select Date"
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </form>
-              )}
-
-              <div className="lg:self-start w-full grid md:grid-cols-2 gap-x-6 gap-y-10">
-                {headfilterFields.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => submitFilter()}
-                    className="border border-solid hover:border-dotted bg-primary hover:bg-white border-purple-900 hover:text-primary text-white font-bold rounded flex items-center justify-center px-2 w-64 py-2"
-                  >
-                    Apply
-                  </button>
+                      </div>
+                    ))}
+                  </form>
                 )}
+
+                <div className="lg:self-start w-full grid md:grid-cols-2 gap-x-6 gap-y-10">
+                  {headfilterFields.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => submitFilter()}
+                      className="border border-solid hover:border-dotted bg-primary hover:bg-white border-purple-900 hover:text-primary text-white font-bold rounded flex items-center justify-center px-2 w-64 py-2"
+                    >
+                      Apply
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-           </Modal.Body>
-         
+          </Modal.Body>
         </Modal>
 
         <Modal
-        show={showExportModal}
-        onHide={()=>setshowExportModal(!showExportModal)}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Body>
-        <div>
-            <div className="px-5 pt-6 pb-8">
-              <div className="text-left md:p-8 p-4">
-                <div className="mb-10">
-                  <h2 className="text-xl font-bold mb-4">Export As</h2>
-                  <p>Select the format you will like to export as</p>
-                </div>
-
-                <div className="space-y-3 mb-8">
-                  <div className="flex space-x-4">
-                    <input
-                      type="radio"
-                      name="flexRadioDefault"
-                      value="pdf"
-                      onChange={(e: any) => {
-                        setselectedexport(e.target.value);
-                      }}
-                      className="items-center w-3 h-3 p-2 border border-gray-500 rounded-full checked:bg-primary appearance-none text-primary focus:bg-primary active:bg-primary"
-                    />
-                    <div className="flex items-center space-x-2 ">
-                      <img src={pdficon} alt="pdf" />
-                      <p
-                        className="font-semibold
-                                     text-sm"
-                      >
-                        PDF
-                      </p>
-                    </div>
+          show={showExportModal}
+          onHide={() => setshowExportModal(!showExportModal)}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Body>
+            <div>
+              <div className="px-5 pt-6 pb-8">
+                <div className="text-left md:p-8 p-4">
+                  <div className="mb-10">
+                    <h2 className="text-xl font-bold mb-4">Export As</h2>
+                    <p>Select the format you will like to export as</p>
                   </div>
-                  {isAllExport && (
-                    <>
-                      <div className="flex space-x-4">
-                        <input
-                          type="radio"
-                          name="flexRadioDefault"
-                          value="Excel"
-                          onChange={(e: any) =>
-                            setselectedexport(e.target.value)
-                          }
-                          className="items-center w-3 h-3 p-2 border border-gray-500 rounded-full checked:bg-primary appearance-none  active:bg-primary "
-                        />
-                        <div className="flex items-center space-x-2 ">
-                          <img src={excelicon} alt="excel" />
-                          <p
-                            className="font-semibold
-                                        text-sm"
-                          >
-                            Excel
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex space-x-4">
-                        <input
-                          type="radio"
-                          name="flexRadioDefault"
-                          value="Csv"
-                          onChange={(e: any) =>
-                            setselectedexport(e.target.value)
-                          }
-                          className="items-center border border-gray-500 w-3 h-3 p-2 rounded-full checked:bg-primary appearance-none text-primary focus:bg-primary active:bg-primary"
-                        />
-                        <div className="flex items-center space-x-2 ">
-                          <img src={csvicon} alt="csv" />
-                          <p
-                            className="font-semibold
-                                        text-sm"
-                          >
-                            CSV
-                          </p>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
 
-                <div className="flex justify-center">
-                  <span
-                    onClick={() => {
-                      downloadas(selectedexport);
-                      setshowExportModal(!showExportModal);
-                    }}
-                    className="border border-solid flex-1 hover:border-dotted bg-primary text-white border-purple-900 rounded flex items-center justify-center px-2 w-3/5 py-2 cursor-pointer"
-                  >
-                    Export
-                  </span>
+                  <div className="space-y-3 mb-8">
+                    <div className="flex space-x-4">
+                      <input
+                        type="radio"
+                        name="flexRadioDefault"
+                        value="pdf"
+                        onChange={(e: any) => {
+                          setselectedexport(e.target.value);
+                        }}
+                        className="items-center w-3 h-3 p-2 border border-gray-500 rounded-full checked:bg-primary appearance-none text-primary focus:bg-primary active:bg-primary"
+                      />
+                      <div className="flex items-center space-x-2 ">
+                        <img src={pdficon} alt="pdf" />
+                        <p
+                          className="font-semibold
+                                     text-sm"
+                        >
+                          PDF
+                        </p>
+                      </div>
+                    </div>
+                    {isAllExport && (
+                      <>
+                        <div className="flex space-x-4">
+                          <input
+                            type="radio"
+                            name="flexRadioDefault"
+                            value="Excel"
+                            onChange={(e: any) =>
+                              setselectedexport(e.target.value)
+                            }
+                            className="items-center w-3 h-3 p-2 border border-gray-500 rounded-full checked:bg-primary appearance-none  active:bg-primary "
+                          />
+                          <div className="flex items-center space-x-2 ">
+                            <img src={excelicon} alt="excel" />
+                            <p
+                              className="font-semibold
+                                        text-sm"
+                            >
+                              Excel
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex space-x-4">
+                          <input
+                            type="radio"
+                            name="flexRadioDefault"
+                            value="Csv"
+                            onChange={(e: any) =>
+                              setselectedexport(e.target.value)
+                            }
+                            className="items-center border border-gray-500 w-3 h-3 p-2 rounded-full checked:bg-primary appearance-none text-primary focus:bg-primary active:bg-primary"
+                          />
+                          <div className="flex items-center space-x-2 ">
+                            <img src={csvicon} alt="csv" />
+                            <p
+                              className="font-semibold
+                                        text-sm"
+                            >
+                              CSV
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="flex justify-center">
+                    <span
+                      onClick={() => {
+                        downloadas(selectedexport);
+                        setshowExportModal(!showExportModal);
+                      }}
+                      className="border border-solid flex-1 hover:border-dotted bg-primary text-white border-purple-900 rounded flex items-center justify-center px-2 w-3/5 py-2 cursor-pointer"
+                    >
+                      Export
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </Modal.Body>
-      </Modal>
+          </Modal.Body>
+        </Modal>
       </div>
     </>
   );

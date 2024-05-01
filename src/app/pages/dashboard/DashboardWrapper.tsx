@@ -66,33 +66,33 @@ const DashboardPage: FC = () => {
       <Content>
         {/* begin::Row */}
         <div className="w-full mb-6">
-          <h5>Security issues:</h5>
+          <h5 className="font-semibold text-lg">Security issues:</h5>
           <div className="grid md:grid-cols-5 w-full gap-2">
-            <div className="w-full md:col-span-1  p-3 rounded-md border-2 border-[#3B4852] bg-bgDark dark:bg-lightDark shadow-md">
-              <p className="mb-3 text-white">Security issues by severity</p>
+            <div className="w-full md:col-span-1  p-3 rounded-md border-1 shadow-md">
+              <p className="mb-3">Security issues by severity</p>
               <ul className="grid grid-cols-2 gap-6 md:block">
-                <li className="border-left border-l-rose-900 pl-2 text-white">
+                <li className="border-left border-l-rose-900 pl-2">
                   <p>Critical</p>
-                  <h1 className="text-xl font-semibold text-white">0</h1>
+                  <h1 className="text-xl font-semibold">0</h1>
                 </li>
-                <li className="border-left border-l-red-500 pl-2 text-white">
+                <li className="border-left border-l-red-500 pl-2">
                   <p>High</p>
-                  <h1 className="text-xl font-semibold text-white">456</h1>
+                  <h1 className="text-xl font-semibold">456</h1>
                 </li>
-                <li className="border-left border-orange-400 pl-2 text-white">
+                <li className="border-left border-orange-400 pl-2">
                   <p>Medium</p>
-                  <h1 className="text-xl font-semibold text-white">45</h1>
+                  <h1 className="text-xl font-semibold">45</h1>
                 </li>
-                <li className="border-left border-yellow-400 pl-2 text-white">
+                <li className="border-left border-yellow-400 pl-2">
                   <p>Low</p>
-                  <h1 className="text-xl font-semibold text-white">0</h1>
+                  <h1 className="text-xl font-semibold">0</h1>
                 </li>
               </ul>
             </div>
-            <div className="w-full md:col-span-4 border-2 p-3 md:p-6 rounded-md border-[#3B4852] bg-bgDark dark:bg-lightDark shadow-md">
-              <p className="mb-3 text-white">Top security issues</p>
+            <div className="w-full md:col-span-4 border-1 p-3 md:p-6 rounded-md shadow-md">
+              <p className="mb-3 font-semibold text-lg">Top security issues</p>
               <div>
-                <div className="flex flex-col gap-3 lg:flex-row items-start justify-between text-white">
+                <div className="flex flex-col gap-3 lg:flex-row items-start justify-between">
                   <p>Publicly exposed virtual machine with high priviledges</p>
                   <p className="flex items-start justify-center gap-2">
                     <span>
@@ -103,11 +103,11 @@ const DashboardPage: FC = () => {
                   </p>
                 </div>
                 <div className="my-3 flex flex-col gap-3 lg:flex-row items-start justify-between">
-                  <p className="text-white">
+                  <p className="">
                     IAM Role with third party access and high priviledges
                   </p>
-                  <p className="flex mr-6 items-start justify-center gap-2 text-white">
-                    <span className="text-white">
+                  <p className="flex mr-6 items-start justify-center gap-2 ">
+                    <span className="">
                       <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
                       High
                     </span>
@@ -115,8 +115,10 @@ const DashboardPage: FC = () => {
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 lg:flex-row items-start justify-between">
-                  <p className="text-white">Partially public virtual machine with high priviledges</p>
-                  <p className="flex items-start gap-2 text-white">
+                  <p className="">
+                    Partially public virtual machine with high priviledges
+                  </p>
+                  <p className="flex items-start gap-2 ">
                     <span>
                       <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
                       Medium
@@ -129,196 +131,200 @@ const DashboardPage: FC = () => {
           </div>
         </div>
         <div className="w-full mb-6">
-          <h5>Assets at high risk</h5>
+          <h5 className="font-semibold text-lg">Assets at high risk</h5>
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
-            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-bgDark dark:bg-lightDark">
-              <h4 className="mb-3 text-white">In total</h4>
-              <h1 className="text-white">
+            <div className="border-1 p-3 rounded-md shadow-md">
+              <h4 className="mb-3">In total</h4>
+              <h1 className="">
                 <i className="fa-sharp fa-regular fa-gem fs-2 mr-1"></i>46
               </h1>
             </div>
-            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-bgDark dark:bg-lightDark">
-              <h4 className="mb-3 text-white">Public</h4>
-              <section className="flex items-center justify-between mt-3 text-white">
+            <div className="border-1 p-3 rounded-md shadow-md">
+              <h4 className="mb-3">Public</h4>
+              <section className="flex items-center justify-between mt-3">
                 <aside className="flex items-start mt-3 gap-2">
                   <i className="bi bi-globe fs-2"></i>
-                  <div className="border-0 -mt-4 text-white">
+                  <div className="border-0 -mt-4 ">
                     <span>Network</span>
-                    <h3 className="text-white">0</h3>
+                    <h3 className="">0</h3>
                   </div>
                 </aside>
                 <aside className="flex items-start mt-3 gap-2 ">
                   <i className="bi bi-globe fs-2 padding-2"></i>
-                  <div className="border-0 -mt-4 text-white">
+                  <div className="border-0 -mt-4 ">
                     <span>IAM</span>
-                    <h3 className="text-white">1</h3>
+                    <h3 className="">1</h3>
                   </div>
                 </aside>
               </section>
             </div>
-            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-bgDark dark:bg-lightDark">
-              <h4 className="mb-3 text-white">With critical/high severity secrets</h4>
-              <h1 className="text-white">
+            <div className="border-1 p-3 rounded-md shadow-md">
+              <h4 className="mb-3 ">
+                With critical/high severity secrets
+              </h4>
+              <h1 className="">
                 <i className="bi bi-key fs-2 rotate-45 mr-2"></i>0
               </h1>
             </div>
-            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-bgDark dark:bg-lightDark">
-              <h4 className="mb-3 text-white">With critical/high severity CVEs</h4>
-              <h1 className="dark:text-white">
+            <div className="border-1 p-3 rounded-md shadow-md">
+              <h4 className="mb-3 ">
+                With critical/high severity CVEs
+              </h4>
+              <h1 className="">
                 <i className="bi bi-bug fs-2 mr-2"></i>0
               </h1>
             </div>
-            <div className="border-2 p-3 rounded-md border-[#3B4852] shadow-md bg-bgDark dark:bg-lightDark">
-              <h4 className="mb-3 text-white">With sensitive data</h4>
-              <h1 className="dark:text-white">
+            <div className="border-1 p-3 rounded-md shadow-md">
+              <h4 className="mb-3 ">With sensitive data</h4>
+              <h1 className="">
                 <i className="bi bi-file-earmark-lock fs-2 mr-2"></i>0
               </h1>
             </div>
           </div>
         </div>
         <div className="w-full mb-6">
-          <h5>Riskiest entities:</h5>
+          <h5 className="font-semibold text-lg">Riskiest entities:</h5>
           <div className="grid gap-2 md:grid-cols-5">
-            <div className="md:col-span-2 border-2 border-[#3B4852] rounded-md p-3 shadow-md bg-bgDark dark:bg-lightDark text-white">
-              <p>By asset type</p>
+            <div className="md:col-span-2 border-1 rounded-md p-3 shadow-md">
+              <p className="font-semibold text-lg">By asset type</p>
               <div className="table">
                 <div className="table_top">
-                  <div className="table_top__left text-white">
-                    <p className="text-white">Highest Risk</p>
-                    <p className="text-white">Type</p>
+                  <div className="table_top__left ">
+                    <p className="">Highest Risk</p>
+                    <p className="">Type</p>
                   </div>
-                  <div className="table_top__right text-white">
-                    <p className="text-white">Critical</p>
-                    <p className="text-white">High</p>
-                    <p className="text-white">All</p>
+                  <div className="table_top__right ">
+                    <p className="">Critical</p>
+                    <p className="">High</p>
+                    <p className="">All</p>
                   </div>
                 </div>
                 <div className="table_bottom">
                   <div className="table_top___left">
-                    <div className="table_bot__container text-white">
+                    <div className="table_bot__container ">
                       <span>8.2</span>
-                      <p className="text-white">AWS IAM User</p>
+                      <p className="">AWS IAM User</p>
                     </div>
-                    <div className="table_bot__container text-white">
+                    <div className="table_bot__container ">
                       <span>8.1</span>
-                      <p className="text-white">AWS API Gateway</p>
+                      <p className="">AWS API Gateway</p>
                     </div>
-                    <div className="table_bot__container text-white">
+                    <div className="table_bot__container ">
                       <span>8.1</span>
-                      <p className="text-white">AWS SNS</p>
+                      <p className="">AWS SNS</p>
                     </div>
-                    <div className="table_bot__container text-white">
+                    <div className="table_bot__container ">
                       <span>8.1</span>
-                      <p className="text-white">AWS S3 BUCKET</p>
+                      <p className="">AWS S3 BUCKET</p>
                     </div>
-                    <div className="table_bot__container text-white">
+                    <div className="table_bot__container ">
                       <span>8.1</span>
-                      <p className="text-white">AWS EKS CLUSTER</p>
+                      <p className="">AWS EKS CLUSTER</p>
                     </div>
                   </div>
                   <div className="table_bottom___left">
-                    <div className="table_top___right text-white">
-                      <p className="text-white">0</p>
-                      <p className="text-white">30</p>
-                      <p className="text-white">30</p>
+                    <div className="table_top___right ">
+                      <p className="">0</p>
+                      <p className="">30</p>
+                      <p className="">30</p>
                     </div>
-                    <div className="table_top___right text-white">
-                      <p className="text-white">0</p>
-                      <p className="text-white">30</p>
-                      <p className="text-white">30</p>
+                    <div className="table_top___right ">
+                      <p className="">0</p>
+                      <p className="">30</p>
+                      <p className="">30</p>
                     </div>
-                    <div className="table_top___right text-white">
-                      <p className="text-white">0</p>
-                      <p className="text-white">30</p>
-                      <p className="text-white">30</p>
+                    <div className="table_top___right ">
+                      <p className="">0</p>
+                      <p className="">30</p>
+                      <p className="">30</p>
                     </div>
-                    <div className="table_top___right text-white">
-                      <p className="text-white">0</p>
-                      <p className="text-white">30</p>
-                      <p className="text-white">30</p>
+                    <div className="table_top___right ">
+                      <p className="">0</p>
+                      <p className="">30</p>
+                      <p className="">30</p>
                     </div>
-                    <div className="table_top___right text-white">
-                      <p className="text-white">0</p>
-                      <p className="text-white">30</p>
-                      <p className="text-white">30</p>
+                    <div className="table_top___right ">
+                      <p className="">0</p>
+                      <p className="">30</p>
+                      <p className="">30</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="md:col-span-2 border-2 border-[#3B4852] rounded-md p-3 shadow-md bg-bgDark dark:bg-lightDark">
-              <p className="text-white">By asset</p>
-              <div className="table text-white">
-                <div className="table_top text-white">
-                  <div className="by_asset_top text-white">
-                    <p className="text-white">Risk</p>
-                    <p className="text-white">Entity</p>
-                    <p className="text-white">Type</p>
-                    <p className="text-white">Environment</p>
+            <div className="md:col-span-2 border-1 rounded-md p-3 shadow-md">
+              <p className="font-semibold text-lg">By asset</p>
+              <div className="table ">
+                <div className="table_top ">
+                  <div className="by_asset_top ">
+                    <p className="">Risk</p>
+                    <p className="">Entity</p>
+                    <p className="">Type</p>
+                    <p className="">Environment</p>
                   </div>
                 </div>
                 <div className="table_bottom_asset">
-                  <div className="by_asset_top text-white">
-                    <div className="table_bot__container text-white">
+                  <div className="by_asset_top ">
+                    <div className="table_bot__container ">
                       <span>8.2</span>
                     </div>
-                    <p className="text-white">jekins(AIDAICAJGIE...)</p>
-                    <p className="text-white">AWS IAM User</p>
-                    <p className="text-white">AWS(59639)</p>
+                    <p className="">jekins(AIDAICAJGIE...)</p>
+                    <p className="">AWS IAM User</p>
+                    <p className="">AWS(59639)</p>
                   </div>
-                  <div className="by_asset_top text-white">
-                    <div className="table_bot__container text-white">
+                  <div className="by_asset_top ">
+                    <div className="table_bot__container ">
                       <span>8.2</span>
                     </div>
-                    <p className="text-white">jekins(AIDAICAJGIE...)</p>
-                    <p className="text-white">AWS IAM User</p>
-                    <p className="text-white">AWS(59639)</p>
+                    <p className="">jekins(AIDAICAJGIE...)</p>
+                    <p className="">AWS IAM User</p>
+                    <p className="">AWS(59639)</p>
                   </div>
-                  <div className="by_asset_top text-white">
-                    <div className="table_bot__container text-white">
+                  <div className="by_asset_top ">
+                    <div className="table_bot__container ">
                       <span>8.2</span>
                     </div>
-                    <p className="text-white">jekins(AIDAICAJGIE...)</p>
-                    <p className="text-white">AWS IAM User</p>
-                    <p className="text-white">AWS(59639)</p>
+                    <p className="">jekins(AIDAICAJGIE...)</p>
+                    <p className="">AWS IAM User</p>
+                    <p className="">AWS(59639)</p>
                   </div>
-                  <div className="by_asset_top text-white">
-                    <div className="table_bot__container text-white">
+                  <div className="by_asset_top ">
+                    <div className="table_bot__container ">
                       <span>8.2</span>
                     </div>
-                    <p className="text-white">jekins(AIDAICAJGIE...)</p>
-                    <p className="text-white">AWS IAM User</p>
-                    <p className="text-white">AWS(59639)</p>
+                    <p className="">jekins(AIDAICAJGIE...)</p>
+                    <p className="">AWS IAM User</p>
+                    <p className="">AWS(59639)</p>
                   </div>
-                  <div className="by_asset_top text-white">
-                    <div className="table_bot__container text-white">
+                  <div className="by_asset_top ">
+                    <div className="table_bot__container ">
                       <span>8.2</span>
                     </div>
-                    <p className="text-white">jekins(AIDAICAJGIE...)</p>
-                    <p className="text-white">AWS IAM User</p>
-                    <p className="text-white">AWS(59639)</p>
+                    <p className="">jekins(AIDAICAJGIE...)</p>
+                    <p className="">AWS IAM User</p>
+                    <p className="">AWS(59639)</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="border-2 border-[#3B4852] rounded-md p-3 shadow-md bg-bgDark dark:bg-lightDark">
-              <p className="mb-3 text-white">Environment by risk</p>
-              <ul className="grid grid-cols-2 gap-4 md:block text-white">
+            <div className="rounded-md p-3 shadow-md border-1">
+              <p className="mb-3 font-semibold text-lg">Environment by risk</p>
+              <ul className="grid grid-cols-2 gap-4 md:block">
                 <li className="border-left border-rose-900 pl-2">
                   <p>Critical</p>
-                  <h1 className="text-xl font-semibold text-white">0</h1>
+                  <h1 className="text-xl font-semibold">0</h1>
                 </li>
                 <li className="border-left border-red-500 pl-2">
                   <p>High</p>
-                  <h1 className="text-xl font-semibold text-white">456</h1>
+                  <h1 className="text-xl font-semibold">456</h1>
                 </li>
                 <li className="border-left border-orange-400 pl-2">
                   <p>Medium</p>
-                  <h1 className="text-xl font-semibold text-white">45</h1>
+                  <h1 className="text-xl font-semibold">45</h1>
                 </li>
                 <li className="border-left border-yellow-400 pl-2">
                   <p>Low</p>
-                  <h1 className="text-xl font-semibold text-white">0</h1>
+                  <h1 className="text-xl font-semibold">0</h1>
                 </li>
               </ul>
             </div>
@@ -390,8 +396,8 @@ const DashboardPage: FC = () => {
           </div>
         </div> */}
         <div className="py-2 border-b border-b-gray-300">
-          <span className="">Status per AWS Region</span>
-</div>
+          <h5 className="font-semibold text-lg">Status per AWS Region</h5>
+        </div>
         <div className="row g-5 gx-xxl-8">
           <Chart
             chartEvents={[

@@ -18,20 +18,20 @@ export default function DefaultContent({
   return (
     <>
       <div
-        className="w-full lg:w-[90%] mt-20 rounded-md shadow-md bg-white dark:bg-[#3B4852] mx-auto lg:flex justify-center items-center"
+        className="w-full lg:w-[90%] mt-20 rounded-md shadow-md mx-auto lg:flex justify-center items-center"
         style={{ minHeight: "300px" }}
       >
         <div className="space-y-10 w-full flex flex-col items-center">
           {!loading && (
             <div className="center space-y-5">
               <h5
-                className="font-medium text-[18px] text-bgDark dark:text-white"
+                className="font-medium text-[18px]"
                 style={{ textAlign: "center" }}
               >
                 {pageHeader || "Nothing to see here"}
               </h5>
               <p
-                className="text-[16px] font-normal text-bgDark dark:text-white"
+                className="text-[16px] font-normal"
                 style={{ textAlign: "center" }}
               >
                 {pageDescription || ""}
@@ -53,7 +53,7 @@ export default function DefaultContent({
           {loading && (
             <div className="center">
               <svg
-                className="animate-spin h-10 w-10 text-bgDark dark:text-white"
+                className="animate-spin h-10 w-10"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
