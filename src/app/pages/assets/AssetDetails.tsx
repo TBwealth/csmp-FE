@@ -43,42 +43,42 @@ const AssetDetails = () => {
           buttonClick={() => refreshrecord()}
         />
       ) : (
-        <div className="w-[90%] mx-auto mt-20 bg-white shadow-md dark:bg-lightDark rounded-md p-6">
+        <div className="w-[90%] border mx-auto mt-20  shadow-md  border-bottom  rk rounded-md p-6">
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Name:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.name}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.name}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Code:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.code}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.code}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Public IP:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.public_ip}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.public_ip}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Tenant:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.tenant}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.tenant}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Resource Type:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.resource_types}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.resource_types}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Cloud Provider:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.cloud_provider}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.cloud_provider}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Cloud Identifier:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.cloud_identifier}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.cloud_identifier}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Region:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.region}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.region}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1">Description:</p>
-                <p className="col-span-2 bg-white shadow-md dark:bg-bgDark p-2 rounded-md">{asset.description}</p>
+                <p className="col-span-2  shadow-md  border-bottom  p-2 rounded-md">{asset.description}</p>
             </div>
         </div>
       )}
