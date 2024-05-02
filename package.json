@@ -51,6 +51,8 @@
     "react-table": "^7.7.0",
     "react-tiny-popover": "^8.0.4",
     "react-topbar-progress-indicator": "4.1.1",
+    "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "rsuite": "^5.59.1",
     "socicon": "3.0.5",
     "xlsx": "^0.18.5",

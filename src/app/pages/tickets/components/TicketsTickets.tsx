@@ -70,7 +70,7 @@ export class TicketWithStatus implements IStatus {
     return "Pending";
   }
   getStatusColor() {
-    if (this.status  === "OPEN") return new MyColor(33, 150, 83);
+    if (this.status  === "OPEN") return new MyColor(0, 175, 175);
     if (this.status  === "CLOSED") return new MyColor(242, 0, 74);
     return new MyColor(242, 153, 74);
   }

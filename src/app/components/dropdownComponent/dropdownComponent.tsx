@@ -21,7 +21,7 @@ export const DropdownChildren = () => {
           <div className="dropdown relative">
             <span
               className="
-            dropdown-toggle
+            
               flex
          ++   items-center py-1 lg:px-3 px-1 space-x-3 text-sm
             transition

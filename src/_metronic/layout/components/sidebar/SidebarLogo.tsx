@@ -4,6 +4,8 @@ import { KTIcon, toAbsoluteUrl } from "../../../helpers";
 import { useLayout } from "../../core";
 import { MutableRefObject, useEffect, useRef } from "react";
 import { ToggleComponent } from "../../../assets/ts/components";
+import { useRecoilValue } from "recoil";
+import modeAtoms from "../../../../app/atoms/modeAtoms.atom";
 
 type PropsType = {
   sidebarRef: MutableRefObject<HTMLDivElement | null>;
@@ -12,7 +14,8 @@ type PropsType = {
 const SidebarLogo = (props: PropsType) => {
   const { config } = useLayout();
   const toggleRef = useRef<HTMLDivElement>(null);
-
+  const {mode} = useRecoilValue(modeAtoms);
+  
   const appSidebarDefaultMinimizeDesktopEnabled =
     config?.app?.sidebar?.default?.minimize?.desktop?.enabled;
   const appSidebarDefaultCollapseDesktopEnabled =
@@ -49,11 +52,11 @@ const SidebarLogo = (props: PropsType) => {
       });
     }, 600);
   }, [toggleRef, props.sidebarRef]);
-
+  //alert(mode);
   return (
     <div className="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
       <Link to="/dashboard">
-        {config.layoutType === "dark-sidebar" ? (
+        {mode === "dark" ? (
           // <img
           //   alt='Logo'
           //   src={toAbsoluteUrl('media/logos/default-dark.svg')}
@@ -61,8 +64,8 @@ const SidebarLogo = (props: PropsType) => {
           // />
           <img
               alt="Logo"
-              src={toAbsoluteUrl("media/logos/logofile.jpg")}
-              className="h-85px app-sidebar-logo-default theme-dark-show"
+              src={toAbsoluteUrl("media/logos/darkLogo.png")}
+              className="app-sidebar-logo-default theme-dark-show"
             />
           // <h1 className="text-white text-center mt-5">LOGO</h1>
         ) : (
@@ -70,7 +73,7 @@ const SidebarLogo = (props: PropsType) => {
             <img
               alt="Logo"
               src={toAbsoluteUrl("media/logos/logofile.jpg")}
-              className="h-85px app-sidebar-logo-default"
+              className="app-sidebar-logo-default"
             />
 
             {/* <img

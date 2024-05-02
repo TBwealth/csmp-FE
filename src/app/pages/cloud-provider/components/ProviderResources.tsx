@@ -29,7 +29,7 @@ export class ProviderWithStatus implements IStatus {
     return "";
   }
   getStatusColor() {
-    if (this.status) return new MyColor(33, 150, 83);
+    if (this.status) return new MyColor(0, 175, 175);
     if (!this.status) return new MyColor(242, 153, 74);
     return new MyColor(242, 0, 74);
   }
