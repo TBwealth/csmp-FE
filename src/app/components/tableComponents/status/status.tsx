@@ -41,7 +41,7 @@ export const TableStatus = ({ data = {}, name = "" }: Props) => {
   }
   return (
     <>
-    <div style={{backgroundColor:getColor().getColorString(0.1), color:getColor().getColorString(1),padding: "10px",width: "max-content"}}>{getLabel()}</div>
+    <div style={{backgroundColor:getColor().getColorString(0.1), color:getColor().getColorString(1),padding: "10px",width: "max-content",borderRadius:"5px"}}>{getLabel()}</div>
 
     </>
   )
@@ -56,7 +56,7 @@ export const NamedStatusComponent = ({ data = {}, name = "" }: Props) => {
   }
   return (
     <>
-<div style={{color:getColor().getColorString(1),padding: "10px",width: "max-content"}}>{getLabel()}</div>    
+<div style={{color:getColor().getColorString(1),padding: "10px",width: "max-content",borderRadius:"5px"}}>{getLabel()}</div>    
     </>
   )
 }

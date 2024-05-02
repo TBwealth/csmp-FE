@@ -2,6 +2,8 @@ import clsx from "clsx";
 import { KTIcon } from "../../../helpers";
 import { ThemeModeComponent } from "../../../assets/ts/layout";
 import { ThemeModeType, useThemeMode } from "./ThemeModeProvider";
+import { useSetRecoilState } from "recoil";
+import modeAtom from "../../../../app/atoms/modeAtoms.atom";
 
 type Props = {
   toggleBtnClass?: string;
@@ -9,6 +11,7 @@ type Props = {
   menuPlacement?: string;
   menuTrigger?: string;
 };
+
 
 const systemMode = ThemeModeComponent.getSystemMode() as "dark";
 
@@ -24,6 +27,7 @@ const ThemeModeSwitcher = ({
     updateMenuMode(_mode);
     updateMode(_mode);
   };
+  const setModeState = useSetRecoilState(modeAtom);
 
   console.log("mode switcher");
 
@@ -65,7 +69,9 @@ const ThemeModeSwitcher = ({
             className={clsx("menu-link px-3 py-2", {
               active: menuMode === "dark",
             })}
-            onClick={() =>{
+            onClick={() => {
+            localStorage.setItem("mode",  JSON.stringify("dark"));
+              setModeState({ mode: "dark" });
               document.documentElement.setAttribute("data-bs-theme", "dark")
               // localStorage.setItem("kt_theme_mode_value", "dark");
               // location.reload();
@@ -86,7 +92,9 @@ const ThemeModeSwitcher = ({
             className={clsx("menu-link px-3 py-2", {
               active: menuMode === "dark",
             })}
-            onClick={() => {
+            onClick={() => { 
+            localStorage.setItem("mode",  JSON.stringify("light"));
+              setModeState({ mode: "light" });
               document.documentElement.setAttribute("data-bs-theme", "light");
               // localStorage.setItem("kt_theme_mode_value", "light");
               // location.reload();

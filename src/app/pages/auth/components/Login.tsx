@@ -8,6 +8,8 @@ import { useAuth } from "../core/Auth";
 import { useAccountLogin } from "../../../api/api-services/accountQuery";
 import { toAbsoluteUrl } from "../../../../_metronic/helpers";
 import "./styles/loginstyles.css";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -42,9 +44,11 @@ export function Login() {
   const { saveAuth, setCurrentUser } = useAuth();
   const [active, setIsActive] = useState(false);
   const navigate = useNavigate();
+  const {mode} = useRecoilValue(modeAtomsAtom);
 
   const { mutate, isLoading } = useAccountLogin();
-
+  const setModeState = useSetRecoilState(modeAtomsAtom);
+  
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
@@ -92,10 +96,15 @@ export function Login() {
     const curMode = document.documentElement.getAttribute("data-bs-theme"); 
       if(curMode === "dark") {
         document.documentElement.setAttribute("data-bs-theme", "light");
+        setModeState({ mode: "light" });
+        localStorage.setItem("mode", JSON.stringify("light"));        
         // localStorage.setItem("kt_theme_mode_value", "light");
         // location.reload();
       } else {
         document.documentElement.setAttribute("data-bs-theme", "dark");
+        setModeState({ mode: "dark" });
+        localStorage.setItem("mode", JSON.stringify("dark"));
+        
       }
   };
 
@@ -104,11 +113,17 @@ export function Login() {
     <div className="grid md:grid-cols-2 md:w-[80%] mr-60 md:gap-20 mt-20">
       <div className="md:col-span-1 left_container">
         <div>
-          <img
+        {mode === "dark" ?
+              <img
+              alt="Logo"
+              src={toAbsoluteUrl("media/logos/darkLogo.png")}
+              className="app-sidebar-logo-default"
+            /> :
+            <img
             alt="Logo"
             src={toAbsoluteUrl("media/logos/logofile.jpg")}
-            className="h-85px app-sidebar-logo-default"
-          />
+            className="app-sidebar-logo-default"
+          /> }
         </div>
         <button className={active ? "active" : "inactive"}>
           <input

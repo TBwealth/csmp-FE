@@ -658,7 +658,7 @@ export const MainTableComponent = ({
         <div className="relative overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b boder-gray-300">
+              <tr className="border-b boder-gray-300 text-[#7E8299] font-bold">
                 {showCheckBox && (
                   <th className="py-3 px-3">
                     <div className="items-center flex ">
@@ -717,7 +717,7 @@ export const MainTableComponent = ({
             {!loading && (
               <tbody className="divide-y divide-gray-200 font-normal">
                 {usersTableData?.map((data: any, i) => (
-                  <tr>
+                  <tr className="text-[#181C32] font-bold">
                     {showCheckBox && (
                       <td className="py-3 px-3">
                         <div className="items-center flex">
