@@ -92,7 +92,7 @@ export function Login() {
   });
 
   const handleSwitchMode = (e: any) => {
-    setIsActive(e);
+    setModeState(() => e ? {mode: "dark"} : {mode: "light"});
     const curMode = document.documentElement.getAttribute("data-bs-theme"); 
       if(curMode === "dark") {
         document.documentElement.setAttribute("data-bs-theme", "light");
@@ -125,7 +125,7 @@ export function Login() {
             className="app-sidebar-logo-default"
           /> }
         </div>
-        <button className={active ? "active" : "inactive"}>
+        <button className={mode === "dark" ? "active" : "inactive"}>
           <input
             type="checkbox"
             defaultChecked
@@ -137,7 +137,7 @@ export function Login() {
         </button>
       </div>
       <form
-        className="form w-100  border z-10 rounded-md shadow-md p-10"
+        className={`form w-100  border z-10 rounded-md shadow-md p-10 ${mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""}`}
         onSubmit={formik.handleSubmit}
         noValidate
         id="kt_login_signin_form"

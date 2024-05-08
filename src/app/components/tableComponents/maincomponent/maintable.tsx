@@ -16,6 +16,8 @@ import * as XLSX from "xlsx";
 import { Modal } from "flowbite-react";
 import { DropdownComponent } from "../../dropdownComponent/dropdownComponent";
 import logo from "../../../../_metronic/assets/icons/defaultUserAVatar.svg";
+import { useRecoilValue } from "recoil";
+import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { Checkbox } from "rsuite";
 import "./maintable.css";
 
@@ -291,6 +293,7 @@ export const MainTableComponent = ({
   const [totalNoOfPages, settotalNoOfPages] = useState<number>();
   const COLUMN_TYPES = ColumnTypes;
   const bulkAction_isChecked = useRef<boolean>(false);
+  const mode = useRecoilValue<any>(modeAtomsAtom);
   const [actiondropdownPopoverShow, setactiondropdownPopoverShow] =
     useState<boolean>(false);
   const [selectedexport, setselectedexport] = useState<string>("");
@@ -591,7 +594,7 @@ export const MainTableComponent = ({
   };
   return (
     <>
-      <div className="space-y-3 m-8 p-5 shadow-md rounded-md border">
+      <div className={`space-y-3 m-8 p-5 shadow-md rounded-md border ${mode?.mode! === "dark" ? "bg-lightDark" : ""}`}>
         {showFilter && selectedRecord! <= 0 && (
           <TableheaderComponent
             filterFields={filterFields}
@@ -717,7 +720,7 @@ export const MainTableComponent = ({
             {!loading && (
               <tbody className="divide-y divide-gray-200 font-normal">
                 {usersTableData?.map((data: any, i) => (
-                  <tr className="text-[#181C32] font-bold">
+                  <tr className={`${mode.mode === "dark" ? "text-[#7E8299]" : "text-[#181C32]"} font-bold`}>
                     {showCheckBox && (
                       <td className="py-3 px-3">
                         <div className="items-center flex">

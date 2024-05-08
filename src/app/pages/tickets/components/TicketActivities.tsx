@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { useParams, useNavigate } from "react-router-dom";
 import { useGetSingleTicketActivity } from "../../../api/api-services/ticketQuery";
 import useAlert from "../../components/useAlert";
+import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { ModalTicketActivities } from "./modals/ModalTicketActivities";
 import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
@@ -16,6 +18,7 @@ const TicketsActivities = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState(true);
   const { data, isLoading, error } = useGetSingleTicketActivity(+id!);
+  const {mode} = useRecoilValue<any>(modeAtomsAtom);
   console.log(data);
   const topActionButtons = [
     {
@@ -88,7 +91,7 @@ const TicketsActivities = () => {
               />
             </div> */}
             {activity?.map((act: any) => (
-              <div className="border shadow-md w-[95%] mx-auto rounded-md p-4 md:p-8 mt-10">
+              <div className={`border shadow-md w-[95%] mx-auto rounded-md p-4 md:p-8 mt-10 ${mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""}`}>
                 <div className="p-3">
                   <div className="flex items-center gap-4">
                     <span className="bg-primary rounded-full p-2  flex items-center justify-center">
