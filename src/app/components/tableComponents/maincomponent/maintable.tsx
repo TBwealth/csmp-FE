@@ -878,12 +878,13 @@ export const MainTableComponent = ({
           )}
         </div>
         {!table2 && showPagination && (
-          <div className="pagination flex justify-between">
+          <div className="flex justify-between">
             <div>
               <div className="flex flex-row space-x-2">
                 <span className="flex items-center">
                   <span>Rows per page</span>
                 </span>
+                <div>
                 <input
                   value={newPageSize}
                   onKeyUp={(e: any) => setnewPageSize(e.target.value)}
@@ -894,6 +895,7 @@ export const MainTableComponent = ({
                   className="form-control rounded"
                   name="newPageSize"
                 />
+               </div>
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "row" }}>

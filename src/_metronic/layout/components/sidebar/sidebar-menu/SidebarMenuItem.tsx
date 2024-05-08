@@ -27,7 +27,7 @@ const SidebarMenuItem: FC<Props & WithChildren> = ({
   const {app} = config
 
   return (
-    <div className='menu-item'>
+    <div className='menu-item text-xs'>
       <Link className={clsx('menu-link without-sub', {active: isActive})} to={to}>
         {hasBullet && (
           <span className='menu-bullet'>
@@ -43,7 +43,7 @@ const SidebarMenuItem: FC<Props & WithChildren> = ({
         {fontIcon && app?.sidebar?.default?.menu?.iconType === 'font' && (
           <i className={clsx('bi fs-3', fontIcon)}></i>
         )}
-        <span className='menu-title'>{title}</span>
+        <span className='menu-title !text-sm !font-bold'>{title}</span>
       </Link>
       {children}
     </div>

@@ -12,13 +12,10 @@ import {
   useGetAccountTenant,
   useGetAccountUsers,
 } from "../../api/api-services/accountQuery";
-import {
-  AccountsApiTenantsList200Response,
-  AccountsApiRolesList200Response,
-  AccountsApiUsersList200Response,
-} from "../../api/axios-client";
+
 
 import "./style.css";
+
 
 export const data = [
   ["Country", "Availability"],
@@ -53,6 +50,11 @@ const DashboardPage: FC = () => {
     error: permError,
   } = useGetAccountPermssion(1);
 
+  const options = {
+    backgroundColor:"white",
+    colorAxis: {colors: ['black']}
+  };
+
   // const allUserData: AccountsApiUsersList200Response | any = userData;
   // const allPermissionData: AccountsApiRolePermissionsList200Response | any =
   //   permissionData;
@@ -70,24 +72,24 @@ const DashboardPage: FC = () => {
           <div className="grid md:grid-cols-5 w-full gap-2">
             <div className="w-full md:col-span-1  p-3 rounded-md border-1 shadow-md">
               <p className="mb-3">Security issues by severity</p>
-              <ul className="grid grid-cols-2 gap-6 md:block">
-                <li className="border-left border-l-rose-900 pl-2">
+              <div className="flex flex-col">
+                <div className="!border-l-2 border-l-rose-900 pl-2 mb-4">
                   <p>Critical</p>
                   <h1 className="text-xl font-semibold">0</h1>
-                </li>
-                <li className="border-left border-l-red-500 pl-2">
+                </div>
+                <div className="!border-l-2 !border-l-red-500 pl-2  mb-4">
                   <p>High</p>
                   <h1 className="text-xl font-semibold">456</h1>
-                </li>
-                <li className="border-left border-orange-400 pl-2">
+                </div>
+                <div className="!border-l-2 !border-l-orange-400 pl-2  mb-4">
                   <p>Medium</p>
                   <h1 className="text-xl font-semibold">45</h1>
-                </li>
-                <li className="border-left border-yellow-400 pl-2">
+                </div>
+                <div className="!border-l-2 !border-l-yellow-400 pl-2  mb-4">
                   <p>Low</p>
                   <h1 className="text-xl font-semibold">0</h1>
-                </li>
-              </ul>
+                </div>
+              </div>
             </div>
             <div className="w-full md:col-span-4 border-1 p-3 md:p-6 rounded-md shadow-md">
               <p className="mb-3 font-semibold text-lg">Top security issues</p>
@@ -96,7 +98,7 @@ const DashboardPage: FC = () => {
                   <p>Publicly exposed virtual machine with high priviledges</p>
                   <p className="flex items-start justify-center gap-2">
                     <span>
-                      <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
+                      <i className="bi bi-bar-chart-fill !text-red-500 mr-1"></i>
                       High
                     </span>
                     <span>499 security issues </span>
@@ -108,10 +110,10 @@ const DashboardPage: FC = () => {
                   </p>
                   <p className="flex mr-6 items-start justify-center gap-2 ">
                     <span className="">
-                      <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
-                      High
+                      <i className="bi bi-bar-chart-fill !text-green-500 mr-1"></i>
+                      Low
                     </span>
-                    <span>4 security issues </span>
+                    <span>0 security issues </span>
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 lg:flex-row items-start justify-between">
@@ -120,7 +122,7 @@ const DashboardPage: FC = () => {
                   </p>
                   <p className="flex items-start gap-2 ">
                     <span>
-                      <i className="bi bi-bar-chart-fill text-red-400 mr-1"></i>
+                      <i className="bi bi-bar-chart-fill !text-yellow-500 mr-1"></i>
                       Medium
                     </span>
                     <span>4 security issues </span>
@@ -136,21 +138,21 @@ const DashboardPage: FC = () => {
             <div className="border-1 p-3 rounded-md shadow-md">
               <h4 className="mb-3">In total</h4>
               <h1 className="">
-                <i className="fa-sharp fa-regular fa-gem fs-2 mr-1"></i>46
+                <i className="fa-sharp !text-orange-400 fa-regular fa-gem fs-2 mr-1"></i>46
               </h1>
             </div>
             <div className="border-1 p-3 rounded-md shadow-md">
               <h4 className="mb-3">Public</h4>
               <section className="flex items-center justify-between mt-3">
                 <aside className="flex items-start mt-3 gap-2">
-                  <i className="bi bi-globe fs-2"></i>
+                  <i className="bi bi-globe !text-green-500 fs-2"></i>
                   <div className="border-0 -mt-4 ">
                     <span>Network</span>
                     <h3 className="">0</h3>
                   </div>
                 </aside>
                 <aside className="flex items-start mt-3 gap-2 ">
-                  <i className="bi bi-globe fs-2 padding-2"></i>
+                  <i className="bi bi-globe !text-yellow-500 fs-2 padding-2"></i>
                   <div className="border-0 -mt-4 ">
                     <span>IAM</span>
                     <h3 className="">1</h3>
@@ -163,7 +165,7 @@ const DashboardPage: FC = () => {
                 With critical/high severity secrets
               </h4>
               <h1 className="">
-                <i className="bi bi-key fs-2 rotate-45 mr-2"></i>0
+                <i className="bi bi-key !text-green-500 fs-2 rotate-45 mr-2"></i>0
               </h1>
             </div>
             <div className="border-1 p-3 rounded-md shadow-md">
@@ -171,13 +173,13 @@ const DashboardPage: FC = () => {
                 With critical/high severity CVEs
               </h4>
               <h1 className="">
-                <i className="bi bi-bug fs-2 mr-2"></i>0
+                <i className="bi bi-bug !text-green-500 fs-2 mr-2"></i>0
               </h1>
             </div>
             <div className="border-1 p-3 rounded-md shadow-md">
               <h4 className="mb-3 ">With sensitive data</h4>
               <h1 className="">
-                <i className="bi bi-file-earmark-lock fs-2 mr-2"></i>0
+                <i className="bi !text-green-500 bi-file-earmark-lock fs-2 mr-2"></i>0
               </h1>
             </div>
           </div>
@@ -309,24 +311,24 @@ const DashboardPage: FC = () => {
             </div>
             <div className="rounded-md p-3 shadow-md border-1">
               <p className="mb-3 font-semibold text-lg">Environment by risk</p>
-              <ul className="grid grid-cols-2 gap-4 md:block">
-                <li className="border-left border-rose-900 pl-2">
+              <div className="flex flex-col">
+                <div className="!border-l-2 border-l-rose-900 pl-2 mb-4">
                   <p>Critical</p>
                   <h1 className="text-xl font-semibold">0</h1>
-                </li>
-                <li className="border-left border-red-500 pl-2">
+                </div>
+                <div className="!border-l-2 !border-l-red-500 pl-2  mb-4">
                   <p>High</p>
                   <h1 className="text-xl font-semibold">456</h1>
-                </li>
-                <li className="border-left border-orange-400 pl-2">
+                </div>
+                <div className="!border-l-2 !border-l-orange-400 pl-2  mb-4">
                   <p>Medium</p>
                   <h1 className="text-xl font-semibold">45</h1>
-                </li>
-                <li className="border-left border-yellow-400 pl-2">
+                </div>
+                <div className="!border-l-2 !border-l-yellow-400 pl-2  mb-4">
                   <p>Low</p>
                   <h1 className="text-xl font-semibold">0</h1>
-                </li>
-              </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -416,6 +418,7 @@ const DashboardPage: FC = () => {
             width="100%"
             height="400px"
             data={data}
+            options={options}
           />
         </div>
       </Content>
