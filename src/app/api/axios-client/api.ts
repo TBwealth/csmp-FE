@@ -701,31 +701,31 @@ export interface Policy {
 /**
  * 
  * @export
- * @interface PolicyPoliciesList200Response
+ * @interface PolicyPolicyListCreateList200Response
  */
-export interface PolicyPoliciesList200Response {
+export interface PolicyPolicyListCreateList200Response {
     /**
      * 
      * @type {number}
-     * @memberof PolicyPoliciesList200Response
+     * @memberof PolicyPolicyListCreateList200Response
      */
     'count': number;
     /**
      * 
      * @type {string}
-     * @memberof PolicyPoliciesList200Response
+     * @memberof PolicyPolicyListCreateList200Response
      */
     'next'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof PolicyPoliciesList200Response
+     * @memberof PolicyPolicyListCreateList200Response
      */
     'previous'?: string | null;
     /**
      * 
      * @type {Array<Policy>}
-     * @memberof PolicyPoliciesList200Response
+     * @memberof PolicyPolicyListCreateList200Response
      */
     'results': Array<Policy>;
 }
@@ -759,6 +759,37 @@ export interface PolicyPolicyRuleList200Response {
      * @memberof PolicyPolicyRuleList200Response
      */
     'results': Array<PolicyRule>;
+}
+/**
+ * 
+ * @export
+ * @interface PolicyPolicyRunResultsList200Response
+ */
+export interface PolicyPolicyRunResultsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyPolicyRunResultsList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyPolicyRunResultsList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyPolicyRunResultsList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<PolicyRunResult>}
+     * @memberof PolicyPolicyRunResultsList200Response
+     */
+    'results': Array<PolicyRunResult>;
 }
 /**
  * 
@@ -833,6 +864,92 @@ export interface PolicyRulesList200Response {
      * @memberof PolicyRulesList200Response
      */
     'results': Array<Rule>;
+}
+/**
+ * 
+ * @export
+ * @interface PolicyRunResult
+ */
+export interface PolicyRunResult {
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyRunResult
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyRunResult
+     */
+    'policy_run': number;
+    /**
+     * 
+     * @type {object}
+     * @memberof PolicyRunResult
+     */
+    'result_json': object;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRunResult
+     */
+    'start_time': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRunResult
+     */
+    'stop_time': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyRunResult
+     */
+    'tenant': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRunResult
+     */
+    'created_on'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRunResult
+     */
+    'status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRunResult
+     */
+    'scan_message': string;
+}
+/**
+ * 
+ * @export
+ * @interface PolicyRunScan
+ */
+export interface PolicyRunScan {
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyRunScan
+     */
+    'policy_id': number;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PolicyRunScan
+     */
+    'regions'?: Array<string> | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof PolicyRunScan
+     */
+    'services'?: Array<string> | null;
 }
 /**
  * 
@@ -1105,6 +1222,12 @@ export interface Rule {
      * @memberof Rule
      */
     'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Rule
+     */
+    'description': string;
     /**
      * 
      * @type {string}
@@ -2502,11 +2625,11 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiRolePermissionsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('accountsApiRolePermissionsRead', 'id', id)
-            const localVarPath = `/accounts/api/role_permissions/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        accountsApiRolePermissionRead: async (roleId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'roleId' is not null or undefined
+            assertParamExists('accountsApiRolePermissionRead', 'roleId', roleId)
+            const localVarPath = `/accounts/api/role_permission/{role_id}`
+                .replace(`{${"role_id"}}`, encodeURIComponent(String(roleId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -3437,8 +3560,8 @@ export const AccountsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiRolePermissionRead(roleId: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RolePermission>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionsRead(roleId, options);
+        async accountsApiRolePermissionRead(roleId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RolePermission>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiRolePermissionRead(roleId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6193,6 +6316,38 @@ export const CustomCspmApiApiAxiosParamCreator = function (configuration?: Confi
     return {
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        customCspmApiApiUtilsAdminDashboardList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/custom_cspm_api/api/utils/admin_dashboard/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {HtmlData} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6355,6 +6510,15 @@ export const CustomCspmApiApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async customCspmApiApiUtilsAdminDashboardList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.customCspmApiApiUtilsAdminDashboardList(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {HtmlData} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -6403,6 +6567,14 @@ export const CustomCspmApiApiFp = function(configuration?: Configuration) {
 export const CustomCspmApiApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = CustomCspmApiApiFp(configuration)
     return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        customCspmApiApiUtilsAdminDashboardList(options?: any): AxiosPromise<void> {
+            return localVarFp.customCspmApiApiUtilsAdminDashboardList(options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @param {HtmlData} data 
@@ -6507,6 +6679,16 @@ export interface CustomCspmApiApiCustomCspmApiApiUtilsSqlToJsonCreateRequest {
 export class CustomCspmApiApi extends BaseAPI {
     /**
      * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomCspmApiApi
+     */
+    public customCspmApiApiUtilsAdminDashboardList(options?: AxiosRequestConfig) {
+        return CustomCspmApiApiFp(this.configuration).customCspmApiApiUtilsAdminDashboardList(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {CustomCspmApiApiCustomCspmApiApiUtilsHtmlToPdfCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -6563,10 +6745,118 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPoliciesCreate: async (data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyDetailPartialUpdate: async (data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('policyPoliciesCreate', 'data', data)
-            const localVarPath = `/policy/policies/`;
+            assertParamExists('policyPolicyDetailPartialUpdate', 'data', data)
+            const localVarPath = `/policy/policy_detail/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyDetailRead: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/policy/policy_detail/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Policy} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyDetailUpdate: async (data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyPolicyDetailUpdate', 'data', data)
+            const localVarPath = `/policy/policy_detail/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Policy} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyListCreateCreate: async (data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyPolicyListCreateCreate', 'data', data)
+            const localVarPath = `/policy/policy_list_create/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6601,8 +6891,8 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPoliciesList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/policy/policies/`;
+        policyPolicyListCreateList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/policy/policy_list_create/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6626,126 +6916,6 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {Policy} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyPoliciesPartialUpdate: async (id: number, data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('policyPoliciesPartialUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('policyPoliciesPartialUpdate', 'data', data)
-            const localVarPath = `/policy/policies/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyPoliciesRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('policyPoliciesRead', 'id', id)
-            const localVarPath = `/policy/policies/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {Policy} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyPoliciesUpdate: async (id: number, data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('policyPoliciesUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('policyPoliciesUpdate', 'data', data)
-            const localVarPath = `/policy/policies/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -6858,6 +7028,122 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [tenant] tenant
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunResultsList: async (tenant?: string, page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/policy/policy_run_results/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} tenantId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunResultsRead: async (tenantId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tenantId' is not null or undefined
+            assertParamExists('policyPolicyRunResultsRead', 'tenantId', tenantId)
+            const localVarPath = `/policy/policy_run_results/{tenant_id}/`
+                .replace(`{${"tenant_id"}}`, encodeURIComponent(String(tenantId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {PolicyRunScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunScanCreate: async (data: PolicyRunScan, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyPolicyRunScanCreate', 'data', data)
+            const localVarPath = `/policy/policy_run_scan/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -7114,8 +7400,37 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPoliciesCreate(data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPoliciesCreate(data, options);
+        async policyPolicyDetailPartialUpdate(data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailPartialUpdate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyDetailRead(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailRead(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {Policy} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyDetailUpdate(data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailUpdate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {Policy} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyListCreateCreate(data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyListCreateCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7124,40 +7439,8 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPoliciesList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPoliciesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPoliciesList(page, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {Policy} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async policyPoliciesPartialUpdate(id: number, data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPoliciesPartialUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async policyPoliciesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPoliciesRead(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {Policy} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async policyPoliciesUpdate(id: number, data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPoliciesUpdate(id, data, options);
+        async policyPolicyListCreateList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyListCreateList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyListCreateList(page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7189,6 +7472,37 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          */
         async policyPolicyRuleRead(policyId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRule>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRuleRead(policyId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [tenant] tenant
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyRunResultsList(tenant?: string, page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunResultsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultsList(tenant, page, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} tenantId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyRunResultsRead(tenantId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRunResult>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultsRead(tenantId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {PolicyRunScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyRunScanCreate(data: PolicyRunScan, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRunScan>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7270,8 +7584,34 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPoliciesCreate(data: Policy, options?: any): AxiosPromise<Policy> {
-            return localVarFp.policyPoliciesCreate(data, options).then((request) => request(axios, basePath));
+        policyPolicyDetailPartialUpdate(data: Policy, options?: any): AxiosPromise<Policy> {
+            return localVarFp.policyPolicyDetailPartialUpdate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyDetailRead(options?: any): AxiosPromise<Policy> {
+            return localVarFp.policyPolicyDetailRead(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {Policy} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyDetailUpdate(data: Policy, options?: any): AxiosPromise<Policy> {
+            return localVarFp.policyPolicyDetailUpdate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {Policy} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyListCreateCreate(data: Policy, options?: any): AxiosPromise<Policy> {
+            return localVarFp.policyPolicyListCreateCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7279,37 +7619,8 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPoliciesList(page?: number, options?: any): AxiosPromise<PolicyPoliciesList200Response> {
-            return localVarFp.policyPoliciesList(page, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {Policy} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyPoliciesPartialUpdate(id: number, data: Policy, options?: any): AxiosPromise<Policy> {
-            return localVarFp.policyPoliciesPartialUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyPoliciesRead(id: number, options?: any): AxiosPromise<Policy> {
-            return localVarFp.policyPoliciesRead(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this policy.
-         * @param {Policy} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyPoliciesUpdate(id: number, data: Policy, options?: any): AxiosPromise<Policy> {
-            return localVarFp.policyPoliciesUpdate(id, data, options).then((request) => request(axios, basePath));
+        policyPolicyListCreateList(page?: number, options?: any): AxiosPromise<PolicyPolicyListCreateList200Response> {
+            return localVarFp.policyPolicyListCreateList(page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7338,6 +7649,34 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          */
         policyPolicyRuleRead(policyId: string, options?: any): AxiosPromise<PolicyRule> {
             return localVarFp.policyPolicyRuleRead(policyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [tenant] tenant
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunResultsList(tenant?: string, page?: number, options?: any): AxiosPromise<PolicyPolicyRunResultsList200Response> {
+            return localVarFp.policyPolicyRunResultsList(tenant, page, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} tenantId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunResultsRead(tenantId: string, options?: any): AxiosPromise<PolicyRunResult> {
+            return localVarFp.policyPolicyRunResultsRead(tenantId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {PolicyRunScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunScanCreate(data: PolicyRunScan, options?: any): AxiosPromise<PolicyRunScan> {
+            return localVarFp.policyPolicyRunScanCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7400,87 +7739,59 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
 };
 
 /**
- * Request parameters for policyPoliciesCreate operation in PolicyApi.
+ * Request parameters for policyPolicyDetailPartialUpdate operation in PolicyApi.
  * @export
- * @interface PolicyApiPolicyPoliciesCreateRequest
+ * @interface PolicyApiPolicyPolicyDetailPartialUpdateRequest
  */
-export interface PolicyApiPolicyPoliciesCreateRequest {
+export interface PolicyApiPolicyPolicyDetailPartialUpdateRequest {
     /**
      * 
      * @type {Policy}
-     * @memberof PolicyApiPolicyPoliciesCreate
+     * @memberof PolicyApiPolicyPolicyDetailPartialUpdate
      */
     readonly data: Policy
 }
 
 /**
- * Request parameters for policyPoliciesList operation in PolicyApi.
+ * Request parameters for policyPolicyDetailUpdate operation in PolicyApi.
  * @export
- * @interface PolicyApiPolicyPoliciesListRequest
+ * @interface PolicyApiPolicyPolicyDetailUpdateRequest
  */
-export interface PolicyApiPolicyPoliciesListRequest {
+export interface PolicyApiPolicyPolicyDetailUpdateRequest {
+    /**
+     * 
+     * @type {Policy}
+     * @memberof PolicyApiPolicyPolicyDetailUpdate
+     */
+    readonly data: Policy
+}
+
+/**
+ * Request parameters for policyPolicyListCreateCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyListCreateCreateRequest
+ */
+export interface PolicyApiPolicyPolicyListCreateCreateRequest {
+    /**
+     * 
+     * @type {Policy}
+     * @memberof PolicyApiPolicyPolicyListCreateCreate
+     */
+    readonly data: Policy
+}
+
+/**
+ * Request parameters for policyPolicyListCreateList operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyListCreateListRequest
+ */
+export interface PolicyApiPolicyPolicyListCreateListRequest {
     /**
      * A page number within the paginated result set.
      * @type {number}
-     * @memberof PolicyApiPolicyPoliciesList
+     * @memberof PolicyApiPolicyPolicyListCreateList
      */
     readonly page?: number
-}
-
-/**
- * Request parameters for policyPoliciesPartialUpdate operation in PolicyApi.
- * @export
- * @interface PolicyApiPolicyPoliciesPartialUpdateRequest
- */
-export interface PolicyApiPolicyPoliciesPartialUpdateRequest {
-    /**
-     * A unique integer value identifying this policy.
-     * @type {number}
-     * @memberof PolicyApiPolicyPoliciesPartialUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {Policy}
-     * @memberof PolicyApiPolicyPoliciesPartialUpdate
-     */
-    readonly data: Policy
-}
-
-/**
- * Request parameters for policyPoliciesRead operation in PolicyApi.
- * @export
- * @interface PolicyApiPolicyPoliciesReadRequest
- */
-export interface PolicyApiPolicyPoliciesReadRequest {
-    /**
-     * A unique integer value identifying this policy.
-     * @type {number}
-     * @memberof PolicyApiPolicyPoliciesRead
-     */
-    readonly id: number
-}
-
-/**
- * Request parameters for policyPoliciesUpdate operation in PolicyApi.
- * @export
- * @interface PolicyApiPolicyPoliciesUpdateRequest
- */
-export interface PolicyApiPolicyPoliciesUpdateRequest {
-    /**
-     * A unique integer value identifying this policy.
-     * @type {number}
-     * @memberof PolicyApiPolicyPoliciesUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {Policy}
-     * @memberof PolicyApiPolicyPoliciesUpdate
-     */
-    readonly data: Policy
 }
 
 /**
@@ -7523,6 +7834,55 @@ export interface PolicyApiPolicyPolicyRuleReadRequest {
      * @memberof PolicyApiPolicyPolicyRuleRead
      */
     readonly policyId: string
+}
+
+/**
+ * Request parameters for policyPolicyRunResultsList operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyRunResultsListRequest
+ */
+export interface PolicyApiPolicyPolicyRunResultsListRequest {
+    /**
+     * tenant
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyRunResultsList
+     */
+    readonly tenant?: string
+
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof PolicyApiPolicyPolicyRunResultsList
+     */
+    readonly page?: number
+}
+
+/**
+ * Request parameters for policyPolicyRunResultsRead operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyRunResultsReadRequest
+ */
+export interface PolicyApiPolicyPolicyRunResultsReadRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyRunResultsRead
+     */
+    readonly tenantId: string
+}
+
+/**
+ * Request parameters for policyPolicyRunScanCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyRunScanCreateRequest
+ */
+export interface PolicyApiPolicyPolicyRunScanCreateRequest {
+    /**
+     * 
+     * @type {PolicyRunScan}
+     * @memberof PolicyApiPolicyPolicyRunScanCreate
+     */
+    readonly data: PolicyRunScan
 }
 
 /**
@@ -7632,57 +7992,56 @@ export interface PolicyApiPolicyUpdatePolicyRuleUpdateRequest {
 export class PolicyApi extends BaseAPI {
     /**
      * 
-     * @param {PolicyApiPolicyPoliciesCreateRequest} requestParameters Request parameters.
+     * @param {PolicyApiPolicyPolicyDetailPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPoliciesCreate(requestParameters: PolicyApiPolicyPoliciesCreateRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPoliciesCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyDetailPartialUpdate(requestParameters: PolicyApiPolicyPolicyDetailPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyDetailPartialUpdate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PolicyApiPolicyPoliciesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPoliciesList(requestParameters: PolicyApiPolicyPoliciesListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPoliciesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyDetailRead(options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyDetailRead(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PolicyApiPolicyPoliciesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {PolicyApiPolicyPolicyDetailUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPoliciesPartialUpdate(requestParameters: PolicyApiPolicyPoliciesPartialUpdateRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPoliciesPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyDetailUpdate(requestParameters: PolicyApiPolicyPolicyDetailUpdateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyDetailUpdate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PolicyApiPolicyPoliciesReadRequest} requestParameters Request parameters.
+     * @param {PolicyApiPolicyPolicyListCreateCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPoliciesRead(requestParameters: PolicyApiPolicyPoliciesReadRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPoliciesRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyListCreateCreate(requestParameters: PolicyApiPolicyPolicyListCreateCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyListCreateCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PolicyApiPolicyPoliciesUpdateRequest} requestParameters Request parameters.
+     * @param {PolicyApiPolicyPolicyListCreateListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPoliciesUpdate(requestParameters: PolicyApiPolicyPoliciesUpdateRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPoliciesUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyListCreateList(requestParameters: PolicyApiPolicyPolicyListCreateListRequest = {}, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyListCreateList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7717,6 +8076,39 @@ export class PolicyApi extends BaseAPI {
      */
     public policyPolicyRuleRead(requestParameters: PolicyApiPolicyPolicyRuleReadRequest, options?: AxiosRequestConfig) {
         return PolicyApiFp(this.configuration).policyPolicyRuleRead(requestParameters.policyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyPolicyRunResultsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyPolicyRunResultsList(requestParameters: PolicyApiPolicyPolicyRunResultsListRequest = {}, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRunResultsList(requestParameters.tenant, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyPolicyRunResultsReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyPolicyRunResultsRead(requestParameters: PolicyApiPolicyPolicyRunResultsReadRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRunResultsRead(requestParameters.tenantId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyPolicyRunScanCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyPolicyRunScanCreate(requestParameters: PolicyApiPolicyPolicyRunScanCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRunScanCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

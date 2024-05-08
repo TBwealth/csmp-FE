@@ -189,14 +189,15 @@ const Roles = () => {
                 className="form-control border border-primary"
                 onChange={(e) => handleRoleSearch(e)}
               />
-            </div>
-            {items?.map((item) => (
-              <button
+              </div>
+              <div className="bg-[#ECECFC] p-5">
+              {items?.map((item) => (
+              <div
                 key={item.name}
                 className={
                   item.id === selected.id
-                    ? "bg-primary  uppercase rounded-md p-2 mb-3 text-lg w-full shadow-md"
-                    : " uppercase p-2 mb-3 text-lg w-full rounded-md shadow-md"
+                    ? "bg-primary rounded p-2 mb-2 font-medium text-lg w-full cursor-pointer"
+                    : " p-2 mb-2 text-lg font-medium w-full cursor-pointer"
                 }
                 onClick={() => {
                   setSelected(item);
@@ -204,8 +205,10 @@ const Roles = () => {
                 }}
               >
                 {item.name}
-              </button>
+              </div>
             ))}
+              </div>
+       
             <button
               className="w-full text-primary text-center underline rounded-md p-3 mt-4 text-lg"
               onClick={() => setShowModal(true)}
@@ -233,19 +236,17 @@ const Roles = () => {
                   onChange={(e) => handlePermissionSearch(e)}
                 />
               </div>
-            </div>
-            <table className="w-full mt-3">
-              <thead className="bg-primary">
-                <th className="p-2 text-start">Actions</th>
-                <th className="p-2 text-start">Permissions</th>
-              </thead>
-              <tbody>
-                {perms?.length > 0 ? (
+              </div>
+              <div className="font-bold mb-2">
+                What&nbsp;{selected?.name}&nbsp;role have access to
+              </div>
+              <div className="flex flex-col">
+              {perms?.length > 0 ? (
                   perms?.map((perm) => (
-                    <tr key={perm.id}>
-                      <td className="p-4 text-start border">{perm.name}</td>
-                      <td className="p-4 text-start border">
-                        <label className="inline-flex items-center cursor-pointer">
+                    <div key={perm.id} className="flex justify-between border-l-4 border-l-primary mb-4 p-2">
+                      <div>{perm.name}</div>
+                      <div>
+                      <label className="inline-flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             checked={perm.isPerm}
@@ -266,14 +267,14 @@ const Roles = () => {
                           />
                           <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                         </label>
-                      </td>
-                    </tr>
+                      </div>
+                    </div>                   
                   ))
                 ) : (
-                  <tr>No Permissions Found</tr>
+                  <span>No Permissions Found</span>
                 )}
-              </tbody>
-            </table>
+              </div>
+         
           </div>
         </div>
       )}
