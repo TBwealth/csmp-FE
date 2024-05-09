@@ -5,6 +5,7 @@ import { ILayout, useLayout } from "../../core";
 import { SidebarMenu } from "./sidebar-menu/SidebarMenu";
 import { SidebarFooter } from "./SidebarFooter";
 import { SidebarLogo } from "./SidebarLogo";
+import NewSideMenu from "./sidebar-menu/NewSideMenu";
 
 const Sidebar = () => {
   const { config } = useLayout();
@@ -27,8 +28,9 @@ const Sidebar = () => {
           id="kt_app_sidebar"
           className={clsx("app-sidebar", config.app?.sidebar?.default?.class)}
         >
-          <SidebarLogo sidebarRef={sidebarRef} />
-          <SidebarMenu />
+          {/* <SidebarLogo sidebarRef={sidebarRef} />
+          <SidebarMenu /> */}
+          <NewSideMenu />
           {/* <SidebarFooter /> */}
         </div>
       )}
