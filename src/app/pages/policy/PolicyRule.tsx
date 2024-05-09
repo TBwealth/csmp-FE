@@ -58,7 +58,7 @@ const PolicyRule = () => {
   const { showAlert, hideAlert } = useAlert();
   const [editItems, setEditItems] = useState<any | undefined>();
   const [showModal, setShowModal] = useState(false);
-  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const [showEmpty, setshowEmpty] = useState<boolean>(true);
   const currentPage = 0;
   const filterFields: TableColumn[] = [
     { name: "keyword", title: "Keyword", type: ColumnTypes.Text },

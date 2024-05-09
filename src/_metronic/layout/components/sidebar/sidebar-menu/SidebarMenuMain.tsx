@@ -13,37 +13,29 @@ const SidebarMenuMain = () => {
         icon="element-11"
         title={intl.formatMessage({ id: "MENU.DASHBOARD" })}
         fontIcon="bi-app-indicator"
-      >
-        </SidebarMenuItem>
-  
+      ></SidebarMenuItem>
+
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-          Cloud Management
+            Cloud Management
           </span>
         </div>
-      </div>  
-   
-    <SidebarMenuItem
-          to="/cloud-provider/cloud/provider-resource"
-          title="Cloud Providers"
-          
-        ></SidebarMenuItem>
+      </div>
+
       <SidebarMenuItem
-          to="/cloud-provider/cloud/region"
-          title="Cloud Region"
-          
-        ></SidebarMenuItem>
+        to="/cloud-provider/cloud/provider-resource"
+        title="Cloud Providers"
+      ></SidebarMenuItem>
+      <SidebarMenuItem
+        to="/cloud-provider/cloud/region"
+        title="Cloud Region"
+      ></SidebarMenuItem>
       <SidebarMenuItem
         to="/assets/assets-list"
         title="Resource Inventory"
-        
       ></SidebarMenuItem>
-        <SidebarMenuItem
-        to="/policy"
-        title="Policy"
-      >
-        </SidebarMenuItem>
+      <SidebarMenuItem to="/policy" title="Policy"></SidebarMenuItem>
       {/* <SidebarMenuItem
         to=""
         title="Configuration Management"
@@ -53,161 +45,90 @@ const SidebarMenuMain = () => {
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-          Security Monitoring
+            Security Monitoring
           </span>
         </div>
       </div>
-      <SidebarMenuItem
-        to=""
-        title="Resource Scanning"
-      >
-      </SidebarMenuItem>
-      <SidebarMenuItem
-          to=""
-          title="Vulnerability Report"
-          
-      ></SidebarMenuItem>
-      <SidebarMenuItem
-        to=""
-        title="Threat Report"
-      >
-        </SidebarMenuItem>
- 
-       <SidebarMenuItem
-          to=""
-          title="Incident Report"
-          
-      ></SidebarMenuItem>
-       
-       <SidebarMenuItem
-          to=""
-          title="Network Logs"
-          
-        ></SidebarMenuItem>
+      <SidebarMenuItem to="" title="Resource Scanning"></SidebarMenuItem>
+      <SidebarMenuItem to="" title="Vulnerability Report"></SidebarMenuItem>
+      <SidebarMenuItem to="" title="Threat Report"></SidebarMenuItem>
+
+      <SidebarMenuItem to="" title="Incident Report"></SidebarMenuItem>
+
+      <SidebarMenuItem to="" title="Network Logs"></SidebarMenuItem>
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-          Compliance Management
+            Compliance Management
           </span>
         </div>
       </div>
-      <SidebarMenuItem
-          to=""
-          title="Regulatory Compliance"
-          
-        ></SidebarMenuItem>
+      <SidebarMenuItem to="" title="Regulatory Compliance"></SidebarMenuItem>
       <SidebarMenuItem
         to="/policy"
         title="Policy Enforcement"
-      >
-        </SidebarMenuItem>
-      <SidebarMenuItem
-          to=""
-          title="Audit Logs"
-          
-        ></SidebarMenuItem>
+      ></SidebarMenuItem>
+      <SidebarMenuItem to="" title="Audit Logs"></SidebarMenuItem>
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-          User Management
+            User Management
           </span>
         </div>
       </div>
-      <SidebarMenuItemWithSub
-        to="/account-manager/users"
-        title="User Accounts"
-      >
+      <SidebarMenuItemWithSub to="/account-manager/users" title="User Accounts">
         <SidebarMenuItem
           to="/account-manager/users/all-users"
           title="All Users"
-          
         ></SidebarMenuItem>
 
         <SidebarMenuItem
           to="/account-manager/account/tenants"
           title="Tenants"
-          
         ></SidebarMenuItem>
         <SidebarMenuItem
           to="/account-manager/users/user-logs"
           title="User Logs"
-          
         ></SidebarMenuItem>
       </SidebarMenuItemWithSub>
       <SidebarMenuItem
-          to="/account-manager/account/roles"
-          title="Roles and Permission"
-          
+        to="/account-manager/account/roles"
+        title="Roles and Permission"
       ></SidebarMenuItem>
-        
+
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-          Integration
+            Integration
           </span>
         </div>
       </div>
 
-       <SidebarMenuItemWithSub
-          to="tickets/ticket-types"
-          title="Task Systems"
-      >
-   <SidebarMenuItem
+      <SidebarMenuItemWithSub to="tickets/ticket-types" title="Task Systems">
+        <SidebarMenuItem
           to="tickets/ticket-types"
           title="Setup Task Types"
-          
-      ></SidebarMenuItem>
-      <SidebarMenuItem
-
-to="/tickets/tickets-list"
-title="Tasks list"
-
-></SidebarMenuItem>
-
-      </SidebarMenuItemWithSub>
-       <SidebarMenuItem
-          to=""
-          title="Notifications"
-          
         ></SidebarMenuItem>
-      <SidebarMenuItem
-          to=""
-          title="Payment Gateways"
-          
-      ></SidebarMenuItem>
-      
+        <SidebarMenuItem
+          to="/tickets/tickets-list"
+          title="Tasks list"
+        ></SidebarMenuItem>
+      </SidebarMenuItemWithSub>
+      <SidebarMenuItem to="" title="Notifications"></SidebarMenuItem>
+      <SidebarMenuItem to="" title="Payment Gateways"></SidebarMenuItem>
 
       <div className="menu-item">
         <div className="menu-content pt-8 pb-2">
           <span className="menu-section text-muted text-uppercase fs-8 ls-1">
-          Settings
+            Settings
           </span>
         </div>
       </div>
-      <SidebarMenuItem
-        to=""
-        title="Account Settings"
-        
-      />
+      <SidebarMenuItem to="" title="Account Settings" />
 
-       <SidebarMenuItem
-          to=""
-          title="Notification Preferences"
-          
-      ></SidebarMenuItem>
-       <SidebarMenuItem
-          to=""
-          title="Billing & Subscriptions"
-          
-        ></SidebarMenuItem>
-
-
-
-     
-
-    
-
+      <SidebarMenuItem to="" title="Notification Preferences"></SidebarMenuItem>
+      <SidebarMenuItem to="" title="Billing & Subscriptions"></SidebarMenuItem>
 
       {/* COMMENT OUT EVERYTHING BELOW WHEN YOU FINISH USING IT */}
 

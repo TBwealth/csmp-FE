@@ -1,7 +1,7 @@
 import {
   Policy,
-  PolicyApiPolicyPoliciesUpdateRequest,
-  PolicyApiPolicyRulesCreateRequest,
+  PolicyApiPolicyPolicyDetailUpdateRequest,
+  PolicyApiPolicyPolicyRunScanCreateRequest,
   PolicyApiPolicyRulesUpdateRequest,
   PolicyApiPolicyUpdatePolicyRuleUpdateRequest,
   Rule,
@@ -12,7 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 // POLICY
 export const useGetPolicies = (page: number) => {
   const query = useQuery(["policies"], () =>
-    policyApi.policyPoliciesList({ page })
+    policyApi.policyPolicyListCreateList({ page })
   );
   return query;
 };
@@ -20,7 +20,7 @@ export const useGetPolicies = (page: number) => {
 export const useCreatePolicies = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    (data: Policy) => policyApi.policyPoliciesCreate({ data }),
+    (data: Policy) => policyApi.policyPolicyListCreateCreate({ data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["policies"]);
@@ -34,8 +34,8 @@ export const useUpdatePolicies = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({ id, data }: PolicyApiPolicyPoliciesUpdateRequest) =>
-      policyApi.policyPoliciesUpdate({ id, data }),
+    ({ data }: PolicyApiPolicyPolicyDetailUpdateRequest) =>
+      policyApi.policyPolicyDetailUpdate({ data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["policies"]);
@@ -106,12 +106,13 @@ export const useRuleUpdate = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
     ({ id, data }: PolicyApiPolicyRulesUpdateRequest) =>
-      policyApi.policyRulesUpdate({id, data}), {
-        onSuccess: (res) => {
-          console.log(res);
-          queryClient.invalidateQueries(["rules"]);
-        }
-      }
+      policyApi.policyRulesUpdate({ id, data }),
+    {
+      onSuccess: (res) => {
+        console.log(res);
+        queryClient.invalidateQueries(["rules"]);
+      },
+    }
   );
 
   return mutation;
@@ -129,5 +130,23 @@ export const useAddPolicyRule = () => {
       },
     }
   );
+  return mutation;
+};
+
+// policy scan
+export const useScanPolicy = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: PolicyApiPolicyPolicyRunScanCreateRequest) =>
+      policyApi.policyPolicyRunScanCreate(data),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["rules"]);
+        queryClient.invalidateQueries(["policies"]);
+        console.log(res);
+      },
+    }
+  );
+
   return mutation;
 };

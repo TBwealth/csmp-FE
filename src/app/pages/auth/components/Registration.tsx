@@ -138,7 +138,7 @@ export function Registration() {
   }, []);
 
   const handleSwitchMode = (e: any) => {
-    setIsActive(e);
+    setModeState(() => e ? {mode: "dark"} : {mode: "light"});
     const curMode = document.documentElement.getAttribute("data-bs-theme"); 
       if(curMode === "dark") {
         document.documentElement.setAttribute("data-bs-theme", "light");
@@ -170,7 +170,7 @@ export function Registration() {
           /> }
       
         </div>
-        <button className={active ? "active" : "inactive"}>
+        <button className={mode ? "active" : "inactive"}>
           <input
             type="checkbox"
             defaultChecked
@@ -182,7 +182,7 @@ export function Registration() {
         </button>
       </div>
       <form
-        className="md:col-span-2 rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border"
+        className={`md:col-span-2 rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border ${mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""}`}
         // style={{ backgroundColor: "white" }}
         noValidate
         id="kt_login_signup_form"

@@ -1,4 +1,6 @@
 import "./default-content.component.css";
+import { useRecoilValue } from "recoil";
+import modeAtomsAtom from "../../atoms/modeAtoms.atom";
 
 type Props = {
   buttonClick: React.Dispatch<any>;
@@ -15,10 +17,11 @@ export default function DefaultContent({
   loading = false,
   buttonClick,
 }: Props) {
+  const mode = useRecoilValue<any>(modeAtomsAtom);
   return (
     <>
       <div
-        className="w-full lg:w-[90%] mt-20 rounded-md shadow-md mx-auto lg:flex justify-center items-center border"
+        className={`w-full lg:w-[90%] mt-20 rounded-md shadow-md mx-auto lg:flex justify-center items-center border ${mode.mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""}`}
         style={{ minHeight: "300px" }}
       >
         <div className="space-y-10 w-full flex flex-col items-center">

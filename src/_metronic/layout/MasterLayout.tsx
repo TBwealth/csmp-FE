@@ -9,6 +9,7 @@ import {ActivityDrawer, DrawerMessenger, InviteUsers, UpgradePlan} from '../part
 import {PageDataProvider} from './core'
 import {reInitMenu} from '../helpers'
 
+
 const MasterLayout = () => {
   const location = useLocation()
   useEffect(() => {

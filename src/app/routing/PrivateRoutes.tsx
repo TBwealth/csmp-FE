@@ -31,6 +31,8 @@ const PrivateRoutes = () => {
   const Policy = lazy(() => import("../pages/policy/PolicyWrapper"));
   const PolicyRule = lazy(() => import("../pages/policy/PolicyRule"));
   const AssetsPage = lazy(() => import("../pages/assets/AssetsPage"));
+  const SettingsPage = lazy(() => import("../pages/settings/SettingsPage"));
+  const SecurityMonitoring = lazy(() => import("../pages/security-monitoring/SecurityMonitoringPage"));
   
 
   return (
@@ -40,7 +42,7 @@ const PrivateRoutes = () => {
         <Route path="auth/*" element={<Navigate to="/dashboard" />} />
         {/* Pages */}
         <Route path="dashboard" element={<DashboardWrapper />} />
-        <Route path="policy" element={<Policy />} />
+        {/* <Route path="policy" element={<Policy />} /> */}
         <Route path="policy-rules/:id" element={<PolicyRule />} />
         <Route path="builder" element={<BuilderPageWrapper />} />
         <Route path="menu-test" element={<MenuTestPage />} />
@@ -74,6 +76,30 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <TicketPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path="/monitoring/*"
+          element={
+            <SuspensedView>
+              <SecurityMonitoring />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path="/policy/*"
+          element={
+            <SuspensedView>
+              <Policy />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path="/settings/*"
+          element={
+            <SuspensedView>
+              <SettingsPage />
             </SuspensedView>
           }
         />

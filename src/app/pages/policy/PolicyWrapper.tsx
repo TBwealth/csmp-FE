@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import useAlert from "../components/useAlert";
-import { useGetPolicies } from "../../api/api-services/policyQuery";
-import { PolicyPoliciesList200Response } from "../../api/axios-client";
+import {
+  useGetPolicies,
+  useScanPolicy,
+} from "../../api/api-services/policyQuery";
+import { PolicyPolicyListCreateList200Response } from "../../api/axios-client";
 import { useNavigate } from "react-router-dom";
 import {
   ACTIONS,
@@ -18,6 +21,7 @@ import {
 import { ComponentsheaderComponent } from "../../components/componentsheader/componentsheader.component";
 import DefaultContent from "../../components/defaultContent/defaultContent";
 import { MainTableComponent } from "../../components/tableComponents/maincomponent/maintable";
+import ScanPolicyModal from "../security-monitoring/components/modals/ScanModal";
 
 export class PolicyWithStatus implements IStatus {
   id: string = "";
@@ -52,7 +56,8 @@ const PolicyWrapper = () => {
   const { showAlert, hideAlert } = useAlert();
   const navigate = useNavigate();
   const [showPolicy, setShowPolicy] = useState(false);
-  const [errorMess, setErrorMess] = useState("");
+  const [showScan, setShowScan] = useState(false);
+  const [errorMess, setErrorMess] = useState<any>(null);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
@@ -63,15 +68,24 @@ const PolicyWrapper = () => {
     { name: ACTIONS.EDIT, label: "Edit" },
     { name: ACTIONS.VIEW, label: "View Rules" },
     { name: ACTIONS.DELETE, label: "Run Policy" },
+    { name: ACTIONS.ACTIVATE, label: "Run Scan" },
   ];
   const { data, isLoading, error } = useGetPolicies(page);
   console.log(data);
 
-  const datastsr: PolicyPoliciesList200Response | any = data;
+  const { mutate, isLoading: scanLoading } = useScanPolicy();
+
+  const datastsr: PolicyPolicyListCreateList200Response | any = data;
 
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results.map((x: any) => new PolicyWithStatus(x)));
-    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0: true);
+    setItems(
+      datastsr?.data?.data?.results.map((x: any) => new PolicyWithStatus(x))
+    );
+    setshowEmpty(
+      datastsr?.data?.data?.results
+        ? datastsr?.data?.data?.results?.length === 0
+        : true
+    );
     settotalItems(Math.ceil(datastsr?.data?.data?.count));
     hideAlert();
     if (error) {
@@ -133,6 +147,24 @@ const PolicyWrapper = () => {
     filter.current = nfilter;
     useGetPolicies(1);
   }
+  function handleScanPolicy(id: number) {
+    mutate(
+      {
+        data: {
+          policy_id: id,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          navigate("/policy-scan-result");
+        },
+        onError: (err: any) => {
+          setShowScan(true);
+          setErrorMess(err.response.data);
+        },
+      }
+    );
+  }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
       setEditItems(event.data);
@@ -142,16 +174,16 @@ const PolicyWrapper = () => {
       handleViewPolicyRules(event.data.id);
     }
     if (event.name === "2") {
-        setShowPolicy(true);
-
+      setShowPolicy(true);
+    }
+    if (event.name === "7") {
+      handleScanPolicy(event.data.id);
     }
   }
 
-  
-
   return (
     <>
-       <ComponentsheaderComponent
+      <ComponentsheaderComponent
         backbuttonClick={() => {}}
         pageName="Policy"
         requiredButton={topActionButtons}
@@ -160,44 +192,50 @@ const PolicyWrapper = () => {
         }}
       />
 
-      {showEmpty ? (
+      {(showEmpty || scanLoading) ? (
         <DefaultContent
-          pageHeader="All Policies"
-          pageDescription="No record found"
-          loading={isLoading}
-          buttonValue="Refresh"
-          buttonClick={() => refreshrecord()}
+          pageHeader={scanLoading ? "Running Scan" : "All Policies"}
+          pageDescription={scanLoading ? "" : "No record found"}
+          loading={isLoading || scanLoading}
+          buttonValue={scanLoading ? "" : "Refresh"}
+          buttonClick={scanLoading ? () => {} : () => refreshrecord()}
         />
-      ): (
-          <MainTableComponent
-            filterChange={(e: any) => filterUpdated(e)}
-            showActions={true}
-            showFilter={true}
-            actionClick={(e: any) => tableActionClicked(e)}
-            actions={tableActions}
-            userData={items}
-            tableColum={tableColumns}
-            totalItems={totalItems}
-            currentTablePage={currentPage}
-            loading={isLoading}
-            InputFileName="All Policies"
-            filterFields={filterFields}
-            showCheckBox={true}
-            bulkactionClicked={(e: any) => {}}
-            Bulkactions={[]}
-            showBulkAction={true}
-            actionChecked={() => {}}
-            actionBulkChecked={() => {}}
-            pageChange={() => {}}
-            dateRangeChanged={() => {}}
-            toggleColumnsEvent={() => {}}
-            toggleCustomFilter={() => {}}
-            sortOptionSelected={() => {}}
-          />
-
+      ) : (
+        <MainTableComponent
+          filterChange={(e: any) => filterUpdated(e)}
+          showActions={true}
+          showFilter={true}
+          actionClick={(e: any) => tableActionClicked(e)}
+          actions={tableActions}
+          userData={items}
+          tableColum={tableColumns}
+          totalItems={totalItems}
+          currentTablePage={currentPage}
+          loading={isLoading}
+          InputFileName="All Policies"
+          filterFields={filterFields}
+          showCheckBox={true}
+          bulkactionClicked={(e: any) => {}}
+          Bulkactions={[]}
+          showBulkAction={true}
+          actionChecked={() => {}}
+          actionBulkChecked={() => {}}
+          pageChange={() => {}}
+          dateRangeChanged={() => {}}
+          toggleColumnsEvent={() => {}}
+          toggleCustomFilter={() => {}}
+          sortOptionSelected={() => {}}
+        />
       )}
-      {/* {!showEmpty && (
-      )} */}
+      {showScan && (
+        <ScanPolicyModal
+        isOpen={showScan}
+        err={errorMess}
+        handleHide={() => {
+          setShowScan(false);
+        }}
+      />
+      )}
       {showPolicy && (
         <RunPolicyModal
           isOpen={showPolicy}
