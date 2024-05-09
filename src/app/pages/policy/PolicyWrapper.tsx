@@ -156,12 +156,10 @@ const PolicyWrapper = () => {
       },
       {
         onSuccess: (res) => {
-          navigate("/policy-scan");
-          console.log(res);
+          navigate("/policy-scan-result");
         },
         onError: (err: any) => {
           setShowScan(true);
-          console.log(err.response.data);
           setErrorMess(err.response.data);
         },
       }

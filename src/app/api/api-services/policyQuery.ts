@@ -1,8 +1,7 @@
 import {
   Policy,
-  PolicyApiPolicyPolicyDetailPartialUpdateRequest,
+  PolicyApiPolicyPolicyDetailUpdateRequest,
   PolicyApiPolicyPolicyRunScanCreateRequest,
-  PolicyApiPolicyRulesCreateRequest,
   PolicyApiPolicyRulesUpdateRequest,
   PolicyApiPolicyUpdatePolicyRuleUpdateRequest,
   Rule,
@@ -35,8 +34,8 @@ export const useUpdatePolicies = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({ data }: PolicyApiPolicyPolicyDetailPartialUpdateRequest) =>
-      policyApi.policyPolicyDetailPartialUpdate({ data }),
+    ({ data }: PolicyApiPolicyPolicyDetailUpdateRequest) =>
+      policyApi.policyPolicyDetailUpdate({ data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["policies"]);

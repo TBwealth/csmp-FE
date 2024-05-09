@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
 import PolicyRule from "./PolicyRule";
+import ScanResult from "./ScanResult";
 
 
 const policyBreadCrumbs: Array<PageLink> = [
@@ -36,6 +37,17 @@ const PolicyAccessPage: React.FC = () => {
                 Policy Rules
               </PageTitle>
               <PolicyRule />
+            </>
+          }
+        />
+        <Route
+          path="policy-scan-result"
+          element={
+            <>
+              <PageTitle breadcrumbs={policyBreadCrumbs}>
+                Scan Results
+              </PageTitle>
+              <ScanResult />
             </>
           }
         />

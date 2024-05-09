@@ -31,6 +31,7 @@ const PrivateRoutes = () => {
   const Policy = lazy(() => import("../pages/policy/PolicyWrapper"));
   const PolicyRule = lazy(() => import("../pages/policy/PolicyRule"));
   const AssetsPage = lazy(() => import("../pages/assets/AssetsPage"));
+  const ScanResult = lazy(() => import("../pages/policy/ScanResult"));
   
 
   return (
@@ -42,6 +43,7 @@ const PrivateRoutes = () => {
         <Route path="dashboard" element={<DashboardWrapper />} />
         <Route path="policy" element={<Policy />} />
         <Route path="policy-rules/:id" element={<PolicyRule />} />
+        <Route path="policy-scan-result" element={<ScanResult />} />
         <Route path="builder" element={<BuilderPageWrapper />} />
         <Route path="menu-test" element={<MenuTestPage />} />
         {/* Lazy Modules */}
