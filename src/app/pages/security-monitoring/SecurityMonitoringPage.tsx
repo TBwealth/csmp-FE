@@ -41,7 +41,7 @@ const SecurityMonitoringPage = () => {
         />
 
         <Route
-          path="vulnerability-report"
+          path=""
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
@@ -52,7 +52,7 @@ const SecurityMonitoringPage = () => {
           }
         />
         <Route
-          path="threat-report"
+          path=""
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
@@ -63,7 +63,7 @@ const SecurityMonitoringPage = () => {
           }
         />
         <Route
-          path="incident-report"
+          path=""
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
@@ -74,7 +74,7 @@ const SecurityMonitoringPage = () => {
           }
         />
         <Route
-          path="network-logs"
+          path=""
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
