@@ -3,8 +3,8 @@ import React, { useState } from "react";
 //   ChartsWidget5,
 //   ChartsWidget1,
 // } from "../../../_metronic/partials/widgets";
-import { ComponentsheaderComponent } from "../../components/componentsheader/componentsheader.component";
-import modeAtomsAtom from "../../atoms/modeAtoms.atom";
+import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
+import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { useRecoilValue } from "recoil";
 import ScanAccordion from "./modals/ScanAccordion";
 const ScanResult = () => {

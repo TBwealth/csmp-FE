@@ -21,7 +21,7 @@ import {
 import { ComponentsheaderComponent } from "../../components/componentsheader/componentsheader.component";
 import DefaultContent from "../../components/defaultContent/defaultContent";
 import { MainTableComponent } from "../../components/tableComponents/maincomponent/maintable";
-import ScanPolicyModal from "./modals/ScanModal";
+import ScanPolicyModal from "../security-monitoring/components/modals/ScanModal";
 
 export class PolicyWithStatus implements IStatus {
   id: string = "";

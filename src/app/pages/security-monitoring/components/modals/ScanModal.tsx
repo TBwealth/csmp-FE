@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import useAlert from "../../components/useAlert";
+import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 
 const ScanPolicyModal = ({ isOpen, handleHide, err }: any) => {

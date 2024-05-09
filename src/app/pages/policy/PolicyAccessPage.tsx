@@ -2,7 +2,7 @@ import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
 import PolicyRule from "./PolicyRule";
-import ScanResult from "./ScanResult";
+import ScanResult from "../security-monitoring/components/ScanResult";
 
 
 const policyBreadCrumbs: Array<PageLink> = [

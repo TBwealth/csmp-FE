@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
+import modeAtomsAtom from "../../../../atoms/modeAtoms.atom";
 import { useRecoilValue } from "recoil";
 type Props = {
   name: string;
