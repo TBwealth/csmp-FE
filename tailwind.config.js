@@ -16,7 +16,7 @@ export default {
         lightDark:"#2A2C38",   
       },
       fontFamily: {
-        sans: ["Manrope", 'Inter', 'Arial']
+        sans: ["Avenir Next", "Manrope", 'Inter', 'Arial']
       }
     },
   },

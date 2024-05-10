@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../../../app/atoms/modeAtoms.atom";
 import { Link, useLocation } from "react-router-dom";
@@ -8,6 +8,7 @@ import clsx from "clsx";
 type Links = {
   title: string;
   href?: string;
+  path: string;
   children?: any[];
   groupTitle?: string;
   icon: any;
@@ -20,10 +21,20 @@ const NewSideMenu = () => {
   const [children, setChildren] = useState<Links[]>([]);
   const [topTitle, setTopTitle] = useState("");
 
+  useEffect(() => {
+    const localChildren = sessionStorage.getItem("children");
+    if (localChildren) {
+      const parsed = JSON.parse(localChildren);
+      setIsOpen(true);
+      setChildren(parsed);
+    }
+  }, []);
+
   const links: Links[] = [
     {
       title: "Dashboard",
       href: "/dashboard",
+      path: "/dashboard",
       icon: (
         <svg
           width="24px"
@@ -33,7 +44,7 @@ const NewSideMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           color={
-            pathname === "/dashboard"
+            pathname.includes("/dashboard")
               ? "#4470EF"
               : mode === "dark"
               ? "#EAEAEA"
@@ -43,7 +54,7 @@ const NewSideMenu = () => {
           <path
             d="M10 18V15C10 13.8954 10.8954 13 12 13V13C13.1046 13 14 13.8954 14 15V18"
             stroke={
-              pathname === "/dashboard"
+              pathname.includes("/dashboard")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -56,7 +67,7 @@ const NewSideMenu = () => {
           <path
             d="M2 8L11.7317 3.13416C11.9006 3.04971 12.0994 3.0497 12.2683 3.13416L22 8"
             stroke={
-              pathname === "/dashboard"
+              pathname.includes("/dashboard")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -69,7 +80,7 @@ const NewSideMenu = () => {
           <path
             d="M20 11V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V11"
             stroke={
-              pathname === "/dashboard"
+              pathname.includes("/dashboard")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -91,6 +102,7 @@ const NewSideMenu = () => {
     {
       title: "Cloud Management",
       href: "/cloud-provider/cloud/provider-resource",
+      path: "/cloud-provider",
       icon: (
         <svg
           width="24px"
@@ -100,7 +112,7 @@ const NewSideMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           color={
-            pathname.includes("/cloud")
+            pathname.includes("/cloud-provider")
               ? "#4470EF"
               : mode === "dark"
               ? "#EAEAEA"
@@ -110,7 +122,7 @@ const NewSideMenu = () => {
           <path
             d="M8 9C8 9 9 8 12 8C15 8 16 9 16 9"
             stroke={
-              pathname.includes("/cloud")
+              pathname.includes("/cloud-provider")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -123,14 +135,14 @@ const NewSideMenu = () => {
           <path
             d="M12 14C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12C11.4477 12 11 12.4477 11 13C11 13.5523 11.4477 14 12 14Z"
             fill={
-              pathname.includes("/cloud")
+              pathname.includes("/cloud-provider")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
                 : "#000000"
             }
             stroke={
-              pathname.includes("/cloud")
+              pathname.includes("/cloud-provider")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -143,7 +155,7 @@ const NewSideMenu = () => {
           <path
             d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
             stroke={
-              pathname.includes("/cloud")
+              pathname.includes("/cloud-provider")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -173,6 +185,7 @@ const NewSideMenu = () => {
     {
       title: "Security Monitoring",
       href: "/monitoring/resource-scanning",
+      path: "/monitoring",
       icon: (
         <svg
           width="24px"
@@ -182,7 +195,7 @@ const NewSideMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           color={
-            pathname === "/monitoring/resource-scanning"
+            pathname.includes("/monitoring")
               ? "#4470EF"
               : mode === "dark"
               ? "#EAEAEA"
@@ -192,7 +205,7 @@ const NewSideMenu = () => {
           <path
             d="M7 22L17 22"
             stroke={
-              pathname === "/monitoring/resource-scanning"
+              pathname.includes("/monitoring")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -205,7 +218,7 @@ const NewSideMenu = () => {
           <path
             d="M2 17V4C2 2.89543 2.89543 2 4 2H20C21.1046 2 22 2.89543 22 4V17C22 18.1046 21.1046 19 20 19H4C2.89543 19 2 18.1046 2 17Z"
             stroke={
-              pathname === "/monitoring/resource-scanning"
+              pathname.includes("/monitoring")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -216,7 +229,7 @@ const NewSideMenu = () => {
           <path
             d="M9 10.5L11 12.5L15 8.5"
             stroke={
-              pathname === "/monitoring/resource-scanning"
+              pathname.includes("/monitoring")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -235,15 +248,15 @@ const NewSideMenu = () => {
         },
         {
           title: "Vulnerability Report",
-          href: "/monitoring/vulnerability-report",
+          href: "",
         },
         {
           title: "Threat Report",
-          href: "/monitoring/threat-report",
+          href: "",
         },
         {
           title: "Incident Report",
-          href: "/monitoring/incident-report",
+          href: "",
         },
         {
           title: "Incident Report",
@@ -254,6 +267,7 @@ const NewSideMenu = () => {
     {
       title: "Compliance Management",
       href: "/policy/policies",
+      path: "/policy",
       icon: (
         <svg
           width="24px"
@@ -263,7 +277,7 @@ const NewSideMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           color={
-            pathname === "/policy/policies"
+            pathname.includes("/policy")
               ? "#4470EF"
               : mode === "dark"
               ? "#EAEAEA"
@@ -273,7 +287,7 @@ const NewSideMenu = () => {
           <path
             d="M20 12V5.74853C20 5.5894 19.9368 5.43679 19.8243 5.32426L16.6757 2.17574C16.5632 2.06321 16.4106 2 16.2515 2H4.6C4.26863 2 4 2.26863 4 2.6V21.4C4 21.7314 4.26863 22 4.6 22H13"
             stroke={
-              pathname === "/policy/policies"
+              pathname.includes("/policy")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -286,7 +300,7 @@ const NewSideMenu = () => {
           <path
             d="M8 10H16M8 6H12M8 14H11"
             stroke={
-              pathname === "/policy/policies"
+              pathname.includes("/policy")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -299,7 +313,7 @@ const NewSideMenu = () => {
           <path
             d="M16 2V5.4C16 5.73137 16.2686 6 16.6 6H20"
             stroke={
-              pathname === "/policy/policies"
+              pathname.includes("/policy")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -312,7 +326,7 @@ const NewSideMenu = () => {
           <path
             d="M19.9923 15.125L22.5477 15.774C22.8137 15.8416 23.0013 16.0833 22.9931 16.3576C22.8214 22.1159 19.5 23 19.5 23C19.5 23 16.1786 22.1159 16.0069 16.3576C15.9987 16.0833 16.1863 15.8416 16.4523 15.774L19.0077 15.125C19.3308 15.043 19.6692 15.043 19.9923 15.125Z"
             stroke={
-              pathname === "/policy/policies"
+              pathname.includes("/policy")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -331,13 +345,14 @@ const NewSideMenu = () => {
         },
         {
           title: "Regulatory Compliance",
-          href: "/policy/compliance",
+          href: "",
         },
       ],
     },
     {
       title: "User Management",
       href: "/account-manager/users/all-users",
+      path: "/account-manager",
       icon: (
         <svg
           width="24px"
@@ -347,7 +362,7 @@ const NewSideMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           color={
-            pathname === "/account-manager/users/all-users"
+            pathname.includes("/account-manager")
               ? "#4470EF"
               : mode === "dark"
               ? "#EAEAEA"
@@ -357,7 +372,7 @@ const NewSideMenu = () => {
           <path
             d="M2.5 9.5L12 4L21.5 9.5"
             stroke={
-              pathname === "/account-manager/users/all-users"
+              pathname.includes("/account-manager")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -370,7 +385,7 @@ const NewSideMenu = () => {
           <path
             d="M7 21V20C7 17.2386 9.23858 15 12 15V15C14.7614 15 17 17.2386 17 20V21"
             stroke={
-              pathname === "/account-manager/users/all-users"
+              pathname.includes("/account-manager")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -381,7 +396,7 @@ const NewSideMenu = () => {
           <path
             d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
             stroke={
-              pathname === "/account-manager/users/all-users"
+              pathname.includes("/account-manager")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -415,6 +430,7 @@ const NewSideMenu = () => {
     {
       title: "Integration",
       href: "tickets/ticket-types",
+      path: "tickets",
       icon: (
         <svg
           width="24px"
@@ -424,7 +440,7 @@ const NewSideMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           color={
-            pathname === "/tickets/ticket-types"
+            pathname.includes("tickets/")
               ? "#4470EF"
               : mode === "dark"
               ? "#EAEAEA"
@@ -434,7 +450,7 @@ const NewSideMenu = () => {
           <path
             d="M3 19H12M21 19H12M12 19V13M12 13H18V5H6V13H12Z"
             stroke={
-              pathname === "/tickets/ticket-types"
+              pathname.includes("tickets/")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -447,7 +463,7 @@ const NewSideMenu = () => {
           <path
             d="M9 9.01L9.01 8.99889"
             stroke={
-              pathname === "/tickets/ticket-types"
+              pathname.includes("tickets/")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -460,7 +476,7 @@ const NewSideMenu = () => {
           <path
             d="M12 9.01L12.01 8.99889"
             stroke={
-              pathname === "/tickets/ticket-types"
+              pathname.includes("tickets/")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -483,17 +499,18 @@ const NewSideMenu = () => {
         },
         {
           title: "Notifications",
-          href: "/tickets/tickets-list",
+          href: "",
         },
         {
           title: "Payment Gateways",
-          href: "/tickets/tickets-list",
+          href: "",
         },
       ],
     },
     {
       title: "Settings",
       href: "/settings",
+      path: "/settings",
       icon: (
         <svg
           width="24px"
@@ -503,7 +520,7 @@ const NewSideMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           color={
-            pathname === " "
+            pathname.includes("/settings")
               ? "#4470EF"
               : mode === "dark"
               ? "#EAEAEA"
@@ -513,7 +530,7 @@ const NewSideMenu = () => {
           <path
             d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
             stroke={
-              pathname === "/"
+              pathname.includes("/settings")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -526,7 +543,7 @@ const NewSideMenu = () => {
           <path
             d="M19.6224 10.3954L18.5247 7.7448L20 6L18 4L16.2647 5.48295L13.5578 4.36974L12.9353 2H10.981L10.3491 4.40113L7.70441 5.51596L6 4L4 6L5.45337 7.78885L4.3725 10.4463L2 11V13L4.40111 13.6555L5.51575 16.2997L4 18L6 20L7.79116 18.5403L10.397 19.6123L11 22H13L13.6045 19.6132L16.2551 18.5155C16.6969 18.8313 18 20 18 20L20 18L18.5159 16.2494L19.6139 13.598L21.9999 12.9772L22 11L19.6224 10.3954Z"
             stroke={
-              pathname === "/"
+              pathname.includes("/settings")
                 ? "#4470EF"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -596,10 +613,13 @@ const NewSideMenu = () => {
       <div className="border-end pr-2 pt-8 w-fit md:h-screen">
         <div className="p-3">
           {mode === "dark" ? (
-            <Link to={"/dashboard"} onClick={() => {
-              setTopTitle("Dashboar");
-              setChildren(links[0].children!);
-            }}>
+            <Link
+              to={"/dashboard"}
+              onClick={() => {
+                setTopTitle("Dashboar");
+                setChildren(links[0].children!);
+              }}
+            >
               <svg
                 width="30"
                 height="34"
@@ -672,10 +692,13 @@ const NewSideMenu = () => {
               </svg>
             </Link>
           ) : (
-            <Link to={"/dashboard"} onClick={() => {
-              setTopTitle("Dashboar");
-              setChildren(links[0].children!);
-            }}>
+            <Link
+              to={"/dashboard"}
+              onClick={() => {
+                setTopTitle("Dashboar");
+                setChildren(links[0].children!);
+              }}
+            >
               <svg
                 width="30"
                 height="34"
@@ -751,8 +774,18 @@ const NewSideMenu = () => {
         </div>
         <div className="mt-12">
           {links.map((link) => (
-            <div className="flex items-center gap-2 mb-6">
-              {pathname.includes(link.href!) ? (
+            <div
+              className="flex items-center gap-2 mb-6"
+              onClick={() => {
+                if (link.children) {
+                  sessionStorage.setItem(
+                    "children",
+                    JSON.stringify(link.children)
+                  );
+                }
+              }}
+            >
+              {pathname.includes(link.path) ? (
                 <svg
                   width="6"
                   height="50"
@@ -807,13 +840,15 @@ const NewSideMenu = () => {
               </span>
             </div>
           </div>
-          <div className="w-full flex items-start flex-col gap-6 p-4">
+          <div className="w-full flex items-start flex-col gap-6">
             {children.map((child) => (
               <Link
                 to={child.href!}
-                className={clsx("menu-link without-sub font-bold", {
-                  active: pathname === child.href!,
-                })}
+                className={`menu-link without-sub ${
+                  pathname === child.href!
+                    ? "bg-primary text-white p-3 rounded-r-md w-full"
+                    : "p-3 w-full"
+                }`}
               >
                 {child.title}
               </Link>

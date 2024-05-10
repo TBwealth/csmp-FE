@@ -150,3 +150,10 @@ export const useScanPolicy = () => {
 
   return mutation;
 };
+
+export const useGetAllScanResults = () => {
+  const query = useQuery(["all-scan"], () =>
+    policyApi.policyPolicyRunResultsList()
+  );
+  return query;
+}

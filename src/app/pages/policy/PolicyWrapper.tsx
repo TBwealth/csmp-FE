@@ -227,7 +227,7 @@ const PolicyWrapper = () => {
           sortOptionSelected={() => {}}
         />
       )}
-      {showScan && (
+      {/* {showScan && (
         <ScanPolicyModal
         isOpen={showScan}
         err={errorMess}
@@ -235,7 +235,7 @@ const PolicyWrapper = () => {
           setShowScan(false);
         }}
       />
-      )}
+      )} */}
       {showPolicy && (
         <RunPolicyModal
           isOpen={showPolicy}

@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from '../../../_metronic/layout/core';
 import ScanResult from './components/ScanResult';
+import ResourceScan from './components/ResourceScan';
 const cloudProviderBreadCrumbs: Array<PageLink> = [
     {
       title: "Security Monitoring",
@@ -35,7 +36,7 @@ const SecurityMonitoringPage = () => {
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
                 Resource Scanning
               </PageTitle>
-              <ScanResult />
+              <ResourceScan />
             </>
           }
         />

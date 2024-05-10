@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useAlert from "../../components/useAlert";
 import { Modal } from "react-bootstrap";
-import { PolicyPoliciesList200Response } from "../../../api/axios-client";
+import { PolicyPolicyListCreateList200Response } from "../../../api/axios-client";
 import {
   useRuleCreate,
   useGetPolicies,
@@ -16,6 +16,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   const [nameValue, setNameValue] = useState("");
   const [codeValue, setCodeValue] = useState("");
   const [statusValue, setStatusValue] = useState(false);
+  const [descValue, setDescValue] = useState("");
   const [tenantValue, setTenantValue] = useState(0);
   const { showAlert, hideAlert, Alert } = useAlert();
 
@@ -32,7 +33,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     error: editError,
   } = useRuleUpdate();
 
-  const datastsr: PolicyPoliciesList200Response | any = allPolicies;
+  const datastsr: PolicyPolicyListCreateList200Response | any = allPolicies;
   useEffect(() => {
     setPolicies(datastsr?.data?.data?.results);
     if (editItem) {
@@ -43,11 +44,13 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
       setCodeValue(editItem?.code);
       setStatusValue(editItem?.status);
       setTenantValue(editItem?.tenant);
+      setDescValue(editItem?.tenant);
     } else {
       setValueId("");
       setCodeValue("");
       setStatusValue(false);
       setNameValue("");
+      setDescValue("");
       setTenantValue(0);
     }
   }, [allPolicies, editItem]);
@@ -65,6 +68,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
         name: nameValue,
         code: codeValue,
         status: statusValue,
+        description: descValue,
       },
       {
         onSuccess: (res: any) => {
@@ -96,6 +100,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           name: nameValue,
           code: codeValue,
           status: statusValue,
+          description: descValue,
         },
       },
       {
@@ -154,6 +159,18 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               value={codeValue}
               onChange={(e) => setCodeValue(e.target.value)}
             />
+          </div>
+          <div>
+            <label className="form-label fs-6 fw-bold">Description:</label>
+            <textarea
+              name="description"
+              id=""
+              rows={3}
+              cols={10}
+              value={descValue}
+              className="form-check-input mx-1 mt-1"
+              onChange={(e) => setDescValue(e.target.value)}
+            ></textarea>
           </div>
           <div>
             <label className="form-label fs-6 fw-bold">Active?:</label>

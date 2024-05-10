@@ -9,6 +9,17 @@
   font-style: normal;
   font-display: block;
 }
+/* @font-face {
+  font-family: 'Avenir Next';
+  src:  url('avenir-next/AvenirNextLTPro-Regular.otf');
+  src:  url('avenir-next/AvenirNextLTPro-Regular') format('embedded-opentype'),
+    url('avenir-next/AvenirNextLTPro-Regular') format('truetype'),
+    url('avenir-next/AvenirNextLTPro-Regular') format('woff'),
+    url('fonts/keenicons-duotone.svg?eut7fk#keenicons-duotone') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+} */
 
 .ki-duotone {
   /* use !important to prevent issues with browser extensions that change fonts */

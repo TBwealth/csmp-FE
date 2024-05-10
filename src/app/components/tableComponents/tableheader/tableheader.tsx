@@ -231,7 +231,7 @@ export const TableheaderComponent = ({
   return (
     <>
       <div className="flex flex-wrap justify-between items-center pt-5 text-sm">
-        <h1 className="font-bold mb-2 md:mb-0  text-2xl">{tableTitle}</h1>
+        <h1 className="mb-2 md:mb-0  text-2xl">{tableTitle}</h1>
         <div className="flex flex-wrap-reverse justify-between lg:space-x-2 space-x-1 items-center">
           {showDateRange && (
             <div className="border-[0.5px] border-[#CED4DA] bg-white rounded-md flex items-center pl-2 space-x-1 text-sm cursor-pointer">

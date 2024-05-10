@@ -76,7 +76,7 @@ const registrationSchema = Yup.object().shape({
 export function Registration() {
   const [loading, setLoading] = useState(false);
   const [active, setIsActive] = useState(true);
-  const {mode} = useRecoilValue(modeAtoms);
+  const { mode } = useRecoilValue(modeAtoms);
   const setModeState = useSetRecoilState(modeAtoms);
 
   // const allowedFileType = ["jpg", "png", "jpeg"];
@@ -123,6 +123,15 @@ export function Registration() {
             setLoading(false);
             setStatus(null);
             navigate("/");
+            sessionStorage.setItem(
+              "children",
+              JSON.stringify([
+                {
+                  title: "Dashboard",
+                  href: "/dashboard",
+                },
+              ])
+            );
           },
           onError: (res: any) => {
             setStatus(res.response.data.message);
@@ -138,37 +147,38 @@ export function Registration() {
   }, []);
 
   const handleSwitchMode = (e: any) => {
-    setModeState(() => e ? {mode: "dark"} : {mode: "light"});
-    const curMode = document.documentElement.getAttribute("data-bs-theme"); 
-      if(curMode === "dark") {
-        document.documentElement.setAttribute("data-bs-theme", "light");
-        setModeState({ mode: "light" });
-        localStorage.setItem("mode", JSON.stringify("light"));     
-        // localStorage.setItem("kt_theme_mode_value", "light");
-        // location.reload();
-      } else {
-        document.documentElement.setAttribute("data-bs-theme", "dark");
-        setModeState({ mode: "dark" });
-        localStorage.setItem("mode", JSON.stringify("dark"));
-      }
+    setModeState(() => (e ? { mode: "dark" } : { mode: "light" }));
+    const curMode = document.documentElement.getAttribute("data-bs-theme");
+    if (curMode === "dark") {
+      document.documentElement.setAttribute("data-bs-theme", "light");
+      setModeState({ mode: "light" });
+      localStorage.setItem("mode", JSON.stringify("light"));
+      // localStorage.setItem("kt_theme_mode_value", "light");
+      // location.reload();
+    } else {
+      document.documentElement.setAttribute("data-bs-theme", "dark");
+      setModeState({ mode: "dark" });
+      localStorage.setItem("mode", JSON.stringify("dark"));
+    }
   };
 
   return (
     <div className="grid md:grid-cols-3 md:w-[80%] mr-60 md:gap-20 mt-20">
       <div className="md:col-span-1 left_container">
         <div>
-          {mode === "dark" ?
-              <img
+          {mode === "dark" ? (
+            <img
               alt="Logo"
               src={toAbsoluteUrl("media/logos/darkLogo.png")}
               className="app-sidebar-logo-default"
-            /> :
+            />
+          ) : (
             <img
-            alt="Logo"
-            src={toAbsoluteUrl("media/logos/logofile.jpg")}
-            className="app-sidebar-logo-default"
-          /> }
-      
+              alt="Logo"
+              src={toAbsoluteUrl("media/logos/logofile.jpg")}
+              className="app-sidebar-logo-default"
+            />
+          )}
         </div>
         <button className={mode ? "active" : "inactive"}>
           <input
@@ -182,7 +192,9 @@ export function Registration() {
         </button>
       </div>
       <form
-        className={`md:col-span-2 rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border ${mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""}`}
+        className={`md:col-span-2 rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border ${
+          mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""
+        }`}
         // style={{ backgroundColor: "white" }}
         noValidate
         id="kt_login_signup_form"
@@ -197,9 +209,7 @@ export function Registration() {
         </p>
       </div> */}
         <div className="text-center mb-11">
-          <h1 className=" fw-bolder mb-3">
-            Sign Up
-          </h1>
+          <h1 className=" fw-bolder mb-3">Sign Up</h1>
         </div>
         {/* <div className="mt-10">
         <h2 className="fs-20 fw-bold">Personal Information</h2>
@@ -222,9 +232,7 @@ export function Registration() {
         <div className="row ">
           {/* begin::Form group Firstname */}
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder fs-6">
-              Company name
-            </label>
+            <label className="form-label fw-bolder fs-6">Company name</label>
             <input
               placeholder="Company name"
               type="text"
@@ -283,9 +291,7 @@ export function Registration() {
         </div>
         <div className="row">
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder fs-6">
-              Admin Last name
-            </label>
+            <label className="form-label fw-bolder fs-6">Admin Last name</label>
             <input
               placeholder="Last name"
               type="text"
@@ -312,9 +318,7 @@ export function Registration() {
             )}
           </div>
           <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder  fs-6">
-              Admin Email
-            </label>
+            <label className="form-label fw-bolder  fs-6">Admin Email</label>
             <input
               placeholder="Email"
               type="email"
@@ -397,9 +401,7 @@ export function Registration() {
           {/* begin::Form group Password */}
           <div className="fv-row mb-8 col-sm" data-kt-password-meter="true">
             <div className="mb-1">
-              <label className="form-label fw-bolder fs-6">
-                Password
-              </label>
+              <label className="form-label fw-bolder fs-6">Password</label>
               <div className="position-relative mb-3">
                 <input
                   type="password"
