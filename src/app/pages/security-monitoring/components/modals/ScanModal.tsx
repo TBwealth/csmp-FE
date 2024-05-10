@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 
-const ScanPolicyModal = ({ isOpen, handleHide, err }: any) => {
+const ScanPolicyModal = ({ isOpen, handleHide, err, errType }: any) => {
   const { showAlert, Alert } = useAlert();
 
   useEffect(() => {
-    showAlert(err?.message || "An unknow error occured", "danger");
+    showAlert(errType === "success" ? err?.data.detail: err?.message || "An unknow error occured", errType);
   }, []);
   return (
     <>
@@ -17,7 +17,7 @@ const ScanPolicyModal = ({ isOpen, handleHide, err }: any) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Policy Scan</Modal.Title>
+          <Modal.Title>Resource Scan</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-10"></div>

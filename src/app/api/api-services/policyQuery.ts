@@ -35,7 +35,7 @@ export const useUpdatePolicies = () => {
 
   const mutation = useMutation(
     ({ data }: PolicyApiPolicyPolicyDetailUpdateRequest) =>
-      policyApi.policyPolicyDetailUpdate({ data }),
+      policyApi.policyPolicyDetailPartialUpdate({ data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["policies"]);
@@ -150,3 +150,10 @@ export const useScanPolicy = () => {
 
   return mutation;
 };
+
+export const useGetAllScanResults = () => {
+  const query = useQuery(["all-scan"], () =>
+    policyApi.policyPolicyRunResultsList()
+  );
+  return query;
+}

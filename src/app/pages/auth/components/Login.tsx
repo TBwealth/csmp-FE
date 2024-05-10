@@ -44,11 +44,11 @@ export function Login() {
   const { saveAuth, setCurrentUser } = useAuth();
   const [active, setIsActive] = useState(false);
   const navigate = useNavigate();
-  const {mode} = useRecoilValue(modeAtomsAtom);
+  const { mode } = useRecoilValue(modeAtomsAtom);
 
   const { mutate, isLoading } = useAccountLogin();
   const setModeState = useSetRecoilState(modeAtomsAtom);
-  
+
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
@@ -67,6 +67,15 @@ export function Login() {
                 localStorage.setItem(
                   "user",
                   JSON.stringify(res?.data?.data?.user)
+                );
+                sessionStorage.setItem(
+                  "children",
+                  JSON.stringify([
+                    {
+                      title: "Dashboard",
+                      href: "/dashboard",
+                    },
+                  ])
                 );
                 saveAuth(res?.data?.data?.token?.access);
                 localStorage.setItem("token", res?.data?.data?.token?.access);
@@ -92,20 +101,19 @@ export function Login() {
   });
 
   const handleSwitchMode = (e: any) => {
-    setModeState(() => e ? {mode: "dark"} : {mode: "light"});
-    const curMode = document.documentElement.getAttribute("data-bs-theme"); 
-      if(curMode === "dark") {
-        document.documentElement.setAttribute("data-bs-theme", "light");
-        setModeState({ mode: "light" });
-        localStorage.setItem("mode", JSON.stringify("light"));        
-        // localStorage.setItem("kt_theme_mode_value", "light");
-        // location.reload();
-      } else {
-        document.documentElement.setAttribute("data-bs-theme", "dark");
-        setModeState({ mode: "dark" });
-        localStorage.setItem("mode", JSON.stringify("dark"));
-        
-      }
+    setModeState(() => (e ? { mode: "dark" } : { mode: "light" }));
+    const curMode = document.documentElement.getAttribute("data-bs-theme");
+    if (curMode === "dark") {
+      document.documentElement.setAttribute("data-bs-theme", "light");
+      setModeState({ mode: "light" });
+      localStorage.setItem("mode", JSON.stringify("light"));
+      // localStorage.setItem("kt_theme_mode_value", "light");
+      // location.reload();
+    } else {
+      document.documentElement.setAttribute("data-bs-theme", "dark");
+      setModeState({ mode: "dark" });
+      localStorage.setItem("mode", JSON.stringify("dark"));
+    }
   };
 
   return (
@@ -113,17 +121,19 @@ export function Login() {
     <div className="grid md:grid-cols-2 md:w-[80%] mr-60 md:gap-20 mt-20">
       <div className="md:col-span-1 left_container">
         <div>
-        {mode === "dark" ?
-              <img
+          {mode === "dark" ? (
+            <img
               alt="Logo"
               src={toAbsoluteUrl("media/logos/darkLogo.png")}
               className="app-sidebar-logo-default"
-            /> :
+            />
+          ) : (
             <img
-            alt="Logo"
-            src={toAbsoluteUrl("media/logos/logofile.jpg")}
-            className="app-sidebar-logo-default"
-          /> }
+              alt="Logo"
+              src={toAbsoluteUrl("media/logos/logofile.jpg")}
+              className="app-sidebar-logo-default"
+            />
+          )}
         </div>
         <button className={mode === "dark" ? "active" : "inactive"}>
           <input
@@ -137,7 +147,9 @@ export function Login() {
         </button>
       </div>
       <form
-        className={`form w-100  border z-10 rounded-md shadow-md p-10 ${mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""}`}
+        className={`form w-100  border z-10 rounded-md shadow-md p-10 ${
+          mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""
+        }`}
         onSubmit={formik.handleSubmit}
         noValidate
         id="kt_login_signin_form"

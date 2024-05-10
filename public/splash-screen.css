@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "myfont";
+  src: url(./../public/fonts/avenir-next/AvenirNextLTPro-Regular.otf);
+}
+
+
 body.page-loading {
   margin: 0;
   height: 100%;
@@ -17,7 +23,7 @@ body.page-loading {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  font-family: Manrope, Helvetica, 'sans-serif';
+  font-family: myfont, Helvetica, 'sans-serif';
   background-color: #f9f9f9;
   color: #5e6278;
   line-height: 1;
