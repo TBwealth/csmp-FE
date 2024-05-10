@@ -46,7 +46,7 @@ const Profile = () => {
         />
       ) : (
         <div className="w-full md:w-[95%] md:mx-auto mt-16  gap-4 grid md:grid-cols-3">
-          <div className={`shadow-md p-4 md:p-6 rounded-md md:col-span-1 flex items-center gap-2 justify-center flex-col ${mode.mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""}`}>
+          <div className={`shadow-md p-4 md:p-6 rounded-md md:col-span-1 flex items-center gap-2 justify-center flex-col ${mode.mode === "dark" ? "bg-lightDark text-[#7E8299]" : "bg-white"}`}>
             {user?.user_image ? (
               <img
                 src={user?.user_image}
@@ -71,36 +71,36 @@ const Profile = () => {
             )}
             <h3 className="text-lg">{`${user?.first_name} ${user?.last_name}`}</h3>
           </div>
-          <div className={`shadow-md p-4 md:p-6 rounded-md md:col-span-2 ${mode.mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""}`}>
+          <div className={`shadow-md p-4 md:p-6 rounded-md md:col-span-2 ${mode.mode === "dark" ? "bg-lightDark text-[#7E8299]" : "bg-white"}`}>
             <h1 className="text-lg pb-3 border-bottom border-white">
               Personal Information
             </h1>
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
-              <p className="md:col-span-1 font-semibold">Full Name:</p>
+              <p className="md:col-span-1 font-medium">Full Name:</p>
               <div className="col-span-2 flex items-center gap-4">
-                <p className={`shadow-md p-3 rounded-md w-full border-bottom font-semibold ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
+                <p className={`shadow-md p-3 rounded-md w-full border-bottom font-medium ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
                   {user?.first_name}
                 </p>
-                <p className={`shadow-md p-3 rounded-md w-full border-bottom font-semibold ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
+                <p className={`shadow-md p-3 rounded-md w-full border-bottom font-medium ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
                   {user?.last_name}
                 </p>
               </div>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
-              <p className="md:col-span-1 font-semibold">Email:</p>
-              <div className={`col-span-2 shadow-md p-3 rounded-md w-full border-bottom font-semibold ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
+              <p className="md:col-span-1 font-medium">Email:</p>
+              <div className={`col-span-2 shadow-md p-3 rounded-md w-full border-bottom font-medium ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
                 {user?.email}
               </div>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
-              <p className="md:col-span-1 font-semibold">Role:</p>
-              <div className={`col-span-2 shadow-md p-3 rounded-md w-full border-bottom font-semibold ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
+              <p className="md:col-span-1 font-medium">Role:</p>
+              <div className={`col-span-2 shadow-md p-3 rounded-md w-full border-bottom font-medium ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
                 {user?.role?.name}
               </div>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
-              <p className="md:col-span-1 font-semibold">Tenant:</p>
-              <div className={`col-span-2 shadow-md p-3 rounded-md w-full border-bottom font-semibold ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
+              <p className="md:col-span-1 font-medium">Tenant:</p>
+              <div className={`col-span-2 shadow-md p-3 rounded-md w-full border-bottom font-medium ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : "bg-white"}`}>
                 {user?.tenant}
               </div>
             </div>

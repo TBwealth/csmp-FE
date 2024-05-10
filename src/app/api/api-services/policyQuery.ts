@@ -35,7 +35,7 @@ export const useUpdatePolicies = () => {
 
   const mutation = useMutation(
     ({ data }: PolicyApiPolicyPolicyDetailUpdateRequest) =>
-      policyApi.policyPolicyDetailUpdate({ data }),
+      policyApi.policyPolicyDetailPartialUpdate({ data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["policies"]);

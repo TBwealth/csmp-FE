@@ -594,7 +594,7 @@ export const MainTableComponent = ({
   };
   return (
     <>
-      <div className={`space-y-3 m-8 p-5 shadow-md rounded-md border ${mode?.mode! === "dark" ? "bg-lightDark" : ""}`}>
+      <div className={`space-y-3 m-8 p-5 shadow-md rounded-md border ${mode?.mode! === "dark" ? "bg-lightDark" : "bg-white"}`}>
         {showFilter && selectedRecord! <= 0 && (
           <TableheaderComponent
             filterFields={filterFields}
