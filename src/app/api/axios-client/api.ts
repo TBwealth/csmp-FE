@@ -284,73 +284,6 @@ export type ActivityLogStatusEnum = typeof ActivityLogStatusEnum[keyof typeof Ac
 /**
  * 
  * @export
- * @interface AssetManagement
- */
-export interface AssetManagement {
-    /**
-     * 
-     * @type {number}
-     * @memberof AssetManagement
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AssetManagement
-     */
-    'tenant': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AssetManagement
-     */
-    'resource_types': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof AssetManagement
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AssetManagement
-     */
-    'code': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AssetManagement
-     */
-    'public_ip'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof AssetManagement
-     */
-    'description': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AssetManagement
-     */
-    'cloud_identifier': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof AssetManagement
-     */
-    'cloud_provider': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof AssetManagement
-     */
-    'region': number;
-}
-/**
- * 
- * @export
  * @interface ByteArray
  */
 export interface ByteArray {
@@ -697,6 +630,18 @@ export interface Policy {
      * @memberof Policy
      */
     'status'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Policy
+     */
+    'is_tenant'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof Policy
+     */
+    'created_by'?: number;
 }
 /**
  * 
@@ -882,7 +827,7 @@ export interface PolicyRunResult {
      * @type {number}
      * @memberof PolicyRunResult
      */
-    'policy_run': number;
+    'policy_run'?: number | null;
     /**
      * 
      * @type {object}
@@ -1077,43 +1022,6 @@ export interface Register {
 /**
  * 
  * @export
- * @interface RegisterAsset
- */
-export interface RegisterAsset {
-    /**
-     * 
-     * @type {number}
-     * @memberof RegisterAsset
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RegisterAsset
-     */
-    'resource_types': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterAsset
-     */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RegisterAsset
-     */
-    'region': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof RegisterAsset
-     */
-    'tenant': number;
-}
-/**
- * 
- * @export
  * @interface ResourceTypes
  */
 export interface ResourceTypes {
@@ -1240,6 +1148,12 @@ export interface Rule {
      * @memberof Rule
      */
     'status'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof Rule
+     */
+    'service': string;
 }
 /**
  * 
@@ -1348,10 +1262,10 @@ export interface SystemSettingsAssetManagementsList200Response {
     'previous'?: string | null;
     /**
      * 
-     * @type {Array<AssetManagement>}
+     * @type {Array<TenantAssetManagement>}
      * @memberof SystemSettingsAssetManagementsList200Response
      */
-    'results': Array<AssetManagement>;
+    'results': Array<TenantAssetManagement>;
 }
 /**
  * 
@@ -1383,37 +1297,6 @@ export interface SystemSettingsRegionsList200Response {
      * @memberof SystemSettingsRegionsList200Response
      */
     'results': Array<Region>;
-}
-/**
- * 
- * @export
- * @interface SystemSettingsRegisterTenantAssetsList200Response
- */
-export interface SystemSettingsRegisterTenantAssetsList200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof SystemSettingsRegisterTenantAssetsList200Response
-     */
-    'count': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof SystemSettingsRegisterTenantAssetsList200Response
-     */
-    'next'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof SystemSettingsRegisterTenantAssetsList200Response
-     */
-    'previous'?: string | null;
-    /**
-     * 
-     * @type {Array<RegisterAsset>}
-     * @memberof SystemSettingsRegisterTenantAssetsList200Response
-     */
-    'results': Array<RegisterAsset>;
 }
 /**
  * 
@@ -1519,6 +1402,67 @@ export interface Tenant {
      * @memberof Tenant
      */
     'logo'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface TenantAssetManagement
+ */
+export interface TenantAssetManagement {
+    /**
+     * 
+     * @type {number}
+     * @memberof TenantAssetManagement
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TenantAssetManagement
+     */
+    'tenant': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantAssetManagement
+     */
+    'resource_types': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantAssetManagement
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantAssetManagement
+     */
+    'rule_code': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantAssetManagement
+     */
+    'services': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantAssetManagement
+     */
+    'cloud_identifier': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantAssetManagement
+     */
+    'cloud_provider': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantAssetManagement
+     */
+    'region': string;
 }
 /**
  * 
@@ -6741,14 +6685,18 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {Policy} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyDetailPartialUpdate: async (data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyDetailPartialUpdate: async (id: number, data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('policyPolicyDetailPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
             assertParamExists('policyPolicyDetailPartialUpdate', 'data', data)
-            const localVarPath = `/policy/policy_detail/`;
+            const localVarPath = `/policy/policy_detail/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6779,11 +6727,15 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyDetailRead: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/policy/policy_detail/`;
+        policyPolicyDetailRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('policyPolicyDetailRead', 'id', id)
+            const localVarPath = `/policy/policy_detail/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -6811,14 +6763,18 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {Policy} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyDetailUpdate: async (data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyDetailUpdate: async (id: number, data: Policy, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('policyPolicyDetailUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
             assertParamExists('policyPolicyDetailUpdate', 'data', data)
-            const localVarPath = `/policy/policy_detail/`;
+            const localVarPath = `/policy/policy_detail/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -7189,12 +7145,14 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * 
+         * List Rules
+         * @summary List Rules
+         * @param {string} [service] Filter by Service
          * @param {number} [page] A page number within the paginated result set.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyRulesList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyRulesList: async (service?: string, page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/rules/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7209,6 +7167,10 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (service !== undefined) {
+                localVarQueryParameter['service'] = service;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -7396,31 +7358,34 @@ export const PolicyApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {Policy} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyDetailPartialUpdate(data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailPartialUpdate(data, options);
+        async policyPolicyDetailPartialUpdate(id: number, data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailPartialUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyDetailRead(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailRead(options);
+        async policyPolicyDetailRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {Policy} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyDetailUpdate(data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailUpdate(data, options);
+        async policyPolicyDetailUpdate(id: number, data: Policy, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Policy>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyDetailUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7516,13 +7481,15 @@ export const PolicyApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         * List Rules
+         * @summary List Rules
+         * @param {string} [service] Filter by Service
          * @param {number} [page] A page number within the paginated result set.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyRulesList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRulesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRulesList(page, options);
+        async policyRulesList(service?: string, page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRulesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRulesList(service, page, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7580,29 +7547,32 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {Policy} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyDetailPartialUpdate(data: Policy, options?: any): AxiosPromise<Policy> {
-            return localVarFp.policyPolicyDetailPartialUpdate(data, options).then((request) => request(axios, basePath));
+        policyPolicyDetailPartialUpdate(id: number, data: Policy, options?: any): AxiosPromise<Policy> {
+            return localVarFp.policyPolicyDetailPartialUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyDetailRead(options?: any): AxiosPromise<Policy> {
-            return localVarFp.policyPolicyDetailRead(options).then((request) => request(axios, basePath));
+        policyPolicyDetailRead(id: number, options?: any): AxiosPromise<Policy> {
+            return localVarFp.policyPolicyDetailRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
+         * @param {number} id A unique integer value identifying this policy.
          * @param {Policy} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyDetailUpdate(data: Policy, options?: any): AxiosPromise<Policy> {
-            return localVarFp.policyPolicyDetailUpdate(data, options).then((request) => request(axios, basePath));
+        policyPolicyDetailUpdate(id: number, data: Policy, options?: any): AxiosPromise<Policy> {
+            return localVarFp.policyPolicyDetailUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7688,13 +7658,15 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.policyRulesCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List Rules
+         * @summary List Rules
+         * @param {string} [service] Filter by Service
          * @param {number} [page] A page number within the paginated result set.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyRulesList(page?: number, options?: any): AxiosPromise<PolicyRulesList200Response> {
-            return localVarFp.policyRulesList(page, options).then((request) => request(axios, basePath));
+        policyRulesList(service?: string, page?: number, options?: any): AxiosPromise<PolicyRulesList200Response> {
+            return localVarFp.policyRulesList(service, page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7745,6 +7717,13 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
  */
 export interface PolicyApiPolicyPolicyDetailPartialUpdateRequest {
     /**
+     * A unique integer value identifying this policy.
+     * @type {number}
+     * @memberof PolicyApiPolicyPolicyDetailPartialUpdate
+     */
+    readonly id: number
+
+    /**
      * 
      * @type {Policy}
      * @memberof PolicyApiPolicyPolicyDetailPartialUpdate
@@ -7753,11 +7732,32 @@ export interface PolicyApiPolicyPolicyDetailPartialUpdateRequest {
 }
 
 /**
+ * Request parameters for policyPolicyDetailRead operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyDetailReadRequest
+ */
+export interface PolicyApiPolicyPolicyDetailReadRequest {
+    /**
+     * A unique integer value identifying this policy.
+     * @type {number}
+     * @memberof PolicyApiPolicyPolicyDetailRead
+     */
+    readonly id: number
+}
+
+/**
  * Request parameters for policyPolicyDetailUpdate operation in PolicyApi.
  * @export
  * @interface PolicyApiPolicyPolicyDetailUpdateRequest
  */
 export interface PolicyApiPolicyPolicyDetailUpdateRequest {
+    /**
+     * A unique integer value identifying this policy.
+     * @type {number}
+     * @memberof PolicyApiPolicyPolicyDetailUpdate
+     */
+    readonly id: number
+
     /**
      * 
      * @type {Policy}
@@ -7906,6 +7906,13 @@ export interface PolicyApiPolicyRulesCreateRequest {
  */
 export interface PolicyApiPolicyRulesListRequest {
     /**
+     * Filter by Service
+     * @type {string}
+     * @memberof PolicyApiPolicyRulesList
+     */
+    readonly service?: string
+
+    /**
      * A page number within the paginated result set.
      * @type {number}
      * @memberof PolicyApiPolicyRulesList
@@ -7998,17 +8005,18 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyDetailPartialUpdate(requestParameters: PolicyApiPolicyPolicyDetailPartialUpdateRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyDetailPartialUpdate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyDetailPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
+     * @param {PolicyApiPolicyPolicyDetailReadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
-    public policyPolicyDetailRead(options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyDetailRead(options).then((request) => request(this.axios, this.basePath));
+    public policyPolicyDetailRead(requestParameters: PolicyApiPolicyPolicyDetailReadRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyDetailRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8019,7 +8027,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyDetailUpdate(requestParameters: PolicyApiPolicyPolicyDetailUpdateRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyDetailUpdate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyDetailUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8123,14 +8131,15 @@ export class PolicyApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List Rules
+     * @summary List Rules
      * @param {PolicyApiPolicyRulesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
     public policyRulesList(requestParameters: PolicyApiPolicyRulesListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyRulesList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyRulesList(requestParameters.service, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -8188,11 +8197,11 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
     return {
         /**
          * 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsCreate: async (data: AssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsCreate: async (data: TenantAssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
             assertParamExists('systemSettingsAssetManagementsCreate', 'data', data)
             const localVarPath = `/system_settings/asset_managements/`;
@@ -8264,11 +8273,11 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         /**
          * 
          * @param {string} id 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsPartialUpdate: async (id: string, data: AssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsPartialUpdate: async (id: string, data: TenantAssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('systemSettingsAssetManagementsPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -8342,11 +8351,11 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         /**
          * 
          * @param {string} id 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsUpdate: async (id: string, data: AssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsUpdate: async (id: string, data: TenantAssetManagement, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('systemSettingsAssetManagementsUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -8547,201 +8556,6 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
             // verify required parameter 'data' is not null or undefined
             assertParamExists('systemSettingsRegionsUpdate', 'data', data)
             const localVarPath = `/system_settings/regions/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsCreate: async (data: RegisterAsset, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsRegisterTenantAssetsCreate', 'data', data)
-            const localVarPath = `/system_settings/register_tenant_assets/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsList: async (page?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/system_settings/register_tenant_assets/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsPartialUpdate: async (id: number, data: RegisterAsset, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsRegisterTenantAssetsPartialUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsRegisterTenantAssetsPartialUpdate', 'data', data)
-            const localVarPath = `/system_settings/register_tenant_assets/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsRegisterTenantAssetsRead', 'id', id)
-            const localVarPath = `/system_settings/register_tenant_assets/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsUpdate: async (id: number, data: RegisterAsset, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsRegisterTenantAssetsUpdate', 'id', id)
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsRegisterTenantAssetsUpdate', 'data', data)
-            const localVarPath = `/system_settings/register_tenant_assets/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9173,11 +8987,11 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsCreate(data: AssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
+        async systemSettingsAssetManagementsCreate(data: TenantAssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantAssetManagement>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -9194,11 +9008,11 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsPartialUpdate(id: string, data: AssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
+        async systemSettingsAssetManagementsPartialUpdate(id: string, data: TenantAssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantAssetManagement>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsPartialUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -9208,18 +9022,18 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
+        async systemSettingsAssetManagementsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantAssetManagement>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @param {string} id 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsUpdate(id: string, data: AssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetManagement>> {
+        async systemSettingsAssetManagementsUpdate(id: string, data: TenantAssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantAssetManagement>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -9273,58 +9087,6 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          */
         async systemSettingsRegionsUpdate(id: number, data: Region, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Region>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegionsUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsRegisterTenantAssetsCreate(data: RegisterAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterAsset>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsRegisterTenantAssetsList(page?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRegisterTenantAssetsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsList(page, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsRegisterTenantAssetsPartialUpdate(id: number, data: RegisterAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterAsset>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsPartialUpdate(id, data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsRegisterTenantAssetsRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterAsset>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsRead(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsRegisterTenantAssetsUpdate(id: number, data: RegisterAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RegisterAsset>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegisterTenantAssetsUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -9443,11 +9205,11 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
     return {
         /**
          * 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsCreate(data: AssetManagement, options?: any): AxiosPromise<AssetManagement> {
+        systemSettingsAssetManagementsCreate(data: TenantAssetManagement, options?: any): AxiosPromise<TenantAssetManagement> {
             return localVarFp.systemSettingsAssetManagementsCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
@@ -9462,11 +9224,11 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
         /**
          * 
          * @param {string} id 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsPartialUpdate(id: string, data: AssetManagement, options?: any): AxiosPromise<AssetManagement> {
+        systemSettingsAssetManagementsPartialUpdate(id: string, data: TenantAssetManagement, options?: any): AxiosPromise<TenantAssetManagement> {
             return localVarFp.systemSettingsAssetManagementsPartialUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
@@ -9475,17 +9237,17 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsRead(id: string, options?: any): AxiosPromise<AssetManagement> {
+        systemSettingsAssetManagementsRead(id: string, options?: any): AxiosPromise<TenantAssetManagement> {
             return localVarFp.systemSettingsAssetManagementsRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {string} id 
-         * @param {AssetManagement} data 
+         * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsUpdate(id: string, data: AssetManagement, options?: any): AxiosPromise<AssetManagement> {
+        systemSettingsAssetManagementsUpdate(id: string, data: TenantAssetManagement, options?: any): AxiosPromise<TenantAssetManagement> {
             return localVarFp.systemSettingsAssetManagementsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
@@ -9534,53 +9296,6 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          */
         systemSettingsRegionsUpdate(id: number, data: Region, options?: any): AxiosPromise<Region> {
             return localVarFp.systemSettingsRegionsUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsCreate(data: RegisterAsset, options?: any): AxiosPromise<RegisterAsset> {
-            return localVarFp.systemSettingsRegisterTenantAssetsCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsList(page?: number, options?: any): AxiosPromise<SystemSettingsRegisterTenantAssetsList200Response> {
-            return localVarFp.systemSettingsRegisterTenantAssetsList(page, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsPartialUpdate(id: number, data: RegisterAsset, options?: any): AxiosPromise<RegisterAsset> {
-            return localVarFp.systemSettingsRegisterTenantAssetsPartialUpdate(id, data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsRead(id: number, options?: any): AxiosPromise<RegisterAsset> {
-            return localVarFp.systemSettingsRegisterTenantAssetsRead(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {number} id A unique integer value identifying this register asset.
-         * @param {RegisterAsset} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRegisterTenantAssetsUpdate(id: number, data: RegisterAsset, options?: any): AxiosPromise<RegisterAsset> {
-            return localVarFp.systemSettingsRegisterTenantAssetsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9687,10 +9402,10 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
 export interface SystemSettingsApiSystemSettingsAssetManagementsCreateRequest {
     /**
      * 
-     * @type {AssetManagement}
+     * @type {TenantAssetManagement}
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsCreate
      */
-    readonly data: AssetManagement
+    readonly data: TenantAssetManagement
 }
 
 /**
@@ -9722,10 +9437,10 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsPartialUpdateReq
 
     /**
      * 
-     * @type {AssetManagement}
+     * @type {TenantAssetManagement}
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsPartialUpdate
      */
-    readonly data: AssetManagement
+    readonly data: TenantAssetManagement
 }
 
 /**
@@ -9757,10 +9472,10 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest {
 
     /**
      * 
-     * @type {AssetManagement}
+     * @type {TenantAssetManagement}
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsUpdate
      */
-    readonly data: AssetManagement
+    readonly data: TenantAssetManagement
 }
 
 /**
@@ -9845,90 +9560,6 @@ export interface SystemSettingsApiSystemSettingsRegionsUpdateRequest {
      * @memberof SystemSettingsApiSystemSettingsRegionsUpdate
      */
     readonly data: Region
-}
-
-/**
- * Request parameters for systemSettingsRegisterTenantAssetsCreate operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsCreateRequest
- */
-export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsCreateRequest {
-    /**
-     * 
-     * @type {RegisterAsset}
-     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsCreate
-     */
-    readonly data: RegisterAsset
-}
-
-/**
- * Request parameters for systemSettingsRegisterTenantAssetsList operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsListRequest
- */
-export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsListRequest {
-    /**
-     * A page number within the paginated result set.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsList
-     */
-    readonly page?: number
-}
-
-/**
- * Request parameters for systemSettingsRegisterTenantAssetsPartialUpdate operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdateRequest
- */
-export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdateRequest {
-    /**
-     * A unique integer value identifying this register asset.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {RegisterAsset}
-     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdate
-     */
-    readonly data: RegisterAsset
-}
-
-/**
- * Request parameters for systemSettingsRegisterTenantAssetsRead operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsReadRequest
- */
-export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsReadRequest {
-    /**
-     * A unique integer value identifying this register asset.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsRead
-     */
-    readonly id: number
-}
-
-/**
- * Request parameters for systemSettingsRegisterTenantAssetsUpdate operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdateRequest
- */
-export interface SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdateRequest {
-    /**
-     * A unique integer value identifying this register asset.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdate
-     */
-    readonly id: number
-
-    /**
-     * 
-     * @type {RegisterAsset}
-     * @memberof SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdate
-     */
-    readonly data: RegisterAsset
 }
 
 /**
@@ -10214,61 +9845,6 @@ export class SystemSettingsApi extends BaseAPI {
      */
     public systemSettingsRegionsUpdate(requestParameters: SystemSettingsApiSystemSettingsRegionsUpdateRequest, options?: AxiosRequestConfig) {
         return SystemSettingsApiFp(this.configuration).systemSettingsRegionsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsRegisterTenantAssetsCreate(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsCreateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsRegisterTenantAssetsList(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsList(requestParameters.page, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsRegisterTenantAssetsPartialUpdate(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsPartialUpdateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsReadRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsRegisterTenantAssetsRead(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsReadRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsRegisterTenantAssetsUpdate(requestParameters: SystemSettingsApiSystemSettingsRegisterTenantAssetsUpdateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRegisterTenantAssetsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
