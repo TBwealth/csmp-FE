@@ -68,7 +68,7 @@ const PolicyWrapper = () => {
     { name: ACTIONS.EDIT, label: "Edit" },
     { name: ACTIONS.VIEW, label: "View Rules" },
     { name: ACTIONS.DELETE, label: "Run Policy" },
-    { name: ACTIONS.ACTIVATE, label: "Run Scan" },
+    // { name: ACTIONS.ACTIVATE, label: "Run Scan" },
   ];
   const { data, isLoading, error } = useGetPolicies(page);
   console.log(data);
