@@ -12,6 +12,8 @@ import {
   useGetAccountTenant,
   useGetAccountUsers,
 } from "../../api/api-services/accountQuery";
+import { useRecoilValue } from "recoil";
+import modeAtomsAtom from "../../atoms/modeAtoms.atom";
 
 
 import "./style.css";
@@ -29,6 +31,7 @@ export const data = [
 ];
 
 const DashboardPage: FC = () => {
+  const {mode} = useRecoilValue(modeAtomsAtom);
   const {
     data: userData,
     isLoading: userLoading,
@@ -70,7 +73,7 @@ const DashboardPage: FC = () => {
         <div className="w-full mb-6">
           <h5 className="font-semibold text-lg">Security issues:</h5>
           <div className="grid md:grid-cols-5 w-full gap-2">
-            <div className="w-full md:col-span-1  p-3 rounded-md border-1 shadow-md">
+            <div className={`w-full md:col-span-1  p-3 rounded-lg border shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <p className="mb-3">Security issues by severity</p>
               <div className="flex flex-col">
                 <div className="!border-l-2 border-l-rose-900 pl-2 mb-4">
@@ -91,7 +94,7 @@ const DashboardPage: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="w-full md:col-span-4 border-1 p-3 md:p-6 rounded-md shadow-md">
+            <div className={`w-full md:col-span-4 border p-3 md:p-6 rounded-lg shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <p className="mb-3 font-semibold text-lg">Top security issues</p>
               <div>
                 <div className="flex flex-col gap-3 lg:flex-row items-start justify-between">
@@ -135,13 +138,13 @@ const DashboardPage: FC = () => {
         <div className="w-full mb-6">
           <h5 className="font-semibold text-lg">Assets at high risk</h5>
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
-            <div className="border-1 p-3 rounded-md shadow-md">
+            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3">In total</h4>
               <h1 className="">
                 <i className="fa-sharp !text-orange-400 fa-regular fa-gem fs-2 mr-1"></i>46
               </h1>
             </div>
-            <div className="border-1 p-3 rounded-md shadow-md">
+            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3">Public</h4>
               <section className="flex items-center justify-between mt-3">
                 <aside className="flex items-start mt-3 gap-2">
@@ -160,7 +163,7 @@ const DashboardPage: FC = () => {
                 </aside>
               </section>
             </div>
-            <div className="border-1 p-3 rounded-md shadow-md">
+            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3 ">
                 With critical/high severity secrets
               </h4>
@@ -168,7 +171,7 @@ const DashboardPage: FC = () => {
                 <i className="bi bi-key !text-green-500 fs-2 rotate-45 mr-2"></i>0
               </h1>
             </div>
-            <div className="border-1 p-3 rounded-md shadow-md">
+            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3 ">
                 With critical/high severity CVEs
               </h4>
@@ -176,7 +179,7 @@ const DashboardPage: FC = () => {
                 <i className="bi bi-bug !text-green-500 fs-2 mr-2"></i>0
               </h1>
             </div>
-            <div className="border-1 p-3 rounded-md shadow-md">
+            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3 ">With sensitive data</h4>
               <h1 className="">
                 <i className="bi !text-green-500 bi-file-earmark-lock fs-2 mr-2"></i>0
@@ -187,7 +190,7 @@ const DashboardPage: FC = () => {
         <div className="w-full mb-6">
           <h5 className="font-semibold text-lg">Riskiest entities:</h5>
           <div className="grid gap-2 md:grid-cols-5">
-            <div className="md:col-span-2 border-1 rounded-md p-3 shadow-md">
+            <div className={`${mode === "dark" ? "bg-lightDark" : "bg-white"} md:col-span-2 border rounded-md p-3 shadow-md`}>
               <p className="font-semibold text-lg">By asset type</p>
               <div className="table">
                 <div className="table_top">
@@ -254,7 +257,7 @@ const DashboardPage: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="md:col-span-2 border-1 rounded-md p-3 shadow-md">
+            <div className={`${mode === "dark" ? "bg-lightDark" : "bg-white"} md:col-span-2 border rounded-md p-3 shadow-md`}>
               <p className="font-semibold text-lg">By asset</p>
               <div className="table ">
                 <div className="table_top ">
@@ -309,7 +312,7 @@ const DashboardPage: FC = () => {
                 </div>
               </div>
             </div>
-            <div className="rounded-md p-3 shadow-md border-1">
+            <div className={`${mode === "dark" ? "bg-lightDark" : "bg-white"} rounded-md p-3 shadow-md border`}>
               <p className="mb-3 font-semibold text-lg">Environment by risk</p>
               <div className="flex flex-col">
                 <div className="!border-l-2 border-l-rose-900 pl-2 mb-4">

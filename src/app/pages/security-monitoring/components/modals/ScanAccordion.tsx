@@ -10,7 +10,6 @@ type Props = {
   groupId: string;
   message: string;
   description: string;
-  isLast: boolean;
 };
 
 const ScanAccordion = ({
@@ -22,18 +21,25 @@ const ScanAccordion = ({
   description,
   groupId,
   message,
-  isLast
 }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [isOpen, setIsOpen] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <div className="w-full">
       <button
-        className={`grid grid-cols-6 ${ isLast ? "" : "border-bottom"} py-3 w-full`}
-        onClick={() => setIsOpen(!isOpen)}
+        className={`grid grid-cols-6 shadow-sm ${
+          mode === "dark" ? "bg-lightDark" : "bg-white"
+        } p-4 w-full mb-3`}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setIsChecked(!isChecked);
+        }}
       >
+        
         <div className=" col-span-2 flex items-center gap-5">
+        <input type="checkbox" checked={isChecked} className="h-5 w-5 rounded-md border" />
           <svg
             width="16"
             height="16"
@@ -67,7 +73,9 @@ const ScanAccordion = ({
         </div>
         <p>{region}</p>
         <p>{service}</p>
-        <p className={severity === "HIGH" ? "text-[#FF161A]" : ""}>{severity}</p>
+        <p className={severity === "HIGH" ? "text-[#FF161A]" : ""}>
+          {severity}
+        </p>
         <p>
           {status === "failed" ? (
             <svg
@@ -128,7 +136,11 @@ const ScanAccordion = ({
         </p>
       </button>
       {isOpen && (
-        <div className={`w-full md:pl-8 p-10 ${ isLast ? "" : "border-bottom"}`}>
+        <div
+          className={`w-full md:pl-8 p-10 my-2 shadow-sm ${
+            mode === "dark" ? "bg-lightDark" : "bg-white"
+          }`}
+        >
           <div className="grid grid-cols-3 gap-y-4">
             <p>Status:</p>
             <p
@@ -147,7 +159,7 @@ const ScanAccordion = ({
             <p>GroupId:</p>
             <p className="text-left col-span-2">{groupId}</p>
           </div>
-          <button className="bg-primary text-white flex items-center gap-3 rounded-md px-3 py-2 mt-6">
+          <button className="bg-[#284CB3] text-white flex items-center gap-3 rounded-full w-32 px-3 py-2 mt-6">
             <p>Resolve</p>
             <svg
               width="16"

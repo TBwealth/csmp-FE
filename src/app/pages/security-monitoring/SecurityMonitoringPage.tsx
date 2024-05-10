@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from '../../../_metronic/layout/core';
 import ScanResult from './components/ScanResult';
 import ResourceScan from './components/ResourceScan';
+import ScanHistory from './components/ScanHistory';
 const cloudProviderBreadCrumbs: Array<PageLink> = [
     {
       title: "Security Monitoring",
@@ -42,24 +43,24 @@ const SecurityMonitoringPage = () => {
         />
 
         <Route
-          path=""
+          path="resource-scanning/:id"
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-               vulnerability Report
+               Scan Details
               </PageTitle>
-              {/* <ProviderServices /> */}
+              <ScanResult />
             </>
           }
         />
         <Route
-          path=""
+          path="scan-history"
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-                Threat Report
+                Scan History
               </PageTitle>
-              {/* <CloudRegion /> */}
+              <ScanHistory />
             </>
           }
         />
