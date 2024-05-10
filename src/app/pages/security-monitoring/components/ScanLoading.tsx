@@ -94,7 +94,7 @@ const ScanLoading = ({ name, policy, region }: Props) => {
             </svg>
             <p>{policy}</p>
           </div>
-          <div className="flex items-center gap-2 my-4">
+          <div className="flex items-center gap-2">
             <FaGlobe
               color={mode === "dark" ? "#EAEAEA" : "#000000"}
               size={24}
