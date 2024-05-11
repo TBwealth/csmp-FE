@@ -68,6 +68,7 @@ export function Login() {
                   "user",
                   JSON.stringify(res?.data?.data?.user)
                 );
+                sessionStorage.setItem("top-title", "Dashboard");
                 sessionStorage.setItem(
                   "children",
                   JSON.stringify([

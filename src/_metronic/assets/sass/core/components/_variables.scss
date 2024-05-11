@@ -4,7 +4,7 @@
 //
 
 @font-face {
-	font-family: "myfont";
+	font-family: "avenir-next";
 	src: url(./../public/fonts/avenir-next/AvenirNextLTPro-Regular.otf);
   }
 
@@ -55,10 +55,10 @@ $grays: (
 
 // Bootstrap contextual colors
 // Primary colors
-$primary:						#1B84FF !default;
-$primary-active:				#056EE9 !default;
+$primary:						#284CB3 !default;
+$primary-active:				#284CB3 !default;
 $primary-light: 				#E9F3FF !default;
-$primary-clarity: 				rgba(#1B84FF, 0.2) !default;
+$primary-clarity: 				rgba(#284CB3, 0.2) !default;
 $primary-inverse: 				$white !default; 
 
 // Secondary colors
@@ -366,7 +366,7 @@ $gutters: (
 //
 // Font, line-height, and color for body text, headings, and more.
 // Font family
-$font-family-sans-serif: myfont, Helvetica, "sans-serif" !default;
+$font-family-sans-serif: avenir-next, Helvetica, "sans-serif" !default;
 
 $font-size-base: 1rem !default; // Assumes the browser default, typically `13px`
 $font-size-lg: $font-size-base * 1.075 !default;   // 14.04px

@@ -2,22 +2,26 @@ import { useIntl } from "react-intl";
 import { MenuItem } from "./MenuItem";
 import { MenuInnerWithSub } from "./MenuInnerWithSub";
 import { MegaMenu } from "./MegaMenu";
+import pagAtom from "../../../../../app/atoms/pagAtom";
+import { useRecoilValue } from "recoil";
 
 export function MenuInner() {
   const intl = useIntl();
+  const pageTitle = useRecoilValue(pagAtom);
   return (
     <>
-      <MenuItem
+    <p className="mt-8 text-xl">{pageTitle}</p>
+      {/* <MenuItem
         title={intl.formatMessage({ id: "MENU.DASHBOARD" })}
         to="/dashboard"
-      />
-      <MenuItem
+      /> */}
+      {/* <MenuItem
         title="Policy"
         to="/policy"
-      />
+      /> */}
       {/* <MenuItem title="Layout Builder" to="/builder" /> */}
 
-      <MenuInnerWithSub
+      {/* <MenuInnerWithSub
         title="Account Manager"
         to="/account-manager"
         menuPlacement="bottom-start"
@@ -72,14 +76,14 @@ export function MenuInner() {
             hasBullet={true}
           ></MenuItem>
         </MenuInnerWithSub>
-      </MenuInnerWithSub>
-      <MenuInnerWithSub
+      </MenuInnerWithSub> */}
+      {/* <MenuInnerWithSub
         title="Cloud Provider"
         to="/cloud-provider"
         menuPlacement="right-start"
         menuTrigger={`{default:'click', lg: 'hover'}`}
       >
-        {/* <MenuInnerWithSub to="/cloud-provider/cloud" title="Cloud Provider"> */}
+        <MenuInnerWithSub to="/cloud-provider/cloud" title="Cloud Provider">
         <MenuItem
           to="/cloud-provider/cloud/resources"
           title="Resource"
@@ -95,11 +99,11 @@ export function MenuInner() {
           title="Provider Service"
           hasBullet={true}
         ></MenuItem>
-        {/* </MenuInnerWithSub> */}
-      </MenuInnerWithSub>
+        </MenuInnerWithSub>
+      </MenuInnerWithSub> */}
 
       {/* MENU ITEM FOR TICKETS       */}
-      <MenuInnerWithSub
+      {/* <MenuInnerWithSub
         to="/tickets/tickets"
         title="Tickets"
         menuPlacement="right-start"
@@ -120,7 +124,7 @@ export function MenuInner() {
           title="Ticket Types"
           hasBullet={true}
         ></MenuItem>
-      </MenuInnerWithSub>
+      </MenuInnerWithSub> */}
       {/* REMOVE ALL OF THEM */}
 
       {/* <MenuInnerWithSub

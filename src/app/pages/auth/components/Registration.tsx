@@ -123,6 +123,7 @@ export function Registration() {
             setLoading(false);
             setStatus(null);
             navigate("/");
+            sessionStorage.setItem("top-title", "Dashboard");
             sessionStorage.setItem(
               "children",
               JSON.stringify([

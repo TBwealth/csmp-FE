@@ -11,7 +11,7 @@ export default {
       colors: {    
         transparent: 'transparent',
         current: 'currentColor',
-        primary: '#006AE6',
+        primary: '#284CB3',
         bgDark: "#0F1014",
         lightDark:"#2A2C38",   
       },

@@ -24,19 +24,19 @@ const ScanData = ({ data }: Props) => {
               Latest Scan Report
             </h3>
             <h3 className="flex items-center gap-3 font-light text-xl">
-              <span>{`${today.getDate()}/${
-                today.getMonth() + 1
-              }/${today.getFullYear()}`}</span>
-              <span>{`${today.getHours()}:${
-                today.getSeconds() < 10
-                  ? `0${today.getSeconds()}`
-                  : today.getSeconds()
-              } ${today.getHours() < 12 ? "AM" : "PM"}`}</span>
+              <span>{`${new Date(data?.created_on).getDate()}/${
+                new Date(data?.created_on).getMonth() + 1
+              }/${new Date(data?.created_on).getFullYear()}`}</span>
+              <span>{`${new Date(data?.created_on).getHours()}:${
+                new Date(data?.created_on).getSeconds() < 10
+                  ? `0${new Date(data?.created_on).getSeconds()}`
+                  : new Date(data?.created_on).getSeconds()
+              } ${new Date(data?.created_on).getHours() < 12 ? "AM" : "PM"}`}</span>
             </h3>
           </div>
           <div className="w-full px-10">
             <h3 className="font-medium text-xl mb-3 text-left">
-              <span className="font-bold">1,082 </span>checks performed
+              <span className="font-bold">{data?.result_json.Total_checks} </span>checks performed
             </h3>
             <div className="grid grid-cols-3 gap-3">
               <div className="flex items-center gap-10 col-span-2 border-end">
@@ -105,18 +105,18 @@ const ScanData = ({ data }: Props) => {
                   <h3 className="font-medium text-xl mb-3 text-left">
                     Failed checks
                   </h3>
-                  <h3 className="font-bold text-2xl text-[#FF161A]">365</h3>
+                  <h3 className="font-bold text-2xl text-[#FF161A]">{data?.result_json.Failed}</h3>
                 </div>
               </div>
               <div className="">
                 <h3 className="font-medium text-xl mb-3 text-left">
                   Successful
                 </h3>
-                <h3 className="font-bold text-2xl text-[#00B712]">415</h3>
+                <h3 className="font-bold text-2xl text-[#00B712]">{data?.result_json.Passed}</h3>
               </div>
             </div>
             <div className="mt-12">
-              <h1 className="text-lg md:text-xl font-semibold">{data?.name}</h1>
+              <h1 className="text-lg md:text-xl font-semibold">{data?.provider}</h1>
               <div className="flex items-center gap-4 my-4">
                 <svg
                   width="24px"
@@ -149,7 +149,7 @@ const ScanData = ({ data }: Props) => {
                     stroke-linejoin="round"
                   ></path>
                 </svg>
-                <p className="text-xl">{data?.policy}</p>
+                <p className="text-xl">{data?.policy_run}</p>
               </div>
               <div className="flex items-center gap-4 my-4">
                 <FaGlobe
@@ -159,9 +159,9 @@ const ScanData = ({ data }: Props) => {
                 <p className="text-xl">{data?.region}</p>
               </div>
             </div>
-            <Link to={`/monitoring/resource-scanning/1`} className="block w-fit mt-6">
+            {/* <Link to={`/monitoring/resource-scanning/1`} className="block w-fit mt-6">
               <p className="underline">view report</p>
-            </Link>
+            </Link> */}
           </div>
         </div>
       ) : (
