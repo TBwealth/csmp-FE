@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { useRecoilValue } from "recoil";
 import { FaGlobe } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ScanCard = ({
   policy,
   cloud,
-  Region,
   Date,
   Vulnerability,
   Compliance,
   mode,
 }: any) => {
+    const navigate = useNavigate()
   return (
     <div
       className={`grid grid-cols-7 p-4 rounded-md mb-3 shadow-sm w-full ${
@@ -20,14 +21,15 @@ const ScanCard = ({
     >
       <p className="font-medium col-span-2">{policy}</p>
       <p className="font-medium flex items-center justify-center">{cloud}</p>
-      <p className="font-medium flex items-center justify-center">{Region}</p>
       <p className="font-medium flex items-center justify-center">{Date}</p>
       <p className="font-medium text-[#FF161A] flex items-center justify-center">
         {Vulnerability}
       </p>
       <div className="font-medium flex items-center justify-between">
         <p>{Compliance}</p>
-        <button>
+        <button
+        onClick={() => navigate(`/monitoring/resource-scanning/1`)}
+        >
           <svg
             width="17"
             height="16"
@@ -478,24 +480,6 @@ const ScanHistory = () => {
               </svg>
             </button>
             <button className="flex items-center justify-center gap-2 font-semibold">
-              <span>Region</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <button className="flex items-center justify-center gap-2 font-semibold">
               <span>Date</span>{" "}
               <svg
                 width="10"
@@ -513,7 +497,7 @@ const ScanHistory = () => {
                 />
               </svg>
             </button>
-            <p className="font-semibold">Vulnerability</p>
+            <p className="font-semibold text-center">Vulnerability</p>
             <p className="font-semibold">Compliance</p>
           </div>
           {data.map((d) => (
