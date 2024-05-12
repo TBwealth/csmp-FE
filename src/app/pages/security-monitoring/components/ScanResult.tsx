@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { FaChevronLeft, FaGlobe } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
@@ -476,7 +475,7 @@ const ScanResult = () => {
               mode === "dark" ? "bg-lightDark" : "bg-white"
             }`}
           >
-            <p className="font-semibold col-span-2 flex items-center gap-2">
+            <p className="font-semibold col-span-3 flex items-center gap-2">
               <svg
                 width="18px"
                 height="18px"
@@ -511,24 +510,6 @@ const ScanResult = () => {
               </svg>
               <span>Compliant Rule</span>
             </p>
-            <button className="flex items-center justify-center gap-2 font-semibold">
-              <span>Region</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
             <button className="flex items-center justify-center gap-2 font-semibold">
               <span>Service</span>{" "}
               <svg

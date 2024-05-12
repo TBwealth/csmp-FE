@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import modeAtomsAtom from "../../../../atoms/modeAtoms.atom";
 import { useRecoilValue } from "recoil";
+import ResolveModal from "./ResolveModal";
+import { ModalTicketsList } from "../../../tickets/components/modals/ModalTicketsList";
 type Props = {
   name: string;
   status: string;
@@ -14,7 +16,6 @@ type Props = {
 
 const ScanAccordion = ({
   name,
-  region,
   service,
   status,
   severity,
@@ -24,8 +25,9 @@ const ScanAccordion = ({
 }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [ticketOpen, setTicketOpen] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-
   return (
     <div className="w-full">
       <button
@@ -37,9 +39,12 @@ const ScanAccordion = ({
           setIsChecked(!isChecked);
         }}
       >
-        
-        <div className=" col-span-2 flex items-center gap-5">
-        <input type="checkbox" checked={isChecked} className="h-5 w-5 rounded-md border" />
+        <div className=" col-span-3 flex items-center gap-5">
+          <input
+            type="checkbox"
+            checked={isChecked}
+            className="h-5 w-5 rounded-md border"
+          />
           <svg
             width="16"
             height="16"
@@ -71,7 +76,6 @@ const ScanAccordion = ({
           </svg>
           <p>{name}</p>
         </div>
-        <p>{region}</p>
         <p>{service}</p>
         <p className={severity === "HIGH" ? "text-[#FF161A]" : ""}>
           {severity}
@@ -159,7 +163,14 @@ const ScanAccordion = ({
             <p>GroupId:</p>
             <p className="text-left col-span-2">{groupId}</p>
           </div>
-          <button className="bg-[#284CB3] text-white flex items-center gap-3 rounded-full w-32 px-3 py-2 mt-6">
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+              setIsOpen(false);
+              setIsChecked(false);
+            }}
+            className="bg-[#284CB3] text-white flex items-center gap-3 rounded-full w-32 px-3 py-2 mt-6"
+          >
             <p>Resolve</p>
             <svg
               width="16"
@@ -196,6 +207,20 @@ const ScanAccordion = ({
           </button>
         </div>
       )}
+      {isModalOpen && (
+        <ResolveModal
+          isOpen={isModalOpen}
+          handleHide={() => setIsModalOpen(false)}
+        />
+      )}
+      {/* {ticketOpen && (
+        <ModalTicketsList
+          isOpen={ticketOpen}
+          editItem={null}
+          handleHide={() => setTicketOpen(false)}
+          onClearEdit={() => setTicketOpen(false)}
+        />
+      )} */}
     </div>
   );
 };
