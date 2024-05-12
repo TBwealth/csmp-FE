@@ -10,7 +10,6 @@ type Props = {
 
 const ScanData = ({ data }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
-  const today = new Date();
   return (
     <>
       {data ? (
@@ -159,9 +158,9 @@ const ScanData = ({ data }: Props) => {
                 <p className="text-xl">{data?.region}</p>
               </div>
             </div>
-            {/* <Link to={`/monitoring/resource-scanning/1`} className="block w-fit mt-6">
+            <Link to={`/monitoring/resource-scanning/${data?.id}`} className="block w-fit mt-6">
               <p className="underline">view report</p>
-            </Link> */}
+            </Link>
           </div>
         </div>
       ) : (

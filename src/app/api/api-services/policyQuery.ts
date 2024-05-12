@@ -156,4 +156,11 @@ export const useGetAllScanResults = () => {
     policyApi.policyPolicyRunResultsList()
   );
   return query;
-}
+};
+
+export const useGetSingleResult = (tenantId: string) => {
+  const query = useQuery(["single-scan"], () =>
+    policyApi.policyPolicyRunResultsRead({ tenantId })
+  );
+  return query;
+};
