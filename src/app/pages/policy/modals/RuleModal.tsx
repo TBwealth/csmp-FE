@@ -17,6 +17,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   const [codeValue, setCodeValue] = useState("");
   const [statusValue, setStatusValue] = useState(false);
   const [descValue, setDescValue] = useState("");
+  const [serviceValue, setServiceValue] = useState("");
   const [tenantValue, setTenantValue] = useState(0);
   const { showAlert, hideAlert, Alert } = useAlert();
 
@@ -44,13 +45,15 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
       setCodeValue(editItem?.code);
       setStatusValue(editItem?.status);
       setTenantValue(editItem?.tenant);
-      setDescValue(editItem?.tenant);
+      setDescValue(editItem?.description);
+      setServiceValue(editItem?.service);
     } else {
       setValueId("");
       setCodeValue("");
       setStatusValue(false);
       setNameValue("");
       setDescValue("");
+      setServiceValue("");
       setTenantValue(0);
     }
   }, [allPolicies, editItem]);
@@ -69,6 +72,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
         code: codeValue,
         status: statusValue,
         description: descValue,
+        service: serviceValue,
       },
       {
         onSuccess: (res: any) => {
@@ -79,6 +83,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           setCodeValue("");
           setStatusValue(false);
           setNameValue("");
+          setServiceValue("");
           setTenantValue(0);
         },
 
@@ -101,6 +106,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           code: codeValue,
           status: statusValue,
           description: descValue,
+          service: serviceValue,
         },
       },
       {
@@ -112,6 +118,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           setCodeValue("");
           setStatusValue(false);
           setNameValue("");
+          setServiceValue("");
           setTenantValue(0);
         },
         onError: (err) => {
@@ -160,6 +167,18 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               onChange={(e) => setCodeValue(e.target.value)}
             />
           </div>
+          <div className="mb-10">
+            <label className="form-label fs-6 fw-bold">Service:</label>
+            <input
+              placeholder="Enter Seervice"
+              type="text"
+              name="text"
+              autoComplete="off"
+              className="form-control bg-transparent"
+              value={codeValue}
+              onChange={(e) => setServiceValue(e.target.value)}
+            />
+          </div>
           <div>
             <label className="form-label fs-6 fw-bold">Description:</label>
             <textarea
@@ -191,7 +210,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           <button
             type="button"
             className="btn btn-primary"
-            disabled={nameValue === "" || codeValue === ""}
+            disabled={nameValue === "" || codeValue === "" || serviceValue === ""}
             onClick={editItem ? editHandleSubmit : handleSubmit}
           >
             {!isLoading && !editLoading && (

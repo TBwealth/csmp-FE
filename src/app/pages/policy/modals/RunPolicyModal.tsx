@@ -41,6 +41,7 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
   const handleEditPolicy = () => {
     editMutate(
       {
+        id: editItem?.id,
         data: {
           id: editItem?.id,
           name: policy?.name,
