@@ -11,6 +11,7 @@ const ScanResult = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [activeBtn, setActiveBtn] = useState("Daily");
   const [scanresult, setScanResult] = useState<any>(null);
+  const [checks, setAllChecks] = useState<any[]>([]);
   const [time, setTime] = useState("");
   const [pageCount, setPageCount] = useState(5);
   const [offset, setOffset] = useState(0);
@@ -21,13 +22,14 @@ const ScanResult = () => {
     data: scanResult,
     isLoading,
     refetch,
-  } = useGetAllScanResults({ policy_run_id: id! });
+  } = useGetAllScanResults({ policyRunId: id! });
 
   const scanstsr: PolicyPolicyListCreateList200Response | any = scanResult;
 
   useEffect(() => {
     setScanResult(scanstsr?.data?.data?.results[0]);
     if (scanstsr?.data?.data?.results[0]) {
+      setAllChecks(scanstsr?.data?.data?.results[0].result_json.checks ?? []);
       const sliptedTime = scanstsr?.data?.data?.results[0].stop_time
         .split("T")[1]
         .slice(0, 5);
@@ -36,54 +38,6 @@ const ScanResult = () => {
     }
   }, [scanResult]);
 
-  console.log(scanresult);
-
-  const data = [
-    {
-      name: "AWS Config Enabled",
-      region: "us-east-1",
-      service: "us-east-1",
-      severity: "",
-      status: "failed",
-      message:
-        "Security group launch-wizard-1 allows ingress from 0.0.0.0/0 or ::/0 to ports 11211, 11211",
-      description: "launch-wizard-1 created 2023-11-23T14:35:09.092Z",
-      groupId: "sg-04cc9e5ccd9ca7f80",
-    },
-    {
-      name: "	Restricted Security Group Ingress on Port",
-      region: "us-east-1",
-      service: "EConfigC2",
-      severity: "LOW",
-      status: "pass",
-      message:
-        "Security group launch-wizard-1 allows ingress from 0.0.0.0/0 or ::/0 to ports 11211, 11211",
-      description: "launch-wizard-1 created 2023-11-23T14:35:09.092Z",
-      groupId: "sg-04cc9e5ccd9ca7f80",
-    },
-    {
-      name: "	S3 Bucket Public Access Via Policy",
-      region: "global",
-      service: "S23B",
-      severity: "HIGH",
-      status: "failed",
-      message:
-        "Security group launch-wizard-1 allows ingress from 0.0.0.0/0 or ::/0 to ports 11211, 11211",
-      description: "launch-wizard-1 created 2023-11-23T14:35:09.092Z",
-      groupId: "sg-04cc9e5ccd9ca7f80",
-    },
-    {
-      name: "	S3 Bucket Public Access Via Policy",
-      region: "global",
-      service: "S23B",
-      severity: "HIGH",
-      status: "failed",
-      message:
-        "Security group launch-wizard-1 allows ingress from 0.0.0.0/0 or ::/0 to ports 11211, 11211",
-      description: "launch-wizard-1 created 2023-11-23T14:35:09.092Z",
-      groupId: "sg-04cc9e5ccd9ca7f80",
-    },
-  ];
   return (
     <div className="">
       {isLoading ? (
@@ -272,7 +226,7 @@ const ScanResult = () => {
                     Successful
                   </h3>
                   <h3 className="font-bold text-2xl text-[#00B712]">
-                    {scanresult?.result_json.Passed ?? 0}
+                    {scanresult?.result_json?.Passed ?? 0}
                   </h3>
                 </div>
               </div>
@@ -439,7 +393,7 @@ const ScanResult = () => {
                 </svg>
 
                 <p className="font-bold text-lg">
-                  {scanresult?.result_json.Low_Severity ?? 0} 
+                  {scanresult?.result_json?.Low_Severity ?? 0} 
                   <span className="font-thin">Low Risks</span>
                 </p>
               </div>
@@ -600,65 +554,78 @@ const ScanResult = () => {
               </button>
               <p className="font-semibold">Status</p>
             </div>
-            <div className="w-[200%] md:w-full overflow-x-auto">
-              {scanresult &&
-                scanresult.result_json.checks
-                  .slice(offset, offset+pageCount)
-                  .map((d: any, idx: number) => (
-                    <ScanAccordion
-                      description={d.status_detail}
-                      // groupId={d.groupId}
-                      message={d.rule_code}
-                      name={d.rule_code}
-                      region={d.region}
-                      service={d.service}
-                      status={d.status_code}
-                      key={d.name + String(idx)}
-                      severity={d.severity}
-                      remediation={d.remediation_desc}
-                      provider={d.provider}
-                    />
-                  ))}
-            </div>
-            <div className="mt-10 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <p>Num on row:</p>
-                <select
-                  name=""
-                  id=""
-                  className="p-2"
-                  value={pageCount}
-                  onChange={(e) => setPageCount(+e.target.value)}
-                >
-                  <option value={5}>5</option>
-                  <option value={10}>10</option>
-                  <option value={20}>20</option>
-                  <option value={50}>50</option>
-                </select>
-              </div>
-              <div className="flex items-center gap-3">
-                <button 
-                disabled={offset === 0}
-                onClick={() => {
-                  if(offset <= 0) {
-                    setOffset(0)
-                  } else {
-                    setOffset((offset) => offset - pageCount)
-                  }
-                }}
-                className="bg-primary w-24 rounded-md p-2 text-white">
-                  previous
-                </button>
-                <button
-                disabled={
-                  offset >= scanresult?.result_json.checks.length
-                }
-                onClick={() => setOffset((offset) => offset + pageCount)}
-                className="bg-primary w-24 rounded-md p-2 text-white">
-                  Next
-                </button>
-              </div>
-            </div>
+            {checks.length < 1 ? (
+              <DefaultContent
+                pageHeader="All Checks"
+                pageDescription="No record found"
+                loading={isLoading}
+                buttonValue=""
+                buttonClick={() => {}}
+              />
+            ) : (
+              <>
+                <div className="w-[200%] md:w-full overflow-x-auto">
+                  {checks
+                    .slice(offset, offset + pageCount)
+                    .map((d: any, idx: number) => (
+                      <ScanAccordion
+                        description={d.status_detail}
+                        // groupId={d.groupId}
+                        message={d.rule_code}
+                        name={d.rule_code}
+                        region={d.region}
+                        service={d.service}
+                        status={d.status_code}
+                        key={d.name + String(idx)}
+                        severity={d.severity}
+                        remediation={d.remediation_desc}
+                        provider={d.provider}
+                      />
+                    ))}
+                </div>
+                <div className="mt-10 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <p>Num on row:</p>
+                    <select
+                      name=""
+                      id=""
+                      className="p-2"
+                      value={pageCount}
+                      onChange={(e) => setPageCount(+e.target.value)}
+                    >
+                      <option value={5}>5</option>
+                      <option value={10}>10</option>
+                      <option value={20}>20</option>
+                      <option value={50}>50</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      disabled={offset === 0}
+                      onClick={() => {
+                        if (offset <= 0) {
+                          setOffset(0);
+                        } else {
+                          setOffset((offset) => offset - pageCount);
+                        }
+                      }}
+                      className="bg-primary w-24 rounded-md p-2 text-white"
+                    >
+                      previous
+                    </button>
+                    <button
+                      disabled={
+                        offset >= checks.length
+                      }
+                      onClick={() => setOffset((offset) => offset + pageCount)}
+                      className="bg-primary w-24 rounded-md p-2 text-white"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
