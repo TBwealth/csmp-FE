@@ -911,7 +911,7 @@ const NewSideMenu = () => {
                 to={child.href!}
                 className={`menu-link without-sub ${
                   pathname === child.href!
-                    ? "bg-primary text-white p-3 rounded-r-md w-full"
+                    ? "text-primary bg-[#284CB31A] p-3 rounded-r-md w-full"
                     : "p-3 w-full"
                 }`}
                 onClick={() => setPageTitle(child.title)}
