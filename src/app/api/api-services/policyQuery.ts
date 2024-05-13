@@ -158,9 +158,17 @@ export const useGetAllScanResults = () => {
   return query;
 };
 
-// export const useGetSingleResult = (id: string) => {
-//   const query = useQuery(["single-scan"], () =>
-//     policyApi.({ id })
-//   );
-//   return query;
-// };
+export const useGetSingleResult = (id: number) => {
+  const query = useQuery(["single-scan"], () =>
+    policyApi.policyPolicyDetailRead({ id })
+  );
+  return query;
+};
+
+export const useGetAllScanHistory = (page: number, pageSize: number) => {
+  const query = useQuery(["scan-history"], () =>
+    policyApi.policyPolicyRunScanHistoryList({page, pageSize})
+  );
+
+  return query;
+};

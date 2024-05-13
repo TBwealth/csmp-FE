@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
+import { useGetAllScanHistory } from "../../../api/api-services/policyQuery";
 import { useRecoilValue } from "recoil";
 import { FaGlobe } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { PolicyPolicyRunScanHistoryList200Response } from "../../../api/axios-client";
+import DefaultContent from "../../../components/defaultContent/defaultContent";
 
 const ScanCard = ({
   policy,
@@ -11,8 +14,10 @@ const ScanCard = ({
   Vulnerability,
   Compliance,
   mode,
+  id,
 }: any) => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+
   return (
     <div
       className={`grid grid-cols-7 p-4 rounded-md mb-3 shadow-sm w-full ${
@@ -26,10 +31,8 @@ const ScanCard = ({
         {Vulnerability}
       </p>
       <div className="font-medium flex items-center justify-between">
-        <p>{Compliance}</p>
-        <button
-        onClick={() => navigate(`/monitoring/resource-scanning/1`)}
-        >
+        <p>{Compliance} %</p>
+        <button onClick={() => navigate(`/monitoring/resource-scanning/${id}`)}>
           <svg
             width="17"
             height="16"
@@ -130,42 +133,24 @@ const ReOccurringCard = ({ title, next, region, mode }: any) => {
 
 const ScanHistory = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [allScanHistory, setAllScanHistory] = useState<any[]>([]);
+  const [isNext, setIsNext] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(1);
   const [tab, setTab] = useState("scan history");
-
-  const data = [
-    {
-      policy: "ISO EAC 27001 system check",
-      cloud: "Gilotec Prod",
-      Region: "All Region",
-      Date: "2/3/2024 12:40PM",
-      Vulnerability: "365",
-      Compliance: "37%",
-    },
-    {
-      policy: "IAM Role with third party access and . . . ",
-      cloud: "Gilotec Prod",
-      Region: "US-East-1",
-      Date: "2/3/2024 12:40PM",
-      Vulnerability: "678",
-      Compliance: "64%",
-    },
-    {
-      policy: "CES workload valuation policy",
-      cloud: "Gilotec Prod",
-      Region: "Canada",
-      Date: "2/3/2024 12:40PM",
-      Vulnerability: "30",
-      Compliance: "10%",
-    },
-    {
-      policy: "ISO EAC 27001 Audit check",
-      cloud: "Gilotec Prod",
-      Region: "All Region",
-      Date: "2/3/2024 12:40PM",
-      Vulnerability: "129",
-      Compliance: "98%",
-    },
-  ];
+  const {
+    data: scanHistory,
+    isLoading,
+    refetch,
+  } = useGetAllScanHistory(page, pageSize);
+  const datastsr: PolicyPolicyRunScanHistoryList200Response | any = scanHistory;
+  console.log(datastsr);
+  useEffect(() => {
+    setAllScanHistory(datastsr?.data?.data?.results ?? []);
+    setIsNext(datastsr?.data?.data.next ? true : false);
+    setTotalCount(datastsr?.data?.data.count);
+  }, [scanHistory]);
 
   const ocuringdata = [
     {
@@ -184,6 +169,15 @@ const ScanHistory = () => {
       region: "All Region",
     },
   ];
+
+  function refreshrecord() {
+    useGetAllScanHistory(page, 5);
+  }
+
+  useEffect(() => {
+    refetch();
+  }, [page, pageSize]);
+
   return (
     <div className="w-full p-10">
       <div className="grid grid-cols-4 gap-8">
@@ -500,17 +494,76 @@ const ScanHistory = () => {
             <p className="font-semibold text-center">Vulnerability</p>
             <p className="font-semibold">Compliance</p>
           </div>
-          {data.map((d) => (
-            <ScanCard
-              policy={d.policy}
-              cloud={d.cloud}
-              Region={d.Region}
-              Date={d.Date}
-              Vulnerability={d.Vulnerability}
-              Compliance={d.Compliance}
-              mode={mode}
+          {isLoading || allScanHistory.length < 1 ? (
+            <DefaultContent
+              pageHeader="Scan History"
+              pageDescription="No record found"
+              loading={isLoading}
+              buttonValue="Refresh"
+              buttonClick={() => refreshrecord()}
             />
-          ))}
+          ) : (
+            allScanHistory.map((d) => (
+              <ScanCard
+                policy={d.policy}
+                cloud={d.cloud}
+                Region={d.Region}
+                Date={d.end_date}
+                Vulnerability={d.vulnerability}
+                Compliance={d.compliance}
+                mode={mode}
+                id={d.id}
+              />
+            ))
+          )}
+
+          <div className="w-full mt-10">
+            {totalCount > 10 && (
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-2">
+                  <p>page size:</p>
+                  <select
+                  value={String(pageSize)}
+                    onChange={(e) => setPageSize(+e.target.value)}
+                    className="w-24 border-2 rounded-md p-2 bg-none"
+                  >
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    disabled={page === 0}
+                    onClick={() => {
+                      if (page <= 1) {
+                        setPage(1);
+                        // useGetAllScanHistory(1, 5);
+                      } else {
+                        // useGetAllScanHistory(page - 1, 5);
+                        setPage((page) => page - 1);
+                      }
+                    }}
+                    className="p-2 rounded-md w-24 bg-primary text-white hover:bg-transparent hover:text-primary hover:border-primary"
+                  >
+                    Previous
+                  </button>
+                  <button
+                    disabled={!isNext}
+                    onClick={() => {
+                      // useGetAllScanHistory(page + 1, 5)
+                      setPage((page) => page + 1);
+                    }}
+                    className="p-2 bg-primary text-white rounded-md w-24 hover:bg-transparent hover:text-primary hover:border-primary"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
       {tab === "reocurring" && (

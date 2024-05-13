@@ -147,11 +147,12 @@ const PolicyWrapper = () => {
     filter.current = nfilter;
     useGetPolicies(1);
   }
-  function handleScanPolicy(id: number) {
+  function handleScanPolicy(id: number, frequency: string) {
     mutate(
       {
         data: {
           policy_id: id,
+          scan_frequency: frequency
         },
       },
       {
@@ -177,7 +178,7 @@ const PolicyWrapper = () => {
       setShowPolicy(true);
     }
     if (event.name === "7") {
-      handleScanPolicy(event.data.id);
+      handleScanPolicy(event.data.id, event.data.scan_frequency);
     }
   }
 

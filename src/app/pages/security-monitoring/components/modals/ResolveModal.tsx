@@ -1,17 +1,125 @@
 import { Dispatch, useEffect, useState } from "react";
 import useAlert from "../../../components/useAlert";
+import {
+  useGetTickets,
+  useUpdateTickets,
+  useCreateTickets,
+  useGetTicketsTypes,
+} from "../../../../api/api-services/ticketQuery";
+import {
+  useGetAccountUsers,
+  useGetAccountTenant,
+} from "../../../../api/api-services/accountQuery";
 import { Modal } from "react-bootstrap";
+import { useGetAssets } from "../../../../api/api-services/systemQuery";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../../atoms/modeAtoms.atom";
+import {
+  AccountsApiTenantsList200Response,
+  AccountsApiUsersList200Response,
+  SystemSettingsAssetManagementsList200Response,
+  TicketsTicketTypesList200Response,
+} from "../../../../api/axios-client";
 
 type Props = {
   isOpen: boolean;
   handleHide: Dispatch<void>;
 };
 
-const ResolveModal = ({ isOpen, handleHide }: Props) => {
+const ResolveModal = ({ isOpen, handleHide }: any) => {
+  const [page, setPage] = useState(1);
+  const [token, setToken] = useState("");
+  const [tickets, setTickets] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [assignedToValue, setAssignedToValue] = useState<any>(null);
+  const [valueId, setValueId] = useState("");
+  const [nameValue, setNameValue] = useState("");
+  const [assetValue, setAssetValue] = useState<any>(null);
+  const [tenantValue, setTenantValue] = useState("");
+  const [descriptionValue, setDescriptionValue] = useState("");
+  const [ticketType, setTicketType] = useState<any>(null);
+  const [codeValue, setCodeValue] = useState("");
+  const [statusValue, setStatusValue] = useState("");
+  const [subjectValue, setSubjectValue] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
-  const { mode } = useRecoilValue(modeAtomsAtom);
+  const [listTenants, setListTenants] = useState<any[]>([]);
+  const [ticketAssets, setTicketAssets] = useState<any[]>([]);
+  const [authUser, setAuthUser] = useState<any>(null);
+
+  const { data: ticketTypes } = useGetTicketsTypes(page);
+  const { data: tenantData } = useGetAccountTenant(1);
+  const { data: assets } = useGetAssets(1);
+
+  const { data: userData } = useGetAccountUsers(page);
+  const userstsr: AccountsApiUsersList200Response | any = userData;
+  const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
+  const assetstsr: SystemSettingsAssetManagementsList200Response | any = assets;
+  const { mutate, isLoading, error } = useCreateTickets();
+  const datastsr: TicketsTicketTypesList200Response | any = ticketTypes;
+  // console.log(datastsr);
+  const handleFetchTenantUsers = (val: string) => {
+    const filtered = userstsr?.data?.data?.results.filter(
+      (user: any) => user?.tenant === val
+    );
+    setUsers(filtered);
+  };
+
+  useEffect(() => {
+    const localToken = localStorage.getItem("token");
+    const localuser = localStorage.getItem("user");
+    setToken(localToken!);
+    if (localuser) {
+      const parsedUser = JSON.parse(localuser);
+      setAuthUser(parsedUser);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (authUser?.role?.name.toLowerCase() === "tenant") {
+      handleFetchTenantUsers(authUser?.role?.name);
+    }
+  }, [authUser, userstsr]);
+
+  useEffect(() => {
+    setTickets(datastsr?.data?.data?.results);
+    setListTenants(tenantstsr?.data?.data?.results);
+    setTicketAssets(assetstsr?.data?.data?.results);
+  }, [ticketTypes, tenantstsr, assetstsr]);
+
+  const handleSubmit = () => {
+    mutate(
+      {
+        assigned_to: { id: assignedToValue?.id },
+        code: codeValue,
+        status: statusValue.toUpperCase(),
+        asset: { id: assetValue?.id },
+        description: descriptionValue,
+        subject: subjectValue,
+        ticket_type: { id: ticketType?.id },
+        // date_joined: new Date()
+      },
+      {
+        onSuccess: (res: any) => {
+          // handleHide();
+          console.log(res);
+          showAlert(res?.data?.message, "success");
+          setAssignedToValue(null);
+          setCodeValue("");
+          setAssetValue(null);
+          setDescriptionValue("");
+          setSubjectValue("");
+          setTicketType(null);
+          setStatusValue("");
+        },
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
+      }
+    );
+  };
+
   return (
     <>
       <Modal
@@ -21,160 +129,190 @@ const ResolveModal = ({ isOpen, handleHide }: Props) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title></Modal.Title>
+          <Modal.Title>
+            Create New Ticket
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="w-full">
-            <div className="flex items-center justify-center gap-2 flex-col px-4 pb-2 border-bottom">
-              <svg
-                width="42"
-                height="42"
-                viewBox="0 0 42 42"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+          <div className="grid md:grid-cols-2 gap-3">
+            <div className="">
+              <label className="form-label fs-6 fw-bold">Ticket Type:</label>
+              <select
+                name="ticket_type"
+                id="ticket_type"
+                className="form-control bg-transparent"
+                value={ticketType?.id}
+                onChange={(e) => {
+                  const selected = tickets.filter(
+                    (ticket) => ticket?.id === +e.target.value
+                  );
+                  setTicketType(selected[0]);
+                }}
               >
-                <rect
-                  width="42"
-                  height="42"
-                  rx="21"
-                  fill="#284CB3"
-                  fill-opacity="0.05"
-                />
-                <g clip-path="url(#clip0_269_2077)">
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M21 20.0625C21.3107 20.0625 21.5625 20.3143 21.5625 20.625V24.375C21.5625 24.6857 21.3107 24.9375 21 24.9375C20.6893 24.9375 20.4375 24.6857 20.4375 24.375V20.625C20.4375 20.3143 20.6893 20.0625 21 20.0625Z"
-                    fill="#284CB3"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M21.3838 17.2069C21.6147 17.4147 21.6334 17.7704 21.4256 18.0013L21.4181 18.0096C21.2103 18.2405 20.8546 18.2593 20.6237 18.0514C20.3928 17.8436 20.3741 17.488 20.5819 17.257L20.5894 17.2487C20.7972 17.0178 21.1529 16.9991 21.3838 17.2069Z"
-                    fill="#284CB3"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M21 14.0625C17.1685 14.0625 14.0625 17.1685 14.0625 21C14.0625 24.8315 17.1685 27.9375 21 27.9375C24.8315 27.9375 27.9375 24.8315 27.9375 21C27.9375 17.1685 24.8315 14.0625 21 14.0625ZM12.9375 21C12.9375 16.5472 16.5472 12.9375 21 12.9375C25.4528 12.9375 29.0625 16.5472 29.0625 21C29.0625 25.4528 25.4528 29.0625 21 29.0625C16.5472 29.0625 12.9375 25.4528 12.9375 21Z"
-                    fill="#284CB3"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_269_2077">
-                    <rect
-                      width="18"
-                      height="18"
-                      fill="white"
-                      transform="translate(12 12)"
-                    />
-                  </clipPath>
-                </defs>
-              </svg>
-              <p className="font-bold text-xl">
-                S3 Bucket Public Access Via Policy
-              </p>
-              <p
-                className={`${
-                  mode === "dark" ? "text-[#484848]" : "text-[#6A6A6A]"
-                }`}
+                <option value="">Select Type</option>
+                {tickets?.map((data: any) => (
+                  <option value={data.id} key={data.name}>
+                    {data.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="">
+              <label className="form-label fs-6 fw-bold">Asset:</label>
+              <select
+                name="assets"
+                id="assets"
+                value={assetValue?.id}
+                className="form-control bg-transparent"
+                onChange={(e) => {
+                  const selected = ticketAssets.filter(
+                    (tick) => tick.id === +e.target.value
+                  );
+                  setAssetValue(selected[0]);
+                }}
               >
-                ID: 32749748347282
-              </p>
+                <option value="">Select Assets</option>
+                {ticketAssets?.map((data: any) => (
+                  <option key={data?.id} value={data?.id}>
+                    {data?.name}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="mt-4 grid md:grid-cols-3 gap-3 pb-2 border-bottom px-4">
-              <p>Status:</p>
-              <p className="text-[#FF161A] md:col-span-2">Failed</p>
-              <p>Resource Id:</p>
-              <p className="md:col-span-2">sg-04cc9e5ccd9ca7f80</p>
-              <p>Resource:</p>
-              <p className="md:col-span-2">launch-wizard-7</p>
-              <p>Message:</p>
-              <p className="md:col-span-2">
-                Security group launch-wizard-1 allows ingress from 0.0.0.0/0 or
-                ::/0 to ports 11211, 11211
-              </p>
-              <p>Description:</p>
-              <p className="md:col-span-2">
-                launch-wizard-1 created 2023-11-23T14:35:09.092Z
-              </p>
-            </div>
-            <div className="mt-4 px-4 pb-2">
-              <h2 className="text-lg mb-3">Remediation</h2>
-              <div className="p-4 rounded-md bg-[#284CB31A] flex items-center gap-2">
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            {authUser?.role.name.toLowerCase() != "tenant" && (
+              <div className="">
+                <label className="form-label fs-6 fw-bold">Tenant:</label>
+                <select
+                  name="tenant"
+                  id="tenant"
+                  value={tenantValue}
+                  className="form-control bg-transparent"
+                  onChange={(e) => {
+                    setTenantValue(e.target.value);
+                    handleFetchTenantUsers(e.target.value)
+                  }}
                 >
-                  <path
-                    d="M6.75 13.5H11.25"
-                    stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M7.5 15.75H10.5"
-                    stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M6.74989 11.25C6.75 9.75 6.375 9.375 5.62489 8.625C4.87477 7.875 4.51743 7.11517 4.49989 6C4.4639 3.71271 5.99977 2.25 8.99989 2.25C12 2.25 13.5359 3.71271 13.4999 6C13.4823 7.11517 13.1248 7.875 12.3749 8.625C11.625 9.375 11.25 9.75 11.2499 11.25"
-                    stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <p className="w-[90%]">
-                  Check your Amazon EC2 security groups for inbound rules that
-                  allow unrestricted access (i.e. 0.0.0.0/0 or ::/0) on TCP
-                  and/or UDP port 11211 in order to reduce the attack surface
-                  and protect the Memcached cache server instances associated
-                  with your security groups. Memcached is an open-source,
-                  high-performance, distributed memory object caching system,
-                  intended for use in speeding up dynamic websites and web
-                  applications by alleviating database load.
-                </p>
+                  <option value="">Select Tenant</option>
+                  {listTenants?.map((data: any) => (
+                    <option key={data?.id} value={data?.tenant_name}>
+                      {data?.tenant_name}
+                    </option>
+                  ))}
+                </select>
               </div>
+            )}
+            <div className="">
+              <label className="form-label fs-6 fw-bold">Assigned To:</label>
+              <select
+                name="assigned_to"
+                id="assigned_to"
+                className="form-control bg-transparent"
+                value={assignedToValue?.id}
+                onChange={(e) => {
+                  const selected = users.filter(
+                    (user) => user?.id === +e.target.value
+                  );
+                  setAssignedToValue(selected[0]);
+                }}
+              >
+                <option value="">Select User</option>
+                {users?.map((data: any) => (
+                  <option
+                    value={data.id}
+                    key={`${data.first_name}_${data.last_name}`}
+                  >{`${data.first_name} ${data.last_name}`}</option>
+                ))}
+              </select>
+            </div>
+            <div className="">
+              <label className="form-label fs-6 fw-bold">Code:</label>
+              <input
+                placeholder="Enter Code"
+                type="text"
+                name="code"
+                autoComplete="off"
+                className="form-control bg-transparent"
+                value={codeValue}
+                onChange={(e) => setCodeValue(e.target.value)}
+              />
+            </div>
+            <div className="">
+              <label className="form-label fs-6 fw-bold">Subject:</label>
+              <input
+                placeholder=""
+                type="text"
+                name="text"
+                autoComplete="off"
+                className="form-control bg-transparent"
+                value={subjectValue}
+                onChange={(e) => setSubjectValue(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="form-label fs-6 fw-bold">Status:</label>
+              <select
+                name="tenant"
+                id="tenant"
+                className="form-control bg-transparent"
+                value={statusValue}
+                onChange={(e) => setStatusValue(e.target.value)}
+              >
+                <option value="">Select Status</option>
+                {["Open", "Closed", "Pending"].map((data: any) => (
+                  <option key={data} value={data}>
+                    {data}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="col-span-2">
+              <label className="form-label fs-6 fw-bold">Description:</label>
+              <textarea
+                name="desc"
+                id="desc"
+                cols={30}
+                className="form-control bg-transparent"
+                rows={3}
+                value={descriptionValue}
+                onChange={(e) => setDescriptionValue(e.target.value)}
+              ></textarea>
             </div>
           </div>
         </Modal.Body>
         <Alert />
         <Modal.Footer>
+          <button type="button" className="btn btn-light" onClick={handleHide}>
+            Close
+          </button>
           <button
             type="button"
             className="btn btn-primary"
-            onClick={() => {
-              // setShowTicket(true);
-              handleHide()
-            }}
+            disabled={
+              !codeValue ||
+              !descriptionValue ||
+              !subjectValue ||
+              !statusValue ||
+              !ticketType?.name ||
+              !assignedToValue?.first_name ||
+              !assetValue?.name
+            }
+            onClick={handleSubmit}
           >
-            Create Ticket
-          </button>
-          {/* <button
-            type="button"
-            className="btn btn-primary"
-            disabled={!policy?.name || !policy?.code}
-            onClick={editItem ? handleEditPolicy : handleCreatePolicy}
-          >
-            {!isLoading && !editLoading && (
+            {!isLoading && (
               <span className="indicator-label">
-                {editItem ? "Edit" : "Continue"}
+                Continue
               </span>
             )}
-            {(isLoading || editLoading) && (
-              <span className="indicator-progress" style={{ display: "block" }}>
-                Please wait...{" "}
-                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-              </span>
+            {isLoading && (
+                <span
+                  className="indicator-progress"
+                  style={{ display: "block" }}
+                >
+                  Please wait...{" "}
+                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
             )}
-          </button> */}
+          </button>
         </Modal.Footer>
       </Modal>
     </>
