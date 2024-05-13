@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { KTIcon, KTSVG } from "../../../../../_metronic/helpers";
 import {
   useGetTickets,
   useUpdateTickets,
@@ -19,7 +18,6 @@ import {
   SystemSettingsAssetManagementsList200Response,
   TicketsTicketTypesList200Response,
 } from "../../../../api/axios-client";
-import axios from "axios";
 
 const ModalTicketsList = ({
   editItem,
@@ -28,7 +26,7 @@ const ModalTicketsList = ({
   handleHide,
 }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
-  console.log(editItem);
+  // console.log(editItem);
   const [page, setPage] = useState(1);
   const [token, setToken] = useState("");
   const [tickets, setTickets] = useState<any[]>([]);
