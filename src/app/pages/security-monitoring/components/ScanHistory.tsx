@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
-import { useGetAllScanHistory } from "../../../api/api-services/policyQuery";
+import {
+  useGetAllScanHistory,
+  useGetScanStat,
+} from "../../../api/api-services/policyQuery";
 import { useRecoilValue } from "recoil";
 import { FaGlobe } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { PolicyPolicyRunScanHistoryList200Response } from "../../../api/axios-client";
+import {
+  PolicyPolicyRunScanHistoryList200Response,
+  PolicyPolicyRunScanStatsList200Response,
+} from "../../../api/axios-client";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
 
 const ScanCard = ({
@@ -138,6 +144,7 @@ const ScanHistory = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
+  const [stats, setStats] = useState<any>(null);
   const [tab, setTab] = useState("scan history");
   const {
     data: scanHistory,
@@ -145,12 +152,17 @@ const ScanHistory = () => {
     refetch,
   } = useGetAllScanHistory(page, pageSize);
   const datastsr: PolicyPolicyRunScanHistoryList200Response | any = scanHistory;
-  console.log(datastsr);
+
+  const { data: stat } = useGetScanStat();
+
+  const statstr: PolicyPolicyRunScanStatsList200Response | any = stat;
+
   useEffect(() => {
     setAllScanHistory(datastsr?.data?.data?.results ?? []);
     setIsNext(datastsr?.data?.data.next ? true : false);
     setTotalCount(datastsr?.data?.data.count);
-  }, [scanHistory]);
+    setStats(statstr?.data?.data);
+  }, [scanHistory, statstr]);
 
   const ocuringdata = [
     {
@@ -237,7 +249,7 @@ const ScanHistory = () => {
             />
           </svg>
           <h1 className="font-semibold text-xl">
-            300k
+            {stats?.total_scans ?? 0}
             <span className="pl-2 font-light">Total scan </span>
           </h1>
         </div>
@@ -291,7 +303,8 @@ const ScanHistory = () => {
           </svg>
 
           <h1 className="font-semibold text-xl">
-            8<span className="pl-2 font-light">Reoccurring Scans </span>
+            {stats?.recurring_scans ?? 0}
+            <span className="pl-2 font-light">Reoccurring Scans </span>
           </h1>
           <svg
             width="18"
@@ -358,11 +371,13 @@ const ScanHistory = () => {
           </svg>
 
           <h1 className="font-semibold text-xl">
-            800k<span className="pl-2 font-light">Threats found </span>
+            {stats?.threats_found ?? 0}
+            <span className="pl-2 font-light">Threats found </span>
           </h1>
           <div className="flex items-center gap-3 border-start pl-2">
             <h1 className="font-semibold text-xl">
-              356k<span className="pl-2 font-light">Resolved </span>
+              {stats?.resolved ?? 0}
+              <span className="pl-2 font-light">Resolved </span>
             </h1>
             <svg
               width="18"
@@ -523,7 +538,7 @@ const ScanHistory = () => {
                 <div className="flex items-center gap-2">
                   <p>page size:</p>
                   <select
-                  value={String(pageSize)}
+                    value={String(pageSize)}
                     onChange={(e) => setPageSize(+e.target.value)}
                     className="w-24 border-2 rounded-md p-2 bg-none"
                   >

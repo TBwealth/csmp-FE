@@ -8,9 +8,10 @@ type Props = {
   region: string;
   service: string;
   severity?: string;
-  groupId: string;
+  remediation: string;
   message: string;
   description: string;
+  provider: string;
 };
 
 const ScanAccordion = ({
@@ -19,8 +20,10 @@ const ScanAccordion = ({
   status,
   severity,
   description,
-  groupId,
+  remediation,
   message,
+  provider,
+  region,
 }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [isOpen, setIsOpen] = useState(false);
@@ -73,14 +76,14 @@ const ScanAccordion = ({
               strokeLinejoin="round"
             />
           </svg>
-          <p>{name}</p>
+          <p>{name.slice(0, 70)}...</p>
         </div>
         <p>{service}</p>
-        <p className={severity === "HIGH" ? "text-[#FF161A]" : ""}>
+        <p className={severity?.toUpperCase() === "HIGH" ? "text-[#FF161A]" : "text-[#2AB849]"}>
           {severity}
         </p>
         <p>
-          {status === "failed" ? (
+          {status.toLowerCase() === "fail" ? (
             <svg
               width="16"
               height="16"
@@ -148,7 +151,7 @@ const ScanAccordion = ({
             <p>Status:</p>
             <p
               className={
-                status === "failed"
+                status.toLowerCase() === "fail"
                   ? "text-[#FF161A] col-span-2"
                   : "text-[#2AB849] col-span-2"
               }
@@ -159,8 +162,8 @@ const ScanAccordion = ({
             <p className="text-left col-span-2">{message}</p>
             <p>Description:</p>
             <p className="text-left col-span-2">{description}</p>
-            <p>GroupId:</p>
-            <p className="text-left col-span-2">{groupId}</p>
+            <p>Region:</p>
+            <p className="text-left col-span-2">{region}</p>
           </div>
           <button
             onClick={() => {
@@ -279,31 +282,30 @@ const ScanAccordion = ({
                   </defs>
                 </svg>
                 <p className="font-bold text-xl">
-                  S3 Bucket Public Access Via Policy
+                  {name}
                 </p>
-                <p
+                {/* <p
                   className={`${
                     mode === "dark" ? "text-[#484848]" : "text-[#6A6A6A]"
                   }`}
                 >
                   ID: 32749748347282
-                </p>
+                </p> */}
               </div>
               <div className="mt-4 grid md:grid-cols-3 gap-3 pb-2 border-bottom px-4">
                 <p>Status:</p>
-                <p className="text-[#FF161A] md:col-span-2">Failed</p>
-                <p>Resource Id:</p>
-                <p className="md:col-span-2">sg-04cc9e5ccd9ca7f80</p>
+                <p className="text-[#FF161A] md:col-span-2">{status}</p>
+                {/* <p>Resource Id:</p>
+                <p className="md:col-span-2">sg-04cc9e5ccd9ca7f80</p> */}
                 <p>Resource:</p>
-                <p className="md:col-span-2">launch-wizard-7</p>
+                <p className="md:col-span-2">{provider}</p>
                 <p>Message:</p>
                 <p className="md:col-span-2">
-                  Security group launch-wizard-1 allows ingress from 0.0.0.0/0
-                  or ::/0 to ports 11211, 11211
+                  {message}
                 </p>
                 <p>Description:</p>
                 <p className="md:col-span-2">
-                  launch-wizard-1 created 2023-11-23T14:35:09.092Z
+                  {description}
                 </p>
               </div>
               <div className="mt-4 px-4 pb-2">
@@ -339,14 +341,7 @@ const ScanAccordion = ({
                     />
                   </svg>
                   <p className="w-[90%]">
-                    Check your Amazon EC2 security groups for inbound rules that
-                    allow unrestricted access (i.e. 0.0.0.0/0 or ::/0) on TCP
-                    and/or UDP port 11211 in order to reduce the attack surface
-                    and protect the Memcached cache server instances associated
-                    with your security groups. Memcached is an open-source,
-                    high-performance, distributed memory object caching system,
-                    intended for use in speeding up dynamic websites and web
-                    applications by alleviating database load.
+                    {remediation}
                   </p>
                 </div>
               </div>

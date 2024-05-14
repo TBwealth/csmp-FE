@@ -186,6 +186,7 @@ const ResourceScan = () => {
                           policy_id: +values.policy_id,
                           regions: [values.region],
                           services: [values.provider],
+                          scan_frequency: values.frequency
                         },
                       },
                       {

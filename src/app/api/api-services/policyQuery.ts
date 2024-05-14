@@ -151,9 +151,9 @@ export const useScanPolicy = () => {
   return mutation;
 };
 
-export const useGetAllScanResults = () => {
+export const useGetAllScanResults = (data: any) => {
   const query = useQuery(["all-scan"], () =>
-    policyApi.policyPolicyRunResultsList()
+    policyApi.policyPolicyRunResultsList({...data})
   );
   return query;
 };
@@ -172,3 +172,12 @@ export const useGetAllScanHistory = (page: number, pageSize: number) => {
 
   return query;
 };
+
+export const useGetScanStat = () => {
+  const query = useQuery(["scan-stats"], () =>
+    policyApi.policyPolicyRunScanStatsList()
+  );
+
+  return query;
+};
+

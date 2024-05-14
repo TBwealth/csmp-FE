@@ -148,7 +148,7 @@ const ScanData = ({ data }: Props) => {
                     stroke-linejoin="round"
                   ></path>
                 </svg>
-                <p className="text-xl">{data?.policy_run}</p>
+                <p className="text-xl">{data?.policy_run.policy ?? ""}</p>
               </div>
               <div className="flex items-center gap-4 my-4">
                 <FaGlobe
@@ -158,7 +158,7 @@ const ScanData = ({ data }: Props) => {
                 <p className="text-xl">{data?.region}</p>
               </div>
             </div>
-            <Link to={`/monitoring/resource-scanning/${data?.id}`} className="block w-fit mt-6">
+            <Link to={`/monitoring/resource-scanning/${data?.policy_run.id}`} className="block w-fit mt-6">
               <p className="underline">view report</p>
             </Link>
           </div>
