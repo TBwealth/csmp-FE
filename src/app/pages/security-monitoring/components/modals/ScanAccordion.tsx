@@ -76,10 +76,10 @@ const ScanAccordion = ({
               strokeLinejoin="round"
             />
           </svg>
-          <p>{name.slice(0, 70)}...</p>
+          <p className="font-semibold text-[14px]">{name.slice(0, 70)}...</p>
         </div>
-        <p>{service}</p>
-        <p className={severity?.toUpperCase() === "HIGH" ? "text-[#FF161A]" : "text-[#2AB849]"}>
+        <p className={`font-thin text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"}`}>{service}</p>
+        <p className={severity?.toUpperCase() === "HIGH" ? "text-[#FF7D30] text-[12px] font-semibold uppercase" : "text-[#2AB849] text-[12px] font-semibold uppercase"}>
           {severity}
         </p>
         <p>

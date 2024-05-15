@@ -18,11 +18,11 @@ const ScanData = ({ data }: Props) => {
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
-          <div className="w-full px-10 border-bottom flex items-center justify-between">
-            <h3 className="font-semibold text-center text-xl">
+          <div className="w-full px-10 pb-2 border-bottom flex items-center justify-between">
+            <h3 className="font-semibold text-center text-[14px]">
               Latest Scan Report
             </h3>
-            <h3 className="flex items-center gap-3 font-light text-xl">
+            <h3 className="flex items-center gap-3 font-normal text-[12px]">
               <span>{`${new Date(data?.created_on).getDate()}/${
                 new Date(data?.created_on).getMonth() + 1
               }/${new Date(data?.created_on).getFullYear()}`}</span>
@@ -34,7 +34,7 @@ const ScanData = ({ data }: Props) => {
             </h3>
           </div>
           <div className="w-full px-10">
-            <h3 className="font-medium text-xl mb-3 text-left">
+            <h3 className="font-normal text-[14px] mb-3 text-left">
               <span className="font-bold">{data?.result_json.Total_checks} </span>checks performed
             </h3>
             <div className="grid grid-cols-3 gap-3">
@@ -101,21 +101,21 @@ const ScanData = ({ data }: Props) => {
                   </div>
                 </div>
                 <div className="">
-                  <h3 className="font-medium text-xl mb-3 text-left">
+                  <h3 className="font-normal text-[12px] mb-3 text-left">
                     Failed checks
                   </h3>
-                  <h3 className="font-bold text-2xl text-[#FF161A]">{data?.result_json.Failed}</h3>
+                  <h3 className="font-bold text-[14px] text-[#FF161A]">{data?.result_json.Failed}</h3>
                 </div>
               </div>
               <div className="">
-                <h3 className="font-medium text-xl mb-3 text-left">
+                <h3 className="font-normal text-[12px] mb-3 text-left">
                   Successful
                 </h3>
-                <h3 className="font-bold text-2xl text-[#00B712]">{data?.result_json.Passed}</h3>
+                <h3 className="font-bold text-[14px] text-[#00B712]">{data?.result_json.Passed}</h3>
               </div>
             </div>
             <div className="mt-12">
-              <h1 className="text-lg md:text-xl font-semibold">{data?.provider}</h1>
+              <h1 className="text-[18px] font-semibold">{data?.provider}</h1>
               <div className="flex items-center gap-4 my-4">
                 <svg
                   width="24px"
@@ -148,17 +148,17 @@ const ScanData = ({ data }: Props) => {
                     stroke-linejoin="round"
                   ></path>
                 </svg>
-                <p className="text-xl">{data?.policy_run.policy ?? ""}</p>
+                <p className="text-[12px]">{data?.policy_run.policy ?? ""}</p>
               </div>
               <div className="flex items-center gap-4 my-4">
                 <FaGlobe
                   color={mode === "dark" ? "#EAEAEA" : "#000000"}
                   size={24}
                 />
-                <p className="text-xl">{data?.region}</p>
+                <p className="text-[12px]">{data?.region}</p>
               </div>
             </div>
-            <Link to={`/monitoring/resource-scanning/${data?.policy_run.id}`} className="block w-fit mt-6">
+            <Link to={`/monitoring/resource-scanning/${data?.policy_run.id}`} className="block w-fit mt-6 font-medium text-[12px]">
               <p className="underline">view report</p>
             </Link>
           </div>
@@ -169,7 +169,7 @@ const ScanData = ({ data }: Props) => {
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
-          <h3 className="text-center font-medium text-xl">
+          <h3 className="text-center font-medium text-[18px]">
             Scan History:No Records Found
           </h3>
           <img src={emptyImg} alt="empty data image file" />

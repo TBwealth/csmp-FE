@@ -720,7 +720,7 @@ export const MainTableComponent = ({
             {!loading && (
               <tbody className="divide-y divide-gray-200 font-normal">
                 {usersTableData?.map((data: any, i) => (
-                  <tr className={`${mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#181C32]"}`}>
+                  <tr className={`text-[12px] font-semibold ${mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#181C32]"}`}>
                     {showCheckBox && (
                       <td className="py-3 px-3">
                         <div className="items-center flex">

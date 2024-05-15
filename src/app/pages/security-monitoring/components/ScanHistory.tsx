@@ -30,14 +30,14 @@ const ScanCard = ({
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
-      <p className="font-medium col-span-2">{policy}</p>
-      <p className="font-medium flex items-center justify-center">{cloud}</p>
-      <p className="font-medium flex items-center justify-center">{Date}</p>
-      <p className="font-medium text-[#FF161A] flex items-center justify-center">
+      <p className="font-semibold text-[12px] col-span-2">{policy}</p>
+      <p className={`font-medium flex text-[12px] items-center justify-center ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{cloud}</p>
+      <p className={`font-medium flex text-[12px] items-center justify-center ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{Date}</p>
+      <p className="font-semibold text-[#FF161A] text-[12px] flex items-center justify-center">
         {Vulnerability}
       </p>
-      <div className="font-medium flex items-center justify-between">
-        <p>{Compliance} %</p>
+      <div className="font-medium text-[12px] flex items-center justify-between">
+        <p className={`${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{Compliance} %</p>
         <button onClick={() => navigate(`/monitoring/resource-scanning/${id}`)}>
           <svg
             width="17"
@@ -71,13 +71,13 @@ const ReOccurringCard = ({ title, next, region, mode }: any) => {
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
-      <p className="font-medium">{title}</p>
+      <p className="font-semibold text-[14px]">{title}</p>
       <div className="font-medium flex items-center justify-between w-full">
         <p className="flex items-center gap-2">
           <FaGlobe color={mode === "dark" ? "#EAEAEA" : "#000000"} size={14} />
-          <span>{region}</span>
+          <span className="text-[12px] font-semibold">{region}</span>
         </p>
-        <p>{next}</p>
+        <p className={`${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{next}</p>
         <div className="flex items-center gap-4">
           <button>
             <svg
@@ -248,9 +248,9 @@ const ScanHistory = () => {
               stroke-linejoin="round"
             />
           </svg>
-          <h1 className="font-semibold text-xl">
+          <h1 className="font-semibold text-[18px]">
             {stats?.total_scans ?? 0}
-            <span className="pl-2 font-light">Total scan </span>
+            <span className={`pl-2 font-normal text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>Total scan </span>
           </h1>
         </div>
         <div
@@ -302,9 +302,9 @@ const ScanHistory = () => {
             />
           </svg>
 
-          <h1 className="font-semibold text-xl">
+          <h1 className="font-semibold text-[18px]">
             {stats?.recurring_scans ?? 0}
-            <span className="pl-2 font-light">Reoccurring Scans </span>
+            <span className={`pl-2 font-normal text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>Reoccurring Scans </span>
           </h1>
           <svg
             width="18"
@@ -370,14 +370,14 @@ const ScanHistory = () => {
             />
           </svg>
 
-          <h1 className="font-semibold text-xl">
+          <h1 className="font-semibold text-[18px]">
             {stats?.threats_found ?? 0}
-            <span className="pl-2 font-light">Threats found </span>
+            <span className={`pl-2 font-normal text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>Threats found </span>
           </h1>
           <div className="flex items-center gap-3 border-start pl-2">
-            <h1 className="font-semibold text-xl">
+            <h1 className="font-semibold text-[18px]">
               {stats?.resolved ?? 0}
-              <span className="pl-2 font-light">Resolved </span>
+              <span className={`pl-2 font-normal text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>Resolved </span>
             </h1>
             <svg
               width="18"
@@ -415,8 +415,8 @@ const ScanHistory = () => {
               key={d}
               className={`uppercase p-4 ${
                 d === tab
-                  ? "font-bold  border-bottom-3 border-primary"
-                  : "font-thin"
+                  ? "font-bold text-[14px] border-bottom-3 border-primary"
+                  : `font-medium text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}` 
               }`}
               onClick={() => setTab(d)}
             >
@@ -425,10 +425,10 @@ const ScanHistory = () => {
           ))}
         </div>
         <div className="flex items-center gap-5">
-          <select name="" id="" className="bg-transparent p-2">
+          <select name="" id="" className="bg-transparent p-2 text-[12px] font-medium">
             <option value="">Group By</option>
           </select>
-          <button className="flex items-center gap-3">
+          <button className="flex text-[12px] font-medium items-center gap-3">
             <p>Filter</p>
             <svg
               width="18"
@@ -469,8 +469,8 @@ const ScanHistory = () => {
               mode === "dark" ? "bg-lightDark" : "bg-white"
             }`}
           >
-            <p className="font-semibold col-span-2">Policy Used</p>
-            <button className="flex items-center justify-center gap-2 font-semibold">
+            <p className="font-semibold text-[12px] col-span-2">Policy Used</p>
+            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
               <span>Cloud</span>{" "}
               <svg
                 width="10"
@@ -488,7 +488,7 @@ const ScanHistory = () => {
                 />
               </svg>
             </button>
-            <button className="flex items-center justify-center gap-2 font-semibold">
+            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
               <span>Date</span>{" "}
               <svg
                 width="10"
@@ -506,8 +506,8 @@ const ScanHistory = () => {
                 />
               </svg>
             </button>
-            <p className="font-semibold text-center">Vulnerability</p>
-            <p className="font-semibold">Compliance</p>
+            <p className="font-semibold text-[12px] text-center">Vulnerability</p>
+            <p className="font-semibold text-[12px]">Compliance</p>
           </div>
           {isLoading || allScanHistory.length < 1 ? (
             <DefaultContent

@@ -231,7 +231,7 @@ export const TableheaderComponent = ({
   return (
     <>
       <div className="flex flex-wrap justify-between items-center pt-5 text-sm">
-        <h1 className="mb-2 md:mb-0  text-2xl">{tableTitle}</h1>
+        <h1 className="mb-2 md:mb-0  text-[14px] font-semibold">{tableTitle}</h1>
         <div className="flex flex-wrap-reverse justify-between lg:space-x-2 space-x-1 items-center">
           {showDateRange && (
             <div className="border-[0.5px] border-[#CED4DA] bg-white rounded-md flex items-center pl-2 space-x-1 text-sm cursor-pointer">
@@ -353,19 +353,19 @@ export const TableheaderComponent = ({
                   >
                     <ul
                       key={28}
-                      className="py-2 text-sm"
+                      className="py-2 text-[10px] font-medium"
                       aria-labelledby="dropdownDefaultButton"
                     >
                       {showOtherFilter && (
                         <li onClick={() => sortRecentAndOldest("Desc")}>
-                          <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
+                          <span className="dropdown-item py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
                             Most Recent
                           </span>
                         </li>
                       )}
                       {showOtherFilter && (
                         <li onClick={() => sortRecentAndOldest("Asc")}>
-                          <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
+                          <span className="dropdown-item py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
                             Oldest
                           </span>
                         </li>
@@ -373,7 +373,7 @@ export const TableheaderComponent = ({
                       {tableHeader.map((sortList) => (
                         <li>
                           {sortList.title && (
-                            <span className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
+                            <span className="dropdown-item text-[10px] font-medium py-2 px-4 block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
                               <div className="flex flex-row w-full">
                                 <div className="flex flex-auto pr-7">
                                   {sortList.title}
@@ -448,7 +448,7 @@ export const TableheaderComponent = ({
           {showfilterButton && !customFilter && (
             <button
               onClick={() => changeFilter()}
-              className=" rounded-md flex items-center py-4 px-3 text-sm mb-2"
+              className=" rounded-md flex items-center py-4 px-3 text-[10px] font-medium mb-2"
             >
               <span className="md:mr-3 show_filter"> Filter </span>
               <img src={filterIcon} alt="filter" className="icon" />
@@ -457,7 +457,7 @@ export const TableheaderComponent = ({
           {showfilterButton && customFilter && (
             <button
               onClick={() => triggerCustomToggle()}
-              className="border-[0.5px] border-[#CED4DA] bg-white rounded-md flex items-center py-2.5 px-3 text-sm"
+              className="border-[0.5px] border-[#CED4DA] bg-white rounded-md flex items-center py-2.5 px-3 text-[10px] font-medium"
             >
               <span className="md:mr-3 show_filter"> Filter </span>
               <img src={filterIcon} alt="filter" className="icon" />
@@ -474,7 +474,7 @@ export const TableheaderComponent = ({
             <div>
               <div className="px-10 space-y-12 pt-10 pb-16">
                 <div className="flex justify-between">
-                  <h2 className="font-bold text-xl">Filter By</h2>
+                  <h2 className="font-bold text-[14px]">Filter By</h2>
                 </div>
                 {headfilterFields.length > 0 && (
                   <form className="lg:self-start w-full grid md:grid-cols-2 gap-x-6 gap-y-10">
@@ -494,7 +494,7 @@ export const TableheaderComponent = ({
                                 onChange={(e) =>
                                   fieldValueChanged(e, field.name)
                                 }
-                                className="text-sm w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary"
+                                className="text-[10px] font-medium w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary"
                               />
                             </div>
                           )}

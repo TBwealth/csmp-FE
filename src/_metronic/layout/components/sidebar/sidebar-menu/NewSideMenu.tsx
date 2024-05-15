@@ -900,7 +900,7 @@ const NewSideMenu = () => {
         <div className="pt-6">
           <div className="menu-item">
             <div className="menu-content pt-8 pb-2">
-              <span className="menu-section text-muted text-uppercase fs-8 ls-1">
+              <span className={`${mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"} menu-section text-muted text-uppercase fs-8 ls-1`}>
                 {topTitle}
               </span>
             </div>
@@ -911,8 +911,8 @@ const NewSideMenu = () => {
                 to={child.href!}
                 className={`menu-link without-sub ${
                   pathname === child.href!
-                    ? "text-primary bg-[#284CB31A] p-3 rounded-r-md w-full"
-                    : "p-3 w-full"
+                    ? "text-primary bg-[#284CB31A] font-semibold text-[14px] p-3 rounded-r-md w-full"
+                    : "p-3 w-full font-semibold"
                 }`}
                 onClick={() => setPageTitle(child.title)}
               >
