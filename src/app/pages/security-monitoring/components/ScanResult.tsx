@@ -59,8 +59,8 @@ const ScanResult = () => {
                   size={14}
                 />
               </button>
-              <p>
-                <span className="font-semibold">ISO EAC 27001</span> system
+              <p className="font-semibold text-[14px]">
+                <span className="pr-2">ISO EAC 27001</span> system
                 check
               </p>
               <div className="flex items-center gap-2">
@@ -68,14 +68,14 @@ const ScanResult = () => {
                   color={mode === "dark" ? "#EAEAEA" : "#000000"}
                   size={14}
                 />
-                <p>All Region</p>
+                <p className="font-semibold text-[14px]">All Region</p>
               </div>
-              <p>{scanresult && `${scanresult.stop_time.split("T")[0]}`}</p>
+              <p className={`text-[12px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{scanresult && `${scanresult.stop_time.split("T")[0]}`}</p>
               <p className="rounded-2xl px-2 py-1 w-24 text-primary text-center bg-[#284CB31A]">
                 Manual
               </p>
               <button className="flex items-center gap-3 hover:cursor-pointer">
-                <p className="underline">JSON</p>
+                <p className="underline text-[12px]">JSON</p>
                 <svg
                   width="18"
                   height="18"
@@ -134,7 +134,7 @@ const ScanResult = () => {
               </svg>
             </button>
           </div>
-          <h3 className="font-medium text-xl md:text-2xl my-8 pl-3 text-left">
+          <h3 className="font-semibold text-[18px] my-8 pl-3 text-left">
             Gilotec cloudname
           </h3>
           <div className="mt-16 grid md:grid-cols-4 gap-6 mb-8">
@@ -206,26 +206,26 @@ const ScanResult = () => {
               </div>
             </div>
             <div className="border-end pt-10 pr-4">
-              <h3 className="font-medium text-xl mb-3 text-left">
-                <span className="font-bold pr-2">
+              <h3 className="font-medium text-[14px] mb-3 text-left">
+                <span className="font-bold text-[18px] pr-2">
                   {scanresult?.result_json.Total_checks ?? 0}
                 </span>
                 checks performed
               </h3>
-              <div className="flex items-center justify-between md:w-[80%]">
+              <div className="flex items-center mt-12 justify-between md:w-[80%]">
                 <div className="">
-                  <h3 className="font-medium text-xl mb-3 text-left">
+                  <h3 className="font-medium text-[12px] mb-3 text-left">
                     Failed checks
                   </h3>
-                  <h3 className="font-bold text-2xl text-[#FF161A]">
+                  <h3 className="font-extrabold text-[14px] text-[#FF161A]">
                     {scanresult?.result_json.Failed ?? 0}
                   </h3>
                 </div>
                 <div className="">
-                  <h3 className="font-medium text-xl mb-3 text-left">
+                  <h3 className="font-medium text-[12px] mb-3 text-left">
                     Successful
                   </h3>
-                  <h3 className="font-bold text-2xl text-[#00B712]">
+                  <h3 className="font-extrabold text-[14px] text-[#00B712]">
                     {scanresult?.result_json?.Passed ?? 0}
                   </h3>
                 </div>
@@ -266,9 +266,9 @@ const ScanResult = () => {
                     </clipPath>
                   </defs>
                 </svg>
-                <p className="font-bold text-lg">
+                <p className="font-bold text-[14px">
                   {scanresult?.result_json.Critical_Severity ?? 0} 
-                  <span className="font-thin">Critical threats</span>
+                  <span className={`${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"} font-normal`}>Critical threats</span>
                 </p>
               </div>
               <div className="flex items-center gap-3 p-3">
@@ -312,9 +312,9 @@ const ScanResult = () => {
                   />
                 </svg>
 
-                <p className="font-bold text-lg">
+                <p className="font-bold text-[14px]">
                   {scanresult?.result_json.High_Severity ?? 0} 
-                  <span className="font-thin">High threats</span>
+                  <span className={`${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"} font-normal`}>High threats</span>
                 </p>
               </div>
               <div className="flex items-center gap-3 p-3">
@@ -346,9 +346,9 @@ const ScanResult = () => {
                   />
                 </svg>
 
-                <p className="font-bold text-lg">
+                <p className="font-bold text-[14px]">
                   {scanresult?.result_json.Medium_Severity ?? 0} 
-                  <span className="font-thin">Warnings threats</span>
+                  <span className={`${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"} font-normal`}>Warnings threats</span>
                 </p>
               </div>
               <div className="flex items-center gap-3 p-3">
@@ -392,9 +392,9 @@ const ScanResult = () => {
                   </defs>
                 </svg>
 
-                <p className="font-bold text-lg">
+                <p className="font-bold text-[14px]">
                   {scanresult?.result_json?.Low_Severity ?? 0} 
-                  <span className="font-thin">Low Risks</span>
+                  <span className={`${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"} font-normal`}>Low Risks</span>
                 </p>
               </div>
             </div>

@@ -160,7 +160,7 @@ const ResourceScan = () => {
             >
               <div className="flex items-center gap-6">
                 <img src={scanimg} alt="cloud with search icon" />
-                <h2 className="font-bold text-lg md:text-xl">
+                <h2 className="font-bold text-[18px]">
                   Initiate New Resource Scan
                 </h2>
               </div>
@@ -251,7 +251,7 @@ const ResourceScan = () => {
                               ></path>
                             </svg>
                           </span>
-                          <p>Select your Cloud Provider</p>
+                          <p className="font-semibold text-[14px]">Select your Cloud Provider</p>
                         </label>
                         <select
                           autoComplete="off"
@@ -315,7 +315,7 @@ const ResourceScan = () => {
                               ></path>
                             </svg>
                           </span>
-                          <p>Compliant Policy </p>
+                          <p className="font-semibold text-[14px]">Compliant Policy </p>
                         </label>
                         <select
                           autoComplete="off"
@@ -351,7 +351,7 @@ const ResourceScan = () => {
                             color={mode === "dark" ? "#EAEAEA" : "#000000"}
                             size={16}
                           />
-                          <p>Select a Region</p>
+                          <p className="font-semibold text-[14px]">Select a Region</p>
                         </label>
                         <select
                           autoComplete="off"
@@ -386,7 +386,7 @@ const ResourceScan = () => {
                             color={mode === "dark" ? "#EAEAEA" : "#000000"}
                             size={16}
                           />
-                          <p>Scan Frequency </p>
+                          <p className="font-semibold text-[14px]">Scan Frequency </p>
                         </label>
                         <select
                           autoComplete="off"
@@ -546,8 +546,8 @@ const ResourceScan = () => {
                     />
                   </svg>
                   <div className="flex items-center gap-4">
-                    <h1 className="font-bold text-2xl md:text-4xl">0</h1>
-                    <h1 className="font-mediun texl-lg md:text-xl">
+                    <h1 className="font-bold text-[32px]">0</h1>
+                    <h1 className="font-mediun texl-[14px]">
                       Reoccurring Scans
                     </h1>
                   </div>

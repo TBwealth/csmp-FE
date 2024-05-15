@@ -10,7 +10,7 @@ export function MenuInner() {
   const pageTitle = useRecoilValue(pagAtom);
   return (
     <>
-    <p className="mt-8 text-xl">{pageTitle}</p>
+    <p className="mt-8 text-[18px] font-semibold">{pageTitle}</p>
       {/* <MenuItem
         title={intl.formatMessage({ id: "MENU.DASHBOARD" })}
         to="/dashboard"

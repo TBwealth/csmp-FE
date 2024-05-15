@@ -26,7 +26,7 @@ const ScanLoading = ({ name, policy, region }: Props) => {
   }, []);
   return (
     <div className="w-full md:w-[60%] mx-auto pt-24">
-      <p>
+      <p className="text-[14px] font-semibold">
         Scan in progress and cannot be terminated. You would be notified when
         cloud posture is complete{" "}
       </p>
@@ -34,7 +34,7 @@ const ScanLoading = ({ name, policy, region }: Props) => {
         <div className="border-end flex-1">
           <div className="flex items-center gap-3 mb-16">
             <img src={scanimg} alt="search icon" />
-            <h2 className="text-xl uppercase">Scanning. . . </h2>
+            <h2 className={`${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"} text-[18px] leading-10 uppercase`}>Scanning. . . </h2>
           </div>
           <div className="relative">
             <svg
@@ -59,7 +59,7 @@ const ScanLoading = ({ name, policy, region }: Props) => {
           </div>
         </div>
         <div className="flex-1">
-          <h1 className="text-lg md:text-xl">{name}</h1>
+          <h1 className="text-[18px] font-semibold">{name}</h1>
           <div className="flex items-center gap-2 my-4">
             <svg
               width="24px"
@@ -92,14 +92,14 @@ const ScanLoading = ({ name, policy, region }: Props) => {
                 stroke-linejoin="round"
               ></path>
             </svg>
-            <p>{policy}</p>
+            <p className="text-[12px] font-medium">{policy}</p>
           </div>
           <div className="flex items-center gap-2">
             <FaGlobe
               color={mode === "dark" ? "#EAEAEA" : "#000000"}
               size={24}
             />
-            <p>{region}</p>
+            <p className="text-[12px] font-medium">{region}</p>
           </div>
         </div>
       </div>

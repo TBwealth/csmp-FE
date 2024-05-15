@@ -45,7 +45,6 @@ const Roles = () => {
     setToken(localToken);
   }, []);
 
-
   const handleFetchRolePerm = async (id: number) => {
     try {
       const resp = await axios.get(
@@ -79,7 +78,7 @@ const Roles = () => {
     }
   };
 
-  const {mutate } = useUpdateRolePermission()
+  const { mutate } = useUpdateRolePermission();
   useEffect(() => {
     if (selected?.id) {
       handleFetchRolePerm(selected?.id);
@@ -147,17 +146,20 @@ const Roles = () => {
 
   const handleUpdateRolePermissions = (val: any) => {
     const ids = val.filter((perm: any) => perm?.isPerm).map((p: any) => p?.id);
-    mutate({
-      data: {
-        role_id: selected?.id,
-        permission__id: ids
+    mutate(
+      {
+        data: {
+          role_id: selected?.id,
+          permission__id: ids,
+        },
+      },
+      {
+        onSuccess: () => {
+          handleFetchRolePerm(selected?.id);
+        },
       }
-    }, {
-      onSuccess: () => {
-        handleFetchRolePerm(selected?.id);
-      }
-    })
-  }
+    );
+  };
 
   return (
     <div>
@@ -186,35 +188,35 @@ const Roles = () => {
                 type="text"
                 name="search"
                 autoComplete="off"
-                className="form-control border border-primary"
+                className="form-control border border-primary text-[14px] font-medium"
                 onChange={(e) => handleRoleSearch(e)}
               />
-              </div>
-              <div className="bg-[#ECECFC] p-5">
+            </div>
+            <div className="bg-[#ECECFC] p-5">
               {items?.map((item) => (
-              <div
-                key={item.name}
-                className={
-                  item.id === selected.id
-                    ? "bg-primary rounded p-2 mb-2 font-medium text-lg w-full cursor-pointer"
-                    : " p-2 mb-2 text-lg font-medium w-full cursor-pointer"
-                }
-                onClick={() => {
-                  setSelected(item);
-                  handleFetchRolePerm(item?.id);
-                }}
-              >
-                {item.name}
-              </div>
-            ))}
-              </div>
-       
+                <div
+                  key={item.name}
+                  className={
+                    item.id === selected.id
+                      ? "bg-primary rounded p-2 mb-2 font-semibold text-white text-[14px] w-full cursor-pointer"
+                      : " p-2 mb-2 text-[14px] font-medium w-full cursor-pointer"
+                  }
+                  onClick={() => {
+                    setSelected(item);
+                    handleFetchRolePerm(item?.id);
+                  }}
+                >
+                  {item.name}
+                </div>
+              ))}
+            </div>
+
             <button
               className="w-full text-primary text-center underline rounded-md p-3 mt-4 text-lg"
               onClick={() => setShowModal(true)}
             >
-              <i className="bi bi-plus text-lg fs-2 text-primary"></i>&nbsp;Add
-              Role
+              <i className="bi bi-plus text-[18px] font-semibold fs-2 text-primary"></i>
+              &nbsp;Add Role
             </button>
           </div>
           <div className="md:col-span-3 relative ">
@@ -236,45 +238,47 @@ const Roles = () => {
                   onChange={(e) => handlePermissionSearch(e)}
                 />
               </div>
-              </div>
-              <div className="font-bold mb-2">
-                What&nbsp;{selected?.name}&nbsp;role have access to
-              </div>
-              <div className="flex flex-col">
+            </div>
+            <div className="font-bold mb-2">
+              What&nbsp;{selected?.name}&nbsp;role have access to
+            </div>
+            <div className="flex flex-col">
               {perms?.length > 0 ? (
-                  perms?.map((perm) => (
-                    <div key={perm.id} className="flex justify-between border-l-4 border-l-primary mb-4 p-2">
-                      <div>{perm.name}</div>
-                      <div>
+                perms?.map((perm) => (
+                  <div
+                    key={perm.id}
+                    className="flex justify-between border-l-4 border-l-primary mb-4 p-2"
+                  >
+                    <div className="text-[12px] font-semibold">{perm.name}</div>
+                    <div>
                       <label className="inline-flex items-center cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={perm.isPerm}
-                            onChange={(e) => {
-                              const trans = perms.map((per) => {
-                                if(per.id === perm?.id) {
-                                  return {
-                                    ...per,
-                                    isPerm: e.target.checked
-                                  }
-                                }
-                                return per;
-                              })
-                              setPerms(trans);
-                              handleUpdateRolePermissions(trans);
-                            }}
-                            className="sr-only peer"
-                          />
-                          <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                        </label>
-                      </div>
-                    </div>                   
-                  ))
-                ) : (
-                  <span>No Permissions Found</span>
-                )}
-              </div>
-         
+                        <input
+                          type="checkbox"
+                          checked={perm.isPerm}
+                          onChange={(e) => {
+                            const trans = perms.map((per) => {
+                              if (per.id === perm?.id) {
+                                return {
+                                  ...per,
+                                  isPerm: e.target.checked,
+                                };
+                              }
+                              return per;
+                            });
+                            setPerms(trans);
+                            handleUpdateRolePermissions(trans);
+                          }}
+                          className="sr-only peer"
+                        />
+                        <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                      </label>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <span>No Permissions Found</span>
+              )}
+            </div>
           </div>
         </div>
       )}

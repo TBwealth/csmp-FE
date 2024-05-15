@@ -97,13 +97,13 @@ const TicketsActivities = () => {
                     <span className="bg-primary rounded-full p-2  flex items-center justify-center">
                       <i className="bi bi-check2"></i>
                     </span>
-                    <h3 className="font-semibold text-lg md:text-xl">
+                    <h3 className="font-semibold text-[18px]">
                       {act?.activity_type} @ {act?.timestamp.split(".")[0]}
                     </h3>
                   </div>
                   <div className="pl-5 border-l-4 ml-3 mt-2 border-l-primary">
                   <div className="w-full  flex items-start justify-between h-20">
-                    <p className="pl-2 pb-5  text-lg ">
+                    <p className="pl-2 pb-5  text-[14px] font-medium ">
                       {act?.comments}
                     </p>
                     <button
