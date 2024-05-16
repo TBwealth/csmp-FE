@@ -4,25 +4,22 @@ import * as Yup from "yup";
 import clsx from "clsx";
 import { getUserByToken, register } from "../core/_requests";
 import { Alert } from "react-bootstrap";
-import { Upload, UploadProps } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { PasswordMeterComponent } from "../../../../_metronic/assets/ts/components";
 import { useAuth } from "../core/Auth";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   useAccountRegister,
   useGetAccountCustomTenant,
 } from "../../../api/api-services/accountQuery";
+import { FaEnvelope, FaGlobe, FaLock, FaUser } from "react-icons/fa";
 import { AccountsApiTenantsList200Response } from "../../../api/axios-client";
-import { toAbsoluteUrl } from "../../../../_metronic/helpers";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import modeAtoms from "../../../atoms/modeAtoms.atom";
 
 const initialValues = {
-  companyname: "",
-  firstname: "",
-  lastname: "",
-  email: "",
+  businessEmail: "",
+  fullName: "",
+  country: "",
   password: "",
   confirmpassword: "",
   role: 2,
@@ -30,7 +27,7 @@ const initialValues = {
 };
 
 const registrationSchema = Yup.object().shape({
-  companyname: Yup.string()
+  businessEmail: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Company name is required"),
@@ -66,26 +63,14 @@ const registrationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Password and Confirm Password didn't match"),
 });
 
-// const uploadButton = (
-//   <button style={{ border: 0, background: 'none' }} type="button">
-//     {loading ? <LoadingOutlined /> : <PlusOutlined />}
-//     <div style={{ marginTop: 8 }}>Upload</div>
-//   </button>
-// );
-
 export function Registration() {
   const [loading, setLoading] = useState(false);
   const [active, setIsActive] = useState(true);
   const { mode } = useRecoilValue(modeAtoms);
   const setModeState = useSetRecoilState(modeAtoms);
 
-  // const allowedFileType = ["jpg", "png", "jpeg"];
-  // const maxFileSize = 1050000;
-  // const [fileList, setFileList] = useState<any[]>([]);
   const [showAlert, setShowAlert] = useState(false);
   const [errMessage, setErrMessage] = useState("");
-  // const [imageUrl, setImageUrl] = useState<string>();
-  // const [listTenants, setListTenants] = useState<any[] | undefined>([]);
   const { saveAuth, setCurrentUser } = useAuth();
   const navigate = useNavigate();
   const {
@@ -96,11 +81,6 @@ export function Registration() {
   const { mutate, isLoading } = useAccountRegister();
 
   const datastsr: AccountsApiTenantsList200Response | any = tenantData;
-
-  // useEffect(() => {
-  //   setListTenants(datastsr?.data?.data?.results);
-  // }, [tenantData]);
-
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
@@ -108,9 +88,8 @@ export function Registration() {
       setLoading(true);
       mutate(
         {
-          first_name: values.firstname,
-          last_name: values.lastname,
-          email: values.email,
+          fullName: values.fullName,
+          email: values.businessEmail,
           password: values.password,
           password2: values.confirmpassword,
           role: 2,
@@ -147,82 +126,34 @@ export function Registration() {
     PasswordMeterComponent.bootstrap();
   }, []);
 
-  const handleSwitchMode = (e: any) => {
-    setModeState(() => (e ? { mode: "dark" } : { mode: "light" }));
-    const curMode = document.documentElement.getAttribute("data-bs-theme");
-    if (curMode === "dark") {
-      document.documentElement.setAttribute("data-bs-theme", "light");
-      setModeState({ mode: "light" });
-      localStorage.setItem("mode", JSON.stringify("light"));
-      // localStorage.setItem("kt_theme_mode_value", "light");
-      // location.reload();
-    } else {
-      document.documentElement.setAttribute("data-bs-theme", "dark");
-      setModeState({ mode: "dark" });
-      localStorage.setItem("mode", JSON.stringify("dark"));
-    }
-  };
+  // const handleSwitchMode = (e: any) => {
+  //   setModeState(() => (e ? { mode: "dark" } : { mode: "light" }));
+  //   const curMode = document.documentElement.getAttribute("data-bs-theme");
+  //   if (curMode === "dark") {
+  //     document.documentElement.setAttribute("data-bs-theme", "light");
+  //     setModeState({ mode: "light" });
+  //     localStorage.setItem("mode", JSON.stringify("light"));
+
+  //   } else {
+  //     document.documentElement.setAttribute("data-bs-theme", "dark");
+  //     setModeState({ mode: "dark" });
+  //     localStorage.setItem("mode", JSON.stringify("dark"));
+  //   }
+  // };
 
   return (
-    <div className="grid md:grid-cols-3 md:w-[80%] mr-60 md:gap-20 mt-20">
-      <div className="md:col-span-1 left_container">
-        <div>
-          {mode === "dark" ? (
-            <img
-              alt="Logo"
-              src={toAbsoluteUrl("media/logos/darkLogo.png")}
-              className="app-sidebar-logo-default"
-            />
-          ) : (
-            <img
-              alt="Logo"
-              src={toAbsoluteUrl("media/logos/logofile.jpg")}
-              className="app-sidebar-logo-default"
-            />
-          )}
-        </div>
-        <button className={mode ? "active" : "inactive"}>
-          <input
-            type="checkbox"
-            defaultChecked
-            name="toggle"
-            id="toggle"
-            onChange={(e) => handleSwitchMode(e.target.checked)}
-          />
-          <div className="button"></div>
-        </button>
-      </div>
+    <div className="w-full md:h-screen pt-16 bg-white">
       <form
-        className={`md:col-span-2 rounded-md w-100 fv-plugins-bootstrap5 fv-plugins-framework p-10 shadow-lg border ${
-          mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""
-        }`}
-        // style={{ backgroundColor: "white" }}
-        noValidate
+        className="text-[#373737] w-[80%] md:w-[65%] mx-auto"
         id="kt_login_signup_form"
         onSubmit={formik.handleSubmit}
       >
-        {/* <div className="d-flex justify-content-between px-5 border border-1 h-75px align-items-center  rounded-3  ">
-        <h1 className="fw-bold" style={{ fontSize: "24px" }}>
-          Enrolee Registration
+        <h1 className="font-medium uppercase text-[14px] md:text-[18px] mb-8">
+          Try a <span className="font-semibold">free 30-day trial</span> with
+          complete access to CloudAccoRD™.{" "}
+          <span className="font-semibold">No credit card required</span>. Get up
+          and running in minutes.
         </h1>
-        <p className="" style={{ fontSize: "12px" }}>
-          Change
-        </p>
-      </div> */}
-        <div className="text-center mb-11">
-          <h1 className=" fw-bolder mb-3">Sign Up</h1>
-        </div>
-        {/* <div className="mt-10">
-        <h2 className="fs-20 fw-bold">Personal Information</h2>
-        <p className="fs-5 fw-light text-white dark:text-gray-900">
-          Provide the following details below
-        </p>
-      </div> */}
-        <div className="separator separator-content mb-5">
-          <span className="w-300px  fw-semibold fs-7">
-            Create Tenant Account
-          </span>
-        </div>
 
         {formik.status && (
           <div className="mb-lg-15 alert alert-danger">
@@ -230,183 +161,114 @@ export function Registration() {
           </div>
         )}
 
-        <div className="row ">
+        <div className="">
           {/* begin::Form group Firstname */}
-          <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder fs-6">Company name</label>
+          <div className="fv-row mb-4 col-sm">
+            <label className="flex text-[14px] font-medium items-center gap-3">
+              <FaEnvelope />
+              <span>Business Email</span>
+            </label>
             <input
-              placeholder="Company name"
+              placeholder=""
               type="text"
               autoComplete="off"
-              {...formik.getFieldProps("companyname")}
+              {...formik.getFieldProps("businessEmail")}
               className={clsx(
                 "form-control bg-transparent",
                 {
                   "is-invalid":
-                    formik.touched.companyname && formik.errors.companyname,
+                    formik.touched.businessEmail && formik.errors.businessEmail,
                 },
                 {
                   "is-valid":
-                    formik.touched.companyname && !formik.errors.companyname,
+                    formik.touched.businessEmail && !formik.errors.businessEmail,
                 }
               )}
             />
-            {formik.touched.companyname && formik.errors.companyname && (
+            {formik.touched.businessEmail && formik.errors.businessEmail && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.companyname}</span>
+                  <span role="alert">{formik.errors.businessEmail}</span>
                 </div>
               </div>
             )}
           </div>
           {/* end::Form group */}
-          <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder  fs-6">
-              Admin First Name
+          <div className="fv-row mb-4 col-sm">
+            <label className="flex text-[14px] font-medium items-center gap-3">
+              <FaUser />
+              <span>Full Name</span>
             </label>
             <input
-              placeholder="First Name"
+              placeholder=""
               type="text"
               autoComplete="off"
-              {...formik.getFieldProps("firstname")}
+              {...formik.getFieldProps("fullName")}
               className={clsx(
                 "form-control bg-transparent",
                 {
                   "is-invalid":
-                    formik.touched.firstname && formik.errors.firstname,
+                    formik.touched.fullName && formik.errors.fullName,
                 },
                 {
                   "is-valid":
-                    formik.touched.firstname && !formik.errors.firstname,
+                    formik.touched.fullName && !formik.errors.fullName,
                 }
               )}
             />
-            {formik.touched.firstname && formik.errors.firstname && (
+            {formik.touched.fullName && formik.errors.fullName && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.firstname}</span>
+                  <span role="alert">{formik.errors.fullName}</span>
                 </div>
               </div>
             )}
           </div>
         </div>
-        <div className="row">
-          <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder fs-6">Admin Last name</label>
+        <div className="">
+          <div className="fv-row mb-4 col-sm">
+            <label className="flex text-[14px] font-medium items-center gap-3">
+              <FaGlobe />
+              <span>Country</span>
+            </label>
             <input
-              placeholder="Last name"
+              placeholder=""
               type="text"
               autoComplete="off"
-              {...formik.getFieldProps("lastname")}
+              {...formik.getFieldProps("country")}
               className={clsx(
                 "form-control bg-transparent",
                 {
-                  "is-invalid":
-                    formik.touched.lastname && formik.errors.lastname,
+                  "is-invalid": formik.touched.country && formik.errors.country,
                 },
                 {
-                  "is-valid":
-                    formik.touched.lastname && !formik.errors.lastname,
+                  "is-valid": formik.touched.country && !formik.errors.country,
                 }
               )}
             />
-            {formik.touched.lastname && formik.errors.lastname && (
+            {formik.touched.country && formik.errors.country && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.lastname}</span>
+                  <span role="alert">{formik.errors.country}</span>
                 </div>
               </div>
             )}
           </div>
-          <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder  fs-6">Admin Email</label>
-            <input
-              placeholder="Email"
-              type="email"
-              autoComplete="off"
-              {...formik.getFieldProps("email")}
-              className={clsx(
-                "form-control bg-transparent",
-                { "is-invalid": formik.touched.email && formik.errors.email },
-                {
-                  "is-valid": formik.touched.email && !formik.errors.email,
-                }
-              )}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <div className="fv-plugins-message-container">
-                <div className="fv-help-block">
-                  <span role="alert">{formik.errors.email}</span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="row">
-          {/* begin::Form group Email */}
-          {/* <div className="fv-row mb-8 col-sm">
-            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
-              Email
-            </label>
-            <input
-              placeholder="Email"
-              type="email"
-              autoComplete="off"
-              {...formik.getFieldProps("email")}
-              className={clsx(
-                "form-control bg-transparent",
-                { "is-invalid": formik.touched.email && formik.errors.email },
-                {
-                  "is-valid": formik.touched.email && !formik.errors.email,
-                }
-              )}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <div className="fv-plugins-message-container">
-                <div className="fv-help-block">
-                  <span role="alert">{formik.errors.email}</span>
-                </div>
-              </div>
-            )}
-          </div> */}
-          {/* end::Form group */}
-          {/* <div className="fv-row mb-8 col-sm">
-            {" "}
-            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
-              Tenant
-            </label>
-            <select
-              data-placeholder="Select option"
-              autoComplete="off"
-              {...formik.getFieldProps("tenant")}
-              className={clsx(
-                "form-select form-select-solid fw-bolder",
-                { "is-invalid": formik.touched.tenant && formik.errors.tenant },
-                {
-                  "is-valid": formik.touched.tenant && !formik.errors.tenant,
-                }
-              )}
-            >
-              <option value="">Select Tenant</option>
-              {listTenants?.map((item) => (
-                <option key={item?.id} value={item?.id}>
-                  {item?.name}
-                </option>
-              ))}
-            </select>
-          </div> */}
         </div>
 
-        <div className="row">
+        <div className="">
           {" "}
           {/* begin::Form group Password */}
-          <div className="fv-row mb-8 col-sm" data-kt-password-meter="true">
+          <div className="fv-row mb-4 col-sm" data-kt-password-meter="true">
             <div className="mb-1">
-              <label className="form-label fw-bolder fs-6">Password</label>
+              <label className="flex text-[14px] font-medium items-center gap-3">
+                <FaUser />
+                <span>Password</span>
+              </label>
               <div className="position-relative mb-3">
                 <input
                   type="password"
-                  placeholder="Password"
+                  placeholder=""
                   autoComplete="off"
                   {...formik.getFieldProps("password")}
                   className={clsx(
@@ -429,31 +291,18 @@ export function Registration() {
                   </div>
                 )}
               </div>
-              {/* begin::Meter */}
-              <div
-                className="d-flex align-items-center mb-3"
-                data-kt-password-meter-control="highlight"
-              >
-                <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2"></div>
-                <div className="flex-grow-1 bg-secondary bg-active-success rounded h-5px"></div>
-              </div>
-              {/* end::Meter */}
-            </div>
-            <div className="text-muted">
-              Use 8 or more characters with a mix of letters, numbers & symbols.
             </div>
           </div>
           {/* end::Form group */}
           {/* begin::Form group Confirm password */}
-          <div className="fv-row mb-5 col-sm">
-            <label className="form-label fw-bolder fs-6">
-              Confirm Password
+          <div className="fv-row mb-4 col-sm">
+            <label className="flex font-medium text-[14px] items-center gap-3">
+              <FaUser />
+              <span>Confirm Password</span>
             </label>
             <input
               type="password"
-              placeholder="Password confirmation"
+              placeholder=""
               autoComplete="off"
               {...formik.getFieldProps("confirmpassword")}
               className={clsx(
@@ -481,46 +330,51 @@ export function Registration() {
           </div>
           {/* end::Form group */}
         </div>
-
-        {/* begin::Form group */}
-        {/* <div className="row">
-          <div className="fv-row mb-8 col-sm flex gap-3 items-center">
-            <label className="form-label fw-bolder text-white dark:text-gray-900 fs-6">
-              Company Logo
-            </label>
-            <Upload
-              name="avatar"
-              listType="picture-circle"
-              className="avatar-uploader"
-              showUploadList={false}
-              beforeUpload={props.beforeUpload}
-            >
-              {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
-              ) : (
-                uploadButton
-              )}
-            </Upload>
-          </div>
-        </div> */}
-        <div className="row gap-6">
-          <button
-            type="button"
-            id="kt_login_signup_form_cancel_button"
-            className="btn btn-lg btn-light-primary w-50"
-            onClick={() => navigate("/auth/login")}
-          >
-            Cancel
-          </button>
+        <div className="flex items-center mb-4 gap-3">
+          <input type="checkbox" name="" checked id="" className="h-5 w-5 rounded-md" />
+          <p className="text-[12px]">
+            I agree to{" "}
+            <Link to="/" className="text-[#2E54C3] underline">
+              Terms and conditions
+            </Link>
+            ,{" "}
+            <Link to="/" className="text-[#2E54C3] underline">
+              Privacy
+            </Link>{" "}
+            and{" "}
+            <Link to="/" className="text-[#2E54C3] underline">
+              Data collection policy
+            </Link>
+          </p>
+        </div>
+        <div className="row mb-4">
           <button
             type="submit"
             id="kt_sign_up_submit"
-            className="btn btn-lg btn-primary col"
+            className="btn btn-lg btn-primary col flex items-center justify-center rounded-full"
             disabled={
               formik.isSubmitting || !formik.isValid || !formik.values.role
             }
           >
-            {!loading && <span className="indicator-label">Submit</span>}
+            {!loading && (
+              <span className="indicator-label flex items-center gap-3">
+                <p>Create an Account</p>
+                <svg
+                  width="10"
+                  height="9"
+                  viewBox="0 0 10 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M4.97945 0.146447C4.78419 0.341709 4.78419 0.658291 4.97945 0.853553L8.1259 4H0.999675C0.723533 4 0.499675 4.22386 0.499675 4.5C0.499675 4.77614 0.723533 5 0.999675 5H8.1259L4.97945 8.14645C4.78419 8.34171 4.78419 8.65829 4.97945 8.85355C5.17472 9.04882 5.4913 9.04882 5.68656 8.85355L9.68656 4.85355C9.88182 4.65829 9.88182 4.34171 9.68656 4.14645L5.68656 0.146447C5.4913 -0.0488155 5.17472 -0.0488155 4.97945 0.146447Z"
+                    fill="white"
+                  />
+                </svg>
+              </span>
+            )}
             {loading && (
               <span className="indicator-progress" style={{ display: "block" }}>
                 Please wait...{" "}
@@ -528,6 +382,9 @@ export function Registration() {
               </span>
             )}
           </button>
+        </div>
+        <div className="text-[14px] mt-8">
+          Already a Cloud accord user? <Link to="/auth/login" className="text-primary">Sign In</Link>
         </div>
 
         <Alert
