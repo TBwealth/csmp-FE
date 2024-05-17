@@ -31,7 +31,7 @@ const ProviderResources = () => {
   useEffect(() => {
     
     setItems(
-      datastsr?.data?.data?.results
+      datastsr?.data?.data?.results ?? []
     );
     setshowEmpty(
       datastsr?.data?.data?.results
