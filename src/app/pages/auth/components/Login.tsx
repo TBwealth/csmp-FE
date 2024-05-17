@@ -118,49 +118,16 @@ export function Login() {
   };
 
   return (
-    // <div className="flex items-center justify-center mt-20">
-    <div className="grid md:grid-cols-2 md:w-[80%] mr-60 md:gap-20 mt-20">
-      <div className="md:col-span-1 left_container">
-        <div>
-          {mode === "dark" ? (
-            <img
-              alt="Logo"
-              src={toAbsoluteUrl("media/logos/darkLogo.png")}
-              className="app-sidebar-logo-default"
-            />
-          ) : (
-            <img
-              alt="Logo"
-              src={toAbsoluteUrl("media/logos/logofile.jpg")}
-              className="app-sidebar-logo-default"
-            />
-          )}
-        </div>
-        <button className={mode === "dark" ? "active" : "inactive"}>
-          <input
-            type="checkbox"
-            defaultChecked
-            name="toggle"
-            id="toggle"
-            onChange={(e) => handleSwitchMode(e.target.checked)}
-          />
-          <div className="button"></div>
-        </button>
-      </div>
+    <div className="w-full md:h-screen pt-20 bg-white">
       <form
-        className={`form w-100  border z-10 rounded-md shadow-md p-10 ${
-          mode === "dark" ? "bg-lightDark text-[#7E8299]" : ""
-        }`}
+      className="text-[#373737] w-[80%] md:w-[60%] mx-auto"
         onSubmit={formik.handleSubmit}
         noValidate
         id="kt_login_signin_form"
       >
-        <div className="text-center mb-11">
-          <h1 className=" fw-bolder mb-3">Sign In</h1>
-        </div>
 
         <div className="separator separator-content my-14">
-          <span className="w-300px  fw-semibold fs-7">
+          <span className="w-full  text-[18px] font-medium">
             Enter your Login details
           </span>
         </div>
@@ -183,7 +150,7 @@ export function Login() {
 
         {/* begin::Form group */}
         <div className="fv-row mb-8">
-          <label className="form-label fs-6 fw-bolder">Email</label>
+          <label className="text-[14px] font-medium">Email</label>
           <input
             placeholder="Email"
             {...formik.getFieldProps("email")}
@@ -208,7 +175,7 @@ export function Login() {
 
         {/* begin::Form group */}
         <div className="fv-row mb-3">
-          <label className="form-label fw-bolder fs-6 mb-0">Password</label>
+          <label className="text-[14px] font-medium">Password</label>
           <input
             type="password"
             autoComplete="off"
