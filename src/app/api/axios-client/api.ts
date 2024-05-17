@@ -371,6 +371,37 @@ export interface CloudProviderCloudProviderResourceTypesList200Response {
 /**
  * 
  * @export
+ * @interface CloudProviderCountriesList200Response
+ */
+export interface CloudProviderCountriesList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudProviderCountriesList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudProviderCountriesList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudProviderCountriesList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<Country>}
+     * @memberof CloudProviderCountriesList200Response
+     */
+    'results': Array<Country>;
+}
+/**
+ * 
+ * @export
  * @interface CloudProviderResourceTypes
  */
 export interface CloudProviderResourceTypes {
@@ -445,6 +476,111 @@ export interface CloudProviderResourceTypesList200Response {
 /**
  * 
  * @export
+ * @interface Country
+ */
+export interface Country {
+    /**
+     * 
+     * @type {number}
+     * @memberof Country
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Country
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateRuleSuppressionLog
+ */
+export interface CreateRuleSuppressionLog {
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'tenant'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'cloud_provider': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'resource_type': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'resource': number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'rule': number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'expiration': string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'comments': string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'region'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateRuleSuppressionLog
+     */
+    'status'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CustomCloudProvider
+ */
+export interface CustomCloudProvider {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomCloudProvider
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomCloudProvider
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CustomPasswordReset
  */
 export interface CustomPasswordReset {
@@ -473,6 +609,82 @@ export interface CustomPolicyRun {
      * @memberof CustomPolicyRun
      */
     'policy'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomRegion
+ */
+export interface CustomRegion {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomRegion
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomRegion
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomResource
+ */
+export interface CustomResource {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomResource
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomResource
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomResourceType
+ */
+export interface CustomResourceType {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomResourceType
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomResourceType
+     */
+    'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomRule
+ */
+export interface CustomRule {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomRule
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomRule
+     */
+    'name'?: string;
 }
 /**
  * 
@@ -1092,17 +1304,157 @@ export interface ProviderService {
      * @type {string}
      * @memberof ProviderService
      */
-    'name': string;
+    'cloud_provider_name': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProviderService
+     */
+    'tenant': number;
     /**
      * 
      * @type {string}
      * @memberof ProviderService
      */
-    'code': string;
+    'account_name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderService
+     */
+    'environment': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ProviderService
+     */
+    'created_by': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderService
+     */
+    'account_id': string;
     /**
      * 
      * @type {boolean}
      * @memberof ProviderService
+     */
+    'status'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderService
+     */
+    'connection_status': string;
+}
+/**
+ * 
+ * @export
+ * @interface ProviderServiceInput
+ */
+export interface ProviderServiceInput {
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderServiceInput
+     */
+    'cloud_provider_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderServiceInput
+     */
+    'role_arn': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderServiceInput
+     */
+    'account_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderServiceInput
+     */
+    'onboarding_type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderServiceInput
+     */
+    'environment': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProviderServiceInput
+     */
+    'account_name'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ReadRuleSuppressionLog
+ */
+export interface ReadRuleSuppressionLog {
+    /**
+     * 
+     * @type {number}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'tenant'?: string;
+    /**
+     * 
+     * @type {CustomCloudProvider}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'cloud_provider': CustomCloudProvider;
+    /**
+     * 
+     * @type {CustomResourceType}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'resource_type': CustomResourceType;
+    /**
+     * 
+     * @type {CustomResource}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'resource': CustomResource;
+    /**
+     * 
+     * @type {CustomRule}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'rule': CustomRule;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'expiration'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'comments'?: string | null;
+    /**
+     * 
+     * @type {CustomRegion}
+     * @memberof ReadRuleSuppressionLog
+     */
+    'region': CustomRegion;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReadRuleSuppressionLog
      */
     'status'?: boolean;
 }
@@ -1480,6 +1832,37 @@ export interface SystemSettingsRegionsList200Response {
 /**
  * 
  * @export
+ * @interface SystemSettingsRuleSuppressionLogList200Response
+ */
+export interface SystemSettingsRuleSuppressionLogList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemSettingsRuleSuppressionLogList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsRuleSuppressionLogList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsRuleSuppressionLogList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<ReadRuleSuppressionLog>}
+     * @memberof SystemSettingsRuleSuppressionLogList200Response
+     */
+    'results': Array<ReadRuleSuppressionLog>;
+}
+/**
+ * 
+ * @export
  * @interface SystemSettingsRuleTextsList200Response
  */
 export interface SystemSettingsRuleTextsList200Response {
@@ -1599,7 +1982,7 @@ export interface TenantAssetManagement {
      * @type {number}
      * @memberof TenantAssetManagement
      */
-    'tenant': number;
+    'tenant'?: number;
     /**
      * 
      * @type {string}
@@ -5285,51 +5668,15 @@ export class AccountsApi extends BaseAPI {
 export const CloudProviderApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
-         * @param {ProviderService} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderCloudProviderCreate: async (data: ProviderService, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('cloudProviderCloudProviderCreate', 'data', data)
-            const localVarPath = `/cloud_provider/cloud_provider/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
+         * List Cloud Provider
+         * @summary List Cloud Provider
+         * @param {number} [tenant] Filter by Tenant
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderCloudProviderList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderCloudProviderList: async (tenant?: number, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/cloud_provider/cloud_provider/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5344,6 +5691,10 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -5581,6 +5932,91 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
             }
 
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [search] A search term.
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCountriesList: async (search?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/cloud_provider/countries/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ProviderServiceInput} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderProviderServiceOnboardingCreate: async (data: ProviderServiceInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('cloudProviderProviderServiceOnboardingCreate', 'data', data)
+            const localVarPath = `/cloud_provider/provider_service_onboarding/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -5851,24 +6287,16 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = CloudProviderApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
-         * @param {ProviderService} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async cloudProviderCloudProviderCreate(data: ProviderService, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
+         * List Cloud Provider
+         * @summary List Cloud Provider
+         * @param {number} [tenant] Filter by Tenant
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderCloudProviderList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderCloudProviderList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderList(page, pageSize, options);
+        async cloudProviderCloudProviderList(tenant?: number, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderCloudProviderList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderList(tenant, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -5933,6 +6361,28 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
          */
         async cloudProviderCloudProviderUpdate(id: number, data: ProviderService, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderService>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} [search] A search term.
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderCountriesList(search?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderCountriesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCountriesList(search, page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {ProviderServiceInput} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderProviderServiceOnboardingCreate(data: ProviderServiceInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProviderServiceInput>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderProviderServiceOnboardingCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6010,23 +6460,16 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
     const localVarFp = CloudProviderApiFp(configuration)
     return {
         /**
-         * 
-         * @param {ProviderService} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        cloudProviderCloudProviderCreate(data: ProviderService, options?: any): AxiosPromise<ProviderService> {
-            return localVarFp.cloudProviderCloudProviderCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
+         * List Cloud Provider
+         * @summary List Cloud Provider
+         * @param {number} [tenant] Filter by Tenant
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderCloudProviderList(page?: number, pageSize?: number, options?: any): AxiosPromise<CloudProviderCloudProviderList200Response> {
-            return localVarFp.cloudProviderCloudProviderList(page, pageSize, options).then((request) => request(axios, basePath));
+        cloudProviderCloudProviderList(tenant?: number, page?: number, pageSize?: number, options?: any): AxiosPromise<CloudProviderCloudProviderList200Response> {
+            return localVarFp.cloudProviderCloudProviderList(tenant, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6085,6 +6528,26 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
          */
         cloudProviderCloudProviderUpdate(id: number, data: ProviderService, options?: any): AxiosPromise<ProviderService> {
             return localVarFp.cloudProviderCloudProviderUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} [search] A search term.
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderCountriesList(search?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<CloudProviderCountriesList200Response> {
+            return localVarFp.cloudProviderCountriesList(search, page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ProviderServiceInput} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderProviderServiceOnboardingCreate(data: ProviderServiceInput, options?: any): AxiosPromise<ProviderServiceInput> {
+            return localVarFp.cloudProviderProviderServiceOnboardingCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6148,25 +6611,18 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
 };
 
 /**
- * Request parameters for cloudProviderCloudProviderCreate operation in CloudProviderApi.
- * @export
- * @interface CloudProviderApiCloudProviderCloudProviderCreateRequest
- */
-export interface CloudProviderApiCloudProviderCloudProviderCreateRequest {
-    /**
-     * 
-     * @type {ProviderService}
-     * @memberof CloudProviderApiCloudProviderCloudProviderCreate
-     */
-    readonly data: ProviderService
-}
-
-/**
  * Request parameters for cloudProviderCloudProviderList operation in CloudProviderApi.
  * @export
  * @interface CloudProviderApiCloudProviderCloudProviderListRequest
  */
 export interface CloudProviderApiCloudProviderCloudProviderListRequest {
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderCloudProviderList
+     */
+    readonly tenant?: number
+
     /**
      * A page number within the paginated result set.
      * @type {number}
@@ -6288,6 +6744,48 @@ export interface CloudProviderApiCloudProviderCloudProviderUpdateRequest {
 }
 
 /**
+ * Request parameters for cloudProviderCountriesList operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderCountriesListRequest
+ */
+export interface CloudProviderApiCloudProviderCountriesListRequest {
+    /**
+     * A search term.
+     * @type {string}
+     * @memberof CloudProviderApiCloudProviderCountriesList
+     */
+    readonly search?: string
+
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderCountriesList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderCountriesList
+     */
+    readonly pageSize?: number
+}
+
+/**
+ * Request parameters for cloudProviderProviderServiceOnboardingCreate operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderProviderServiceOnboardingCreateRequest
+ */
+export interface CloudProviderApiCloudProviderProviderServiceOnboardingCreateRequest {
+    /**
+     * 
+     * @type {ProviderServiceInput}
+     * @memberof CloudProviderApiCloudProviderProviderServiceOnboardingCreate
+     */
+    readonly data: ProviderServiceInput
+}
+
+/**
  * Request parameters for cloudProviderResourceTypesCreate operation in CloudProviderApi.
  * @export
  * @interface CloudProviderApiCloudProviderResourceTypesCreateRequest
@@ -6400,25 +6898,15 @@ export interface CloudProviderApiCloudProviderUpdateCloudResourceUpdateRequest {
  */
 export class CloudProviderApi extends BaseAPI {
     /**
-     * 
-     * @param {CloudProviderApiCloudProviderCloudProviderCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CloudProviderApi
-     */
-    public cloudProviderCloudProviderCreate(requestParameters: CloudProviderApiCloudProviderCloudProviderCreateRequest, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
+     * List Cloud Provider
+     * @summary List Cloud Provider
      * @param {CloudProviderApiCloudProviderCloudProviderListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
     public cloudProviderCloudProviderList(requestParameters: CloudProviderApiCloudProviderCloudProviderListRequest = {}, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderList(requestParameters.tenant, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6486,6 +6974,28 @@ export class CloudProviderApi extends BaseAPI {
      */
     public cloudProviderCloudProviderUpdate(requestParameters: CloudProviderApiCloudProviderCloudProviderUpdateRequest, options?: AxiosRequestConfig) {
         return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CloudProviderApiCloudProviderCountriesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CloudProviderApi
+     */
+    public cloudProviderCountriesList(requestParameters: CloudProviderApiCloudProviderCountriesListRequest = {}, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderCountriesList(requestParameters.search, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CloudProviderApiCloudProviderProviderServiceOnboardingCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CloudProviderApi
+     */
+    public cloudProviderProviderServiceOnboardingCreate(requestParameters: CloudProviderApiCloudProviderProviderServiceOnboardingCreateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderProviderServiceOnboardingCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9664,6 +10174,242 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogCreate: async (data: CreateRuleSuppressionLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsRuleSuppressionLogCreate', 'data', data)
+            const localVarPath = `/system_settings/rule_suppression_log/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsRuleSuppressionLogDelete', 'id', id)
+            const localVarPath = `/system_settings/rule_suppression_log/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/rule_suppression_log/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogPartialUpdate: async (id: string, data: CreateRuleSuppressionLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsRuleSuppressionLogPartialUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsRuleSuppressionLogPartialUpdate', 'data', data)
+            const localVarPath = `/system_settings/rule_suppression_log/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsRuleSuppressionLogRead', 'id', id)
+            const localVarPath = `/system_settings/rule_suppression_log/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogUpdate: async (id: string, data: CreateRuleSuppressionLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsRuleSuppressionLogUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsRuleSuppressionLogUpdate', 'data', data)
+            const localVarPath = `/system_settings/rule_suppression_log/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {RuleText} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -10180,6 +10926,69 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRuleSuppressionLogCreate(data: CreateRuleSuppressionLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRuleSuppressionLogDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRuleSuppressionLogList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleSuppressionLogList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogList(page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRuleSuppressionLogPartialUpdate(id: string, data: CreateRuleSuppressionLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogPartialUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRuleSuppressionLogRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReadRuleSuppressionLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRuleSuppressionLogUpdate(id: string, data: CreateRuleSuppressionLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {RuleText} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -10389,6 +11198,63 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          */
         systemSettingsRegionsUpdate(id: number, data: Region, options?: any): AxiosPromise<Region> {
             return localVarFp.systemSettingsRegionsUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogCreate(data: CreateRuleSuppressionLog, options?: any): AxiosPromise<CreateRuleSuppressionLog> {
+            return localVarFp.systemSettingsRuleSuppressionLogCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.systemSettingsRuleSuppressionLogDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRuleSuppressionLogList200Response> {
+            return localVarFp.systemSettingsRuleSuppressionLogList(page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogPartialUpdate(id: string, data: CreateRuleSuppressionLog, options?: any): AxiosPromise<CreateRuleSuppressionLog> {
+            return localVarFp.systemSettingsRuleSuppressionLogPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogRead(id: string, options?: any): AxiosPromise<ReadRuleSuppressionLog> {
+            return localVarFp.systemSettingsRuleSuppressionLogRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionLogUpdate(id: string, data: CreateRuleSuppressionLog, options?: any): AxiosPromise<CreateRuleSuppressionLog> {
+            return localVarFp.systemSettingsRuleSuppressionLogUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -10669,6 +11535,111 @@ export interface SystemSettingsApiSystemSettingsRegionsUpdateRequest {
      * @memberof SystemSettingsApiSystemSettingsRegionsUpdate
      */
     readonly data: Region
+}
+
+/**
+ * Request parameters for systemSettingsRuleSuppressionLogCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsRuleSuppressionLogCreateRequest {
+    /**
+     * 
+     * @type {CreateRuleSuppressionLog}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogCreate
+     */
+    readonly data: CreateRuleSuppressionLog
+}
+
+/**
+ * Request parameters for systemSettingsRuleSuppressionLogDelete operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogDeleteRequest
+ */
+export interface SystemSettingsApiSystemSettingsRuleSuppressionLogDeleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogDelete
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for systemSettingsRuleSuppressionLogList operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest
+ */
+export interface SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogList
+     */
+    readonly pageSize?: number
+}
+
+/**
+ * Request parameters for systemSettingsRuleSuppressionLogPartialUpdate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdateRequest
+ */
+export interface SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdateRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdate
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {CreateRuleSuppressionLog}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdate
+     */
+    readonly data: CreateRuleSuppressionLog
+}
+
+/**
+ * Request parameters for systemSettingsRuleSuppressionLogRead operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogReadRequest
+ */
+export interface SystemSettingsApiSystemSettingsRuleSuppressionLogReadRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogRead
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for systemSettingsRuleSuppressionLogUpdate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogUpdateRequest
+ */
+export interface SystemSettingsApiSystemSettingsRuleSuppressionLogUpdateRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogUpdate
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {CreateRuleSuppressionLog}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogUpdate
+     */
+    readonly data: CreateRuleSuppressionLog
 }
 
 /**
@@ -10968,6 +11939,72 @@ export class SystemSettingsApi extends BaseAPI {
      */
     public systemSettingsRegionsUpdate(requestParameters: SystemSettingsApiSystemSettingsRegionsUpdateRequest, options?: AxiosRequestConfig) {
         return SystemSettingsApiFp(this.configuration).systemSettingsRegionsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRuleSuppressionLogCreate(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRuleSuppressionLogDelete(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogDeleteRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRuleSuppressionLogList(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRuleSuppressionLogPartialUpdate(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRuleSuppressionLogRead(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogReadRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRuleSuppressionLogUpdate(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
