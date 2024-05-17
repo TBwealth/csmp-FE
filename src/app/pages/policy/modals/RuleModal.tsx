@@ -10,6 +10,7 @@ import {
 
 const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
+  const [pageSize, setPageSize] = useState(100);
   const [page, setPage] = useState(1);
   const [policies, setPolicies] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
@@ -25,7 +26,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     data: allPolicies,
     isLoading: serviceLoading,
     error: serviceError,
-  } = useGetPolicies(page);
+  } = useGetPolicies({page, pageSize});
 
   const { mutate, isLoading, error } = useRuleCreate();
   const {

@@ -48,6 +48,7 @@ export class PolicyWithStatus implements IStatus {
   }
 }
 const PolicyWrapper = () => {
+  const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any>(null);
@@ -70,7 +71,7 @@ const PolicyWrapper = () => {
     { name: ACTIONS.DELETE, label: "Run Policy" },
     // { name: ACTIONS.ACTIVATE, label: "Run Scan" },
   ];
-  const { data, isLoading, error } = useGetPolicies(page);
+  const { data, isLoading, error } = useGetPolicies({page, pageSize});
   console.log(data);
 
   const { mutate, isLoading: scanLoading } = useScanPolicy();
@@ -133,7 +134,7 @@ const PolicyWrapper = () => {
     }
   }
   function refreshrecord() {
-    useGetPolicies(1);
+    useGetPolicies({page, pageSize});
   }
 
   const handleViewPolicyRules = (id: any) => {
@@ -145,7 +146,7 @@ const PolicyWrapper = () => {
     let nfilter = filter.current;
     nfilter.pageIndex = filter.page;
     filter.current = nfilter;
-    useGetPolicies(1);
+    useGetPolicies({page, pageSize});
   }
   function handleScanPolicy(id: number, frequency: string) {
     mutate(

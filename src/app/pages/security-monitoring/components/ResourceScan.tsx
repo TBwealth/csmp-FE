@@ -36,6 +36,8 @@ const scanSchema = Yup.object().shape({
 
 const ResourceScan = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [pageSize, setPageSize] = useState(100);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [allProviders, setAllProviders] = useState<any[]>([]);
@@ -45,7 +47,7 @@ const ResourceScan = () => {
   const [showScan, setShowScan] = useState(false);
   const [errorMess, setErrorMess] = useState<any>(null);
   const [errType, setErrType] = useState<any>(null);
-  const { data } = useGetCloudProviderResourceTypes(1);
+  const { data } = useGetCloudProviderResourceTypes({page, pageSize});
   const [loadingData, setLoadingData] = useState({
     name: "",
     policy: "",
@@ -58,7 +60,7 @@ const ResourceScan = () => {
     data;
   const { data: region } = useGetRegions(1);
   const regionstsr: SystemSettingsRegionsList200Response | any = region;
-  const { data: policies } = useGetPolicies(1);
+  const { data: policies } = useGetPolicies({page, pageSize});
   const policystsr: PolicyPolicyListCreateList200Response | any = policies;
   // const { data: scan } = useGetAllScanResults();
   // const scanstsr: PolicyPolicyListCreateList200Response | any = scan;

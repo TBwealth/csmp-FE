@@ -13,9 +13,9 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 //CLOUD PROVIDER
 
-export const useGetCloudProviderResourceTypes = (page: number) => {
+export const useGetCloudProviderResourceTypes = (data: any) => {
   const query = useQuery(["resource"], () =>
-    cloudApi.cloudProviderCloudProviderList({ page })
+    cloudApi.cloudProviderCloudProviderList({ ...data })
   );
   return query;
 };
@@ -56,9 +56,9 @@ export const useUpdateCloudProviderResourceTypes = (id: number) => {
 
 //CLOUD PROVIDER SERVICE
 
-export const useGetCloudProviderServicesList = (page: number) => {
+export const useGetCloudProviderServicesList = (data: any) => {
   const query = useQuery(["service"], () =>
-    cloudApi.cloudProviderResourceTypesList({ page })
+    cloudApi.cloudProviderResourceTypesList({ ...data })
   );
   return query;
 };

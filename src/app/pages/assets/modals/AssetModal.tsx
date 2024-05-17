@@ -46,13 +46,15 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
 
   const [token, setToken] = useState("");
   const [listTenants, setListTenants] = useState<any[]>([]);
+  const [pageSize, setPageSize] = useState(100);
+  const [page, setPage] = useState(1);
   const [listRegions, setListRegions] = useState<any[]>([]);
   const [listClouds, setListClouds] = useState<any[]>([]);
   const [listResources, setListResources] = useState<any[]>([]);
   const { showAlert, hideAlert, Alert } = useAlert();
   const { data: tenantData } = useGetAccountTenant(1);
 
-  const { data: cloud } = useGetCloudProviderResourceTypes(1);
+  const { data: cloud } = useGetCloudProviderResourceTypes({page, pageSize});
   const { data: regions } = useGetRegions(1);
 
   const cloudstsr:

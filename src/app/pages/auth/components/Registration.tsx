@@ -28,26 +28,24 @@ const initialValues = {
 
 const registrationSchema = Yup.object().shape({
   businessEmail: Yup.string()
+  .email("Wrong email format")
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
-    .required("Company name is required"),
-  firstname: Yup.string()
+    .required("Business email is required"),
+  fullName: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
-    .required("First name is required"),
-  lastname: Yup.string()
-    .min(3, "Minimum 3 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Last name is required"),
+    .required("Full name is required"),
+  // lastname: Yup.string()
+  //   .min(3, "Minimum 3 symbols")
+  //   .max(50, "Maximum 50 symbols")
+  //   .required("Last name is required"),
   // tenant: Yup.string()
   //   .min(1, "Minimum 3 symbols")
   //   .max(50, "Maximum 50 symbols")
   //   .required("Tenant is required"),
-  email: Yup.string()
-    .email("Wrong email format")
-    .min(3, "Minimum 3 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Email is required"),
+  country: Yup.string()
+    .required("Country is required"),
   // lastname: Yup.string()
   //   .min(3, "Minimum 3 symbols")
   //   .max(50, "Maximum 50 symbols")
@@ -101,17 +99,8 @@ export function Registration() {
             console.log(res.data, "Successss");
             setLoading(false);
             setStatus(null);
-            navigate("/");
-            sessionStorage.setItem("top-title", "Dashboard");
-            sessionStorage.setItem(
-              "children",
-              JSON.stringify([
-                {
-                  title: "Dashboard",
-                  href: "/dashboard",
-                },
-              ])
-            );
+            navigate("/setup");
+            // sessionStorage.setItem("top-title", "Setup Account");
           },
           onError: (res: any) => {
             setStatus(res.response.data.message);
@@ -231,7 +220,22 @@ export function Registration() {
               <FaGlobe />
               <span>Country</span>
             </label>
-            <input
+            <select
+            {...formik.getFieldProps("country")}
+            className={clsx(
+              "form-control bg-transparent",
+              {
+                "is-invalid": formik.touched.country && formik.errors.country,
+              },
+              {
+                "is-valid": formik.touched.country && !formik.errors.country,
+              }
+            )}
+            >
+              <option value="">Select country</option>
+              <option value="Nigeria">Nigeria</option>
+            </select>
+            {/* <input
               placeholder=""
               type="text"
               autoComplete="off"
@@ -245,7 +249,7 @@ export function Registration() {
                   "is-valid": formik.touched.country && !formik.errors.country,
                 }
               )}
-            />
+            /> */}
             {formik.touched.country && formik.errors.country && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">

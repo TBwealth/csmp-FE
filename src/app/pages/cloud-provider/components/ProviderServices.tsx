@@ -51,6 +51,7 @@ export class ResourceWithStatus implements IStatus {
 }
 const ProviderServices = () => {
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [items, setItems] = useState<any[]>([]);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -104,7 +105,7 @@ const ProviderServices = () => {
       ],
     },
   ];
-  const { data, isLoading, error } = useGetCloudProviderServicesList(page);
+  const { data, isLoading, error } = useGetCloudProviderServicesList({page, pageSize});
   const { data: provResource } = useGetCloudProviderResourceList(+id!);
 
   const datastsr: CloudProviderCloudProviderList200Response | any = data;
@@ -183,7 +184,7 @@ const ProviderServices = () => {
     }
   }
   function refreshrecord() {
-    useGetCloudProviderServicesList(page);
+    useGetCloudProviderServicesList({page, pageSize});
   }
   function filterUpdated(filter: any) {
     filter.current = { ...filter.current, ...filter };

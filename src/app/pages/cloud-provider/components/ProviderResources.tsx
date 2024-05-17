@@ -1,42 +1,19 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useGetCloudProviderResourceTypes } from "../../../api/api-services/cloudProviderQuery";
 import useAlert from "../../components/useAlert";
 import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../api/axios-client";
-import { ModalProviderResources } from "./modal/ModalProviderResources";
-import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../components/models";
-import { IStatus, MyColor } from "../../../components/tableComponents/status/status";
-import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
-import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
 import RunPolicyModal from "../../policy/modals/RunPolicyModal";
-export class ProviderWithStatus implements IStatus {
-  id: string = "";
-  name: string = "";
-  code: string = "";
-  status: boolean = false;
-
-  constructor(provider: any) {
-    this.id = provider.id;
-    this.name = provider.name;
-    this.code = provider.code;
-    this.status = provider.status;
-  }
-
-  getStatusLabel() {
-    if (this.status) return "Active";
-    if (!this.status) return "InActive";
-    return "";
-  }
-  getStatusColor() {
-    if (this.status) return new MyColor(0, 175, 175);
-    if (!this.status) return new MyColor(242, 153, 74);
-    return new MyColor(242, 0, 74);
-  }
-}
+import StepOne from "../../set-up/components/StepOne";
+import StepTwo from "../../set-up/components/StepTwo";
+import StepThree from "../../set-up/components/StepThree";
+import StepFour from "../../set-up/components/StepFour";
+import Success from "../../set-up/components/Success";
 
 const ProviderResources = () => {
+  const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(1);
+  const [steps, setSteps] = useState(1);
   const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [showPolModal, setShowPolModal] = useState(false);
@@ -45,24 +22,22 @@ const ProviderResources = () => {
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
-  const navigate = useNavigate();
-  const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
-  const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
-  ];
-  const tableActions: TableAction[] = [
-    { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.VIEW, label: "Add Resource" },
-    { name: ACTIONS.DELETE, label: "Run Policy" },
-  ];
-  const { data, isLoading, error } = useGetCloudProviderResourceTypes(page);
+
+  const { data, isLoading, error } = useGetCloudProviderResourceTypes({page, pageSize});
   const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
     data;
 
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results.map((x: any) => new ProviderWithStatus(x)));
-    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0 : true);
+    
+    setItems(
+      datastsr?.data?.data?.results ?? []
+    );
+    setshowEmpty(
+      datastsr?.data?.data?.results
+        ? datastsr?.data?.data?.results?.length === 0
+        : true
+    );
     settotalItems(Math.ceil(datastsr?.data?.data?.count));
     hideAlert();
     if (error) {
@@ -72,79 +47,40 @@ const ProviderResources = () => {
       }
     }
   }, [data, error]);
-  const tableColumns: TableColumn[] = [
-    {
-      name: "id",
-      title: "Id",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "name",
-      title: "Name",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "code",
-      title: "Code",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "status",
-      title: "Status",
-      type: ColumnTypes.Status,
-      statusEnum: [
-        { key: true, value: "Active" },
-        { key: false, value: "InActive" },
-      ],
-    },
-  ];
 
-  const topActionButtons = [
-    { name: "add_new_user", label: "Add Provider", icon: "plus", outline: false },
-  ];
-  function modal(buttion: any) {
-    if (buttion === "add_new_user") {
-      setShowModal(true);
-      setEditItems(null);
-    }
-  }
   function refreshrecord() {
     useGetCloudProviderResourceTypes(1);
   }
 
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetCloudProviderResourceTypes(1);
-  }
-  function tableActionClicked(event: TableActionEvent) {
-    if (event.name === "1") {
-      setShowModal(true);
-      setEditItems(event.data);
-      // handleViewPolicyRules(event.data.id);
-    }
-    if (event.name === "2") {
-      setShowPolModal(true);
-    }
-    if (event.name === "3") {
-      navigate(`/cloud-provider/cloud/resource/${event?.data?.id}`);
-      // setShowPolModalAsset(true);
-    }
-  }
+
 
   return (
     <div>
-       <ComponentsheaderComponent
-        backbuttonClick={() => {}}
-        pageName="Providers"
-        requiredButton={topActionButtons}
-        buttonClick={(e) => {
-          modal(e);
-        }}
-      />
-
+      <div className="flex border-bottom pb-5 w-[90%] md:w-[70%] mx-auto items-center justify-between mt-10">
+        <p className="font-semibold text-[16px]">
+          Total accounts {items.length}
+        </p>
+        <button
+          onClick={() => setShowModal(true)}
+          className="rounded-full w-48 p-3 flex text-white items-center justify-center gap-2 bg-primary text--white"
+        >
+          <p>Add new account</p>
+          <svg
+            width="10"
+            height="9"
+            viewBox="0 0 10 9"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M5 0C5.27614 0 5.5 0.223858 5.5 0.5V4H9C9.27614 4 9.5 4.22386 9.5 4.5C9.5 4.77614 9.27614 5 9 5H5.5V8.5C5.5 8.77614 5.27614 9 5 9C4.72386 9 4.5 8.77614 4.5 8.5V5H1C0.723858 5 0.5 4.77614 0.5 4.5C0.5 4.22386 0.723858 4 1 4H4.5V0.5C4.5 0.223858 4.72386 0 5 0Z"
+              fill="white"
+            />
+          </svg>
+        </button>
+      </div>
       {showEmpty ? (
         <DefaultContent
           pageHeader="All Providers"
@@ -153,46 +89,261 @@ const ProviderResources = () => {
           buttonValue="Refresh"
           buttonClick={() => refreshrecord()}
         />
-      ): (
-        <MainTableComponent
-          filterChange={(e: any) => filterUpdated(e)}
-          showActions={true}
-          showFilter={true}
-          actionClick={(e: any) => tableActionClicked(e)}
-          actions={tableActions}
-          userData={items}
-          tableColum={tableColumns}
-          totalItems={totalItems}
-          currentTablePage={currentPage}
-          loading={isLoading}
-          InputFileName="All Providers"
-          filterFields={filterFields}
-          showCheckBox={true}
-          bulkactionClicked={(e: any) => {}}
-          Bulkactions={[]}
-          showBulkAction={true}
-          actionChecked={() => {}}
-          actionBulkChecked={() => {}}
-          pageChange={() => {}}
-          dateRangeChanged={() => {}}
-          toggleColumnsEvent={() => {}}
-          toggleCustomFilter={() => {}}
-          sortOptionSelected={() => {}}
-        />
-
+      ) : (
+        <div className="W-[90%] md:w-[70%] mx-auto">
+          {items.map((item) => (
+            <div
+              key={item.name}
+              className="flex mt-8 border-bottom pb-5 items-center justify-between w-full"
+            >
+              <div className="flex items-center gap-3">
+                <svg
+                  width="24"
+                  height="25"
+                  viewBox="0 0 24 25"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18.375 0.5H5.625C2.5184 0.5 0 3.0184 0 6.125V18.875C0 21.9816 2.5184 24.5 5.625 24.5H18.375C21.4816 24.5 24 21.9816 24 18.875V6.125C24 3.0184 21.4816 0.5 18.375 0.5Z"
+                    fill="#EAEAEA"
+                  />
+                  <path
+                    d="M7.94479 10.9963C7.94479 11.2245 7.96944 11.4095 8.01257 11.5452C8.06739 11.6979 8.13338 11.8464 8.21 11.9893C8.24085 12.0387 8.25313 12.088 8.25313 12.1312C8.25313 12.1929 8.2161 12.2546 8.13594 12.3162L7.74735 12.5753C7.69185 12.6122 7.63635 12.6308 7.58704 12.6308C7.52535 12.6308 7.46366 12.5999 7.40197 12.5444C7.31889 12.4551 7.24455 12.3581 7.17997 12.2546C7.11104 12.136 7.04723 12.0146 6.98872 11.8906C6.50769 12.4581 5.90319 12.7418 5.17541 12.7418C4.65735 12.7418 4.2441 12.5938 3.94185 12.2977C3.63969 12.0016 3.48547 11.6069 3.48547 11.1135C3.48547 10.5892 3.67054 10.1637 4.04675 9.84294C4.42297 9.52222 4.92257 9.36181 5.55782 9.36181C5.76754 9.36181 5.98344 9.38037 6.21163 9.41122C6.43982 9.44206 6.67419 9.49137 6.92094 9.54687V9.09659C6.92094 8.62784 6.82222 8.30094 6.63107 8.10978C6.43363 7.91853 6.10063 7.82609 5.62569 7.82609C5.40979 7.82609 5.18779 7.85075 4.9596 7.90625C4.73132 7.96175 4.50932 8.02962 4.29341 8.11597C4.22329 8.14734 4.1512 8.17412 4.0776 8.19613C4.03447 8.2085 4.00354 8.21469 3.97888 8.21469C3.89263 8.21469 3.84932 8.153 3.84932 8.02344V7.72119C3.84932 7.62256 3.86169 7.5485 3.89254 7.50537C3.92338 7.46225 3.97888 7.41903 4.06522 7.37581C4.28113 7.26481 4.54016 7.17238 4.84241 7.09831C5.14457 7.01806 5.46529 6.98113 5.80457 6.98113C6.53854 6.98113 7.07507 7.14762 7.42054 7.48062C7.75972 7.81372 7.93241 8.3195 7.93241 8.99797V10.9963H7.94479ZM5.44072 11.9338C5.64416 11.9338 5.85388 11.8968 6.07597 11.8227C6.29797 11.7488 6.49532 11.613 6.66191 11.4281C6.76054 11.3109 6.8346 11.1813 6.87154 11.0333C6.90857 10.8853 6.93322 10.7064 6.93322 10.4968V10.2376C6.7462 10.1921 6.55678 10.1571 6.36585 10.1328C6.17353 10.1084 5.97987 10.096 5.786 10.0958C5.37275 10.0958 5.0706 10.176 4.86707 10.3425C4.66354 10.509 4.56482 10.7434 4.56482 11.0518C4.56482 11.3417 4.63888 11.5575 4.793 11.7056C4.94113 11.8598 5.15704 11.9338 5.44072 11.9338ZM10.3933 12.5999C10.2823 12.5999 10.2082 12.5814 10.1589 12.5382C10.1096 12.5012 10.0663 12.4149 10.0294 12.2977L8.58004 7.53003C8.54291 7.40666 8.52444 7.3265 8.52444 7.28328C8.52444 7.18466 8.57376 7.12906 8.67247 7.12906H9.27688C9.39407 7.12906 9.47432 7.14762 9.51744 7.19075C9.56675 7.22778 9.60379 7.31412 9.64082 7.43131L10.6769 11.5144L11.6392 7.43131C11.67 7.30794 11.707 7.22787 11.7564 7.19075C11.8057 7.15381 11.892 7.12916 12.003 7.12916H12.4964C12.6136 7.12916 12.6939 7.14762 12.7432 7.19075C12.7925 7.22778 12.8357 7.31412 12.8604 7.43131L13.8349 11.5637L14.9019 7.43131C14.9389 7.30794 14.9821 7.22787 15.0253 7.19075C15.0746 7.15381 15.1548 7.12916 15.2658 7.12916H15.8394C15.9381 7.12916 15.9936 7.17847 15.9936 7.28328C15.9936 7.31422 15.9874 7.34497 15.9812 7.382C15.9751 7.41903 15.9628 7.46825 15.9381 7.53622L14.4517 12.3039C14.4147 12.4272 14.3714 12.5074 14.3221 12.5444C14.2728 12.5814 14.1926 12.6061 14.0878 12.6061H13.5573C13.4401 12.6061 13.36 12.5876 13.3107 12.5444C13.2613 12.5012 13.2181 12.4211 13.1935 12.2977L12.2374 8.3195L11.2876 12.2915C11.2568 12.4149 11.2198 12.495 11.1704 12.5382C11.121 12.5814 11.0347 12.5999 10.9237 12.5999H10.3933ZM18.3189 12.7664C17.9982 12.7664 17.6774 12.7294 17.369 12.6554C17.0607 12.5814 16.8201 12.5012 16.6597 12.4087C16.5611 12.3532 16.4932 12.2915 16.4685 12.236C16.4445 12.1816 16.4319 12.1228 16.4315 12.0633V11.7488C16.4315 11.6192 16.4808 11.5575 16.5733 11.5575C16.6104 11.5575 16.6474 11.5637 16.6843 11.5761C16.7214 11.5884 16.7769 11.613 16.8386 11.6378C17.0564 11.7336 17.2839 11.8059 17.517 11.8536C17.7586 11.9027 18.0045 11.9275 18.251 11.9277C18.6396 11.9277 18.9418 11.8598 19.1515 11.7241C19.3612 11.5884 19.4722 11.391 19.4722 11.1382C19.4722 10.9655 19.4167 10.8236 19.3057 10.7064C19.1947 10.5892 18.985 10.4844 18.6827 10.3857L17.7884 10.1082C17.3382 9.96631 17.0051 9.75659 16.8015 9.47909C16.598 9.20769 16.4932 8.90534 16.4932 8.58472C16.4932 8.32569 16.5487 8.0975 16.6597 7.90006C16.7707 7.70272 16.9187 7.53003 17.1038 7.39438C17.2888 7.25244 17.4986 7.14762 17.7452 7.07356C17.992 6.9995 18.251 6.96875 18.5224 6.96875C18.6581 6.96875 18.7999 6.97494 18.9357 6.99341C19.0775 7.01188 19.207 7.03653 19.3365 7.06128C19.4599 7.09212 19.5771 7.12297 19.6881 7.16C19.7991 7.19694 19.8854 7.23397 19.9471 7.271C20.0335 7.32031 20.0952 7.36962 20.1322 7.42512C20.1691 7.47453 20.1877 7.54231 20.1877 7.62875V7.91863C20.1877 8.04809 20.1384 8.11597 20.0458 8.11597C19.9964 8.11597 19.9163 8.09131 19.8115 8.04191C19.4599 7.88159 19.0651 7.80144 18.6272 7.80144C18.2757 7.80144 17.9982 7.85694 17.8069 7.97412C17.6158 8.09131 17.517 8.27019 17.517 8.52303C17.517 8.69572 17.5787 8.84375 17.7021 8.96094C17.8254 9.07812 18.0537 9.19531 18.3806 9.30012L19.2564 9.57763C19.7004 9.71956 20.0212 9.91691 20.2123 10.1698C20.4035 10.4227 20.496 10.7126 20.496 11.0333C20.496 11.2985 20.4405 11.5391 20.3357 11.7488C20.2247 11.9585 20.0767 12.1435 19.8854 12.2915C19.6943 12.4457 19.466 12.5567 19.2009 12.637C18.9233 12.7233 18.6334 12.7664 18.3189 12.7664Z"
+                    fill="#252F3E"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M19.4848 15.7646C17.4555 17.2634 14.5074 18.0591 11.9724 18.0591C8.41983 18.0591 5.21864 16.7453 2.80092 14.5619C2.60967 14.3892 2.78245 14.1549 3.01064 14.2905C5.6258 15.8078 8.85155 16.7268 12.1883 16.7268C14.4395 16.7268 16.9128 16.258 19.1887 15.2959C19.5279 15.1417 19.8178 15.5179 19.4848 15.7646Z"
+                    fill="#FF9900"
+                  />
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M20.33 14.8023C20.071 14.4692 18.6154 14.6419 17.9554 14.722C17.7581 14.7468 17.7272 14.574 17.9061 14.4445C19.0656 13.6304 20.9715 13.8648 21.1935 14.1361C21.4155 14.4137 21.1319 16.3195 20.0463 17.2324C19.8797 17.3742 19.7194 17.3002 19.7934 17.1152C20.0401 16.5046 20.589 15.1291 20.33 14.8023Z"
+                    fill="#FF9900"
+                  />
+                </svg>
+                <p className="text-[18px] font-semibold">{item.name}</p>
+                <span className="p-2 w-16 text-center rounded-full text-primary bg-[#284CB31A] text-[8px] font-semibold">
+                  {item.environment}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <p
+                  className={`font-semibold border-end pr-2 text-[14px] ${
+                    item.state === "connected"
+                      ? "text-[#00B712]"
+                      : item.state === "scanning"
+                      ? "text-[#284CB3]"
+                      : ""
+                  }`}
+                >
+                  {item.state === "connected" ? (
+                    item.state
+                  ) : item.state === "scanning" ? (
+                    "Scanning..."
+                  ) : (
+                    <svg
+                      width="18"
+                      height="19"
+                      viewBox="0 0 18 19"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M7.21212 3.23167C8.00517 1.85247 9.99507 1.85246 10.7881 3.23167L16.8203 13.7225C17.6109 15.0975 16.6184 16.8131 15.0323 16.8131H2.96791C1.38181 16.8131 0.389291 15.0975 1.17991 13.7225L7.21212 3.23167ZM9 6.68774C9.31066 6.68774 9.5625 6.93958 9.5625 7.25024V10.2502C9.5625 10.5609 9.31066 10.8127 9 10.8127C8.68934 10.8127 8.4375 10.5609 8.4375 10.2502V7.25024C8.4375 6.93958 8.68934 6.68774 9 6.68774ZM9.42561 13.6258C9.63343 13.3949 9.61471 13.0392 9.3838 12.8314C9.15289 12.6236 8.79722 12.6423 8.5894 12.8732L8.5819 12.8816C8.37408 13.1125 8.3928 13.4681 8.62371 13.676C8.85462 13.8838 9.21029 13.8651 9.41811 13.6341L9.42561 13.6258Z"
+                        fill="#FF161A"
+                      />
+                    </svg>
+                  )}
+                </p>
+                {item.state === "connected" ? (
+                  <svg
+                    width="18"
+                    height="19"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M3 4.4375C3.31066 4.4375 3.5625 4.68934 3.5625 5V9.48586C3.56292 9.48964 3.5637 9.49582 3.5651 9.50421C3.56964 9.53147 3.5806 9.58165 3.60628 9.64769C3.65641 9.77657 3.76786 9.97981 4.02232 10.1979C4.53525 10.6376 5.69231 11.1875 8.25 11.1875C10.8077 11.1875 11.9647 10.6376 12.4777 10.1979C12.7321 9.97981 12.8436 9.77657 12.8937 9.64769C12.9194 9.58165 12.9304 9.53147 12.9349 9.50421C12.9363 9.49582 12.9371 9.48964 12.9375 9.48586V5C12.9375 4.68934 13.1893 4.4375 13.5 4.4375C13.8107 4.4375 14.0625 4.68934 14.0625 5V9.5H13.5C14.0625 9.5 14.0625 9.50065 14.0625 9.50131L14.0625 9.50268L14.0625 9.50558L14.0624 9.51205L14.0619 9.52761C14.0615 9.53913 14.0608 9.55294 14.0595 9.56889C14.057 9.60076 14.0526 9.64127 14.0446 9.68915C14.0286 9.78493 13.9986 9.91054 13.9422 10.0554C13.8283 10.3484 13.6116 10.7077 13.2098 11.0521C12.4103 11.7374 10.9423 12.3125 8.25 12.3125C5.55769 12.3125 4.08975 11.7374 3.29018 11.0521C2.88839 10.7077 2.67172 10.3484 2.55778 10.0554C2.50143 9.91054 2.47137 9.78493 2.45541 9.68915C2.44743 9.64127 2.44295 9.60076 2.44048 9.56889C2.43924 9.55294 2.43849 9.53913 2.43806 9.52761L2.43762 9.51205L2.43753 9.50558L2.43751 9.50268L2.4375 9.50131C2.4375 9.50065 2.4375 9.5 3 9.5H2.4375V5C2.4375 4.68934 2.68934 4.4375 3 4.4375Z"
+                      fill="black"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M3.29018 3.44792C4.08975 2.76257 5.55769 2.1875 8.25 2.1875C10.9423 2.1875 12.4103 2.76257 13.2098 3.44792C13.6116 3.79231 13.8283 4.15157 13.9422 4.44456C13.9986 4.58946 14.0286 4.71507 14.0446 4.81085C14.0526 4.85873 14.057 4.89924 14.0595 4.93111C14.0608 4.94706 14.0615 4.96087 14.0619 4.97239L14.0624 4.98795L14.0625 4.99442L14.0625 4.99732L14.0625 4.99869C14.0625 4.99935 14.0625 5 13.5 5C14.0625 5 14.0625 5.00065 14.0625 5.00131L14.0625 5.00268L14.0625 5.00558L14.0624 5.01205L14.0619 5.02761C14.0615 5.03913 14.0608 5.05294 14.0595 5.06889C14.057 5.10076 14.0526 5.14127 14.0446 5.18915C14.0286 5.28493 13.9986 5.41054 13.9422 5.55544C13.8283 5.84843 13.6116 6.20769 13.2098 6.55208C12.4103 7.23743 10.9423 7.8125 8.25 7.8125C5.55769 7.8125 4.08975 7.23743 3.29018 6.55208C2.88839 6.20769 2.67172 5.84843 2.55778 5.55544C2.50143 5.41054 2.47137 5.28493 2.45541 5.18915C2.44743 5.14127 2.44295 5.10076 2.44047 5.06889C2.43923 5.05294 2.43849 5.03913 2.43806 5.02761L2.43761 5.01205L2.43752 5.00558L2.4375 5.00268L2.4375 5.00131C2.4375 5.00065 2.4375 5 3 5C2.4375 5 2.4375 4.99935 2.4375 4.99869L2.4375 4.99732L2.43752 4.99442L2.43761 4.98795L2.43806 4.97239C2.43849 4.96087 2.43923 4.94706 2.44047 4.93111C2.44295 4.89924 2.44743 4.85873 2.45541 4.81085C2.47137 4.71507 2.50143 4.58946 2.55778 4.44456C2.67172 4.15157 2.88839 3.79231 3.29018 3.44792ZM3.56442 5C3.56463 5.00133 3.56485 5.00274 3.5651 5.00421C3.56964 5.03147 3.5806 5.08165 3.60628 5.14769C3.6564 5.27657 3.76785 5.47981 4.02232 5.69792C4.53525 6.13757 5.6923 6.6875 8.25 6.6875C10.8077 6.6875 11.9647 6.13757 12.4777 5.69792C12.7321 5.47981 12.8436 5.27657 12.8937 5.14769C12.9194 5.08165 12.9304 5.03147 12.9349 5.00421C12.9351 5.00274 12.9354 5.00133 12.9356 5C12.9354 4.99867 12.9351 4.99726 12.9349 4.99579C12.9304 4.96853 12.9194 4.91835 12.8937 4.85231C12.8436 4.72343 12.7321 4.52019 12.4777 4.30208C11.9647 3.86243 10.8077 3.3125 8.25 3.3125C5.6923 3.3125 4.53525 3.86243 4.02232 4.30208C3.76785 4.52019 3.6564 4.72343 3.60628 4.85231C3.5806 4.91835 3.56964 4.96853 3.5651 4.99579C3.56485 4.99726 3.56463 4.99867 3.56442 5Z"
+                      fill="black"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M3 8.9375C3.31066 8.9375 3.5625 9.18934 3.5625 9.5V13.9859C3.56292 13.9896 3.5637 13.9958 3.5651 14.0042C3.56964 14.0315 3.5806 14.0816 3.60628 14.1477C3.65641 14.2766 3.76786 14.4798 4.02232 14.6979C4.53525 15.1376 5.69231 15.6875 8.25 15.6875C8.56066 15.6875 8.8125 15.9393 8.8125 16.25C8.8125 16.5607 8.56066 16.8125 8.25 16.8125C5.55769 16.8125 4.08975 16.2374 3.29018 15.5521C2.88839 15.2077 2.67172 14.8484 2.55778 14.5554C2.50143 14.4105 2.47137 14.2849 2.45541 14.1892C2.44743 14.1413 2.44295 14.1008 2.44048 14.0689C2.43924 14.0529 2.43849 14.0391 2.43806 14.0276L2.43762 14.012L2.43753 14.0056L2.43751 14.0027L2.4375 14.0013C2.4375 14.0007 2.4375 14 3 14H2.4375V9.5C2.4375 9.18934 2.68934 8.9375 3 8.9375Z"
+                      fill="black"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M11.25 14.1875C11.5607 14.1875 11.8125 14.4393 11.8125 14.75V16.25C11.8125 16.5607 11.5607 16.8125 11.25 16.8125C10.9393 16.8125 10.6875 16.5607 10.6875 16.25V14.75C10.6875 14.4393 10.9393 14.1875 11.25 14.1875Z"
+                      fill="black"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M13.5 12.6875C13.8107 12.6875 14.0625 12.9393 14.0625 13.25V16.25C14.0625 16.5607 13.8107 16.8125 13.5 16.8125C13.1893 16.8125 12.9375 16.5607 12.9375 16.25V13.25C12.9375 12.9393 13.1893 12.6875 13.5 12.6875Z"
+                      fill="black"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M15.75 11.1875C16.0607 11.1875 16.3125 11.4393 16.3125 11.75V16.25C16.3125 16.5607 16.0607 16.8125 15.75 16.8125C15.4393 16.8125 15.1875 16.5607 15.1875 16.25V11.75C15.1875 11.4393 15.4393 11.1875 15.75 11.1875Z"
+                      fill="black"
+                    />
+                  </svg>
+                ) : item.state === "scanning" ? (
+                  <svg
+                    width="18"
+                    height="19"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M5.25 2.9375C5.56066 2.9375 5.8125 3.18934 5.8125 3.5L5.8125 4.25C5.8125 4.56066 5.56066 4.8125 5.25 4.8125C4.93934 4.8125 4.6875 4.56066 4.6875 4.25L4.6875 3.5C4.6875 3.18934 4.93934 2.9375 5.25 2.9375Z"
+                      fill="#284CB3"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M5.25 6.6875C5.56066 6.6875 5.8125 6.93934 5.8125 7.25L5.8125 8C5.8125 8.31066 5.56066 8.5625 5.25 8.5625C4.93934 8.5625 4.6875 8.31066 4.6875 8L4.6875 7.25C4.6875 6.93934 4.93934 6.6875 5.25 6.6875Z"
+                      fill="#284CB3"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M12.3523 3.10225C12.5719 2.88258 12.9281 2.88258 13.1477 3.10225L15.3977 5.35225C15.6174 5.57192 15.6174 5.92808 15.3977 6.14775C15.1781 6.36742 14.8219 6.36742 14.6023 6.14775L13.3125 4.858V15.5C13.3125 15.8107 13.0607 16.0625 12.75 16.0625C12.4393 16.0625 12.1875 15.8107 12.1875 15.5V4.858L10.8977 6.14775C10.6781 6.36742 10.3219 6.36742 10.1023 6.14775C9.88258 5.92808 9.88258 5.57192 10.1023 5.35225L12.3523 3.10225Z"
+                      fill="#284CB3"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M4.85225 15.8977C5.07192 16.1174 5.42808 16.1174 5.64775 15.8977L7.89775 13.6477C8.11742 13.4281 8.11742 13.0719 7.89775 12.8523C7.67808 12.6326 7.32192 12.6326 7.10225 12.8523L5.8125 14.142V11C5.8125 10.6893 5.56066 10.4375 5.25 10.4375C4.93934 10.4375 4.6875 10.6893 4.6875 11V14.142L3.39775 12.8523C3.17808 12.6326 2.82192 12.6326 2.60225 12.8523C2.38258 13.0719 2.38258 13.4281 2.60225 13.6477L4.85225 15.8977Z"
+                      fill="#284CB3"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    width="18"
+                    height="19"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_424_6914)">
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M12.4432 12.9429C12.6629 12.7232 13.0191 12.7232 13.2387 12.9429L14.432 14.1361L15.6252 12.9429C15.8449 12.7232 16.201 12.7232 16.4207 12.9429C16.6404 13.1626 16.6404 13.5187 16.4207 13.7384L15.2275 14.9316L16.4207 16.1249C16.6404 16.3446 16.6404 16.7007 16.4207 16.9204C16.201 17.14 15.8449 17.14 15.6252 16.9204L14.432 15.7271L13.2387 16.9204C13.0191 17.14 12.6629 17.14 12.4432 16.9204C12.2236 16.7007 12.2236 16.3446 12.4432 16.1249L13.6365 14.9316L12.4432 13.7384C12.2236 13.5187 12.2236 13.1626 12.4432 12.9429Z"
+                        fill="#6A6A6A"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M3 4.4375C3.31066 4.4375 3.5625 4.68934 3.5625 5V9.48586C3.56292 9.48964 3.5637 9.49582 3.5651 9.50421C3.56964 9.53147 3.5806 9.58165 3.60628 9.64769C3.65641 9.77657 3.76786 9.97981 4.02232 10.1979C4.53525 10.6376 5.69231 11.1875 8.25 11.1875C10.8077 11.1875 11.9647 10.6376 12.4777 10.1979C12.7321 9.97981 12.8436 9.77657 12.8937 9.64769C12.9194 9.58165 12.9304 9.53147 12.9349 9.50421C12.9363 9.49582 12.9371 9.48964 12.9375 9.48586V5C12.9375 4.68934 13.1893 4.4375 13.5 4.4375C13.8107 4.4375 14.0625 4.68934 14.0625 5V9.5H13.5C14.0625 9.5 14.0625 9.50065 14.0625 9.50131L14.0625 9.50268L14.0625 9.50558L14.0624 9.51205L14.0619 9.52761C14.0615 9.53913 14.0608 9.55294 14.0595 9.56889C14.057 9.60076 14.0526 9.64127 14.0446 9.68915C14.0286 9.78493 13.9986 9.91054 13.9422 10.0554C13.8283 10.3484 13.6116 10.7077 13.2098 11.0521C12.4103 11.7374 10.9423 12.3125 8.25 12.3125C5.55769 12.3125 4.08975 11.7374 3.29018 11.0521C2.88839 10.7077 2.67172 10.3484 2.55778 10.0554C2.50143 9.91054 2.47137 9.78493 2.45541 9.68915C2.44743 9.64127 2.44295 9.60076 2.44048 9.56889C2.43924 9.55294 2.43849 9.53913 2.43806 9.52761L2.43762 9.51205L2.43753 9.50558L2.43751 9.50268L2.4375 9.50131C2.4375 9.50065 2.4375 9.5 3 9.5H2.4375V5C2.4375 4.68934 2.68934 4.4375 3 4.4375Z"
+                        fill="#6A6A6A"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M3.29018 3.44792C4.08975 2.76257 5.55769 2.1875 8.25 2.1875C10.9423 2.1875 12.4103 2.76257 13.2098 3.44792C13.6116 3.79231 13.8283 4.15157 13.9422 4.44456C13.9986 4.58946 14.0286 4.71507 14.0446 4.81085C14.0526 4.85873 14.057 4.89924 14.0595 4.93111C14.0608 4.94706 14.0615 4.96087 14.0619 4.97239L14.0624 4.98795L14.0625 4.99442L14.0625 4.99732L14.0625 4.99869C14.0625 4.99935 14.0625 5 13.5 5C14.0625 5 14.0625 5.00065 14.0625 5.00131L14.0625 5.00268L14.0625 5.00558L14.0624 5.01205L14.0619 5.02761C14.0615 5.03913 14.0608 5.05294 14.0595 5.06889C14.057 5.10076 14.0526 5.14127 14.0446 5.18915C14.0286 5.28493 13.9986 5.41054 13.9422 5.55544C13.8283 5.84843 13.6116 6.20769 13.2098 6.55208C12.4103 7.23743 10.9423 7.8125 8.25 7.8125C5.55769 7.8125 4.08975 7.23743 3.29018 6.55208C2.88839 6.20769 2.67172 5.84843 2.55778 5.55544C2.50143 5.41054 2.47137 5.28493 2.45541 5.18915C2.44743 5.14127 2.44295 5.10076 2.44047 5.06889C2.43923 5.05294 2.43849 5.03913 2.43806 5.02761L2.43761 5.01205L2.43752 5.00558L2.4375 5.00268L2.4375 5.00131C2.4375 5.00065 2.4375 5 3 5C2.4375 5 2.4375 4.99935 2.4375 4.99869L2.4375 4.99732L2.43752 4.99442L2.43761 4.98795L2.43806 4.97239C2.43849 4.96087 2.43923 4.94706 2.44047 4.93111C2.44295 4.89924 2.44743 4.85873 2.45541 4.81085C2.47137 4.71507 2.50143 4.58946 2.55778 4.44456C2.67172 4.15157 2.88839 3.79231 3.29018 3.44792ZM3.56442 5C3.56463 5.00133 3.56485 5.00274 3.5651 5.00421C3.56964 5.03147 3.5806 5.08165 3.60628 5.14769C3.6564 5.27657 3.76785 5.47981 4.02232 5.69792C4.53525 6.13757 5.6923 6.6875 8.25 6.6875C10.8077 6.6875 11.9647 6.13757 12.4777 5.69792C12.7321 5.47981 12.8436 5.27657 12.8937 5.14769C12.9194 5.08165 12.9304 5.03147 12.9349 5.00421C12.9351 5.00274 12.9354 5.00133 12.9356 5C12.9354 4.99867 12.9351 4.99726 12.9349 4.99579C12.9304 4.96853 12.9194 4.91835 12.8937 4.85231C12.8436 4.72343 12.7321 4.52019 12.4777 4.30208C11.9647 3.86243 10.8077 3.3125 8.25 3.3125C5.6923 3.3125 4.53525 3.86243 4.02232 4.30208C3.76785 4.52019 3.6564 4.72343 3.60628 4.85231C3.5806 4.91835 3.56964 4.96853 3.5651 4.99579C3.56485 4.99726 3.56463 4.99867 3.56442 5Z"
+                        fill="#6A6A6A"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M3 8.9375C3.31066 8.9375 3.5625 9.18934 3.5625 9.5V13.9859C3.56292 13.9896 3.5637 13.9958 3.5651 14.0042C3.56964 14.0315 3.5806 14.0816 3.60628 14.1477C3.65641 14.2766 3.76786 14.4798 4.02232 14.6979C4.53525 15.1376 5.69231 15.6875 8.25 15.6875C8.56066 15.6875 8.8125 15.9393 8.8125 16.25C8.8125 16.5607 8.56066 16.8125 8.25 16.8125C5.55769 16.8125 4.08975 16.2374 3.29018 15.5521C2.88839 15.2077 2.67172 14.8484 2.55778 14.5554C2.50143 14.4105 2.47137 14.2849 2.45541 14.1892C2.44743 14.1413 2.44295 14.1008 2.44048 14.0689C2.43924 14.0529 2.43849 14.0391 2.43806 14.0276L2.43762 14.012L2.43753 14.0056L2.43751 14.0027L2.4375 14.0013C2.4375 14.0007 2.4375 14 3 14H2.4375V9.5C2.4375 9.18934 2.68934 8.9375 3 8.9375Z"
+                        fill="#6A6A6A"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_424_6914">
+                        <rect
+                          width="18"
+                          height="18"
+                          fill="white"
+                          transform="translate(0 0.5)"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
       {showModal && (
-        <ModalProviderResources
-          editItem={editItems}
-          isOpen={showModal}
-          handleHide={() => {
-            setShowModal(false);
-            setEditItems(false);
-          }}
-          onClearEdit={() => {
-            setEditItems(null);
-          }}
-        />
+        <div className="w-full flex items-center justify-center h-[100vh] overflow-auto fixed z-[9999999] top-0 left-0 bg-black/70">
+          <div className="w-full flex items-center justify-center pt-8 overflow-auto">
+            {steps === 1 && (
+              <StepOne
+                next={() => setSteps((steps) => steps + 1)}
+                handleHide={() => {
+                  setShowModal(false);
+                  setSteps(1);
+                }}
+                inModal={true}
+              />
+            )}
+            {steps === 2 && (
+              <StepTwo
+                goBack={() => setSteps((steps) => steps - 1)}
+                next={() => setSteps((steps) => steps + 1)}
+                handleHide={() => {
+                  setShowModal(false);
+                  setSteps(1);
+                }}
+              />
+            )}
+            {steps === 3 && (
+              <StepThree
+                goBack={() => setSteps((steps) => steps - 1)}
+                next={() => setSteps((steps) => steps + 1)}
+                handleHide={() => {
+                  setShowModal(false);
+                  setSteps(1);
+                }}
+              />
+            )}
+            {steps === 4 && (
+              <StepFour
+                goBack={() => setSteps((steps) => steps - 1)}
+                next={() => setSteps((steps) => steps + 1)}
+                handleHide={() => {
+                  setShowModal(false);
+                  setSteps(1);
+                }}
+                inModal={true}
+              />
+            )}
+            {steps === 5 && (
+              <Success
+                handleHide={() => {
+                  setShowModal(false);
+                  setSteps(1);
+                }}
+              />
+            )}
+          </div>
+        </div>
       )}
       {showPolModal && (
         <RunPolicyModal
@@ -203,123 +354,6 @@ const ProviderResources = () => {
           }}
         />
       )}
-      
-      {/* <Content>
-        <KTCardBody className="py-4">
-          <div
-            className="d-flex justify-content-between align-self-center flex-wrap"
-            data-kt-user-table-toolbar="base"
-          >
-            <div className="d-flex align-items-center position-relative my-1 mb-3 ">
-              <KTIcon
-                iconName="magnifier"
-                className="fs-1 position-absolute ms-6"
-              />
-              <input
-                type="text"
-                className="form-control form-control-solid w-250px ps-14"
-                placeholder="Search Resource"
-                onChange={handleSearchChange}
-              />
-            </div>
-            <div className="mt-2">
-            <ModalProviderResources
-                  editItem={editItems}
-                  onClearEdit={() => setEditItems(null)}
-                />
-            </div>
-          </div>
-          <div className="table-responsive">
-            {isLoading ? (
-              <UsersListLoading />
-            ) : (
-              <table className="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer">
-                <thead>
-                  <tr className="text-start text-bold fw-bolder fs-7 text-uppercase gs-0 text-nowrap">
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-
-                <tbody className="text-gray-600 fw-bold">
-                  {filteredItems && filteredItems.length > 0 ? (
-                    filteredItems?.map((row, i) => {
-                      return (
-                        <tr key={row?.id}>
-                          <td>{row?.id}</td>
-                          <td>{row?.cloud_provider?.name}</td>
-                          <td>{row?.cloud_provider?.code}</td>
-                          <td>
-                            {row?.cloud_provider?.status ? "True" : "False"}
-                          </td>
-                          <td>
-                            <div>
-                              <DropdownButton
-                                id="dropdown-button-dark-example1"
-                                variant="secondary"
-                                title="Actions"
-                                size="sm"
-                              >
-                                <Dropdown.Item
-                                  onClick={() => setEditItems(row)}
-                                >
-                                  Edit
-                                </Dropdown.Item>
-                              </DropdownButton>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  ) : (
-                    <tr>
-                      <td colSpan={7}>
-                        <Alert />
-                        <div className="d-flex text-center w-100 align-content-center justify-content-center">
-                          No matching records found
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            )}
-          </div>
-          <nav aria-label="Page navigation">
-            <ul className="pagination mt-5">
-              <span className="page-link"></span>
-              <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
-                <button className="page-link" onClick={goToPreviousPage}>
-                  Previous
-                </button>
-              </li>
-              {Array.from({ length: totalPages }, (_, index) => (
-                <li
-                  key={index}
-                  className={`page-item ${page === index + 1 ? "active" : ""}`}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => goToPage(index + 1)}
-                  >
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-              <li
-                className={`page-item ${page === totalPages ? "disabled" : ""}`}
-              >
-                <button className="page-link" onClick={goToNextPage}>
-                  Next
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </KTCardBody>
-      </Content> */}
     </div>
   );
 };
