@@ -16,6 +16,8 @@ type Region = {
 };
 
 const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
+  const [pageSize, setPageSize] = useState(100);
+  const [page, setPage] = useState(1);
   const [region, setRegion] = useState<Region>({
     cloud_provider: editItem?.cloud_provider ?? 0,
     code: editItem?.code ?? "",
@@ -25,7 +27,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
   });
   const { showAlert, hideAlert, Alert } = useAlert();
   const [listClouds, setListClouds] = useState<any[]>([]);
-  const { data: cloud } = useGetCloudProviderResourceTypes(1);
+  const { data: cloud } = useGetCloudProviderResourceTypes({page, pageSize});
   const cloudstsr:
     | CloudProviderCloudProviderResourceTypesList200Response
     | any = cloud;

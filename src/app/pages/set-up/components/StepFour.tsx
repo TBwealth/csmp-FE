@@ -6,13 +6,14 @@ import { FaKey } from "react-icons/fa";
 import awsImg from "../../../../../public/media/logos/awsfile.svg";
 import code from "../../../../../public/media/logos/code.svg";
 
-
 type Props = {
   goBack: Dispatch<void>;
-  // next: Dispatch<void>;
+  handleHide: Dispatch<void>;
+  inModal:boolean
+  next: Dispatch<void>;
 };
 
-const StepFour = ({ goBack }: Props) => {
+const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [type, setType] = useState("");
 
@@ -26,7 +27,7 @@ const StepFour = ({ goBack }: Props) => {
     <div
       className={`w-[90%] rounded-lg border-2 mx-auto md:w-[68%] ${
         mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
-      }`}
+      } ${inModal ? "h-[90vh] overflow-auto" : ""}`}
     >
       <div className="flex items-center p-6 justify-between w-full">
         <div className="flex items-center gap-5">
@@ -52,20 +53,22 @@ const StepFour = ({ goBack }: Props) => {
               : "Manual setup (DIY)"}
           </p>
         </div>
-        <svg
-          width="10"
-          height="10"
-          viewBox="0 0 10 10"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M0.670548 0.670272C0.890218 0.450602 1.24637 0.450602 1.46604 0.670272L5.00028 4.2045L8.53451 0.670272C8.75418 0.450602 9.11033 0.450602 9.33 0.670272C9.54967 0.889942 9.54967 1.2461 9.33 1.46577L5.79577 5L9.33 8.53423C9.54967 8.7539 9.54967 9.11006 9.33 9.32973C9.11033 9.5494 8.75418 9.5494 8.53451 9.32973L5.00028 5.7955L1.46604 9.32973C1.24637 9.5494 0.890218 9.5494 0.670548 9.32973C0.450878 9.11006 0.450879 8.7539 0.670548 8.53423L4.20478 5L0.670548 1.46577C0.450879 1.2461 0.450878 0.889942 0.670548 0.670272Z"
-            fill="#373737"
-          />
-        </svg>
+        <button onClick={() => handleHide()}>
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M0.670548 0.670272C0.890218 0.450602 1.24637 0.450602 1.46604 0.670272L5.00028 4.2045L8.53451 0.670272C8.75418 0.450602 9.11033 0.450602 9.33 0.670272C9.54967 0.889942 9.54967 1.2461 9.33 1.46577L5.79577 5L9.33 8.53423C9.54967 8.7539 9.54967 9.11006 9.33 9.32973C9.11033 9.5494 8.75418 9.5494 8.53451 9.32973L5.00028 5.7955L1.46604 9.32973C1.24637 9.5494 0.890218 9.5494 0.670548 9.32973C0.450878 9.11006 0.450879 8.7539 0.670548 8.53423L4.20478 5L0.670548 1.46577C0.450879 1.2461 0.450878 0.889942 0.670548 0.670272Z"
+              fill="#373737"
+            />
+          </svg>
+        </button>
       </div>
       <div className="p-6 mt-2 w-full">
         <h2 className="text-[24px] font-semibold mb-4">
@@ -113,17 +116,34 @@ const StepFour = ({ goBack }: Props) => {
                 1. Sign in to your target AWS account in another browser tab
               </p>
               <div className="pl-6">
-                <li className="list-disc border-start-0">Navigate to IAM Policies section</li>
-                <li className="list-disc border-start-0">Click Create policy</li>
-                <li className="list-disc border-start-0">Select the JSON tab</li>
-                <li className="list-disc border-start-0">Copy the content of the following JSON policy document:</li>
-                <li className="border-start-0">
-                    <img src={code} alt="aws response" />
+                <li className="list-disc border-start-0">
+                  Navigate to IAM Policies section
                 </li>
-                <li className="list-disc border-start-0">Replace the content with the copied JSON policy document</li>
-                <li className="list-disc border-start-0">Click Review policy</li>
-                <li className="list-disc border-start-0">Type CloudConformityPart1 as the Name and choose a Description (optional) for the policy that you are creating</li>
-                <li className="list-disc border-start-0">Click Create policy</li>
+                <li className="list-disc border-start-0">
+                  Click Create policy
+                </li>
+                <li className="list-disc border-start-0">
+                  Select the JSON tab
+                </li>
+                <li className="list-disc border-start-0">
+                  Copy the content of the following JSON policy document:
+                </li>
+                <li className="border-start-0">
+                  <img src={code} alt="aws response" />
+                </li>
+                <li className="list-disc border-start-0">
+                  Replace the content with the copied JSON policy document
+                </li>
+                <li className="list-disc border-start-0">
+                  Click Review policy
+                </li>
+                <li className="list-disc border-start-0">
+                  Type CloudConformityPart1 as the Name and choose a Description
+                  (optional) for the policy that you are creating
+                </li>
+                <li className="list-disc border-start-0">
+                  Click Create policy
+                </li>
               </div>
               <p>
                 2. Create <b>IAM Policy:</b> CloudConformityPart1
@@ -159,7 +179,7 @@ const StepFour = ({ goBack }: Props) => {
           Cancel
         </button>
         <button
-          onClick={() => {}}
+          onClick={() => next()}
           className="bg-[#284CB3] w-48 rounded-full p-2 text-white text-center"
         >
           Connect AWS Account

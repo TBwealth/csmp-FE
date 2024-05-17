@@ -55,6 +55,8 @@ const PolicyRule = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState<any[]>([]);
   const [totalPages, setTotalPages] = useState(0);
+  const [pageSize, setPageSize] = useState(100);
+  const [page, setPage] = useState(1);
   const { showAlert, hideAlert } = useAlert();
   const [editItems, setEditItems] = useState<any | undefined>();
   const [showModal, setShowModal] = useState(false);
@@ -79,7 +81,7 @@ const PolicyRule = () => {
       ],
     },
   ];
-  const { data, isLoading, error } = useGetRulesList(1);
+  const { data, isLoading, error } = useGetRulesList({page, pageSize});
   const {data: policyRule } = useGetSinglePolicyRules(+id!)
   const datastsr:  any = data;
   const policyrule: PolicyRulesList200Response | any = policyRule;
@@ -173,7 +175,7 @@ const PolicyRule = () => {
     }
   }
   function refreshrecord() {
-    useGetRulesList(1);
+    useGetRulesList({page, pageSize});
   }
 
   function filterUpdated(filter: any) {
@@ -181,7 +183,7 @@ const PolicyRule = () => {
     let nfilter = filter.current;
     nfilter.pageIndex = filter.page;
     filter.current = nfilter;
-    useGetRulesList(1);
+    useGetRulesList({page, pageSize});
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {

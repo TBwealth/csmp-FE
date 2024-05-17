@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import StepOne from "./components/StepOne";
 import StepTwo from "./components/StepTwo";
 import StepThree from "./components/StepThree";
 import StepFour from "./components/StepFour";
+import Success from "./components/Success";
 
 const SetUp = () => {
   const [steps, setSteps] = useState(1);
@@ -10,7 +12,7 @@ const SetUp = () => {
     <div className="w-full min-h-screen bg-[#F7F7F8]">
       <div className="flex items-center justify-between w-full px-8 py-4 border-bottom">
         <div className="flex items-center gap-8">
-          <div className="flex items-center gap-1">
+          <Link to="/" className="flex items-center gap-1">
             <svg
               width="28"
               height="32"
@@ -38,7 +40,7 @@ const SetUp = () => {
             <p className="font-extrabold text-[18px] text-[#284CB3]">
               Cloud<span className="font-light">Accord</span>
             </p>
-          </div>
+          </Link>
           <p className="text-[#373737] font-medium text-[18px]">
             Setup Account
           </p>
@@ -59,22 +61,38 @@ const SetUp = () => {
         </svg>
       </div>
       <div className="w-full flex items-center justify-center pt-8">
-        {steps === 1 && <StepOne next={() => setSteps((steps) => steps + 1)} />}
+        {steps === 1 && (
+          <StepOne
+            next={() => setSteps((steps) => steps + 1)}
+            handleHide={() => {}}
+            inModal={false}
+          />
+        )}
         {steps === 2 && (
           <StepTwo
             goBack={() => setSteps((steps) => steps - 1)}
             next={() => setSteps((steps) => steps + 1)}
+            handleHide={() => {}}
           />
         )}
         {steps === 3 && (
           <StepThree
             goBack={() => setSteps((steps) => steps - 1)}
             next={() => setSteps((steps) => steps + 1)}
+            handleHide={() => {}}
           />
         )}
         {steps === 4 && (
           <StepFour
             goBack={() => setSteps((steps) => steps - 1)}
+            next={() => setSteps((steps) => steps + 1)}
+            handleHide={() => {}}
+            inModal={false}
+          />
+        )}
+        {steps === 5 && (
+          <Success
+            handleHide={() => {}}
           />
         )}
       </div>

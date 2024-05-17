@@ -10,9 +10,9 @@ import { policyApi } from "./index";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 // POLICY
-export const useGetPolicies = (page: number) => {
+export const useGetPolicies = (data: any) => {
   const query = useQuery(["policies"], () =>
-    policyApi.policyPolicyListCreateList({ page })
+    policyApi.policyPolicyListCreateList({ ...data })
   );
   return query;
 };
@@ -83,8 +83,8 @@ export const useUpdateSinglePolicyRules = (id: number) => {
   return mutation;
 };
 
-export const useGetRulesList = (page: number) => {
-  const query = useQuery(["rules"], () => policyApi.policyRulesList({ page }));
+export const useGetRulesList = (data: any) => {
+  const query = useQuery(["rules"], () => policyApi.policyRulesList({ ...data }));
   return query;
 };
 

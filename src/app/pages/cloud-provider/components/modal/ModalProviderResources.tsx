@@ -17,6 +17,7 @@ const ModalProviderResources = ({
   handleHide,
 }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
+  const [pageSize, setPageSize] = useState(100);
   const [page, setPage] = useState(1);
   const [resources, setResources] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
@@ -29,7 +30,7 @@ const ModalProviderResources = ({
     data: allResources,
     isLoading: resourceLoading,
     error: resourceError,
-  } = useGetCloudProviderResourceTypes(page);
+  } = useGetCloudProviderResourceTypes({page, pageSize});
 
   const { mutate, isLoading, error } = useCloudProviderCreate();
   const {

@@ -9,6 +9,7 @@ import useAlert from "../../../components/useAlert";
 import { Modal } from "react-bootstrap";
 
 const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
+  const [pageSize, setPageSize] = useState(100);
   const [page, setPage] = useState(1);
   const [valueId, setValueId] = useState("");
   const [nameValue, setNameValue] = useState("");
@@ -20,7 +21,7 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
     data: allServices,
     isLoading: serviceLoading,
     error: serviceError,
-  } = useGetCloudProviderServicesList(page);
+  } = useGetCloudProviderServicesList({page, pageSize});
 
   const { mutate, isLoading, error } = usePostCloudProviderServices();
   const {
