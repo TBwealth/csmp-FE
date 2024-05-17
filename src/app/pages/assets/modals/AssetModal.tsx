@@ -32,7 +32,7 @@ type Asset = {
 ///cloud_provider/cloud_provider/{id}/
 
 const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
-  const [asset, setAsset] = useState<Asset>({
+  const [asset, setAsset] = useState<any>({
     tenant: editItem?.tenant ?? 0,
     region: editItem?.region ?? 0,
     cloud_identifier: editItem?.cloud_identifier ?? "",
