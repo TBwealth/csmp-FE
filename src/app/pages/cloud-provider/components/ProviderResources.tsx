@@ -133,18 +133,14 @@ const ProviderResources = () => {
               <div className="flex items-center gap-3">
                 <p
                   className={`font-semibold border-end pr-2 text-[14px] ${
-                    item.state === "connected"
+                    item.status
                       ? "text-[#00B712]"
-                      : item.state === "scanning"
-                      ? "text-[#284CB3]"
                       : ""
                   }`}
                 >
-                  {item.state === "connected" ? (
-                    item.state
-                  ) : item.state === "scanning" ? (
-                    "Scanning..."
-                  ) : (
+                  {item.status ? (
+                    "connected"
+                  ) :(
                     <svg
                       width="18"
                       height="19"
