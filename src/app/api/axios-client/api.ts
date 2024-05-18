@@ -1549,6 +1549,12 @@ export interface Register {
      * @memberof Register
      */
     'tenant'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Register
+     */
+    'country': string;
 }
 /**
  * 
@@ -2062,6 +2068,12 @@ export interface TenantRegister {
      * @memberof TenantRegister
      */
     'password2': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantRegister
+     */
+    'country': string;
 }
 /**
  * 
@@ -2507,6 +2519,12 @@ export interface User {
      * @memberof User
      */
     'password2': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    'country': string;
 }
 
 /**
