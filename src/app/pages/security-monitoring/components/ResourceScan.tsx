@@ -156,8 +156,8 @@ const ResourceScan = () => {
             >
               <option>Select Tenant</option>
               {allTenant.map((tenant) => (
-                <option key={tenant.id} value={tenant.id}>
-                  {tenant.full_name}
+                <option key={tenant?.id} value={tenant?.id}>
+                  {tenant?.full_name}
                 </option>
               ))}
             </select>
