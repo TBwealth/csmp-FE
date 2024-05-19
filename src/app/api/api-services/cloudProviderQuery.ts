@@ -143,3 +143,11 @@ export const useCreateProviderServiceOnboarding = () => {
 
   return mutation;
 };
+
+export const useGetCloudCountries = () => {
+  const query = useQuery(["countries"], () =>
+    cloudApi.cloudProviderCountriesList({ page: 1, pageSize: 1000 })
+  );
+
+  return query;
+};

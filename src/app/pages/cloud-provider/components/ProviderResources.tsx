@@ -125,7 +125,7 @@ const ProviderResources = () => {
                     fill="#FF9900"
                   />
                 </svg>
-                <p className="text-[18px] font-semibold">{item.account_name}</p>
+                <p className="text-[18px] font-semibold">{item.account_id}</p>
                 <span className="p-2 w-16 text-center rounded-full text-primary bg-[#284CB31A] text-[8px] font-semibold">
                   {item.environment}
                 </span>

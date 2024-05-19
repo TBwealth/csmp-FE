@@ -106,7 +106,7 @@ const SetUp = () => {
                     },
                   ])
                 );
-                navigate("/dashbord");
+                navigate("/dashboard");
             }}
           />
         )}

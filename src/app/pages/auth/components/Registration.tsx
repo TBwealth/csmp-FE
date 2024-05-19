@@ -11,8 +11,9 @@ import {
   useAccountLogin,
   useAccountRegister,
 } from "../../../api/api-services/accountQuery";
+import { useGetCloudCountries } from "../../../api/api-services/cloudProviderQuery";
 import { FaEnvelope, FaGlobe, FaLock, FaUser } from "react-icons/fa";
-import { AccountsApiTenantsList200Response } from "../../../api/axios-client";
+import { CloudProviderCountriesList200Response } from "../../../api/axios-client";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import modeAtoms from "../../../atoms/modeAtoms.atom";
 
@@ -65,6 +66,9 @@ export function Registration() {
   const [active, setIsActive] = useState(true);
   const { mode } = useRecoilValue(modeAtoms);
   const setModeState = useSetRecoilState(modeAtoms);
+  const { data } = useGetCloudCountries();
+  const datastr: CloudProviderCountriesList200Response | any = data;
+  const [countries, setCountries] = useState<any[]>([]);
 
   const [showAlert, setShowAlert] = useState(false);
   const [errMessage, setErrMessage] = useState("");
@@ -80,13 +84,13 @@ export function Registration() {
       setLoading(true);
       mutate(
         {
-            data: {
-              business_email: values.businessEmail,
-              country: values.country,
-              full_name: values.fullName,
-              password1: values.password,
-              password2: values.confirmpassword,
-            } 
+          data: {
+            business_email: values.businessEmail,
+            country: values.country,
+            full_name: values.fullName,
+            password1: values.password,
+            password2: values.confirmpassword,
+          },
         },
         {
           onSuccess: (res: any) => {
@@ -138,6 +142,10 @@ export function Registration() {
   useEffect(() => {
     PasswordMeterComponent.bootstrap();
   }, []);
+
+  useEffect(() => {
+    setCountries(datastr?.data?.data?.results ?? []);
+  }, [datastr]);
 
   return (
     <div className="w-full md:h-screen pt-16 bg-white">
@@ -243,7 +251,11 @@ export function Registration() {
               )}
             >
               <option value="">Select country</option>
-              <option value="Nigeria">Nigeria</option>
+              {countries.map((country) => (
+                <option key={country.id} value={country.id}>
+                  {country.name}
+                </option>
+              ))}
             </select>
             {/* <input
               placeholder=""
