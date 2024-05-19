@@ -44,7 +44,7 @@ export function Login() {
   const { saveAuth, setCurrentUser } = useAuth();
   const [active, setIsActive] = useState(false);
   const navigate = useNavigate();
-  const { mode } = useRecoilValue(modeAtomsAtom);
+  // const { mode } = useRecoilValue(modeAtomsAtom);
 
   const { mutate, isLoading } = useAccountLogin();
   const setModeState = useSetRecoilState(modeAtomsAtom);
@@ -101,21 +101,6 @@ export function Login() {
     },
   });
 
-  const handleSwitchMode = (e: any) => {
-    setModeState(() => (e ? { mode: "dark" } : { mode: "light" }));
-    const curMode = document.documentElement.getAttribute("data-bs-theme");
-    if (curMode === "dark") {
-      document.documentElement.setAttribute("data-bs-theme", "light");
-      setModeState({ mode: "light" });
-      localStorage.setItem("mode", JSON.stringify("light"));
-      // localStorage.setItem("kt_theme_mode_value", "light");
-      // location.reload();
-    } else {
-      document.documentElement.setAttribute("data-bs-theme", "dark");
-      setModeState({ mode: "dark" });
-      localStorage.setItem("mode", JSON.stringify("dark"));
-    }
-  };
 
   return (
     <div className="w-full md:h-screen pt-20 bg-white">

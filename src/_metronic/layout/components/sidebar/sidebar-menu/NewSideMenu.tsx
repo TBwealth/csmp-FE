@@ -10,6 +10,7 @@ type Links = {
   href?: string;
   path: string;
   children?: any[];
+  allowedRoles?: string[];
   groupTitle?: string;
   icon: any;
 };
@@ -23,15 +24,22 @@ const NewSideMenu = () => {
   const [children, setChildren] = useState<Links[]>([]);
   const [topTitle, setTopTitle] = useState("");
   const [popOpen, setPopOpen] = useState(false);
+  const [user, setUser] = useState<any>(null)
 
   useEffect(() => {
     const localChildren = sessionStorage.getItem("children");
+    const localUser = localStorage.getItem("user");
     const localtitle = sessionStorage.getItem("top-title");
     if (localChildren) {
       const parsed = JSON.parse(localChildren);
       setIsOpen(true);
       setChildren(parsed);
       setTopTitle(localtitle!);
+    }
+
+    if(localUser) {
+      const parsed = JSON.parse(localUser);
+      setUser(parsed);
     }
   }, []);
 
@@ -40,6 +48,7 @@ const NewSideMenu = () => {
       title: "Dashboard",
       href: "/dashboard",
       path: "/dashboard",
+      allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
           width="24px"
@@ -108,6 +117,7 @@ const NewSideMenu = () => {
       title: "Cloud Management",
       href: "/cloud-provider/cloud/provider-resource",
       path: "/cloud-provider",
+      allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
           width="24px"
@@ -199,6 +209,7 @@ const NewSideMenu = () => {
       title: "Security Monitoring",
       href: "/monitoring/resource-scanning",
       path: "/monitoring",
+      allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
           width="24px"
@@ -273,6 +284,7 @@ const NewSideMenu = () => {
       title: "Compliance Management",
       href: "/policy/policies",
       path: "/policy",
+      allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
           width="24px"
@@ -358,6 +370,7 @@ const NewSideMenu = () => {
       title: "User Management",
       href: "/account-manager/users/all-users",
       path: "/account-manager",
+      allowedRoles: ["Admin"],
       icon: (
         <svg
           width="24px"
@@ -436,6 +449,7 @@ const NewSideMenu = () => {
       title: "Integration",
       href: "tickets/ticket-types",
       path: "tickets",
+      allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
           width="24px"
@@ -516,6 +530,7 @@ const NewSideMenu = () => {
       title: "Settings",
       href: "/settings",
       path: "/settings",
+      allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
           width="24px"
@@ -612,6 +627,8 @@ const NewSideMenu = () => {
     //   ),
     // },
   ];
+
+  const routes = links.filter(link => link.allowedRoles?.includes(user?.role.name));
 
   return (
     <div className="flex items-start">
@@ -779,7 +796,7 @@ const NewSideMenu = () => {
           )}
         </div>
         <div className="mt-12">
-          {links.map((link) => (
+          {routes.map((link) => (
             <div
               className="flex items-center gap-2 mb-6"
               onClick={() => {

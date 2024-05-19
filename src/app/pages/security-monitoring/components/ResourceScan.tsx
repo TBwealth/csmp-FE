@@ -55,6 +55,7 @@ const ResourceScan = () => {
   });
   const [scanData, setScanData] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState("");
   const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
     data;
@@ -79,6 +80,7 @@ const ResourceScan = () => {
 
     if (localUser) {
       const parsedUser = JSON.parse(localUser);
+      setUser(parsedUser);
       if (parsedUser.role.name === "Admin") {
         setIsAdmin(true);
       }
@@ -96,7 +98,7 @@ const ResourceScan = () => {
         }
       );
       if (resp.status === 200) {
-        console.log(resp.data.data);
+        // console.log(resp.data.data);
         setScanData(resp.data.data);
       }
     } catch (err) {
@@ -105,14 +107,20 @@ const ResourceScan = () => {
   };
 
   useEffect(() => {
-    setAllProviders(datastsr?.data?.data?.results || []);
+    if(user?.role.name === "Tenant") {
+      setAllProviders(datastsr?.data?.data?.results.filter((res:any) => user?.tenant?.id === res.tenant) || []);
+    } else {
+      setAllProviders(datastsr?.data?.data?.results || []);
+    }
     setAllRegions(regionstsr?.data?.data?.results || []);
     setAllPolicy(policystsr?.data?.data?.results || []);
     setAllTenant(tenantstsr?.data?.data?.results || []);
-    if (tenantstsr?.data?.data?.results) {
+    if (tenantstsr?.data?.data?.results && isAdmin) {
       fetchTenantLatestScan("1");
+    } else {
+      fetchTenantLatestScan(user?.tenant?.id);
     }
-  }, [datastsr, regionstsr, policystsr, tenantstsr]);
+  }, [datastsr, regionstsr, policystsr, tenantstsr, user]);
 
   const getSelectedData = (pol_id: string, reg_id: string, pro_id: string) => {
     const selectedPol = allPolicy.filter((pol) => pol.id === Number(pol_id))[0];
@@ -149,7 +157,7 @@ const ResourceScan = () => {
               <option>Select Tenant</option>
               {allTenant.map((tenant) => (
                 <option key={tenant.id} value={tenant.id}>
-                  {tenant.tenant_name}
+                  {tenant.full_name}
                 </option>
               ))}
             </select>
@@ -271,9 +279,9 @@ const ResourceScan = () => {
                           )}
                         >
                           <option>Select Provider</option>
-                          {allProviders.map((provider) => (
+                          {allProviders.filter((m) => m.connection_status === "Connected").map((provider) => (
                             <option key={provider.name} value={provider.id}>
-                              {provider.name}
+                              {provider.account_id}
                             </option>
                           ))}
                         </select>
