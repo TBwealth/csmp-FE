@@ -43,6 +43,17 @@ const CloudProviderPage: React.FC = () => {
             </>
           }
         />
+        <Route
+          path="region"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Provider Regions
+              </PageTitle>
+              <CloudRegion />
+            </>
+          }
+        />
 
         <Route
           path="resource/:id"

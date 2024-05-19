@@ -52,10 +52,12 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
           console.log(res);
           next();
         },
-        onError: (err) => {
-          if (err instanceof Error) {
-            showAlert(err?.message || "An unknown error occurred", "danger");
-          }
+        onError: (err: any) => {
+            console.log(err);
+            showAlert(err?.response?.data?.message || "An unknown error occurred", "danger");
+        //   if (err instanceof Error) {
+        //     showAlert(err?.message || "An unknown error occurred", "danger");
+        //   }
         },
       }
     );

@@ -613,8 +613,6 @@ const NewSideMenu = () => {
     // },
   ];
 
-  console.log(popOpen);
-
   return (
     <div className="flex items-start">
       <div className="border-end pr-2 pt-8 w-fit md:h-screen">
@@ -703,7 +701,7 @@ const NewSideMenu = () => {
             <Link
               to={"/dashboard"}
               onClick={() => {
-                setTopTitle("Dashboar");
+                setTopTitle("Dashboard");
                 setChildren(links[0].children!);
               }}
             >

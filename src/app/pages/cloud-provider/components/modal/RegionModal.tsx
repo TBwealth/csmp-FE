@@ -124,7 +124,8 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
                 <option value="">Select Provider</option>
                 {listClouds?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.name}
+                    {/* {item?.cloud_provider_name} */}
+                    {item?.account_name}
                   </option>
                 ))}
               </select>

@@ -80,23 +80,17 @@ export function Registration() {
       setLoading(true);
       mutate(
         {
-          tenant_name: "",
-          user: {
-            first_name: values.fullName.split(" ")[0],
-            last_name: values.fullName.split(" ")[1],
-            email: values.businessEmail,
-            password: values.password,
-            password2: values.confirmpassword,
-            country: values.country
-            // role: 2,
-            // tenant: +values.tenant,
-            // company_url: imageUrl
-          }
+            data: {
+              business_email: values.businessEmail,
+              country: values.country,
+              full_name: values.fullName,
+              password1: values.password,
+              password2: values.confirmpassword,
+            } 
         },
         {
           onSuccess: (res: any) => {
             console.log(res.data, "Successss");
-            setLoading(false);
             setStatus(null);
             login(
               {
@@ -107,6 +101,7 @@ export function Registration() {
                 onSuccess: (res: any) => {
                   console.log(res.data, "Successss");
                   if (res.data.code === 200) {
+                    setLoading(false);
                     localStorage.setItem(
                       "user",
                       JSON.stringify(res?.data?.data?.user)
