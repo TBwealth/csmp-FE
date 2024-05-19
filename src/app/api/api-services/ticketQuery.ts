@@ -13,9 +13,9 @@ import {
 } from "../axios-client";
 
 //TICKETS
-export const useGetTickets = (page: number) => {
+export const useGetTickets = (data: any) => {
   const query = useQuery(["tickets"], () =>
-    ticketApi.ticketsTicketsList({ page })
+    ticketApi.ticketsTicketsList({ ...data })
   );
   return query;
 };
@@ -56,10 +56,10 @@ export const useUpdateTickets = (id: number) => {
 };
 
 //TICKET TYPES
-export const useGetTicketsTypes = (page: number) => {
+export const useGetTicketsTypes = (data: any) => {
   const query = useQuery(
     ["tickets_types"],
-    () => ticketApi.ticketsTicketTypesList({ page }),
+    () => ticketApi.ticketsTicketTypesList({ ...data }),
     {
       retry: 2,
     }
@@ -97,9 +97,9 @@ export const useUpdateTicketTypes = (id: number) => {
 };
 
 //TICKET ACTIVITIES
-export const useGetTicketsActivities = (page: number) => {
+export const useGetTicketsActivities = (data: any) => {
   const query = useQuery(["tickets_activities"], () =>
-    ticketApi.ticketsTicketActivitiesList({ page })
+    ticketApi.ticketsTicketActivitiesList({ ...data })
   );
   return query;
 };

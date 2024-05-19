@@ -25,7 +25,7 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
         data: allTickets,
         isLoading: serviceLoading,
         error: serviceError
-    } =   useGetTicketsTypes(page);
+    } =   useGetTicketsTypes({page, pageSize: 100});
 
   const { mutate, isLoading, error } = useCreateTicketTypes();
   const {

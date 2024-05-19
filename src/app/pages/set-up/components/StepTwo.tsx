@@ -1,4 +1,4 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import awsLogo from "../../../../../public/media/logos/aws-logo.svg";
@@ -18,6 +18,16 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
     cloud_name: "",
     environment: "",
   });
+
+  useEffect(() => {
+    const localData = sessionStorage.getItem("data");
+    if(localData) {
+        const parsedData = JSON.parse(localData);
+        setData(parsedData);
+    }
+  }, []);
+
+  
   return (
     <div
       className={`w-[90%] rounded-lg border-2 mx-auto md:w-[68%] ${
@@ -120,7 +130,10 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
           Cancel
         </button>
         <button
-          onClick={() => next()}
+          onClick={() => {
+            sessionStorage.setItem("data", JSON.stringify(data))
+            next();
+        }}
           disabled={!data?.cloud_name || !data?.environment}
           className="bg-[#284CB3] w-32 rounded-full p-2 text-white text-center"
         >

@@ -17,6 +17,8 @@ import { ComponentsheaderComponent } from "../../components/componentsheader/com
 
 const Assets = () => {
   const [items, setItems] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState(false);
@@ -33,6 +35,7 @@ const Assets = () => {
     { name: ACTIONS.EDIT, label: "Edit" },
     { name: ACTIONS.VIEW, label: "View" },
   ];
+ 
   const tableColumns: TableColumn[] = [
     {
       name: "id",
@@ -40,24 +43,39 @@ const Assets = () => {
       type: ColumnTypes.Text,
     },
     {
-      name: "name",
-      title: "Name",
+      name: "resource_types",
+      title: "Resource Type",
       type: ColumnTypes.Text,
     },
     {
-      name: "code",
-      title: "Code",
+      name: "rule_code",
+      title: "Rule Code",
       type: ColumnTypes.Text,
     },
 
     {
-      name: "public_ip",
-      title: "Public IP",
+      name: "services",
+      title: "Services",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "cloud_identifier",
+      title: "Cloud Identifier",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "cloud_provider",
+      title: "Cloud Provider",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "region",
+      title: "Region",
       type: ColumnTypes.Text,
     },
   ];
 
-  const { data, isLoading, error } = useGetAssets(1);
+  const { data, isLoading, error } = useGetAssets({page, pageSize});
   const datastsr: SystemSettingsAssetManagementsList200Response | any = data;
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
@@ -87,14 +105,14 @@ const Assets = () => {
     }
   }
   function refreshrecord() {
-    useGetAssets(1);
+    useGetAssets({page, pageSize});
   }
   function filterUpdated(filter: any) {
     filter.current = { ...filter.current, ...filter };
     let nfilter = filter.current;
     nfilter.pageIndex = filter.page;
     filter.current = nfilter;
-    useGetAssets(1);
+    useGetAssets({page, pageSize});
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {

@@ -41,7 +41,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
     description: editItem?.description ?? "",
     name: editItem?.name ?? "",
     resource_types: editItem?.resource_types ?? 0,
-    public_ip: editItem?.public_ip ?? "",
+    rule_code: editItem?.rule.code ?? "",
   });
 
   const [token, setToken] = useState("");
@@ -52,7 +52,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
   const [listClouds, setListClouds] = useState<any[]>([]);
   const [listResources, setListResources] = useState<any[]>([]);
   const { showAlert, hideAlert, Alert } = useAlert();
-  const { data: tenantData } = useGetAccountTenant(1);
+  const { data: tenantData } = useGetAccountTenant({page, pageSize});
 
   const { data: cloud } = useGetCloudProviderResourceTypes({page, pageSize});
   const { data: regions } = useGetRegions(1);
@@ -298,7 +298,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
               </select>
             </div>
             <div className="">
-              <label className="form-label fs-6 fw-bold">Public IP</label>
+              <label className="form-label fs-6 fw-bold">Rule Code</label>
               <input
                 placeholder="Enter IP"
                 type="text"
@@ -306,9 +306,9 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 autoComplete="off"
                 maxLength={50}
                 className="form-control bg-transparent"
-                value={asset.public_ip}
+                value={asset.rule_code}
                 onChange={(e) =>
-                  setAsset({ ...asset, public_ip: e.target.value })
+                  setAsset({ ...asset, rule_code: e.target.value })
                 }
               />
             </div>

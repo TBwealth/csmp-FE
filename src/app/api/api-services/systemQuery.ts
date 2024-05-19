@@ -9,9 +9,9 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 
 // ASSETS
 
-export const useGetAssets = (page: number) => {
+export const useGetAssets = (data: any) => {
   const query = useQuery(["assets"], () =>
-    systemApi.systemSettingsAssetManagementsList({ page })
+    systemApi.systemSettingsAssetManagementsList({ ...data })
   );
   return query;
 };

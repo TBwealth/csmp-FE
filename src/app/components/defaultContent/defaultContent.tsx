@@ -28,13 +28,13 @@ export default function DefaultContent({
           {!loading && (
             <div className="center space-y-5">
               <h5
-                className="font-medium text-[18px]"
+                className="font-semibold text-[18px]"
                 style={{ textAlign: "center" }}
               >
                 {pageHeader || "Nothing to see here"}
               </h5>
               <p
-                className="text-[16px] font-normal"
+                className="text-[14px] font-medium"
                 style={{ textAlign: "center" }}
               >
                 {pageDescription || ""}

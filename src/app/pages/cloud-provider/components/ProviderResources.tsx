@@ -133,12 +133,12 @@ const ProviderResources = () => {
               <div className="flex items-center gap-3">
                 <p
                   className={`font-semibold border-end pr-2 text-[14px] ${
-                    item.status
+                    item.connection_status === "Connected"
                       ? "text-[#00B712]"
                       : ""
                   }`}
                 >
-                  {item.status ? (
+                  {item.connection_status === "Connected" ? (
                     "connected"
                   ) :(
                     <svg
@@ -157,7 +157,7 @@ const ProviderResources = () => {
                     </svg>
                   )}
                 </p>
-                {item.status ? (
+                {item.connection_status === "Connected" ? (
                   <svg
                     width="18"
                     height="19"

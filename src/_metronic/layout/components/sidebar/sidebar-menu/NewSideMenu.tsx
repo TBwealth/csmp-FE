@@ -185,6 +185,14 @@ const NewSideMenu = () => {
           title: "Resource Inventory",
           href: "/assets/assets-list",
         },
+        {
+          title: "Suppression Setup",
+          href: "/cloud-provider/cloud/suppression-setup",
+        },
+        {
+          title: "Suppression Logs",
+          href: "/cloud-provider/cloud/suppression-logs",
+        },
       ],
     },
     {

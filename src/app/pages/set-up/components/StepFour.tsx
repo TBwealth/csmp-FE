@@ -1,6 +1,8 @@
-import React, { Dispatch, useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import useAlert from "../../components/useAlert";
+import { useCreateProviderServiceOnboarding } from "../../../api/api-services/cloudProviderQuery";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { FaKey } from "react-icons/fa";
 import awsImg from "../../../../../public/media/logos/awsfile.svg";
@@ -9,20 +11,56 @@ import code from "../../../../../public/media/logos/code.svg";
 type Props = {
   goBack: Dispatch<void>;
   handleHide: Dispatch<void>;
-  inModal:boolean
+  inModal: boolean;
   next: Dispatch<void>;
 };
 
 const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [type, setType] = useState("");
+  const [arn, setArn] = useState("");
+  const [payload, setPayload] = useState<any>(null);
+  const { showAlert, Alert } = useAlert();
+
+  const { mutate, isLoading } = useCreateProviderServiceOnboarding();
 
   useEffect(() => {
     const localType = sessionStorage.getItem("type");
-    if (localType) {
+    const localData = sessionStorage.getItem("data");
+    if (localType && localData) {
       setType(localType);
+      const parsedData = JSON.parse(localData);
+      setPayload({ ...payload, ...parsedData });
     }
   }, []);
+
+  console.log(type);
+
+  const handleCreateServiceProvider = () => {
+    mutate(
+      {
+        data: {
+          account_id: payload.cloud_name,
+          cloud_provider_name: "aws",
+          environment: payload.environment,
+          onboarding_type: type,
+          role_arn: arn,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          console.log(res);
+          next();
+        },
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
+      }
+    );
+  };
+
   return (
     <div
       className={`w-[90%] rounded-lg border-2 mx-auto md:w-[68%] ${
@@ -48,7 +86,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
             </svg>
           </button>
           <p className="text-[18px] font-semibold text-[#373737]">
-            {type === "auto"
+            {type === "automated"
               ? "Automated setup (recommended)"
               : "Manual setup (DIY)"}
           </p>
@@ -72,11 +110,11 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
       </div>
       <div className="p-6 mt-2 w-full">
         <h2 className="text-[24px] font-semibold mb-4">
-          {type === "auto"
+          {type === "automated"
             ? "To configure your account using CloudFormation automation"
             : "To configure your account using cross account access"}
         </h2>
-        {type === "auto" ? (
+        {type === "automated" ? (
           <div className="w-full">
             <div className="flex flex-col gap-4 text-[14px]">
               <p>
@@ -168,6 +206,8 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
           placeholder="Eg: arn:aws:iam::123456789012:role/YourRole"
           autoComplete="off"
           id="arn"
+          value={arn}
+          onChange={(e) => setArn(e.target.value)}
           className="w-full p-3 mt-2 rounded-md border-2 border-light"
         />
       </div>
@@ -179,12 +219,14 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
           Cancel
         </button>
         <button
-          onClick={() => next()}
+          disabled={!arn}
+          onClick={handleCreateServiceProvider}
           className="bg-[#284CB3] w-48 rounded-full p-2 text-white text-center"
         >
-          Connect AWS Account
+          {isLoading ? "connecting......" : "Connect AWS Account"}
         </button>
       </div>
+      <Alert />
       <div className="p-6 mb-4">
         <div className="flex items-center gap-3 mb-4">
           <svg
@@ -238,7 +280,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
             />
           </svg>
           <p className="text-[17px] font-semibold">
-            {type === "auto"
+            {type === "automated"
               ? "How to add an AWS account with automated setup"
               : "How to add an AWS account manually"}
           </p>

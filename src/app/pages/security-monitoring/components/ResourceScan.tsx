@@ -65,7 +65,7 @@ const ResourceScan = () => {
   // const { data: scan } = useGetAllScanResults();
   // const scanstsr: PolicyPolicyListCreateList200Response | any = scan;
 
-  const { data: tenant } = useGetAccountTenant(1);
+  const { data: tenant } = useGetAccountTenant({page:1, pageSize: 100});
 
   const tenantstsr: AccountsApiTenantsList200Response | any = tenant;
 

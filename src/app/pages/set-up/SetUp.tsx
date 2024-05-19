@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import StepOne from "./components/StepOne";
 import StepTwo from "./components/StepTwo";
 import StepThree from "./components/StepThree";
@@ -8,6 +8,7 @@ import Success from "./components/Success";
 
 const SetUp = () => {
   const [steps, setSteps] = useState(1);
+  const navigate = useNavigate();
   return (
     <div className="w-full min-h-screen bg-[#F7F7F8]">
       <div className="flex items-center justify-between w-full px-8 py-4 border-bottom">
@@ -92,7 +93,21 @@ const SetUp = () => {
         )}
         {steps === 5 && (
           <Success
-            handleHide={() => {}}
+            handleHide={() => {
+                sessionStorage.removeItem("type");
+                sessionStorage.removeItem("data");
+                sessionStorage.setItem("top-title", "Dashboard");
+                sessionStorage.setItem(
+                  "children",
+                  JSON.stringify([
+                    {
+                      title: "Dashboard",
+                      href: "/dashboard",
+                    },
+                  ])
+                );
+                navigate("/dashbord");
+            }}
           />
         )}
       </div>

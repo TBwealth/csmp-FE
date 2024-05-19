@@ -101,9 +101,15 @@ const ModalProviderResources = ({
       {
         id: +valueId,
         data: {
-          name: nameValue,
-          code: codeValue,
           status: statusValue,
+          account_id: "",
+          cloud_provider_name: "",
+          connection_status: "",
+          environment: "",
+          tenant: 0,
+          account_name: "",
+          id: 0,
+          created_by: 0
         },
       },
       {

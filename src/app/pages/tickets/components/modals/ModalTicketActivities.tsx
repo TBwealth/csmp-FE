@@ -35,7 +35,7 @@ const ModalTicketActivities = ({
     data: allTickets,
     isLoading: serviceLoading,
     error: serviceError,
-  } = useGetTickets(page);
+  } = useGetTickets({page: 1, pageSize: 100});
 
   const {
     data: users,

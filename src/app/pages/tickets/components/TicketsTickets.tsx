@@ -77,6 +77,7 @@ export class TicketWithStatus implements IStatus {
 }
 const TicketsTickets = () => {
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
@@ -144,7 +145,7 @@ const TicketsTickets = () => {
     },
   ];
 
-  const { data, isLoading, error } = useGetTickets(page);
+  const { data, isLoading, error } = useGetTickets({page, pageSize});
   console.log(data);
 
   const datastsr: TicketsTicketTypesList200Response | any = data;
@@ -202,14 +203,14 @@ const TicketsTickets = () => {
     }
   }
   function refreshrecord() {
-    useGetTickets(1);
+    useGetTickets({page, pageSize});
   }
   function filterUpdated(filter: any) {
     filter.current = { ...filter.current, ...filter };
     let nfilter = filter.current;
     nfilter.pageIndex = filter.page;
     filter.current = nfilter;
-    useGetTickets(1);
+    useGetTickets({page, pageSize});
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
