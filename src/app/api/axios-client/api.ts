@@ -1939,31 +1939,31 @@ export interface Tenant {
      * @type {string}
      * @memberof Tenant
      */
-    'tenant_name': string;
+    'full_name': string;
     /**
      * 
      * @type {string}
      * @memberof Tenant
      */
-    'code': string;
+    'business_email': string;
     /**
      * 
      * @type {string}
      * @memberof Tenant
      */
-    'admin_email'?: string | null;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Tenant
-     */
-    'status'?: boolean;
+    'country': string;
     /**
      * 
      * @type {string}
      * @memberof Tenant
      */
     'logo'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Tenant
+     */
+    'date_created'?: string;
 }
 /**
  * 
@@ -2066,27 +2066,39 @@ export interface TenantRegister {
 /**
  * 
  * @export
- * @interface TenantSelfOnboard
+ * @interface TenantRegistration
  */
-export interface TenantSelfOnboard {
+export interface TenantRegistration {
     /**
      * 
      * @type {string}
-     * @memberof TenantSelfOnboard
+     * @memberof TenantRegistration
      */
-    'tenant_name': string;
+    'business_email': string;
     /**
      * 
      * @type {string}
-     * @memberof TenantSelfOnboard
+     * @memberof TenantRegistration
      */
-    'code'?: string;
+    'full_name': string;
     /**
      * 
-     * @type {User}
-     * @memberof TenantSelfOnboard
+     * @type {string}
+     * @memberof TenantRegistration
      */
-    'user': User;
+    'country': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantRegistration
+     */
+    'password1': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantRegistration
+     */
+    'password2': string;
 }
 /**
  * 
@@ -2111,13 +2123,13 @@ export interface TenantUser {
      * @type {string}
      * @memberof TenantUser
      */
-    'first_name': string;
+    'first_name'?: string;
     /**
      * 
      * @type {string}
      * @memberof TenantUser
      */
-    'last_name': string;
+    'last_name'?: string;
     /**
      * 
      * @type {string}
@@ -2470,43 +2482,6 @@ export interface TokenRefresh {
      * @memberof TokenRefresh
      */
     'access'?: string;
-}
-/**
- * 
- * @export
- * @interface User
- */
-export interface User {
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'first_name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'last_name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'email': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'password': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'password2': string;
 }
 
 /**
@@ -3382,13 +3357,12 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Tenant Registers/Self Onboards
-         * @summary Tenant Registers/Self onboards
-         * @param {TenantSelfOnboard} data 
+         * 
+         * @param {TenantRegistration} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiTenantSelfOnboardRegisterCreate: async (data: TenantSelfOnboard, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        accountsApiTenantSelfOnboardRegisterCreate: async (data: TenantRegistration, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
             assertParamExists('accountsApiTenantSelfOnboardRegisterCreate', 'data', data)
             const localVarPath = `/accounts/api/tenant_self_onboard_register/`;
@@ -4162,13 +4136,12 @@ export const AccountsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Tenant Registers/Self Onboards
-         * @summary Tenant Registers/Self onboards
-         * @param {TenantSelfOnboard} data 
+         * 
+         * @param {TenantRegistration} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiTenantSelfOnboardRegisterCreate(data: TenantSelfOnboard, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantSelfOnboard>> {
+        async accountsApiTenantSelfOnboardRegisterCreate(data: TenantRegistration, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantRegistration>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiTenantSelfOnboardRegisterCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -4542,13 +4515,12 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.accountsApiRolesUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
-         * Tenant Registers/Self Onboards
-         * @summary Tenant Registers/Self onboards
-         * @param {TenantSelfOnboard} data 
+         * 
+         * @param {TenantRegistration} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiTenantSelfOnboardRegisterCreate(data: TenantSelfOnboard, options?: any): AxiosPromise<TenantSelfOnboard> {
+        accountsApiTenantSelfOnboardRegisterCreate(data: TenantRegistration, options?: any): AxiosPromise<TenantRegistration> {
             return localVarFp.accountsApiTenantSelfOnboardRegisterCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
@@ -5023,10 +4995,10 @@ export interface AccountsApiAccountsApiRolesUpdateRequest {
 export interface AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest {
     /**
      * 
-     * @type {TenantSelfOnboard}
+     * @type {TenantRegistration}
      * @memberof AccountsApiAccountsApiTenantSelfOnboardRegisterCreate
      */
-    readonly data: TenantSelfOnboard
+    readonly data: TenantRegistration
 }
 
 /**
@@ -5505,8 +5477,7 @@ export class AccountsApi extends BaseAPI {
     }
 
     /**
-     * Tenant Registers/Self Onboards
-     * @summary Tenant Registers/Self onboards
+     * 
      * @param {AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
