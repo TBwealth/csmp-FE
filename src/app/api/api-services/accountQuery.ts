@@ -11,6 +11,7 @@ import {
   RolePermission,
   Tenant,
   TokenRefresh,
+  AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest,
 } from "../axios-client";
 import { accountApi } from "./index";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -35,8 +36,8 @@ export const useAccountLogout = () => {
 };
 
 export const useAccountRegister = () => {
-  const mutation = useMutation((data: Register) =>
-    accountApi.accountsApiTenantUserRegisterCreate({ data })
+  const mutation = useMutation((data: AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest) =>
+    accountApi.accountsApiTenantSelfOnboardRegisterCreate({ ...data })
   );
   return mutation;
 };
@@ -179,9 +180,9 @@ export const useUpdateAccountRolePermission = (id: number) => {
   return mutation;
 };
 
-export const useGetAccountTenant = (page: number) => {
-  const query = useQuery(["tenants", page], () =>
-    accountApi.accountsApiTenantsList({ page })
+export const useGetAccountTenant = (data: any) => {
+  const query = useQuery(["tenants", data], () =>
+    accountApi.accountsApiTenantsList({ ...data })
   );
   return query;
 };

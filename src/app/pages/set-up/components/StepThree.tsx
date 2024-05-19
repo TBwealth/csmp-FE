@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { Link } from "react-router-dom";
@@ -12,6 +12,13 @@ type Props = {
 const StepThree = ({ goBack, next, handleHide }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [authType, setAuthType] = useState("");
+
+  useEffect(() => {
+    const localType = sessionStorage.getItem("type");
+    if (localType) {
+      setAuthType(localType);
+    }
+  }, []);
 
   return (
     <div
@@ -63,12 +70,12 @@ const StepThree = ({ goBack, next, handleHide }: Props) => {
       </div>
       <div className="p-6 mt-6">
         <div className="mb-6">
-          <label htmlFor="auto" className="flex items-center gap-2">
+          <label htmlFor="automated" className="flex items-center gap-2">
             <input
               type="radio"
               name="auth-type"
-              id="auto"
-              value="auto"
+              id="automated"
+              value="automated"
               className="w-5 h-5"
               onChange={(e) => {
                 setAuthType(e.target.value);

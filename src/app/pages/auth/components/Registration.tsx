@@ -8,11 +8,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { PasswordMeterComponent } from "../../../../_metronic/assets/ts/components";
 import { useAuth } from "../core/Auth";
 import {
+  useAccountLogin,
   useAccountRegister,
-  useGetAccountCustomTenant,
 } from "../../../api/api-services/accountQuery";
+import { useGetCloudCountries } from "../../../api/api-services/cloudProviderQuery";
 import { FaEnvelope, FaGlobe, FaLock, FaUser } from "react-icons/fa";
-import { AccountsApiTenantsList200Response } from "../../../api/axios-client";
+import { CloudProviderCountriesList200Response } from "../../../api/axios-client";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import modeAtoms from "../../../atoms/modeAtoms.atom";
 
@@ -28,7 +29,7 @@ const initialValues = {
 
 const registrationSchema = Yup.object().shape({
   businessEmail: Yup.string()
-  .email("Wrong email format")
+    .email("Wrong email format")
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Business email is required"),
@@ -44,8 +45,7 @@ const registrationSchema = Yup.object().shape({
   //   .min(1, "Minimum 3 symbols")
   //   .max(50, "Maximum 50 symbols")
   //   .required("Tenant is required"),
-  country: Yup.string()
-    .required("Country is required"),
+  country: Yup.string().required("Country is required"),
   // lastname: Yup.string()
   //   .min(3, "Minimum 3 symbols")
   //   .max(50, "Maximum 50 symbols")
@@ -66,19 +66,17 @@ export function Registration() {
   const [active, setIsActive] = useState(true);
   const { mode } = useRecoilValue(modeAtoms);
   const setModeState = useSetRecoilState(modeAtoms);
+  const { data } = useGetCloudCountries();
+  const datastr: CloudProviderCountriesList200Response | any = data;
+  const [countries, setCountries] = useState<any[]>([]);
 
   const [showAlert, setShowAlert] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const { saveAuth, setCurrentUser } = useAuth();
   const navigate = useNavigate();
-  const {
-    data: tenantData,
-    isLoading: tenantLoading,
-    error,
-  } = useGetAccountCustomTenant(1);
   const { mutate, isLoading } = useAccountRegister();
+  const { mutate: login } = useAccountLogin();
 
-  const datastsr: AccountsApiTenantsList200Response | any = tenantData;
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
@@ -86,20 +84,50 @@ export function Registration() {
       setLoading(true);
       mutate(
         {
-          fullName: values.fullName,
-          email: values.businessEmail,
-          password: values.password,
-          password2: values.confirmpassword,
-          role: 2,
-          tenant: +values.tenant,
-          // company_url: imageUrl
+          data: {
+            business_email: values.businessEmail,
+            country: values.country,
+            full_name: values.fullName,
+            password1: values.password,
+            password2: values.confirmpassword,
+          },
         },
         {
           onSuccess: (res: any) => {
             console.log(res.data, "Successss");
-            setLoading(false);
             setStatus(null);
-            navigate("/setup");
+            login(
+              {
+                email: values.businessEmail,
+                password: values.password,
+              },
+              {
+                onSuccess: (res: any) => {
+                  console.log(res.data, "Successss");
+                  if (res.data.code === 200) {
+                    setLoading(false);
+                    localStorage.setItem(
+                      "user",
+                      JSON.stringify(res?.data?.data?.user)
+                    );
+                    saveAuth(res?.data?.data?.token?.access);
+                    localStorage.setItem(
+                      "token",
+                      res?.data?.data?.token?.access
+                    );
+                    setCurrentUser(res?.data?.data?.user);
+                    navigate("/setup");
+                  }
+                  setStatus(null);
+                },
+                onError: (err: any) => {
+                  console.log(err);
+                  setLoading(false);
+                  setStatus(err?.response?.data?.message || err?.message);
+                },
+              }
+            );
+
             // sessionStorage.setItem("top-title", "Setup Account");
           },
           onError: (res: any) => {
@@ -115,20 +143,9 @@ export function Registration() {
     PasswordMeterComponent.bootstrap();
   }, []);
 
-  // const handleSwitchMode = (e: any) => {
-  //   setModeState(() => (e ? { mode: "dark" } : { mode: "light" }));
-  //   const curMode = document.documentElement.getAttribute("data-bs-theme");
-  //   if (curMode === "dark") {
-  //     document.documentElement.setAttribute("data-bs-theme", "light");
-  //     setModeState({ mode: "light" });
-  //     localStorage.setItem("mode", JSON.stringify("light"));
-
-  //   } else {
-  //     document.documentElement.setAttribute("data-bs-theme", "dark");
-  //     setModeState({ mode: "dark" });
-  //     localStorage.setItem("mode", JSON.stringify("dark"));
-  //   }
-  // };
+  useEffect(() => {
+    setCountries(datastr?.data?.data?.results ?? []);
+  }, [datastr]);
 
   return (
     <div className="w-full md:h-screen pt-16 bg-white">
@@ -170,7 +187,8 @@ export function Registration() {
                 },
                 {
                   "is-valid":
-                    formik.touched.businessEmail && !formik.errors.businessEmail,
+                    formik.touched.businessEmail &&
+                    !formik.errors.businessEmail,
                 }
               )}
             />
@@ -221,19 +239,23 @@ export function Registration() {
               <span>Country</span>
             </label>
             <select
-            {...formik.getFieldProps("country")}
-            className={clsx(
-              "form-control bg-transparent",
-              {
-                "is-invalid": formik.touched.country && formik.errors.country,
-              },
-              {
-                "is-valid": formik.touched.country && !formik.errors.country,
-              }
-            )}
+              {...formik.getFieldProps("country")}
+              className={clsx(
+                "form-control bg-transparent",
+                {
+                  "is-invalid": formik.touched.country && formik.errors.country,
+                },
+                {
+                  "is-valid": formik.touched.country && !formik.errors.country,
+                }
+              )}
             >
               <option value="">Select country</option>
-              <option value="Nigeria">Nigeria</option>
+              {countries.map((country) => (
+                <option key={country.id} value={country.id}>
+                  {country.name}
+                </option>
+              ))}
             </select>
             {/* <input
               placeholder=""
@@ -335,7 +357,13 @@ export function Registration() {
           {/* end::Form group */}
         </div>
         <div className="flex items-center mb-4 gap-3">
-          <input type="checkbox" name="" checked id="" className="h-5 w-5 rounded-md" />
+          <input
+            type="checkbox"
+            name=""
+            checked
+            id=""
+            className="h-5 w-5 rounded-md"
+          />
           <p className="text-[12px]">
             I agree to{" "}
             <Link to="/" className="text-[#2E54C3] underline">
@@ -388,7 +416,10 @@ export function Registration() {
           </button>
         </div>
         <div className="text-[14px] mt-8">
-          Already a Cloud accord user? <Link to="/auth/login" className="text-primary">Sign In</Link>
+          Already a Cloud accord user?{" "}
+          <Link to="/auth/login" className="text-primary">
+            Sign In
+          </Link>
         </div>
 
         <Alert

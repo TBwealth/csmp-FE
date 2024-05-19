@@ -56,6 +56,7 @@ export class TenantWithStatus implements IStatus {
 
 const Tenant = () => {
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
@@ -75,7 +76,7 @@ const Tenant = () => {
     // { name: ACTIONS.DELETE, label: "Delete" },
   ];
 
-  const { data, isLoading, error } = useGetAccountTenant(page);
+  const { data, isLoading, error } = useGetAccountTenant({page, pageSize});
 
   const datastsr: AccountsApiTenantsList200Response | any = data;
 
@@ -138,14 +139,14 @@ const Tenant = () => {
     }
   }
   function refreshrecord() {
-    useGetAccountTenant(1);
+    useGetAccountTenant({page, pageSize});
   }
   function filterUpdated(filter: any) {
     filter.current = { ...filter.current, ...filter };
     let nfilter = filter.current;
     nfilter.pageIndex = filter.page;
     filter.current = nfilter;
-    useGetAccountTenant(1);
+    useGetAccountTenant({page, pageSize});
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {

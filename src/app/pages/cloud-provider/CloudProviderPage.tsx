@@ -4,6 +4,8 @@ import { PageLink, PageTitle } from "../../../_metronic/layout/core";
 import ProviderResources from "./components/ProviderResources";
 import ProviderServices from "./components/ProviderServices";
 import CloudRegion from "./components/CloudRegion";
+import SuppressionSetup from "./components/SuppressionSetup";
+import SuppressionLogs from "./components/SuppressionLogs";
 
 const cloudProviderBreadCrumbs: Array<PageLink> = [
   {
@@ -41,6 +43,17 @@ const CloudProviderPage: React.FC = () => {
             </>
           }
         />
+        <Route
+          path="region"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Provider Regions
+              </PageTitle>
+              <CloudRegion />
+            </>
+          }
+        />
 
         <Route
           path="resource/:id"
@@ -54,13 +67,24 @@ const CloudProviderPage: React.FC = () => {
           }
         />
         <Route
-          path="region"
+          path="suppression-setup"
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-                Provider Services
+              Suppression Setup
               </PageTitle>
-              <CloudRegion />
+              <SuppressionSetup />
+            </>
+          }
+        />
+        <Route
+          path="suppression-logs"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+              Suppression Logs
+              </PageTitle>
+              <SuppressionLogs />
             </>
           }
         />

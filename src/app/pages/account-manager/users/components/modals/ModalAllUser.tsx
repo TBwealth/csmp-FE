@@ -12,6 +12,7 @@ import { AccountsApiRolesList200Response } from "../../../../../api/axios-client
 const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(100);
   const [roles, setRoles] = useState<any[] | undefined>([]);
   const [tenant, setTenant] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
@@ -31,7 +32,7 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     data: allTenant,
     isLoading: tenantLoading,
     error: tenantError,
-  } = useGetAccountTenant(page);
+  } = useGetAccountTenant({page, pageSize});
 
   const {
     mutate: editMutate,

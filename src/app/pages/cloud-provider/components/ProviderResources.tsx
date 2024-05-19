@@ -23,16 +23,34 @@ const ProviderResources = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const [totalItems, settotalItems] = useState<number>(0);
+  const [user, setUser] = useState<any>(null);
 
-  const { data, isLoading, error } = useGetCloudProviderResourceTypes({page, pageSize});
+  const { data, isLoading, error, refetch } = useGetCloudProviderResourceTypes({
+    page,
+    pageSize,
+    tenant: user ? user?.tenant.id : undefined,
+  });
   const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
     data;
 
   useEffect(() => {
-    
-    setItems(
-      datastsr?.data?.data?.results ?? []
-    );
+    const localUser = localStorage.getItem("user");
+    if (localUser) {
+      const parsed = JSON.parse(localUser);
+      setUser(parsed);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user?.role.name === "Tenant" ) {
+      setItems(
+        datastsr?.data?.data?.results.filter(
+          (res: any) => res.tenant === user?.tenant?.id
+        ) ?? []
+      );
+    } else {
+      setItems(datastsr?.data?.data?.results ?? []);
+    }
     setshowEmpty(
       datastsr?.data?.data?.results
         ? datastsr?.data?.data?.results?.length === 0
@@ -46,13 +64,13 @@ const ProviderResources = () => {
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
-  }, [data, error]);
+  }, [data, error, user]);
 
   function refreshrecord() {
-    useGetCloudProviderResourceTypes(1);
+    // useGetCloudProviderResourceTypes(1);
+
+    refetch();
   }
-
-
 
   return (
     <div>
@@ -125,7 +143,7 @@ const ProviderResources = () => {
                     fill="#FF9900"
                   />
                 </svg>
-                <p className="text-[18px] font-semibold">{item.name}</p>
+                <p className="text-[18px] font-semibold">{item.account_id}</p>
                 <span className="p-2 w-16 text-center rounded-full text-primary bg-[#284CB31A] text-[8px] font-semibold">
                   {item.environment}
                 </span>
@@ -133,17 +151,13 @@ const ProviderResources = () => {
               <div className="flex items-center gap-3">
                 <p
                   className={`font-semibold border-end pr-2 text-[14px] ${
-                    item.state === "connected"
+                    item.connection_status === "Connected"
                       ? "text-[#00B712]"
-                      : item.state === "scanning"
-                      ? "text-[#284CB3]"
                       : ""
                   }`}
                 >
-                  {item.state === "connected" ? (
-                    item.state
-                  ) : item.state === "scanning" ? (
-                    "Scanning..."
+                  {item.connection_status === "Connected" ? (
+                    "connected"
                   ) : (
                     <svg
                       width="18"
@@ -161,7 +175,7 @@ const ProviderResources = () => {
                     </svg>
                   )}
                 </p>
-                {item.state === "connected" ? (
+                {item.connection_status === "Connected" ? (
                   <svg
                     width="18"
                     height="19"

@@ -18,6 +18,7 @@ type Region = {
 const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
   const [pageSize, setPageSize] = useState(100);
   const [page, setPage] = useState(1);
+  const [user, setUser] = useState<any>(null);
   const [region, setRegion] = useState<Region>({
     cloud_provider: editItem?.cloud_provider ?? 0,
     code: editItem?.code ?? "",
@@ -40,8 +41,21 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
   } = useUpdateRegion(editItem ? editItem?.id : 0);
 
   useEffect(() => {
-    setListClouds(cloudstsr?.data?.data?.results);
-  }, [cloud]);
+    const localUser = localStorage.getItem("user");
+    if (localUser) {
+      const parsedUser = JSON.parse(localUser);
+      setUser(parsedUser);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    if(user?.role.name === "Tenant") {
+      setListClouds(cloudstsr?.data?.data?.results.filter((res:any) => user?.tenant?.id === res.tenant));
+    } else {
+      setListClouds(cloudstsr?.data?.data?.results);
+    }
+  }, [cloud, user]);
 
   const handleSubmit = () => {
     mutate(
@@ -124,7 +138,8 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
                 <option value="">Select Provider</option>
                 {listClouds?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.name}
+                    {/* {item?.cloud_provider_name} */}
+                    {item?.account_id}
                   </option>
                 ))}
               </select>

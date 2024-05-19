@@ -1,4 +1,4 @@
-import React from "react";
+import {useEffect, useState} from "react";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import awsLogo from "../../../../../public/media/logos/aws-logo.svg";
@@ -6,6 +6,19 @@ import { FaCheck } from "react-icons/fa";
 
 const Success = ({ handleHide }: any) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [data, setData] = useState({
+    cloud_name:"",
+    environment: ""
+  });
+
+
+  useEffect(() => {
+    const localStore = sessionStorage.getItem("data");
+    if(data) {
+        const parsedData = JSON.parse(localStore!);
+        setData(parsedData)
+    }
+  }, []);
 
   return (
     <div
@@ -35,10 +48,10 @@ const Success = ({ handleHide }: any) => {
               mode === "dark" ? "text-[#EAEAEA]" : "text-[#373737]"
             }`}
           >
-            Synthyl Database
+            {data.cloud_name}
           </p>
-          <p className="bg-[#284CB31A] text-primary rounded-full px-2 py-1 w-24 text-center">
-            PROD
+          <p className="bg-[#284CB31A] text-primary rounded-full px-2 py-1 w-fit text-center">
+            {data.environment.toUpperCase()}
           </p>
         </div>
         <div className="flex items-center gap-2 mt-6">

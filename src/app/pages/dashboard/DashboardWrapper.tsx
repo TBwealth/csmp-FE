@@ -46,7 +46,7 @@ const DashboardPage: FC = () => {
     data: tenantData,
     isLoading: tenantLoading,
     error: tenantError,
-  } = useGetAccountTenant(1);
+  } = useGetAccountTenant({page:1, pageSize:10});
   const {
     data: permissionData,
     isLoading: permissionLoading,

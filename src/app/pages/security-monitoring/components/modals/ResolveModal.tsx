@@ -46,9 +46,9 @@ const ResolveModal = ({ isOpen, handleHide }: any) => {
   const [ticketAssets, setTicketAssets] = useState<any[]>([]);
   const [authUser, setAuthUser] = useState<any>(null);
 
-  const { data: ticketTypes } = useGetTicketsTypes(page);
-  const { data: tenantData } = useGetAccountTenant(1);
-  const { data: assets } = useGetAssets(1);
+  const { data: ticketTypes } = useGetTicketsTypes({page:1, pageSize: 100});
+  const { data: tenantData } = useGetAccountTenant({page:1, pageSize: 100});
+  const { data: assets } = useGetAssets({page:1, pageSize: 100});
 
   const { data: userData } = useGetAccountUsers(page);
   const userstsr: AccountsApiUsersList200Response | any = userData;
