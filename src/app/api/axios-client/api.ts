@@ -495,67 +495,67 @@ export interface Country {
 /**
  * 
  * @export
- * @interface CreateRuleSuppressionLog
+ * @interface CreateRuleSuppressionSetUp
  */
-export interface CreateRuleSuppressionLog {
+export interface CreateRuleSuppressionSetUp {
     /**
      * 
      * @type {number}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'id'?: number;
     /**
      * 
      * @type {number}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'tenant'?: number;
     /**
      * 
      * @type {number}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'cloud_provider': number;
     /**
      * 
      * @type {number}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'resource_type': number;
     /**
      * 
      * @type {number}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'resource': number | null;
     /**
      * 
      * @type {number}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'rule': number | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'expiration': string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'comments': string | null;
     /**
      * 
-     * @type {number}
-     * @memberof CreateRuleSuppressionLog
+     * @type {string}
+     * @memberof CreateRuleSuppressionSetUp
      */
-    'region'?: number | null;
+    'region': string;
     /**
      * 
      * @type {boolean}
-     * @memberof CreateRuleSuppressionLog
+     * @memberof CreateRuleSuppressionSetUp
      */
     'status'?: boolean;
 }
@@ -577,6 +577,25 @@ export interface CustomCloudProvider {
      * @memberof CustomCloudProvider
      */
     'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomLoginTenant
+ */
+export interface CustomLoginTenant {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomLoginTenant
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomLoginTenant
+     */
+    'full_name': string;
 }
 /**
  * 
@@ -609,25 +628,6 @@ export interface CustomPolicyRun {
      * @memberof CustomPolicyRun
      */
     'policy'?: string;
-}
-/**
- * 
- * @export
- * @interface CustomRegion
- */
-export interface CustomRegion {
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomRegion
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CustomRegion
-     */
-    'name'?: string;
 }
 /**
  * 
@@ -1394,67 +1394,67 @@ export interface ProviderServiceInput {
 /**
  * 
  * @export
- * @interface ReadRuleSuppressionLog
+ * @interface ReadRuleSuppressionSetUp
  */
-export interface ReadRuleSuppressionLog {
+export interface ReadRuleSuppressionSetUp {
     /**
      * 
      * @type {number}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'id'?: number;
     /**
      * 
      * @type {string}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'tenant'?: string;
     /**
      * 
      * @type {CustomCloudProvider}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'cloud_provider': CustomCloudProvider;
     /**
      * 
      * @type {CustomResourceType}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'resource_type': CustomResourceType;
     /**
      * 
      * @type {CustomResource}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'resource': CustomResource;
     /**
      * 
      * @type {CustomRule}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'rule': CustomRule;
     /**
      * 
      * @type {string}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'expiration'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'comments'?: string | null;
     /**
      * 
-     * @type {CustomRegion}
-     * @memberof ReadRuleSuppressionLog
+     * @type {string}
+     * @memberof ReadRuleSuppressionSetUp
      */
-    'region': CustomRegion;
+    'region': string;
     /**
      * 
      * @type {boolean}
-     * @memberof ReadRuleSuppressionLog
+     * @memberof ReadRuleSuppressionSetUp
      */
     'status'?: boolean;
 }
@@ -1472,34 +1472,22 @@ export interface Region {
     'id'?: number;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof Region
      */
-    'cloud_provider': number;
+    'cloud_provider': string;
     /**
      * 
      * @type {string}
      * @memberof Region
      */
-    'name': string;
+    'region_name': string;
     /**
      * 
-     * @type {string}
+     * @type {boolean}
      * @memberof Region
      */
-    'code': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Region
-     */
-    'longitude': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Region
-     */
-    'latitude': string;
+    'status'?: boolean;
 }
 /**
  * 
@@ -1567,19 +1555,19 @@ export interface ResourceTypes {
      * @type {string}
      * @memberof ResourceTypes
      */
-    'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceTypes
-     */
-    'code': string;
+    'resource_type': string;
     /**
      * 
      * @type {boolean}
      * @memberof ResourceTypes
      */
     'status'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResourceTypes
+     */
+    'cloud_provider': string;
 }
 /**
  * 
@@ -1689,39 +1677,45 @@ export interface Rule {
 /**
  * 
  * @export
- * @interface RuleText
+ * @interface RuleSuppressionLog
  */
-export interface RuleText {
+export interface RuleSuppressionLog {
     /**
      * 
      * @type {number}
-     * @memberof RuleText
+     * @memberof RuleSuppressionLog
      */
     'id'?: number;
     /**
      * 
-     * @type {string}
-     * @memberof RuleText
-     */
-    'pass_text': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RuleText
-     */
-    'normal_text': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RuleText
-     */
-    'fail_text': string;
-    /**
-     * 
      * @type {number}
-     * @memberof RuleText
+     * @memberof RuleSuppressionLog
      */
-    'rule': number;
+    'tenant': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleSuppressionLog
+     */
+    'comments'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleSuppressionLog
+     */
+    'expiration'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleSuppressionLog
+     */
+    'created_on'?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof RuleSuppressionLog
+     */
+    'result_json'?: object | null;
 }
 /**
  * 
@@ -1855,41 +1849,41 @@ export interface SystemSettingsRuleSuppressionLogList200Response {
     'previous'?: string | null;
     /**
      * 
-     * @type {Array<ReadRuleSuppressionLog>}
+     * @type {Array<RuleSuppressionLog>}
      * @memberof SystemSettingsRuleSuppressionLogList200Response
      */
-    'results': Array<ReadRuleSuppressionLog>;
+    'results': Array<RuleSuppressionLog>;
 }
 /**
  * 
  * @export
- * @interface SystemSettingsRuleTextsList200Response
+ * @interface SystemSettingsRuleSuppressionSetupList200Response
  */
-export interface SystemSettingsRuleTextsList200Response {
+export interface SystemSettingsRuleSuppressionSetupList200Response {
     /**
      * 
      * @type {number}
-     * @memberof SystemSettingsRuleTextsList200Response
+     * @memberof SystemSettingsRuleSuppressionSetupList200Response
      */
     'count': number;
     /**
      * 
      * @type {string}
-     * @memberof SystemSettingsRuleTextsList200Response
+     * @memberof SystemSettingsRuleSuppressionSetupList200Response
      */
     'next'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof SystemSettingsRuleTextsList200Response
+     * @memberof SystemSettingsRuleSuppressionSetupList200Response
      */
     'previous'?: string | null;
     /**
      * 
-     * @type {Array<RuleText>}
-     * @memberof SystemSettingsRuleTextsList200Response
+     * @type {Array<ReadRuleSuppressionSetUp>}
+     * @memberof SystemSettingsRuleSuppressionSetupList200Response
      */
-    'results': Array<RuleText>;
+    'results': Array<ReadRuleSuppressionSetUp>;
 }
 /**
  * 
@@ -2132,10 +2126,10 @@ export interface TenantUser {
     'last_name'?: string;
     /**
      * 
-     * @type {string}
+     * @type {CustomLoginTenant}
      * @memberof TenantUser
      */
-    'tenant'?: string;
+    'tenant': CustomLoginTenant;
     /**
      * 
      * @type {string}
@@ -3434,45 +3428,6 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Create Tenant
-         * @summary Creates new Tenant
-         * @param {Tenant} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiTenantsCreate: async (data: Tenant, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('accountsApiTenantsCreate', 'data', data)
-            const localVarPath = `/accounts/api/tenants/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
          * List Tenants
          * @summary List created Tenants
          * @param {number} [page] A page number within the paginated result set.
@@ -4157,17 +4112,6 @@ export const AccountsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Create Tenant
-         * @summary Creates new Tenant
-         * @param {Tenant} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async accountsApiTenantsCreate(data: Tenant, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tenant>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiTenantsCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
          * List Tenants
          * @summary List created Tenants
          * @param {number} [page] A page number within the paginated result set.
@@ -4532,16 +4476,6 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
          */
         accountsApiTenantUserRegisterCreate(data: TenantRegister, options?: any): AxiosPromise<TenantRegister> {
             return localVarFp.accountsApiTenantUserRegisterCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * Create Tenant
-         * @summary Creates new Tenant
-         * @param {Tenant} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiTenantsCreate(data: Tenant, options?: any): AxiosPromise<Tenant> {
-            return localVarFp.accountsApiTenantsCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * List Tenants
@@ -5016,20 +4950,6 @@ export interface AccountsApiAccountsApiTenantUserRegisterCreateRequest {
 }
 
 /**
- * Request parameters for accountsApiTenantsCreate operation in AccountsApi.
- * @export
- * @interface AccountsApiAccountsApiTenantsCreateRequest
- */
-export interface AccountsApiAccountsApiTenantsCreateRequest {
-    /**
-     * 
-     * @type {Tenant}
-     * @memberof AccountsApiAccountsApiTenantsCreate
-     */
-    readonly data: Tenant
-}
-
-/**
  * Request parameters for accountsApiTenantsList operation in AccountsApi.
  * @export
  * @interface AccountsApiAccountsApiTenantsListRequest
@@ -5497,18 +5417,6 @@ export class AccountsApi extends BaseAPI {
      */
     public accountsApiTenantUserRegisterCreate(requestParameters: AccountsApiAccountsApiTenantUserRegisterCreateRequest, options?: AxiosRequestConfig) {
         return AccountsApiFp(this.configuration).accountsApiTenantUserRegisterCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * Create Tenant
-     * @summary Creates new Tenant
-     * @param {AccountsApiAccountsApiTenantsCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AccountsApi
-     */
-    public accountsApiTenantsCreate(requestParameters: AccountsApiAccountsApiTenantsCreateRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiTenantsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6047,13 +5955,16 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
-         * 
+         * List Resource Types
+         * @summary List Resource Types
+         * @param {number} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderResourceTypesList: async (cloudProvider?: number, search?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/cloud_provider/resource_types/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6068,6 +5979,14 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (cloudProvider !== undefined) {
+                localVarQueryParameter['cloud_provider'] = cloudProvider;
+            }
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -6367,14 +6286,17 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         * List Resource Types
+         * @summary List Resource Types
+         * @param {number} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderResourceTypesList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderResourceTypesList(page, pageSize, options);
+        async cloudProviderResourceTypesList(cloudProvider?: number, search?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderResourceTypesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderResourceTypesList(cloudProvider, search, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6530,14 +6452,17 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
             return localVarFp.cloudProviderResourceTypesCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List Resource Types
+         * @summary List Resource Types
+         * @param {number} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesList(page?: number, pageSize?: number, options?: any): AxiosPromise<CloudProviderResourceTypesList200Response> {
-            return localVarFp.cloudProviderResourceTypesList(page, pageSize, options).then((request) => request(axios, basePath));
+        cloudProviderResourceTypesList(cloudProvider?: number, search?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<CloudProviderResourceTypesList200Response> {
+            return localVarFp.cloudProviderResourceTypesList(cloudProvider, search, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6777,6 +6702,20 @@ export interface CloudProviderApiCloudProviderResourceTypesCreateRequest {
  */
 export interface CloudProviderApiCloudProviderResourceTypesListRequest {
     /**
+     * Filter by Cloud Provider
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderResourceTypesList
+     */
+    readonly cloudProvider?: number
+
+    /**
+     * A search term.
+     * @type {string}
+     * @memberof CloudProviderApiCloudProviderResourceTypesList
+     */
+    readonly search?: string
+
+    /**
      * A page number within the paginated result set.
      * @type {number}
      * @memberof CloudProviderApiCloudProviderResourceTypesList
@@ -6981,14 +6920,15 @@ export class CloudProviderApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List Resource Types
+     * @summary List Resource Types
      * @param {CloudProviderApiCloudProviderResourceTypesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CloudProviderApi
      */
     public cloudProviderResourceTypesList(requestParameters: CloudProviderApiCloudProviderResourceTypesListRequest = {}, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderResourceTypesList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return CloudProviderApiFp(this.configuration).cloudProviderResourceTypesList(requestParameters.cloudProvider, requestParameters.search, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9982,13 +9922,16 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * 
+         * List Regions
+         * @summary List Regions
+         * @param {number} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRegionsList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRegionsList: async (cloudProvider?: number, search?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/system_settings/regions/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10003,6 +9946,14 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (cloudProvider !== undefined) {
+                localVarQueryParameter['cloud_provider'] = cloudProvider;
+            }
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -10144,87 +10095,15 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * 
-         * @param {CreateRuleSuppressionLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRuleSuppressionLogCreate: async (data: CreateRuleSuppressionLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsRuleSuppressionLogCreate', 'data', data)
-            const localVarPath = `/system_settings/rule_suppression_log/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRuleSuppressionLogDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsRuleSuppressionLogDelete', 'id', id)
-            const localVarPath = `/system_settings/rule_suppression_log/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
+         * List RuleSuppression Log
+         * @summary List RuleSuppression Log
+         * @param {number} [tenant] Filter by Tenant
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionLogList: async (tenant?: number, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/system_settings/rule_suppression_log/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10239,6 +10118,10 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -10261,12 +10144,12 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {string} id 
-         * @param {CreateRuleSuppressionLog} data 
+         * @param {number} id A unique integer value identifying this rule suppression log.
+         * @param {RuleSuppressionLog} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogPartialUpdate: async (id: string, data: CreateRuleSuppressionLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionLogPartialUpdate: async (id: number, data: RuleSuppressionLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('systemSettingsRuleSuppressionLogPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -10303,11 +10186,11 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {string} id 
+         * @param {number} id A unique integer value identifying this rule suppression log.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionLogRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('systemSettingsRuleSuppressionLogRead', 'id', id)
             const localVarPath = `/system_settings/rule_suppression_log/{id}/`
@@ -10339,12 +10222,12 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {string} id 
-         * @param {CreateRuleSuppressionLog} data 
+         * @param {number} id A unique integer value identifying this rule suppression log.
+         * @param {RuleSuppressionLog} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogUpdate: async (id: string, data: CreateRuleSuppressionLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionLogUpdate: async (id: number, data: RuleSuppressionLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('systemSettingsRuleSuppressionLogUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -10381,14 +10264,14 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {RuleText} data 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsCreate: async (data: RuleText, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionSetupCreate: async (data: CreateRuleSuppressionSetUp, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsRuleTextsCreate', 'data', data)
-            const localVarPath = `/system_settings/rule_texts/`;
+            assertParamExists('systemSettingsRuleSuppressionSetupCreate', 'data', data)
+            const localVarPath = `/system_settings/rule_suppression_setup/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -10419,13 +10302,49 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionSetupDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsRuleSuppressionSetupDelete', 'id', id)
+            const localVarPath = `/system_settings/rule_suppression_setup/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/system_settings/rule_texts/`;
+        systemSettingsRuleSuppressionSetupList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/rule_suppression_setup/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -10461,17 +10380,17 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
-         * @param {RuleText} data 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsPartialUpdate: async (id: number, data: RuleText, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionSetupPartialUpdate: async (id: string, data: CreateRuleSuppressionSetUp, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsRuleTextsPartialUpdate', 'id', id)
+            assertParamExists('systemSettingsRuleSuppressionSetupPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsRuleTextsPartialUpdate', 'data', data)
-            const localVarPath = `/system_settings/rule_texts/{id}/`
+            assertParamExists('systemSettingsRuleSuppressionSetupPartialUpdate', 'data', data)
+            const localVarPath = `/system_settings/rule_suppression_setup/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10503,14 +10422,14 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionSetupRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsRuleTextsRead', 'id', id)
-            const localVarPath = `/system_settings/rule_texts/{id}/`
+            assertParamExists('systemSettingsRuleSuppressionSetupRead', 'id', id)
+            const localVarPath = `/system_settings/rule_suppression_setup/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10539,17 +10458,17 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
-         * @param {RuleText} data 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsUpdate: async (id: number, data: RuleText, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionSetupUpdate: async (id: string, data: CreateRuleSuppressionSetUp, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('systemSettingsRuleTextsUpdate', 'id', id)
+            assertParamExists('systemSettingsRuleSuppressionSetupUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
-            assertParamExists('systemSettingsRuleTextsUpdate', 'data', data)
-            const localVarPath = `/system_settings/rule_texts/{id}/`
+            assertParamExists('systemSettingsRuleSuppressionSetupUpdate', 'data', data)
+            const localVarPath = `/system_settings/rule_suppression_setup/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10853,14 +10772,17 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         * List Regions
+         * @summary List Regions
+         * @param {number} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRegionsList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRegionsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegionsList(page, pageSize, options);
+        async systemSettingsRegionsList(cloudProvider?: number, search?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRegionsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRegionsList(cloudProvider, search, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -10896,76 +10818,68 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
-         * @param {CreateRuleSuppressionLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsRuleSuppressionLogCreate(data: CreateRuleSuppressionLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionLog>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async systemSettingsRuleSuppressionLogDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogDelete(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
+         * List RuleSuppression Log
+         * @summary List RuleSuppression Log
+         * @param {number} [tenant] Filter by Tenant
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleSuppressionLogList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleSuppressionLogList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogList(page, pageSize, options);
+        async systemSettingsRuleSuppressionLogList(tenant?: number, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleSuppressionLogList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogList(tenant, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {string} id 
-         * @param {CreateRuleSuppressionLog} data 
+         * @param {number} id A unique integer value identifying this rule suppression log.
+         * @param {RuleSuppressionLog} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleSuppressionLogPartialUpdate(id: string, data: CreateRuleSuppressionLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionLog>> {
+        async systemSettingsRuleSuppressionLogPartialUpdate(id: number, data: RuleSuppressionLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleSuppressionLog>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogPartialUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {string} id 
+         * @param {number} id A unique integer value identifying this rule suppression log.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleSuppressionLogRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReadRuleSuppressionLog>> {
+        async systemSettingsRuleSuppressionLogRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleSuppressionLog>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {string} id 
-         * @param {CreateRuleSuppressionLog} data 
+         * @param {number} id A unique integer value identifying this rule suppression log.
+         * @param {RuleSuppressionLog} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleSuppressionLogUpdate(id: string, data: CreateRuleSuppressionLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionLog>> {
+        async systemSettingsRuleSuppressionLogUpdate(id: number, data: RuleSuppressionLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleSuppressionLog>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {RuleText} data 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleTextsCreate(data: RuleText, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleText>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleTextsCreate(data, options);
+        async systemSettingsRuleSuppressionSetupCreate(data: CreateRuleSuppressionSetUp, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionSetupCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsRuleSuppressionSetupDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionSetupDelete(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -10975,40 +10889,40 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleTextsList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleTextsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleTextsList(page, pageSize, options);
+        async systemSettingsRuleSuppressionSetupList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleSuppressionSetupList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionSetupList(page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
-         * @param {RuleText} data 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleTextsPartialUpdate(id: number, data: RuleText, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleText>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleTextsPartialUpdate(id, data, options);
+        async systemSettingsRuleSuppressionSetupPartialUpdate(id: string, data: CreateRuleSuppressionSetUp, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionSetupPartialUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleTextsRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleText>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleTextsRead(id, options);
+        async systemSettingsRuleSuppressionSetupRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReadRuleSuppressionSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionSetupRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
-         * @param {RuleText} data 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleTextsUpdate(id: number, data: RuleText, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleText>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleTextsUpdate(id, data, options);
+        async systemSettingsRuleSuppressionSetupUpdate(id: string, data: CreateRuleSuppressionSetUp, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRuleSuppressionSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionSetupUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -11132,14 +11046,17 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
             return localVarFp.systemSettingsRegionsCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List Regions
+         * @summary List Regions
+         * @param {number} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRegionsList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRegionsList200Response> {
-            return localVarFp.systemSettingsRegionsList(page, pageSize, options).then((request) => request(axios, basePath));
+        systemSettingsRegionsList(cloudProvider?: number, search?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRegionsList200Response> {
+            return localVarFp.systemSettingsRegionsList(cloudProvider, search, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -11171,70 +11088,63 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
             return localVarFp.systemSettingsRegionsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
-         * @param {CreateRuleSuppressionLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRuleSuppressionLogCreate(data: CreateRuleSuppressionLog, options?: any): AxiosPromise<CreateRuleSuppressionLog> {
-            return localVarFp.systemSettingsRuleSuppressionLogCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        systemSettingsRuleSuppressionLogDelete(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.systemSettingsRuleSuppressionLogDelete(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
+         * List RuleSuppression Log
+         * @summary List RuleSuppression Log
+         * @param {number} [tenant] Filter by Tenant
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRuleSuppressionLogList200Response> {
-            return localVarFp.systemSettingsRuleSuppressionLogList(page, pageSize, options).then((request) => request(axios, basePath));
+        systemSettingsRuleSuppressionLogList(tenant?: number, page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRuleSuppressionLogList200Response> {
+            return localVarFp.systemSettingsRuleSuppressionLogList(tenant, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} id 
-         * @param {CreateRuleSuppressionLog} data 
+         * @param {number} id A unique integer value identifying this rule suppression log.
+         * @param {RuleSuppressionLog} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogPartialUpdate(id: string, data: CreateRuleSuppressionLog, options?: any): AxiosPromise<CreateRuleSuppressionLog> {
+        systemSettingsRuleSuppressionLogPartialUpdate(id: number, data: RuleSuppressionLog, options?: any): AxiosPromise<RuleSuppressionLog> {
             return localVarFp.systemSettingsRuleSuppressionLogPartialUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} id 
+         * @param {number} id A unique integer value identifying this rule suppression log.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogRead(id: string, options?: any): AxiosPromise<ReadRuleSuppressionLog> {
+        systemSettingsRuleSuppressionLogRead(id: number, options?: any): AxiosPromise<RuleSuppressionLog> {
             return localVarFp.systemSettingsRuleSuppressionLogRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} id 
-         * @param {CreateRuleSuppressionLog} data 
+         * @param {number} id A unique integer value identifying this rule suppression log.
+         * @param {RuleSuppressionLog} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogUpdate(id: string, data: CreateRuleSuppressionLog, options?: any): AxiosPromise<CreateRuleSuppressionLog> {
+        systemSettingsRuleSuppressionLogUpdate(id: number, data: RuleSuppressionLog, options?: any): AxiosPromise<RuleSuppressionLog> {
             return localVarFp.systemSettingsRuleSuppressionLogUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {RuleText} data 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsCreate(data: RuleText, options?: any): AxiosPromise<RuleText> {
-            return localVarFp.systemSettingsRuleTextsCreate(data, options).then((request) => request(axios, basePath));
+        systemSettingsRuleSuppressionSetupCreate(data: CreateRuleSuppressionSetUp, options?: any): AxiosPromise<CreateRuleSuppressionSetUp> {
+            return localVarFp.systemSettingsRuleSuppressionSetupCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsRuleSuppressionSetupDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.systemSettingsRuleSuppressionSetupDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -11243,37 +11153,37 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRuleTextsList200Response> {
-            return localVarFp.systemSettingsRuleTextsList(page, pageSize, options).then((request) => request(axios, basePath));
+        systemSettingsRuleSuppressionSetupList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRuleSuppressionSetupList200Response> {
+            return localVarFp.systemSettingsRuleSuppressionSetupList(page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
-         * @param {RuleText} data 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsPartialUpdate(id: number, data: RuleText, options?: any): AxiosPromise<RuleText> {
-            return localVarFp.systemSettingsRuleTextsPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        systemSettingsRuleSuppressionSetupPartialUpdate(id: string, data: CreateRuleSuppressionSetUp, options?: any): AxiosPromise<CreateRuleSuppressionSetUp> {
+            return localVarFp.systemSettingsRuleSuppressionSetupPartialUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsRead(id: number, options?: any): AxiosPromise<RuleText> {
-            return localVarFp.systemSettingsRuleTextsRead(id, options).then((request) => request(axios, basePath));
+        systemSettingsRuleSuppressionSetupRead(id: string, options?: any): AxiosPromise<ReadRuleSuppressionSetUp> {
+            return localVarFp.systemSettingsRuleSuppressionSetupRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this rule text.
-         * @param {RuleText} data 
+         * @param {string} id 
+         * @param {CreateRuleSuppressionSetUp} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleTextsUpdate(id: number, data: RuleText, options?: any): AxiosPromise<RuleText> {
-            return localVarFp.systemSettingsRuleTextsUpdate(id, data, options).then((request) => request(axios, basePath));
+        systemSettingsRuleSuppressionSetupUpdate(id: string, data: CreateRuleSuppressionSetUp, options?: any): AxiosPromise<CreateRuleSuppressionSetUp> {
+            return localVarFp.systemSettingsRuleSuppressionSetupUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -11438,6 +11348,20 @@ export interface SystemSettingsApiSystemSettingsRegionsCreateRequest {
  */
 export interface SystemSettingsApiSystemSettingsRegionsListRequest {
     /**
+     * Filter by Cloud Provider
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRegionsList
+     */
+    readonly cloudProvider?: number
+
+    /**
+     * A search term.
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRegionsList
+     */
+    readonly search?: string
+
+    /**
      * A page number within the paginated result set.
      * @type {number}
      * @memberof SystemSettingsApiSystemSettingsRegionsList
@@ -11509,39 +11433,18 @@ export interface SystemSettingsApiSystemSettingsRegionsUpdateRequest {
 }
 
 /**
- * Request parameters for systemSettingsRuleSuppressionLogCreate operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogCreateRequest
- */
-export interface SystemSettingsApiSystemSettingsRuleSuppressionLogCreateRequest {
-    /**
-     * 
-     * @type {CreateRuleSuppressionLog}
-     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogCreate
-     */
-    readonly data: CreateRuleSuppressionLog
-}
-
-/**
- * Request parameters for systemSettingsRuleSuppressionLogDelete operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogDeleteRequest
- */
-export interface SystemSettingsApiSystemSettingsRuleSuppressionLogDeleteRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogDelete
-     */
-    readonly id: string
-}
-
-/**
  * Request parameters for systemSettingsRuleSuppressionLogList operation in SystemSettingsApi.
  * @export
  * @interface SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest
  */
 export interface SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest {
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogList
+     */
+    readonly tenant?: number
+
     /**
      * A page number within the paginated result set.
      * @type {number}
@@ -11564,18 +11467,18 @@ export interface SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest {
  */
 export interface SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdateRequest {
     /**
-     * 
-     * @type {string}
+     * A unique integer value identifying this rule suppression log.
+     * @type {number}
      * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdate
      */
-    readonly id: string
+    readonly id: number
 
     /**
      * 
-     * @type {CreateRuleSuppressionLog}
+     * @type {RuleSuppressionLog}
      * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdate
      */
-    readonly data: CreateRuleSuppressionLog
+    readonly data: RuleSuppressionLog
 }
 
 /**
@@ -11585,11 +11488,11 @@ export interface SystemSettingsApiSystemSettingsRuleSuppressionLogPartialUpdateR
  */
 export interface SystemSettingsApiSystemSettingsRuleSuppressionLogReadRequest {
     /**
-     * 
-     * @type {string}
+     * A unique integer value identifying this rule suppression log.
+     * @type {number}
      * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogRead
      */
-    readonly id: string
+    readonly id: number
 }
 
 /**
@@ -11599,109 +11502,123 @@ export interface SystemSettingsApiSystemSettingsRuleSuppressionLogReadRequest {
  */
 export interface SystemSettingsApiSystemSettingsRuleSuppressionLogUpdateRequest {
     /**
+     * A unique integer value identifying this rule suppression log.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {RuleSuppressionLog}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogUpdate
+     */
+    readonly data: RuleSuppressionLog
+}
+
+/**
+ * Request parameters for systemSettingsRuleSuppressionSetupCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionSetupCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsRuleSuppressionSetupCreateRequest {
+    /**
+     * 
+     * @type {CreateRuleSuppressionSetUp}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupCreate
+     */
+    readonly data: CreateRuleSuppressionSetUp
+}
+
+/**
+ * Request parameters for systemSettingsRuleSuppressionSetupDelete operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionSetupDeleteRequest
+ */
+export interface SystemSettingsApiSystemSettingsRuleSuppressionSetupDeleteRequest {
+    /**
      * 
      * @type {string}
-     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogUpdate
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupDelete
      */
     readonly id: string
-
-    /**
-     * 
-     * @type {CreateRuleSuppressionLog}
-     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogUpdate
-     */
-    readonly data: CreateRuleSuppressionLog
 }
 
 /**
- * Request parameters for systemSettingsRuleTextsCreate operation in SystemSettingsApi.
+ * Request parameters for systemSettingsRuleSuppressionSetupList operation in SystemSettingsApi.
  * @export
- * @interface SystemSettingsApiSystemSettingsRuleTextsCreateRequest
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionSetupListRequest
  */
-export interface SystemSettingsApiSystemSettingsRuleTextsCreateRequest {
-    /**
-     * 
-     * @type {RuleText}
-     * @memberof SystemSettingsApiSystemSettingsRuleTextsCreate
-     */
-    readonly data: RuleText
-}
-
-/**
- * Request parameters for systemSettingsRuleTextsList operation in SystemSettingsApi.
- * @export
- * @interface SystemSettingsApiSystemSettingsRuleTextsListRequest
- */
-export interface SystemSettingsApiSystemSettingsRuleTextsListRequest {
+export interface SystemSettingsApiSystemSettingsRuleSuppressionSetupListRequest {
     /**
      * A page number within the paginated result set.
      * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRuleTextsList
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupList
      */
     readonly page?: number
 
     /**
      * Number of results to return per page.
      * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRuleTextsList
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupList
      */
     readonly pageSize?: number
 }
 
 /**
- * Request parameters for systemSettingsRuleTextsPartialUpdate operation in SystemSettingsApi.
+ * Request parameters for systemSettingsRuleSuppressionSetupPartialUpdate operation in SystemSettingsApi.
  * @export
- * @interface SystemSettingsApiSystemSettingsRuleTextsPartialUpdateRequest
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdateRequest
  */
-export interface SystemSettingsApiSystemSettingsRuleTextsPartialUpdateRequest {
+export interface SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdateRequest {
     /**
-     * A unique integer value identifying this rule text.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRuleTextsPartialUpdate
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdate
      */
-    readonly id: number
+    readonly id: string
 
     /**
      * 
-     * @type {RuleText}
-     * @memberof SystemSettingsApiSystemSettingsRuleTextsPartialUpdate
+     * @type {CreateRuleSuppressionSetUp}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdate
      */
-    readonly data: RuleText
+    readonly data: CreateRuleSuppressionSetUp
 }
 
 /**
- * Request parameters for systemSettingsRuleTextsRead operation in SystemSettingsApi.
+ * Request parameters for systemSettingsRuleSuppressionSetupRead operation in SystemSettingsApi.
  * @export
- * @interface SystemSettingsApiSystemSettingsRuleTextsReadRequest
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionSetupReadRequest
  */
-export interface SystemSettingsApiSystemSettingsRuleTextsReadRequest {
+export interface SystemSettingsApiSystemSettingsRuleSuppressionSetupReadRequest {
     /**
-     * A unique integer value identifying this rule text.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRuleTextsRead
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupRead
      */
-    readonly id: number
+    readonly id: string
 }
 
 /**
- * Request parameters for systemSettingsRuleTextsUpdate operation in SystemSettingsApi.
+ * Request parameters for systemSettingsRuleSuppressionSetupUpdate operation in SystemSettingsApi.
  * @export
- * @interface SystemSettingsApiSystemSettingsRuleTextsUpdateRequest
+ * @interface SystemSettingsApiSystemSettingsRuleSuppressionSetupUpdateRequest
  */
-export interface SystemSettingsApiSystemSettingsRuleTextsUpdateRequest {
+export interface SystemSettingsApiSystemSettingsRuleSuppressionSetupUpdateRequest {
     /**
-     * A unique integer value identifying this rule text.
-     * @type {number}
-     * @memberof SystemSettingsApiSystemSettingsRuleTextsUpdate
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupUpdate
      */
-    readonly id: number
+    readonly id: string
 
     /**
      * 
-     * @type {RuleText}
-     * @memberof SystemSettingsApiSystemSettingsRuleTextsUpdate
+     * @type {CreateRuleSuppressionSetUp}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupUpdate
      */
-    readonly data: RuleText
+    readonly data: CreateRuleSuppressionSetUp
 }
 
 /**
@@ -11869,14 +11786,15 @@ export class SystemSettingsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List Regions
+     * @summary List Regions
      * @param {SystemSettingsApiSystemSettingsRegionsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
     public systemSettingsRegionsList(requestParameters: SystemSettingsApiSystemSettingsRegionsListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRegionsList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return SystemSettingsApiFp(this.configuration).systemSettingsRegionsList(requestParameters.cloudProvider, requestParameters.search, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -11913,36 +11831,15 @@ export class SystemSettingsApi extends BaseAPI {
     }
 
     /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsRuleSuppressionLogCreate(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogCreateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogDeleteRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SystemSettingsApi
-     */
-    public systemSettingsRuleSuppressionLogDelete(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogDeleteRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
+     * List RuleSuppression Log
+     * @summary List RuleSuppression Log
      * @param {SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
     public systemSettingsRuleSuppressionLogList(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogList(requestParameters.tenant, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -11980,57 +11877,68 @@ export class SystemSettingsApi extends BaseAPI {
 
     /**
      * 
-     * @param {SystemSettingsApiSystemSettingsRuleTextsCreateRequest} requestParameters Request parameters.
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionSetupCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
-    public systemSettingsRuleTextsCreate(requestParameters: SystemSettingsApiSystemSettingsRuleTextsCreateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleTextsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public systemSettingsRuleSuppressionSetupCreate(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionSetupCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionSetupCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {SystemSettingsApiSystemSettingsRuleTextsListRequest} requestParameters Request parameters.
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionSetupDeleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
-    public systemSettingsRuleTextsList(requestParameters: SystemSettingsApiSystemSettingsRuleTextsListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleTextsList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    public systemSettingsRuleSuppressionSetupDelete(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionSetupDeleteRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionSetupDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {SystemSettingsApiSystemSettingsRuleTextsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionSetupListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
-    public systemSettingsRuleTextsPartialUpdate(requestParameters: SystemSettingsApiSystemSettingsRuleTextsPartialUpdateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleTextsPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public systemSettingsRuleSuppressionSetupList(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionSetupListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionSetupList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {SystemSettingsApiSystemSettingsRuleTextsReadRequest} requestParameters Request parameters.
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
-    public systemSettingsRuleTextsRead(requestParameters: SystemSettingsApiSystemSettingsRuleTextsReadRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleTextsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public systemSettingsRuleSuppressionSetupPartialUpdate(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionSetupPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {SystemSettingsApiSystemSettingsRuleTextsUpdateRequest} requestParameters Request parameters.
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionSetupReadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
-    public systemSettingsRuleTextsUpdate(requestParameters: SystemSettingsApiSystemSettingsRuleTextsUpdateRequest, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleTextsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    public systemSettingsRuleSuppressionSetupRead(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionSetupReadRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionSetupRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsRuleSuppressionSetupUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsRuleSuppressionSetupUpdate(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionSetupUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionSetupUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

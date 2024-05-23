@@ -197,7 +197,7 @@ export const useGetAccountCustomTenant = (page: number) => {
 export const usePostAccountTenant = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    (data: Tenant) => accountApi.accountsApiTenantsCreate({ data }),
+    (data: any) => accountApi.accountsApiTenantsCreate({ data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["tenants"]);
@@ -211,7 +211,7 @@ export const useUpdateAccountTenant = (id: number) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({ id, data }: AccountsApiAccountsApiTenantsUpdateRequest) =>
+    ({ id, data }: any) =>
       accountApi.accountsApiTenantsUpdate({ id, data }),
     {
       onSuccess: () => {
