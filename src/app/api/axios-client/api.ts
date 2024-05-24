@@ -1492,6 +1492,73 @@ export interface ReadRuleSuppressionSetUp {
 /**
  * 
  * @export
+ * @interface ReadTicket
+ */
+export interface ReadTicket {
+    /**
+     * 
+     * @type {number}
+     * @memberof ReadTicket
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {CustomTicketType}
+     * @memberof ReadTicket
+     */
+    'ticket_type': CustomTicketType;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadTicket
+     */
+    'subject': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadTicket
+     */
+    'description': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadTicket
+     */
+    'code': string;
+    /**
+     * 
+     * @type {TicketAsset}
+     * @memberof ReadTicket
+     */
+    'asset': TicketAsset;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadTicket
+     */
+    'created_by'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadTicket
+     */
+    'status'?: string;
+    /**
+     * 
+     * @type {TicketUser}
+     * @memberof ReadTicket
+     */
+    'assigned_to': TicketUser;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReadTicket
+     */
+    'tenant'?: string;
+}
+/**
+ * 
+ * @export
  * @interface Region
  */
 export interface Region {
@@ -2133,10 +2200,10 @@ export interface Ticket {
     'id'?: number;
     /**
      * 
-     * @type {CustomTicketType}
+     * @type {number}
      * @memberof Ticket
      */
-    'ticket_type': CustomTicketType;
+    'ticket_type': number;
     /**
      * 
      * @type {string}
@@ -2157,10 +2224,10 @@ export interface Ticket {
     'code': string;
     /**
      * 
-     * @type {TicketAsset}
+     * @type {number}
      * @memberof Ticket
      */
-    'asset': TicketAsset;
+    'asset': number;
     /**
      * 
      * @type {string}
@@ -2175,10 +2242,10 @@ export interface Ticket {
     'status'?: string;
     /**
      * 
-     * @type {TicketUser}
+     * @type {number}
      * @memberof Ticket
      */
-    'assigned_to': TicketUser;
+    'assigned_to': number;
     /**
      * 
      * @type {string}
@@ -2410,10 +2477,10 @@ export interface TicketsTicketsList200Response {
     'previous'?: string | null;
     /**
      * 
-     * @type {Array<Ticket>}
+     * @type {Array<ReadTicket>}
      * @memberof TicketsTicketsList200Response
      */
-    'results': Array<Ticket>;
+    'results': Array<ReadTicket>;
 }
 /**
  * 
@@ -2492,13 +2559,15 @@ export interface UserUpdate {
 export const AccountsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         * Lists Activity Log
+         * @summary Lists Activity Log
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [status] Filter by log status (Success or Failed)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiActivityLogsList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        accountsApiActivityLogsList: async (page?: number, pageSize?: number, status?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/accounts/api/activity_logs/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2522,6 +2591,10 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
                 localVarQueryParameter['page_size'] = pageSize;
             }
 
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -2534,14 +2607,12 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
-         * Lists Activity Log
-         * @summary Lists Activity Log
+         * 
          * @param {string} id 
-         * @param {string} [status] Filter by log status
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiActivityLogsRead: async (id: string, status?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        accountsApiActivityLogsRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('accountsApiActivityLogsRead', 'id', id)
             const localVarPath = `/accounts/api/activity_logs/{id}/`
@@ -2559,10 +2630,6 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            if (status !== undefined) {
-                localVarQueryParameter['status'] = status;
-            }
 
 
     
@@ -3859,26 +3926,26 @@ export const AccountsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = AccountsApiAxiosParamCreator(configuration)
     return {
         /**
-         * 
+         * Lists Activity Log
+         * @summary Lists Activity Log
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [status] Filter by log status (Success or Failed)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiActivityLogsList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccountsApiActivityLogsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiActivityLogsList(page, pageSize, options);
+        async accountsApiActivityLogsList(page?: number, pageSize?: number, status?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccountsApiActivityLogsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiActivityLogsList(page, pageSize, status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * Lists Activity Log
-         * @summary Lists Activity Log
+         * 
          * @param {string} id 
-         * @param {string} [status] Filter by log status
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiActivityLogsRead(id: string, status?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityLog>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiActivityLogsRead(id, status, options);
+        async accountsApiActivityLogsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiActivityLogsRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4246,25 +4313,25 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
     const localVarFp = AccountsApiFp(configuration)
     return {
         /**
-         * 
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {number} [pageSize] Number of results to return per page.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        accountsApiActivityLogsList(page?: number, pageSize?: number, options?: any): AxiosPromise<AccountsApiActivityLogsList200Response> {
-            return localVarFp.accountsApiActivityLogsList(page, pageSize, options).then((request) => request(axios, basePath));
-        },
-        /**
          * Lists Activity Log
          * @summary Lists Activity Log
-         * @param {string} id 
-         * @param {string} [status] Filter by log status
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [status] Filter by log status (Success or Failed)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiActivityLogsRead(id: string, status?: string, options?: any): AxiosPromise<ActivityLog> {
-            return localVarFp.accountsApiActivityLogsRead(id, status, options).then((request) => request(axios, basePath));
+        accountsApiActivityLogsList(page?: number, pageSize?: number, status?: string, options?: any): AxiosPromise<AccountsApiActivityLogsList200Response> {
+            return localVarFp.accountsApiActivityLogsList(page, pageSize, status, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiActivityLogsRead(id: string, options?: any): AxiosPromise<ActivityLog> {
+            return localVarFp.accountsApiActivityLogsRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
@@ -4611,6 +4678,13 @@ export interface AccountsApiAccountsApiActivityLogsListRequest {
      * @memberof AccountsApiAccountsApiActivityLogsList
      */
     readonly pageSize?: number
+
+    /**
+     * Filter by log status (Success or Failed)
+     * @type {string}
+     * @memberof AccountsApiAccountsApiActivityLogsList
+     */
+    readonly status?: string
 }
 
 /**
@@ -4625,13 +4699,6 @@ export interface AccountsApiAccountsApiActivityLogsReadRequest {
      * @memberof AccountsApiAccountsApiActivityLogsRead
      */
     readonly id: string
-
-    /**
-     * Filter by log status
-     * @type {string}
-     * @memberof AccountsApiAccountsApiActivityLogsRead
-     */
-    readonly status?: string
 }
 
 /**
@@ -5195,26 +5262,26 @@ export interface AccountsApiAccountsApiUsersUpdateRequest {
  */
 export class AccountsApi extends BaseAPI {
     /**
-     * 
+     * Lists Activity Log
+     * @summary Lists Activity Log
      * @param {AccountsApiAccountsApiActivityLogsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountsApi
      */
     public accountsApiActivityLogsList(requestParameters: AccountsApiAccountsApiActivityLogsListRequest = {}, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiActivityLogsList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return AccountsApiFp(this.configuration).accountsApiActivityLogsList(requestParameters.page, requestParameters.pageSize, requestParameters.status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
-     * Lists Activity Log
-     * @summary Lists Activity Log
+     * 
      * @param {AccountsApiAccountsApiActivityLogsReadRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AccountsApi
      */
     public accountsApiActivityLogsRead(requestParameters: AccountsApiAccountsApiActivityLogsReadRequest, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiActivityLogsRead(requestParameters.id, requestParameters.status, options).then((request) => request(this.axios, this.basePath));
+        return AccountsApiFp(this.configuration).accountsApiActivityLogsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7687,13 +7754,17 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * 
+         * List Policies
+         * @summary List Created Policies
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [name] Filter result by policy name
+         * @param {string} [code] Filter by policy code
+         * @param {boolean} [status] Filter by policy status
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyListCreateList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyListCreateList: async (page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_list_create/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7715,6 +7786,18 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (pageSize !== undefined) {
                 localVarQueryParameter['page_size'] = pageSize;
+            }
+
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
+
+            if (code !== undefined) {
+                localVarQueryParameter['code'] = code;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
             }
 
 
@@ -8551,14 +8634,18 @@ export const PolicyApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         * List Policies
+         * @summary List Created Policies
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [name] Filter result by policy name
+         * @param {string} [code] Filter by policy code
+         * @param {boolean} [status] Filter by policy status
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyListCreateList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyListCreateList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyListCreateList(page, pageSize, options);
+        async policyPolicyListCreateList(page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyListCreateList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyListCreateList(page, pageSize, name, code, status, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -8827,14 +8914,18 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.policyPolicyListCreateCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List Policies
+         * @summary List Created Policies
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [name] Filter result by policy name
+         * @param {string} [code] Filter by policy code
+         * @param {boolean} [status] Filter by policy status
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyListCreateList(page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyPolicyListCreateList200Response> {
-            return localVarFp.policyPolicyListCreateList(page, pageSize, options).then((request) => request(axios, basePath));
+        policyPolicyListCreateList(page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, options?: any): AxiosPromise<PolicyPolicyListCreateList200Response> {
+            return localVarFp.policyPolicyListCreateList(page, pageSize, name, code, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9138,6 +9229,27 @@ export interface PolicyApiPolicyPolicyListCreateListRequest {
      * @memberof PolicyApiPolicyPolicyListCreateList
      */
     readonly pageSize?: number
+
+    /**
+     * Filter result by policy name
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyListCreateList
+     */
+    readonly name?: string
+
+    /**
+     * Filter by policy code
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyListCreateList
+     */
+    readonly code?: string
+
+    /**
+     * Filter by policy status
+     * @type {boolean}
+     * @memberof PolicyApiPolicyPolicyListCreateList
+     */
+    readonly status?: boolean
 }
 
 /**
@@ -9613,14 +9725,15 @@ export class PolicyApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List Policies
+     * @summary List Created Policies
      * @param {PolicyApiPolicyPolicyListCreateListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
     public policyPolicyListCreateList(requestParameters: PolicyApiPolicyPolicyListCreateListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyListCreateList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyListCreateList(requestParameters.page, requestParameters.pageSize, requestParameters.name, requestParameters.code, requestParameters.status, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -10519,13 +10632,18 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * 
+         * List Suppression SetUps
+         * @summary List Suppression Setups
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by Tenant
+         * @param {boolean} [status] Filter by Status
+         * @param {string} [region] Filter by Region
+         * @param {number} [cloudProvider] Filter by Cloud Provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionSetupList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionSetupList: async (page?: number, pageSize?: number, tenant?: number, status?: boolean, region?: string, cloudProvider?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/system_settings/rule_suppression_setup/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10547,6 +10665,22 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
 
             if (pageSize !== undefined) {
                 localVarQueryParameter['page_size'] = pageSize;
+            }
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
+
+            if (region !== undefined) {
+                localVarQueryParameter['region'] = region;
+            }
+
+            if (cloudProvider !== undefined) {
+                localVarQueryParameter['cloud_provider'] = cloudProvider;
             }
 
 
@@ -11074,14 +11208,19 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         * List Suppression SetUps
+         * @summary List Suppression Setups
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by Tenant
+         * @param {boolean} [status] Filter by Status
+         * @param {string} [region] Filter by Region
+         * @param {number} [cloudProvider] Filter by Cloud Provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleSuppressionSetupList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleSuppressionSetupList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionSetupList(page, pageSize, options);
+        async systemSettingsRuleSuppressionSetupList(page?: number, pageSize?: number, tenant?: number, status?: boolean, region?: string, cloudProvider?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleSuppressionSetupList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionSetupList(page, pageSize, tenant, status, region, cloudProvider, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -11347,14 +11486,19 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
             return localVarFp.systemSettingsRuleSuppressionSetupDelete(id, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List Suppression SetUps
+         * @summary List Suppression Setups
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by Tenant
+         * @param {boolean} [status] Filter by Status
+         * @param {string} [region] Filter by Region
+         * @param {number} [cloudProvider] Filter by Cloud Provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionSetupList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRuleSuppressionSetupList200Response> {
-            return localVarFp.systemSettingsRuleSuppressionSetupList(page, pageSize, options).then((request) => request(axios, basePath));
+        systemSettingsRuleSuppressionSetupList(page?: number, pageSize?: number, tenant?: number, status?: boolean, region?: string, cloudProvider?: number, options?: any): AxiosPromise<SystemSettingsRuleSuppressionSetupList200Response> {
+            return localVarFp.systemSettingsRuleSuppressionSetupList(page, pageSize, tenant, status, region, cloudProvider, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -11819,6 +11963,34 @@ export interface SystemSettingsApiSystemSettingsRuleSuppressionSetupListRequest 
      * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupList
      */
     readonly pageSize?: number
+
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupList
+     */
+    readonly tenant?: number
+
+    /**
+     * Filter by Status
+     * @type {boolean}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupList
+     */
+    readonly status?: boolean
+
+    /**
+     * Filter by Region
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupList
+     */
+    readonly region?: string
+
+    /**
+     * Filter by Cloud Provider
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionSetupList
+     */
+    readonly cloudProvider?: number
 }
 
 /**
@@ -12155,14 +12327,15 @@ export class SystemSettingsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List Suppression SetUps
+     * @summary List Suppression Setups
      * @param {SystemSettingsApiSystemSettingsRuleSuppressionSetupListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
     public systemSettingsRuleSuppressionSetupList(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionSetupListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionSetupList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionSetupList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, requestParameters.status, requestParameters.region, requestParameters.cloudProvider, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -12300,13 +12473,19 @@ export const TicketsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         * List Ticket Activities
+         * @summary List Ticket Activities
+         * @param {number} [user] Filter by user id
+         * @param {string} [comments] Filter by comments
+         * @param {string} [timestamp] Filter by time stamp
+         * @param {number} [ticket] Filter by ticket id
+         * @param {number} [activityType] Filter by activity_type id
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketActivitiesList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ticketsTicketActivitiesList: async (user?: number, comments?: string, timestamp?: string, ticket?: number, activityType?: number, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tickets/ticket_activities/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12321,6 +12500,26 @@ export const TicketsApiAxiosParamCreator = function (configuration?: Configurati
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (user !== undefined) {
+                localVarQueryParameter['user'] = user;
+            }
+
+            if (comments !== undefined) {
+                localVarQueryParameter['comments'] = comments;
+            }
+
+            if (timestamp !== undefined) {
+                localVarQueryParameter['timestamp'] = timestamp;
+            }
+
+            if (ticket !== undefined) {
+                localVarQueryParameter['ticket'] = ticket;
+            }
+
+            if (activityType !== undefined) {
+                localVarQueryParameter['activity_type'] = activityType;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -12500,13 +12699,17 @@ export const TicketsApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 
+         * List Ticket Types
+         * @summary List Ticket Types
+         * @param {string} [name] Filter by ticket type name
+         * @param {string} [code] Filter ticket_type code
+         * @param {boolean} [status] Filter by ticket_type status
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketTypesList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        ticketsTicketTypesList: async (name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/tickets/ticket_types/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12521,6 +12724,18 @@ export const TicketsApiAxiosParamCreator = function (configuration?: Configurati
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (name !== undefined) {
+                localVarQueryParameter['name'] = name;
+            }
+
+            if (code !== undefined) {
+                localVarQueryParameter['code'] = code;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -12908,14 +13123,20 @@ export const TicketsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         * List Ticket Activities
+         * @summary List Ticket Activities
+         * @param {number} [user] Filter by user id
+         * @param {string} [comments] Filter by comments
+         * @param {string} [timestamp] Filter by time stamp
+         * @param {number} [ticket] Filter by ticket id
+         * @param {number} [activityType] Filter by activity_type id
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ticketsTicketActivitiesList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TicketsTicketActivitiesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketActivitiesList(page, pageSize, options);
+        async ticketsTicketActivitiesList(user?: number, comments?: string, timestamp?: string, ticket?: number, activityType?: number, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TicketsTicketActivitiesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketActivitiesList(user, comments, timestamp, ticket, activityType, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -12961,14 +13182,18 @@ export const TicketsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * 
+         * List Ticket Types
+         * @summary List Ticket Types
+         * @param {string} [name] Filter by ticket type name
+         * @param {string} [code] Filter ticket_type code
+         * @param {boolean} [status] Filter by ticket_type status
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ticketsTicketTypesList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TicketsTicketTypesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketTypesList(page, pageSize, options);
+        async ticketsTicketTypesList(name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TicketsTicketTypesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketTypesList(name, code, status, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -13047,7 +13272,7 @@ export const TicketsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async ticketsTicketsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Ticket>> {
+        async ticketsTicketsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReadTicket>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.ticketsTicketsRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -13082,14 +13307,20 @@ export const TicketsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.ticketsTicketActivitiesCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List Ticket Activities
+         * @summary List Ticket Activities
+         * @param {number} [user] Filter by user id
+         * @param {string} [comments] Filter by comments
+         * @param {string} [timestamp] Filter by time stamp
+         * @param {number} [ticket] Filter by ticket id
+         * @param {number} [activityType] Filter by activity_type id
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketActivitiesList(page?: number, pageSize?: number, options?: any): AxiosPromise<TicketsTicketActivitiesList200Response> {
-            return localVarFp.ticketsTicketActivitiesList(page, pageSize, options).then((request) => request(axios, basePath));
+        ticketsTicketActivitiesList(user?: number, comments?: string, timestamp?: string, ticket?: number, activityType?: number, page?: number, pageSize?: number, options?: any): AxiosPromise<TicketsTicketActivitiesList200Response> {
+            return localVarFp.ticketsTicketActivitiesList(user, comments, timestamp, ticket, activityType, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -13130,14 +13361,18 @@ export const TicketsApiFactory = function (configuration?: Configuration, basePa
             return localVarFp.ticketsTicketTypesCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * 
+         * List Ticket Types
+         * @summary List Ticket Types
+         * @param {string} [name] Filter by ticket type name
+         * @param {string} [code] Filter ticket_type code
+         * @param {boolean} [status] Filter by ticket_type status
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketTypesList(page?: number, pageSize?: number, options?: any): AxiosPromise<TicketsTicketTypesList200Response> {
-            return localVarFp.ticketsTicketTypesList(page, pageSize, options).then((request) => request(axios, basePath));
+        ticketsTicketTypesList(name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, options?: any): AxiosPromise<TicketsTicketTypesList200Response> {
+            return localVarFp.ticketsTicketTypesList(name, code, status, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -13209,7 +13444,7 @@ export const TicketsApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        ticketsTicketsRead(id: string, options?: any): AxiosPromise<Ticket> {
+        ticketsTicketsRead(id: string, options?: any): AxiosPromise<ReadTicket> {
             return localVarFp.ticketsTicketsRead(id, options).then((request) => request(axios, basePath));
         },
         /**
@@ -13245,6 +13480,41 @@ export interface TicketsApiTicketsTicketActivitiesCreateRequest {
  * @interface TicketsApiTicketsTicketActivitiesListRequest
  */
 export interface TicketsApiTicketsTicketActivitiesListRequest {
+    /**
+     * Filter by user id
+     * @type {number}
+     * @memberof TicketsApiTicketsTicketActivitiesList
+     */
+    readonly user?: number
+
+    /**
+     * Filter by comments
+     * @type {string}
+     * @memberof TicketsApiTicketsTicketActivitiesList
+     */
+    readonly comments?: string
+
+    /**
+     * Filter by time stamp
+     * @type {string}
+     * @memberof TicketsApiTicketsTicketActivitiesList
+     */
+    readonly timestamp?: string
+
+    /**
+     * Filter by ticket id
+     * @type {number}
+     * @memberof TicketsApiTicketsTicketActivitiesList
+     */
+    readonly ticket?: number
+
+    /**
+     * Filter by activity_type id
+     * @type {number}
+     * @memberof TicketsApiTicketsTicketActivitiesList
+     */
+    readonly activityType?: number
+
     /**
      * A page number within the paginated result set.
      * @type {number}
@@ -13336,6 +13606,27 @@ export interface TicketsApiTicketsTicketTypesCreateRequest {
  * @interface TicketsApiTicketsTicketTypesListRequest
  */
 export interface TicketsApiTicketsTicketTypesListRequest {
+    /**
+     * Filter by ticket type name
+     * @type {string}
+     * @memberof TicketsApiTicketsTicketTypesList
+     */
+    readonly name?: string
+
+    /**
+     * Filter ticket_type code
+     * @type {string}
+     * @memberof TicketsApiTicketsTicketTypesList
+     */
+    readonly code?: string
+
+    /**
+     * Filter by ticket_type status
+     * @type {boolean}
+     * @memberof TicketsApiTicketsTicketTypesList
+     */
+    readonly status?: boolean
+
     /**
      * A page number within the paginated result set.
      * @type {number}
@@ -13552,14 +13843,15 @@ export class TicketsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List Ticket Activities
+     * @summary List Ticket Activities
      * @param {TicketsApiTicketsTicketActivitiesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketsApi
      */
     public ticketsTicketActivitiesList(requestParameters: TicketsApiTicketsTicketActivitiesListRequest = {}, options?: AxiosRequestConfig) {
-        return TicketsApiFp(this.configuration).ticketsTicketActivitiesList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return TicketsApiFp(this.configuration).ticketsTicketActivitiesList(requestParameters.user, requestParameters.comments, requestParameters.timestamp, requestParameters.ticket, requestParameters.activityType, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -13607,14 +13899,15 @@ export class TicketsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List Ticket Types
+     * @summary List Ticket Types
      * @param {TicketsApiTicketsTicketTypesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TicketsApi
      */
     public ticketsTicketTypesList(requestParameters: TicketsApiTicketsTicketTypesListRequest = {}, options?: AxiosRequestConfig) {
-        return TicketsApiFp(this.configuration).ticketsTicketTypesList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return TicketsApiFp(this.configuration).ticketsTicketTypesList(requestParameters.name, requestParameters.code, requestParameters.status, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
