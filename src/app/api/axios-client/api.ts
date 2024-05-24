@@ -515,7 +515,7 @@ export interface CreateRuleSuppressionSetUp {
      * @type {number}
      * @memberof CreateRuleSuppressionSetUp
      */
-    'cloud_provider': number;
+    'cloud_provider': number | null;
     /**
      * 
      * @type {number}
