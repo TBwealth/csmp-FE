@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import {
   useGetAllScanHistory,
   useGetScanStat,
+  useGetPolicies,
 } from "../../../api/api-services/policyQuery";
 import { useRecoilValue } from "recoil";
 import { FaGlobe } from "react-icons/fa";
@@ -12,6 +13,9 @@ import {
   PolicyPolicyRunScanStatsList200Response,
 } from "../../../api/axios-client";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
+import { ColumnTypes } from "../../../components/models";
+import FilterModal from "../../../components/FilterModal";
+import { TableColumn } from "../../../components/tableComponents/models";
 
 const ScanCard = ({
   policy,
@@ -31,13 +35,29 @@ const ScanCard = ({
       }`}
     >
       <p className="font-semibold text-[12px] col-span-2">{policy}</p>
-      <p className={`font-medium flex text-[12px] items-center justify-center ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{cloud}</p>
-      <p className={`font-medium flex text-[12px] items-center justify-center ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{Date}</p>
+      <p
+        className={`font-medium flex text-[12px] items-center justify-center ${
+          mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+        }`}
+      >
+        {cloud}
+      </p>
+      <p
+        className={`font-medium flex text-[12px] items-center justify-center ${
+          mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+        }`}
+      >
+        {Date}
+      </p>
       <p className="font-semibold text-[#FF161A] text-[12px] flex items-center justify-center">
         {Vulnerability}
       </p>
       <div className="font-medium text-[12px] flex items-center justify-between">
-        <p className={`${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{Compliance} %</p>
+        <p
+          className={`${mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"}`}
+        >
+          {Compliance} %
+        </p>
         <button onClick={() => navigate(`/monitoring/resource-scanning/${id}`)}>
           <svg
             width="17"
@@ -77,7 +97,11 @@ const ReOccurringCard = ({ title, next, region, mode }: any) => {
           <FaGlobe color={mode === "dark" ? "#EAEAEA" : "#000000"} size={14} />
           <span className="text-[12px] font-semibold">{region}</span>
         </p>
-        <p className={`${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>{next}</p>
+        <p
+          className={`${mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"}`}
+        >
+          {next}
+        </p>
         <div className="flex items-center gap-4">
           <button>
             <svg
@@ -139,6 +163,7 @@ const ReOccurringCard = ({ title, next, region, mode }: any) => {
 
 const ScanHistory = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [showPopOver, setShowPopOver] = useState(false);
   const [allScanHistory, setAllScanHistory] = useState<any[]>([]);
   const [isNext, setIsNext] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
@@ -146,23 +171,78 @@ const ScanHistory = () => {
   const [page, setPage] = useState(1);
   const [stats, setStats] = useState<any>(null);
   const [tab, setTab] = useState("scan history");
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    policy: undefined,
+    cloudProvider: undefined,
+    date: undefined,
+  });
+
+  const [filterFields, setFilterFields] = useState<TableColumn[]>([
+    {
+      name: "cloudProvider",
+      title: "Cloud Provider",
+      type: ColumnTypes.List,
+      listValue: [
+        { id: "AWS", name: "aws" },
+        { id: "AZURE", name: "azure" },
+        { id: "GCP", name: "gcp" },
+      ],
+      listIdField: "id",
+      listTextField: "name",
+    },
+    {
+      name: "policy",
+      title: "Policy",
+      type: ColumnTypes.List,
+      listValue: [],
+      listIdField: "id",
+      listTextField: "name",
+    },
+    {
+      name: "date",
+      title: "Date",
+      type: ColumnTypes.Date,
+    },
+  ]);
+
   const {
     data: scanHistory,
     isLoading,
     refetch,
-  } = useGetAllScanHistory(page, pageSize);
+  } = useGetAllScanHistory({ ...filter.current });
   const datastsr: PolicyPolicyRunScanHistoryList200Response | any = scanHistory;
 
   const { data: stat } = useGetScanStat();
-
   const statstr: PolicyPolicyRunScanStatsList200Response | any = stat;
+  const { data: policies } = useGetPolicies({ page: 1, pageSize: 1000 });
+  const policiestr: PolicyPolicyRunScanStatsList200Response | any = policies;
 
   useEffect(() => {
     setAllScanHistory(datastsr?.data?.data?.results ?? []);
     setIsNext(datastsr?.data?.data.next ? true : false);
     setTotalCount(datastsr?.data?.data.count);
     setStats(statstr?.data?.data);
-  }, [scanHistory, statstr]);
+    if (policiestr?.data?.data?.results) {
+      const trans: TableColumn[] = filterFields.map((fi: TableColumn) => {
+        if (fi.name === "policy") {
+          return {
+            ...fi,
+            listValue: policiestr?.data?.data?.results.map((res: any) => {
+              return {
+                id: res?.id,
+                name: res?.name,
+              };
+            }),
+          };
+        } else {
+          return fi;
+        }
+      });
+      setFilterFields([...trans]);
+    }
+  }, [scanHistory, statstr, policiestr]);
 
   const ocuringdata = [
     {
@@ -183,9 +263,26 @@ const ScanHistory = () => {
   ];
 
   function refreshrecord() {
-    useGetAllScanHistory(page, 5);
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      policy: undefined,
+      cloudProvider: undefined,
+      date: undefined,
+    };
+    refetch();
   }
 
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      policy: data?.policy,
+      cloudProvider: data?.cloudProvider,
+      date: data?.date,
+    };
+    refetch();
+  }
   useEffect(() => {
     refetch();
   }, [page, pageSize]);
@@ -250,7 +347,13 @@ const ScanHistory = () => {
           </svg>
           <h1 className="font-semibold text-[18px]">
             {stats?.total_scans ?? 0}
-            <span className={`pl-2 font-normal text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>Total scan </span>
+            <span
+              className={`pl-2 font-normal text-[14px] ${
+                mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+              }`}
+            >
+              Total scan{" "}
+            </span>
           </h1>
         </div>
         <div
@@ -304,7 +407,13 @@ const ScanHistory = () => {
 
           <h1 className="font-semibold text-[18px]">
             {stats?.recurring_scans ?? 0}
-            <span className={`pl-2 font-normal text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>Reoccurring Scans </span>
+            <span
+              className={`pl-2 font-normal text-[14px] ${
+                mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+              }`}
+            >
+              Reoccurring Scans{" "}
+            </span>
           </h1>
           <svg
             width="18"
@@ -372,12 +481,24 @@ const ScanHistory = () => {
 
           <h1 className="font-semibold text-[18px]">
             {stats?.threats_found ?? 0}
-            <span className={`pl-2 font-normal text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>Threats found </span>
+            <span
+              className={`pl-2 font-normal text-[14px] ${
+                mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+              }`}
+            >
+              Threats found{" "}
+            </span>
           </h1>
           <div className="flex items-center gap-3 border-start pl-2">
             <h1 className="font-semibold text-[18px]">
               {stats?.resolved ?? 0}
-              <span className={`pl-2 font-normal text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}`}>Resolved </span>
+              <span
+                className={`pl-2 font-normal text-[14px] ${
+                  mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+                }`}
+              >
+                Resolved{" "}
+              </span>
             </h1>
             <svg
               width="18"
@@ -416,7 +537,9 @@ const ScanHistory = () => {
               className={`uppercase p-4 ${
                 d === tab
                   ? "font-bold text-[14px] border-bottom-3 border-primary"
-                  : `font-medium text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"}` 
+                  : `font-medium text-[14px] ${
+                      mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+                    }`
               }`}
               onClick={() => setTab(d)}
             >
@@ -425,10 +548,17 @@ const ScanHistory = () => {
           ))}
         </div>
         <div className="flex items-center gap-5">
-          <select name="" id="" className="bg-transparent p-2 text-[12px] font-medium">
+          {/* <select
+            name=""
+            id=""
+            className="bg-transparent p-2 text-[12px] font-medium"
+          >
             <option value="">Group By</option>
-          </select>
-          <button className="flex text-[12px] font-medium items-center gap-3">
+          </select> */}
+          <button
+            onClick={() => setShowPopOver(!showPopOver)}
+            className="flex text-[12px] font-medium items-center gap-3"
+          >
             <p>Filter</p>
             <svg
               width="18"
@@ -506,7 +636,9 @@ const ScanHistory = () => {
                 />
               </svg>
             </button>
-            <p className="font-semibold text-[12px] text-center">Vulnerability</p>
+            <p className="font-semibold text-[12px] text-center">
+              Vulnerability
+            </p>
             <p className="font-semibold text-[12px]">Compliance</p>
           </div>
           {isLoading || allScanHistory.length < 1 ? (
@@ -596,6 +728,12 @@ const ScanHistory = () => {
           ))}
         </div>
       )}
+      <FilterModal
+        filterDataChange={(e) => filterUpdated(e)}
+        headfilterFields={filterFields}
+        setshowFilter={(e) => setShowPopOver(e)}
+        showFilter={showPopOver}
+      />
     </div>
   );
 };

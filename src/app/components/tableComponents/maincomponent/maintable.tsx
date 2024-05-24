@@ -460,7 +460,8 @@ export const MainTableComponent = ({
     setusersTableData(innUserData);
   }
   function handleSearch(event: any) {
-    if (event && (event !== "" || event === null)) {
+    const inp = event.target.value;
+    if (inp) {
       setusersTableData(tableData!);
       let truchk = false;
       setusersTableData(
@@ -471,7 +472,7 @@ export const MainTableComponent = ({
                 uf[sval.name]
                   .toString()
                   .toLowerCase()
-                  .indexOf(event.toString().toLowerCase()) > -1
+                  .includes(inp.toLowerCase())
               ) {
                 truchk = true;
                 return true;

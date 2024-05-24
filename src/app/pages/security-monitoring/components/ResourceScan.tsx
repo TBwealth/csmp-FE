@@ -16,7 +16,6 @@ import {
   useGetAllScanResults,
 } from "../../../api/api-services/policyQuery";
 import {
-  CloudProviderCloudProviderResourceTypesList200Response,
   SystemSettingsRegionsList200Response,
   PolicyPolicyListCreateList200Response,
   AccountsApiTenantsList200Response,
@@ -47,7 +46,6 @@ const ResourceScan = () => {
   const [showScan, setShowScan] = useState(false);
   const [errorMess, setErrorMess] = useState<any>(null);
   const [errType, setErrType] = useState<any>(null);
-  const { data } = useGetCloudProviderResourceTypes({page, pageSize});
   const [loadingData, setLoadingData] = useState({
     name: "",
     policy: "",
@@ -57,16 +55,15 @@ const ResourceScan = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [token, setToken] = useState("");
-  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
-    data;
-  const { data: region } = useGetRegions(1);
+
+  const { data: region } = useGetRegions({page: 1, pageSize: 1000});
   const regionstsr: SystemSettingsRegionsList200Response | any = region;
-  const { data: policies } = useGetPolicies({page, pageSize});
+  const { data: policies } = useGetPolicies({ page: 1, pageSize: 10000 });
   const policystsr: PolicyPolicyListCreateList200Response | any = policies;
   // const { data: scan } = useGetAllScanResults();
   // const scanstsr: PolicyPolicyListCreateList200Response | any = scan;
 
-  const { data: tenant } = useGetAccountTenant({page:1, pageSize: 100});
+  const { data: tenant } = useGetAccountTenant({ page: 1, pageSize: 100 });
 
   const tenantstsr: AccountsApiTenantsList200Response | any = tenant;
 
@@ -107,11 +104,15 @@ const ResourceScan = () => {
   };
 
   useEffect(() => {
-    if(user?.role.name === "Tenant") {
-      setAllProviders(datastsr?.data?.data?.results.filter((res:any) => user?.tenant?.id === res.tenant) || []);
-    } else {
-      setAllProviders(datastsr?.data?.data?.results || []);
-    }
+    // if (user?.role.name === "Tenant") {
+    //   setAllProviders(
+    //     datastsr?.data?.data?.results.filter(
+    //       (res: any) => user?.tenant?.id === res.tenant
+    //     ) || []
+    //   );
+    // } else {
+    //   setAllProviders(datastsr?.data?.data?.results || []);
+    // }
     setAllRegions(regionstsr?.data?.data?.results || []);
     setAllPolicy(policystsr?.data?.data?.results || []);
     setAllTenant(tenantstsr?.data?.data?.results || []);
@@ -120,19 +121,16 @@ const ResourceScan = () => {
     } else {
       fetchTenantLatestScan(user?.tenant?.id);
     }
-  }, [datastsr, regionstsr, policystsr, tenantstsr, user]);
+  }, [regionstsr, policystsr, tenantstsr, user]);
 
-  const getSelectedData = (pol_id: string, reg_id: string, pro_id: string) => {
+  const getSelectedData = (pol_id: string, reg_id: string) => {
     const selectedPol = allPolicy.filter((pol) => pol.id === Number(pol_id))[0];
     const selectedReg = allRegions.filter(
       (pol) => pol.id === Number(reg_id)
     )[0];
-    const selectedPro = allProviders.filter(
-      (pol) => pol.id === Number(pro_id)
-    )[0];
     setLoadingData({
       policy: selectedPol.name,
-      name: selectedPro.name,
+      name: "AWS",
       region: selectedReg.name,
     });
   };
@@ -177,7 +175,7 @@ const ResourceScan = () => {
               <div className="mt-10">
                 <Formik
                   initialValues={{
-                    provider: "",
+                    provider: "AWS",
                     policy_id: "",
                     region: "",
                     frequency: "",
@@ -187,7 +185,6 @@ const ResourceScan = () => {
                     getSelectedData(
                       values.policy_id,
                       values.region,
-                      values.provider
                     );
                     setLoading(true);
                     mutate(
@@ -196,7 +193,7 @@ const ResourceScan = () => {
                           policy_id: +values.policy_id,
                           regions: [values.region],
                           services: [values.provider],
-                          scan_frequency: values.frequency
+                          scan_frequency: values.frequency,
                         },
                       },
                       {
@@ -261,7 +258,9 @@ const ResourceScan = () => {
                               ></path>
                             </svg>
                           </span>
-                          <p className="font-semibold text-[14px]">Select your Cloud Provider</p>
+                          <p className="font-semibold text-[14px]">
+                            Select your Cloud Provider
+                          </p>
                         </label>
                         <select
                           autoComplete="off"
@@ -279,9 +278,22 @@ const ResourceScan = () => {
                           )}
                         >
                           <option>Select Provider</option>
-                          {allProviders.filter((m) => m.connection_status === "Connected").map((provider) => (
+                          {[
+                            {
+                              id: "AWS",
+                              name: "aws",
+                            },
+                            {
+                              id: "AZURE",
+                              name: "azure",
+                            },
+                            {
+                              id: "GPC",
+                              name: "gpc",
+                            },
+                          ].map((provider) => (
                             <option key={provider.name} value={provider.id}>
-                              {provider.account_id}
+                              {provider.name}
                             </option>
                           ))}
                         </select>
@@ -325,7 +337,9 @@ const ResourceScan = () => {
                               ></path>
                             </svg>
                           </span>
-                          <p className="font-semibold text-[14px]">Compliant Policy </p>
+                          <p className="font-semibold text-[14px]">
+                            Compliant Policy{" "}
+                          </p>
                         </label>
                         <select
                           autoComplete="off"
@@ -361,7 +375,9 @@ const ResourceScan = () => {
                             color={mode === "dark" ? "#EAEAEA" : "#000000"}
                             size={16}
                           />
-                          <p className="font-semibold text-[14px]">Select a Region</p>
+                          <p className="font-semibold text-[14px]">
+                            Select a Region
+                          </p>
                         </label>
                         <select
                           autoComplete="off"
@@ -396,7 +412,9 @@ const ResourceScan = () => {
                             color={mode === "dark" ? "#EAEAEA" : "#000000"}
                             size={16}
                           />
-                          <p className="font-semibold text-[14px]">Scan Frequency </p>
+                          <p className="font-semibold text-[14px]">
+                            Scan Frequency{" "}
+                          </p>
                         </label>
                         <select
                           autoComplete="off"
@@ -450,7 +468,6 @@ const ResourceScan = () => {
                           !form.isValid ||
                           !form.values.frequency ||
                           !form.values.policy_id ||
-                          !form.values.provider ||
                           !form.values.region
                         }
                       >

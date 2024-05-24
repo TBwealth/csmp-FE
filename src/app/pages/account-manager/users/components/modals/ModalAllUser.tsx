@@ -12,19 +12,11 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(100);
-  const [roles, setRoles] = useState<any[] | undefined>([]);
-  const [tenant, setTenant] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
-  const [password1Value, setpassword1Value] = useState("");
-  const [password2Value, setpassword2Value] = useState("");
   const [emailValue, setEmailValue] = useState("");
-  const [isValid, setIsValid] = useState(false);
-  const [showP1, setShowP1] = useState(false);
-  const [showP2, setShowP2] = useState(false);
+
   const { showAlert, hideAlert, Alert } = useAlert();
 
   // const {
@@ -87,8 +79,6 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           first_name: firstNameValue,
           last_name: lastNameValue,
           email: emailValue,
-          password: password1Value,
-          password2: password2Value,
         },
       },
       {
@@ -183,67 +173,7 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
                 onChange={(e) => setEmailValue(e.target.value)}
               />
             </div>
-            {!editItem && (
-              <>
-                <div className="relative">
-                  <label className="form-label fs-6 fw-bold">Password:</label>
-                  <input
-                    placeholder="Enter Password"
-                    type={showP1 ? "text" : "password"}
-                    name="password1"
-                    autoComplete="off"
-                    className="form-control bg-transparent"
-                    value={password1Value}
-                    onChange={(e) => {
-                      setpassword1Value(e.target.value);
-                      if (e.target.value === password2Value) {
-                        setIsValid(true);
-                      } else {
-                        setIsValid(false);
-                      }
-                    }}
-                  />
-                  <button
-                    onClick={() => setShowP1(!showP1)}
-                    className="absolute top-12 right-3"
-                  >
-                    {showP1 ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
-                  </button>
-                </div>
-                <div className="relative">
-                  <label className="form-label fs-6 fw-bold">
-                    Confirm Password:
-                  </label>
-                  <input
-                    placeholder="Enter Password"
-                    type={showP2 ? "text" : "password"}
-                    name="password2"
-                    autoComplete="off"
-                    className="form-control bg-transparent"
-                    value={password2Value}
-                    onChange={(e) => {
-                      setpassword2Value(e.target.value);
-                      if (e.target.value === password1Value) {
-                        setIsValid(true);
-                      } else {
-                        setIsValid(false);
-                      }
-                    }}
-                  />
-                  <button
-                    onClick={() => setShowP2(!showP2)}
-                    className="absolute top-12 right-3"
-                  >
-                    {showP2 ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
-                  </button>
-                  {password2Value && !isValid && (
-                    <p className="text-red-500 text-xs mt-1 italic">
-                      Password does not match
-                    </p>
-                  )}
-                </div>
-              </>
-            )}
+           
             {/* <div className="mb-10">
               <label className="form-label fs-6 fw-bold">Role:</label>
               <select
@@ -291,8 +221,7 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
             disabled={
               !firstNameValue ||
               !lastNameValue ||
-              !emailValue ||
-              (!editItem && !password1Value && !password2Value && !isValid)
+              !emailValue
             }
             onClick={editItem ? editHandleSubmit : createHandleSubmit}
           >

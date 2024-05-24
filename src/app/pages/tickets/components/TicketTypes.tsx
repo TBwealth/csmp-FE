@@ -164,6 +164,7 @@ const TicketTypes = () => {
     refetch();
   }
   function filterUpdated(data: any) {
+    console.log(data);
     filter.current = {
       page: data?.page ?? 1,
       pageSize: data?.pageSize ?? 10,

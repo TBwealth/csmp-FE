@@ -2,6 +2,8 @@ import {
   SystemSettingsApiSystemSettingsAssetManagementsCreateRequest,
   SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest,
   SystemSettingsApiSystemSettingsRegionsCreateRequest,
+  SystemSettingsApiSystemSettingsRuleSuppressionSetupCreateRequest,
+  SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdateRequest,
 } from "../axios-client";
 
 import { systemApi } from "./apiUrl";
@@ -57,19 +59,19 @@ export const useUpdateAssets = (id: number) => {
 
 // Region
 
-export const useGetRegions = (page: number) => {
+export const useGetRegions = (data: any) => {
   const query = useQuery(["regions"], () =>
-    systemApi.systemSettingsRegionsList({ page })
+    systemApi.systemSettingsRegionsList({ ...data })
   );
   return query;
 };
 
 export const useGetSingleRegion = (id: number) => {
-    const query = useQuery(["region-id"], () =>
-      systemApi.systemSettingsRegionsRead({ id })
-    );
-    return query;
-  };
+  const query = useQuery(["region-id"], () =>
+    systemApi.systemSettingsRegionsRead({ id })
+  );
+  return query;
+};
 
 export const useCreateRegion = () => {
   const queryClient = useQueryClient();
@@ -77,30 +79,95 @@ export const useCreateRegion = () => {
     (data: SystemSettingsApiSystemSettingsRegionsCreateRequest) =>
       systemApi.systemSettingsRegionsCreate({ ...data }),
     {
-        onSuccess: () => {
-          queryClient.invalidateQueries(["regions"]);
-        },
-      }
+      onSuccess: () => {
+        queryClient.invalidateQueries(["regions"]);
+      },
+    }
   );
   return mutation;
 };
 
 export const useUpdateRegion = (id: number) => {
-    const queryClient = useQueryClient();
-    const mutation = useMutation(
-      ({
-        id,
-        data,
-    //   }: SystemSettingsApiSystemSettingsSystemSettingsUpdateRequest ) =>
-      }: any ) =>
-        systemApi.systemSettingsRegionsUpdate({id, data }),
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries(["regions"]);
-        },
-      }
-    );
-    return mutation;
-  };
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    ({
+      id,
+      data,
+    }: //   }: SystemSettingsApiSystemSettingsSystemSettingsUpdateRequest ) =>
+    any) => systemApi.systemSettingsRegionsUpdate({ id, data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["regions"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+/*
+  SUPPRESSION
+
+  */
+
+//suppression setup
+
+export const useGetSuppressionSetups = (data: any) => {
+  const query = useQuery(["setups"], () =>
+    systemApi.systemSettingsRuleSuppressionSetupList({ ...data })
+  );
+  return query;
+};
+
+export const usePostSuppressionSetup = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: SystemSettingsApiSystemSettingsRuleSuppressionSetupCreateRequest) =>
+      systemApi.systemSettingsRuleSuppressionSetupCreate({ ...data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["setups"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+export const useUpdateSuppressionSetup = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    ({
+      id,
+      data,
+    }: SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdateRequest) =>
+      systemApi.systemSettingsRuleSuppressionSetupPartialUpdate({ id, data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["setups"]);
+      },
+    }
+  );
+  return mutation;
+};
+
+// suppression logs
+export const useGetSuppressionLogs = (data: any) => {
+  const query = useQuery(["suplogs"], () =>
+    systemApi.systemSettingsRuleSuppressionLogList({ ...data })
+  );
+  return query;
+};
 
 
+// export const usePostSuppressionLog = () => {
+//   const queryClient = useQueryClient();
+//   const mutation = useMutation(
+//     (data: SystemSettingsApiSystemSettingsRuleSuppressionSetupCreateRequest) =>
+//       systemApi.({ ...data }),
+//     {
+//       onSuccess: () => {
+//         queryClient.invalidateQueries(["setups"]);
+//       },
+//     }
+//   );
+//   return mutation;
+// };

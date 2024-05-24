@@ -204,6 +204,7 @@ export const TableheaderComponent = ({
 
   function submitFilter() {
     filterDataChange(filterData);
+    setfilterData({})
     setshowFilter(false);
   }
 

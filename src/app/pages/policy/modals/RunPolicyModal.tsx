@@ -26,8 +26,6 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
       {
         onSuccess: (res: any) => {
           showAlert(res?.data?.message, "success");
-          hideAlert();
-          console.log(res);
         },
         onError: (err) => {
           if (err instanceof Error) {
@@ -54,7 +52,6 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
         onSuccess: (res: any) => {
           console.log(res);
           showAlert(res?.data?.message, "success");
-          hideAlert();
           console.log(res);
         },
         onError: (err) => {

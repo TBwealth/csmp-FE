@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Popover } from "react-tiny-popover";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import SetupModal from "./modal/SetupModal";
+import {
+  useGetSuppressionSetups,
+  useGetRegions,
+} from "../../../api/api-services/systemQuery";
+import FilterModal from "../../../components/FilterModal";
 import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
-import { AccountsApiTenantsList200Response } from "../../../api/axios-client";
+import { AccountsApiTenantsList200Response, SystemSettingsRuleSuppressionSetupList200Response } from "../../../api/axios-client";
+import DefaultContent from "../../../components/defaultContent/defaultContent";
+import { TableColumn } from "../../../components/tableComponents/models";
+import { ColumnTypes } from "../../../components/models";
 
 const SetupCard = ({
   provider,
@@ -54,7 +61,7 @@ const SetupCard = ({
             fill="#FF9900"
           />
         </svg>
-        <p className="font-semibold text-[12px]">{provider}</p>
+        <p className="font-semibold text-[12px]">AWS</p>
       </div>
       <p className="font-semibold text-[12px] text-center">{tenant_id}</p>
       <p className="font-semibold text-[12px] text-center">{type}</p>
@@ -64,12 +71,12 @@ const SetupCard = ({
       <p className="font-semibold text-[12px]">{exp_date}</p>
       <p
         className={`font-bold text-[10px] text-center rounded-full w-14 mx-auto px-2 py-1 ${
-          status.toLowerCase() === "active"
+          status
             ? "bg-[#284CB31A] text-primary"
             : "bg-[#FF7D301A] text-[#FF7D30]"
         }`}
       >
-        {status}
+        {status.toString()}
       </p>
       <div className="col-span-2 flex items-center justify-between w-full">
         <p className="font-normal text-[10px] w-72">
@@ -104,18 +111,98 @@ const SetupCard = ({
 const SuppressionSetup = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [listTenants, setListTenants] = useState<any[]>([]);
+  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const [allSetups, setAllsetups] = useState<any[]>([]);
   const [showPopOver, setShowPopOver] = useState(false);
   const [editItem, setEditItems] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    status: undefined,
+    cloudProvider: undefined,
+    region: undefined,
+  });
+
+  const [filterFields, setFilterFields] = useState<TableColumn[]>([
+    {
+      name: "cloudProvider",
+      title: "Provider",
+      type: ColumnTypes.List,
+      listValue: [
+        { id: "AWS", name: "aws" },
+        { id: "AZURE", name: "Azure" },
+        { id: "GC[", name: "gcp" },
+      ],
+      listIdField: "id",
+      listTextField: "name",
+    },
+    {
+      name: "region",
+      title: "Region",
+      type: ColumnTypes.List,
+      listValue: [],
+      listIdField: "id",
+      listTextField: "name",
+    },
+    {
+      name: "status",
+      title: "Status",
+      type: ColumnTypes.List,
+      listValue: [
+        {
+          id: false,
+          name: "Inactive",
+        },
+        {
+          id: true,
+          name: "Active",
+        },
+      ],
+      listIdField: "name",
+      listTextField: "name",
+    },
+  ]);
   // const [pageSize, setPageSize] = useState(100);
   // const [page, setPage] = useState(1);
 
+  const { data, isLoading, refetch } = useGetSuppressionSetups({
+    ...filter.current,
+  });
+  const datastsr: SystemSettingsRuleSuppressionSetupList200Response | any = data;
   const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
   const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
+  const { data: region } = useGetRegions({ page: 1, pageSize: 1000 });
+  const regionstsr: AccountsApiTenantsList200Response | any = region;
 
   useEffect(() => {
     setListTenants(tenantstsr?.data?.data?.results);
-  }, [tenantstsr]);
+    setAllsetups(datastsr?.data?.data?.results);
+    setshowEmpty(
+      datastsr?.data?.data?.results
+        ? datastsr?.data?.data?.results.length === 0
+        : true
+    );
+
+    if (regionstsr?.data?.data?.results) {
+      setFilterFields(() =>
+        filterFields.map((fi: TableColumn) => {
+          if (fi.name === "region") {
+            return {
+              ...fi,
+              listValue: regionstsr?.data?.data?.results.map((reg: any) => {
+                return {
+                  name: reg?.region_name,
+                };
+              }),
+            };
+          } else {
+            return fi;
+          }
+        })
+      );
+    }
+  }, [tenantstsr, datastsr, regionstsr]);
 
   const setups = [
     {
@@ -164,6 +251,29 @@ const SuppressionSetup = () => {
     },
   ];
 
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      status: data?.status,
+      cloudProvider: data?.cloudProvider,
+      region: data?.region,
+    };
+    refetch();
+  }
+
+  function refreshrecord() {
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      status: undefined,
+      cloudProvider: undefined,
+      region: undefined,
+    };
+    refetch();
+  }
+
+  // console.log(allSetups);
   return (
     <>
       <div className="w-[90%] mx-auto pt-12">
@@ -208,7 +318,7 @@ const SuppressionSetup = () => {
               </svg>
             </div>
             <div className="flex items-center gap-3">
-              <h1 className="text-[18px] font-bold">0</h1>
+              <h1 className="text-[18px] font-bold">{allSetups.length}</h1>
               <p
                 className={`text-[14px] font-medium ${
                   mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
@@ -255,203 +365,181 @@ const SuppressionSetup = () => {
         </div>
         <div className="my-10 pb-4 border-bottom flex items-center justify-between w-full">
           <p className="text-[14px] font-semibold">Suppressions</p>
-          <Popover
-            onClickOutside={() => setShowPopOver(false)}
-            isOpen={showPopOver}
-            positions={["bottom", "left", "top", "right"]}
-            content={
-              <div
-                className={`w-64 p-6 rounded-md shadow-sm ${
-                  mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
-                }`}
-              >
-                <div className="form-group">
-                  <label htmlFor="tenant" className="w-full mb-2">
-                    Tenant
-                  </label>
-                  <select
-                    data-placeholder="Select option"
-                    autoComplete="off"
-                    className="form-control bg-transparent"
-                    // value={asset.tenant}
-                    onChange={(e) =>
-                      setShowPopOver(false)
-                    }
-                  >
-                    <option value="">Select Tenant</option>
-                    {listTenants?.map((item) => (
-                      <option key={item?.id} value={item?.id}>
-                        {item?.full_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            }
+          <button
+            onClick={() => setShowPopOver(!showPopOver)}
+            className="text-[14px] pl-3 border-start flex items-center justify-center gap-3"
           >
-            <button
-              onClick={() => setShowPopOver(!showPopOver)}
-              className="text-[14px] pl-3 border-start flex items-center justify-center gap-3"
+            <span className="underline">Filter</span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <span className="underline">Filter</span>
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M2.25 4.5H15.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M5.25 9L12.75 9"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M8.25 13.5L9.75 13.5"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          </Popover>
+              <path
+                d="M2.25 4.5H15.75"
+                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5.25 9L12.75 9"
+                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M8.25 13.5L9.75 13.5"
+                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
         </div>
         <div className="w-full overflow-auto p-2">
-          <div
-            className={`grid grid-cols-10 p-4 rounded-md mb-3 shadow-sm border w-[280vw] md:w-full ${
-              mode === "dark" ? "bg-lightDark" : "bg-white"
-            }`}
-          >
-            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
-              <span>Cloud Provider</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
-              <span>Tenant ID</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
-              <span>Type</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <p className="font-semibold text-[12px]">Resource ID</p>
-            <p className="font-semibold text-[12px]">Rule ID</p>
-            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
-              <span>Region</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <p className="font-semibold text-[12px]">Exp Date</p>
-            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
-              <span>Status</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <p className="font-semibold text-[12px] col-span-2">Comment</p>
-          </div>
-          {setups.map((setup, idx) => (
-            <SetupCard
-              key={setup.provider + idx}
-              provider={setup.provider}
-              comment={setup.comment}
-              resource_id={setup.resource_id}
-              rule_id={setup.rule_id}
-              type={setup.type}
-              exp_date={setup.exp_date}
-              status={setup.status}
-              tenant_id={setup.tenant_id}
-              mode={mode}
-              region={setup.region}
-              setData={() => {
-                setEditItems(setup);
-                setShowModal(true);
-              }}
+          {showEmpty ? (
+            <DefaultContent
+              pageHeader="All Suppression setups"
+              pageDescription="No record found"
+              loading={isLoading}
+              buttonValue="Refresh"
+              buttonClick={() => refreshrecord()}
             />
-          ))}
+          ) : (
+            <>
+              <div
+                className={`grid grid-cols-10 p-4 rounded-md mb-3 shadow-sm border w-[280vw] md:w-full ${
+                  mode === "dark" ? "bg-lightDark" : "bg-white"
+                }`}
+              >
+                <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
+                  <span>Cloud Provider</span>{" "}
+                  <svg
+                    width="10"
+                    height="5"
+                    viewBox="0 0 10 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 0.75L5 4.25L8.5 0.75"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
+                  <span>Tenant ID</span>{" "}
+                  <svg
+                    width="10"
+                    height="5"
+                    viewBox="0 0 10 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 0.75L5 4.25L8.5 0.75"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
+                  <span>Type</span>{" "}
+                  <svg
+                    width="10"
+                    height="5"
+                    viewBox="0 0 10 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 0.75L5 4.25L8.5 0.75"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <p className="font-semibold text-[12px]">Resource ID</p>
+                <p className="font-semibold text-[12px]">Rule ID</p>
+                <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
+                  <span>Region</span>{" "}
+                  <svg
+                    width="10"
+                    height="5"
+                    viewBox="0 0 10 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 0.75L5 4.25L8.5 0.75"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <p className="font-semibold text-[12px]">Exp Date</p>
+                <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
+                  <span>Status</span>{" "}
+                  <svg
+                    width="10"
+                    height="5"
+                    viewBox="0 0 10 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 0.75L5 4.25L8.5 0.75"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <p className="font-semibold text-[12px] col-span-2">Comment</p>
+              </div>
+              {allSetups.map((setup, idx) => (
+                <SetupCard
+                  key={setup.provider + idx}
+                  provider={setup?.provider ?? ""}
+                  comment={setup?.comments}
+                  resource_id={setup?.resource_type?.id}
+                  rule_id={setup?.rule?.id}
+                  type={setup?.resource.id}
+                  exp_date={setup?.expiration}
+                  status={setup?.status}
+                  tenant_id={setup?.tenant}
+                  mode={mode}
+                  region={setup?.region}
+                  setData={() => {
+                    setEditItems(setup);
+                    setShowModal(true);
+                  }}
+                />
+              ))}
+            </>
+          )}
         </div>
       </div>
       {showModal && (
         <SetupModal
           isOpen={showModal}
           editItem={editItem}
+          regions={regionstsr?.data?.data?.results}
           mode={mode}
           handleHide={() => {
             setEditItems(null);
@@ -459,6 +547,13 @@ const SuppressionSetup = () => {
           }}
         />
       )}
+
+      <FilterModal
+        filterDataChange={(e) => filterUpdated(e)}
+        headfilterFields={filterFields}
+        setshowFilter={(e) => setShowPopOver(e)}
+        showFilter={showPopOver}
+      />
     </>
   );
 };

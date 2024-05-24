@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import useAlert from "../components/useAlert";
 import { ComponentsheaderComponent } from "../../components/componentsheader/componentsheader.component";
@@ -66,13 +66,32 @@ const PolicyRule = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState<boolean>(true);
   const currentPage = 0;
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    name: undefined,
+    status: undefined,
+    code: undefined,
+  });
   const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+    { name: "name", title: "Name", type: ColumnTypes.Text },
+    { name: "code", title: "Code", type: ColumnTypes.Text },
+    {
+      name: "status",
+      title: "Status",
+      type: ColumnTypes.List,
+      listValue: [
+        { id: false, name: "Inactive" },
+        { id: true, name: "Active" },
+      ],
+      listIdField: "id",
+      listTextField: "name",
+    },
   ];
   const tableActions: TableAction[] = [
     {
       name: ACTIONS.EDIT,
-      label: "Edit"
+      label: "Edit",
     },
     {
       name: ACTIONS.DEACTIVATE,
@@ -85,9 +104,9 @@ const PolicyRule = () => {
       ],
     },
   ];
-  const { data, isLoading, error } = useGetRulesList({page, pageSize});
-  const {data: policyRule } = useGetSinglePolicyRules(+id!)
-  const datastsr:  any = data;
+  const { data, isLoading, error, refetch } = useGetRulesList({...filter.current });
+  const { data: policyRule } = useGetSinglePolicyRules(+id!);
+  const datastsr: any = data;
   const policyrule: PolicyRulesList200Response | any = policyRule;
 
   const { mutate } = useAddPolicyRule();
@@ -124,23 +143,24 @@ const PolicyRule = () => {
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
-    if(policyrule && datastsr) {
-      const mapped = policyrule?.data?.data.rules.map((rule: any) => rule?.name);
-      const trans = datastsr?.data?.data?.results.map((tran : any) => {
-        if(mapped.includes(tran?.name)) {
+    if (policyrule && datastsr) {
+      const mapped = policyrule?.data?.data.rules.map(
+        (rule: any) => rule?.name
+      );
+      const trans = datastsr?.data?.data?.results.map((tran: any) => {
+        if (mapped.includes(tran?.name)) {
           return {
             ...tran,
             isDefault: true,
-          }
+          };
         }
 
         return {
           ...tran,
           isDefault: false,
-        }
-      })
+        };
+      });
       setItems(() => trans.map((x: any) => new RulesWithStatus(x)));
-
     }
   }, [data, error, policyrule]);
   const tableColumns: TableColumn[] = [
@@ -179,27 +199,45 @@ const PolicyRule = () => {
     }
   }
   function refreshrecord() {
-    useGetRulesList({page, pageSize});
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      name: undefined,
+      status: undefined,
+      code: undefined,
+    }
+
+    refetch();
   }
 
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetRulesList({page, pageSize});
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      name: data?.name,
+      status: data?.status,
+      code: data?.code,
+     }
+
+     refetch();
   }
+
+  
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
       setEditItems(event.data);
       setShowModal(true);
     }
     if (event.name === "6") {
-      if(!event.data?.isDefault) {
-        const allIds = items.filter((item) => item?.isDefault).map((it) => it.id);
+      if (!event.data?.isDefault) {
+        const allIds = items
+          .filter((item) => item?.isDefault)
+          .map((it) => it.id);
         handleAddRuleToPolicy([...allIds, event?.data?.id]);
       } else {
-        const allIds = policyrule?.data?.data.rules.filter((item: any) => item?.id !== event?.data?.id).map((it: any) => it.id);
+        const allIds = policyrule?.data?.data.rules
+          .filter((item: any) => item?.id !== event?.data?.id)
+          .map((it: any) => it.id);
         handleAddRuleToPolicy(allIds);
       }
     }

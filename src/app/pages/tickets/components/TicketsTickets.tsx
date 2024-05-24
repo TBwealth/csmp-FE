@@ -63,7 +63,7 @@ export class TicketWithStatus implements IStatus {
     this.status = ticket.status;
     this.asset_id = ticket.asset_id;
     this.asset_code = ticket.asset_code;
-    this.asset_name = ticket.asset_code;
+    this.asset_name = ticket.asset_name;
     this.asset_description = ticket.asset_description;
     this.createdBy = ticket.createdBy;
     this.tenant = ticket.tenant;
@@ -110,18 +110,18 @@ const TicketsTickets = () => {
     {
       name: "asset",
       title: "Asset",
-      type: ColumnTypes.List,
-      listValue: [],
-      listIdField: "id",
-      listTextField: "name",
+      type: ColumnTypes.Text,
+      // listValue: [],
+      // listIdField: "id",
+      // listTextField: "name",
     },
     {
       name: "assignedTo",
       title: "Assigned To",
-      type: ColumnTypes.List,
-      listValue: [],
-      listIdField: "id",
-      listTextField: "name",
+      type: ColumnTypes.Text,
+      // listValue: [],
+      // listIdField: "id",
+      // listTextField: "name",
     },
     {
       name: "ticketType",
@@ -138,11 +138,6 @@ const TicketsTickets = () => {
     // { name: ACTIONS.DELETE, label: "Delete" },
   ];
   const tableColumns: TableColumn[] = [
-    {
-      name: "asset_id",
-      title: "Asset ID",
-      type: ColumnTypes.Text,
-    },
     {
       name: "asset_name",
       title: "Asset",
@@ -178,22 +173,23 @@ const TicketsTickets = () => {
       title: "Status",
       type: ColumnTypes.Status,
       statusEnum: [
-        { key: true, value: "Active" },
-        { key: false, value: "InActive" },
+        { key: "OPEN", value: "Open" },
+        { key: "CLOSE", value: "Close" },
+        { key: "PENDING", value: "Pending" },
       ],
     },
   ];
 
-  const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
-  const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
+  // const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
+  // const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
   const { data: ticketTypes } = useGetTicketsTypes({ page: 1, pageSize: 100 });
   const ticketstsr: TicketsTicketTypesList200Response | any = ticketTypes;
   const { data, isLoading, error, refetch } = useGetTickets({
     ...filter.current,
   });
   const datastsr: TicketsTicketTypesList200Response | any = data;
-  const { data: assets } = useGetAssets({ page: 1, pageSize: 1000 });
-  const assetstsr: SystemSettingsAssetManagementsList200Response | any = assets;
+  // const { data: assets } = useGetAssets({ page: 1, pageSize: 1000 });
+  // const assetstsr: SystemSettingsAssetManagementsList200Response | any = assets;
 
   useEffect(() => {
     const mapped = datastsr?.data?.data?.results.map((res: any) => {
@@ -228,30 +224,35 @@ const TicketsTickets = () => {
         : true
     );
     settotalItems(Math.ceil(datastsr?.data?.data?.count));
-    if (assetstsr?.data?.data?.results) {
-      setFilterFields(
-        filterFields.map((res: any) => {
-          if (res.name === "asset_id") {
-            return {
-              ...res,
-              listValue: assetstsr.data?.data?.results,
-            };
-          } else return res;
-        })
-      );
-    }
-    if (tenantstsr?.data?.data?.results) {
-      setFilterFields(
-        filterFields.map((res: any) => {
-          if (res.name === "assignedTo") {
-            return {
-              ...res,
-              listValue: tenantstsr.data?.data?.results,
-            };
-          } else return res;
-        })
-      );
-    }
+    // if (assetstsr?.data?.data?.results) {
+    //   const trans: TableColumn[] = filterFields.map((res: any) => {
+    //     if (res.name === "asset") {
+    //       return {
+    //         ...res,
+    //         listValue: assetstsr.data?.data?.results.map((res: any) => {
+    //           return {
+    //             id: res?.id,
+    //             name: res?.name
+    //           }
+    //         }),
+    //       };
+    //     } else return res;
+    //   });
+    //   setFilterFields([...trans]);
+    // }
+    // if (tenantstsr?.data?.data?.results) {
+    //   const trans: TableColumn[] = filterFields.map((res: any) => {
+    //     if (res.name === "assignedTo") {
+    //       return {
+    //         ...res,
+    //         listValue: tenantstsr.data?.data?.results.map((res: any) => {
+    //           return { id: res?.id, name: res?.name };
+    //         }),
+    //       };
+    //     } else return res;
+    //   });
+    //   setFilterFields([...filterFields, ...trans]);
+    // }
     if (ticketstsr?.data?.data?.results) {
       setFilterFields(
         filterFields.map((res: any) => {
@@ -271,7 +272,7 @@ const TicketsTickets = () => {
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
-  }, [data, error, assetstsr, ticketstsr, tenantstsr]);
+  }, [data, error, ticketstsr]);
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add Ticket", icon: "plus", outline: false },

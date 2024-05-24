@@ -5,16 +5,19 @@ import {
   useGetAllScanResults,
   useScanPolicy,
 } from "../../../api/api-services/policyQuery";
-import domtoimage  from 'dom-to-image';
-import { jsPDF, jsPDFOptions } from 'jspdf';
+import domtoimage from "dom-to-image";
+import { jsPDF, jsPDFOptions } from "jspdf";
 import { FaChevronLeft, FaGlobe } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import ScanAccordion from "./modals/ScanAccordion";
 import ScanPolicyModal from "./modals/ScanModal";
+import { ColumnTypes } from "../../../components/models";
+import FilterModal from "../../../components/FilterModal";
 import { PolicyPolicyListCreateList200Response } from "../../../api/axios-client";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
 const ScanResult = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [showPopOver, setShowPopOver] = useState(false);
   const [activeBtn, setActiveBtn] = useState("Daily");
   const printableArea = useRef<HTMLDivElement>(null);
   const [showScan, setShowScan] = useState(false);
@@ -27,12 +30,32 @@ const ScanResult = () => {
   const [offset, setOffset] = useState(0);
   const { id } = useParams();
   const navigate = useNavigate();
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    severity: undefined,
+    policyRunId: id!,
+  });
 
+  const filterFields = [
+    {
+      name: "severity",
+      title: "Severity",
+      type: ColumnTypes.List,
+      listValue: [
+        { id: "High", name: "High" },
+        { id: "Medium", name: "Medium" },
+        { id: "Low", name: "Low" },
+      ],
+      listIdField: "id",
+      listTextField: "name",
+    },
+  ];
   const {
     data: scanResult,
     isLoading,
     refetch,
-  } = useGetAllScanResults({ policyRunId: id! });
+  } = useGetAllScanResults({ ...filter.current });
   const { mutate, isLoading: scanLoading } = useScanPolicy();
 
   const scanstsr: PolicyPolicyListCreateList200Response | any = scanResult;
@@ -40,7 +63,7 @@ const ScanResult = () => {
   useEffect(() => {
     setScanResult(scanstsr?.data?.data?.results[0]);
     if (scanstsr?.data?.data?.results[0]) {
-      setAllChecks(scanstsr?.data?.data?.results[0].result_json.checks ?? []);
+      setAllChecks(scanstsr?.data?.data?.results[0]?.result_json?.checks ?? []);
       const sliptedTime = scanstsr?.data?.data?.results[0].stop_time
         .split("T")[1]
         .slice(0, 5);
@@ -52,14 +75,14 @@ const ScanResult = () => {
   const downloadform = () => {
     const width = printableArea.current?.clientWidth!;
     const height = printableArea.current?.clientHeight! + 40;
-    let orientation: any = '';
-    let imageUnit: any = 'pt';
+    let orientation: any = "";
+    let imageUnit: any = "pt";
     if (width > height) {
-      orientation = 'l';
+      orientation = "l";
     } else {
-      orientation = 'p';
+      orientation = "p";
     }
-    domtoimage 
+    domtoimage
       .toPng(printableArea.current!, {
         width: width,
         height: height,
@@ -73,11 +96,31 @@ const ScanResult = () => {
         const pdf = new jsPDF(jsPdfOptions);
         pdf.setFontSize(12);
         // pdf.text(moment(new Date()).format('MMMM dddd, yyyy h:mm a'),1100, 20);
-      //  pdf.addImage(user?.company?.companyProfileImageUrl, 'PNG', 45, 30, 100, 30);
-        pdf.addImage(result, 'PNG', 0, 80, width, height);
+        //  pdf.addImage(user?.company?.companyProfileImageUrl, 'PNG', 45, 30, 100, 30);
+        pdf.addImage(result, "PNG", 0, 80, width, height);
         pdf.save(`scan result`);
       })
       .catch((error) => {});
+  };
+
+  function refreshrecord() {
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      severity: undefined,
+      policyRunId: id!,
+    };
+    refetch();
+  }
+
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      severity: data?.severity,
+      policyRunId: id!,
+    };
+    refetch();
   }
 
   console.log(offset, checks.length);
@@ -89,7 +132,7 @@ const ScanResult = () => {
           pageDescription="No record found"
           loading={isLoading || scanLoading}
           buttonValue="Refresh"
-          buttonClick={() => refetch()}
+          buttonClick={() => refreshrecord()}
         />
       ) : (
         <div className="mt-10 md:w-[95%] mx-auto p-4">
@@ -111,7 +154,7 @@ const ScanResult = () => {
                     color={mode === "dark" ? "#EAEAEA" : "#000000"}
                     size={14}
                   />
-                  <p className="font-semibold text-[14px]">All Region</p>
+                  <p className="font-semibold text-[14px]">{`${checks.length > 0 ? checks.length: "No" } Region`}</p>
                 </div>
                 <p
                   className={`text-[12px] ${
@@ -149,22 +192,27 @@ const ScanResult = () => {
               </div>
 
               <button
+              disabled={
+                !scanresult?.policy_run?.policy?.id
+              }
                 onClick={() => {
                   mutate(
                     {
                       data: {
-                        policy_id: scanresult?.policy_run?.id,
+                        policy_id: scanresult?.policy_run?.policy?.id,
                         scan_frequency: "Once",
                       },
                     },
                     {
                       onError: (err: any) => {
                         setShowScan(true);
-                        setErrorMess(err.response.data);
+                        setErrorMess(err);
                         setErrType("danger");
                       },
-                      onSuccess: (res) => {
-                        console.log(res);
+                      onSuccess: (res: any) => {
+                        setShowScan(true);
+                        setErrorMess(res);
+                        setErrType("success");
                         refetch();
                       },
                     }
@@ -280,7 +328,7 @@ const ScanResult = () => {
               <div className="border-end pt-10 pr-4">
                 <h3 className="font-medium text-[14px] mb-3 text-left">
                   <span className="font-bold text-[18px] pr-2">
-                    {scanresult?.result_json.Total_checks ?? 0}
+                    {scanresult?.result_json?.Total_checks ?? 0}
                   </span>
                   checks performed
                 </h3>
@@ -290,7 +338,7 @@ const ScanResult = () => {
                       Failed checks
                     </h3>
                     <h3 className="font-extrabold text-[14px] text-[#FF161A]">
-                      {scanresult?.result_json.Failed ?? 0}
+                      {scanresult?.result_json?.Failed ?? 0}
                     </h3>
                   </div>
                   <div className="">
@@ -339,7 +387,7 @@ const ScanResult = () => {
                     </defs>
                   </svg>
                   <p className="font-bold text-[14px">
-                    {scanresult?.result_json.Critical_Severity ?? 0} 
+                    {scanresult?.result_json?.Critical_Severity ?? 0} 
                     <span
                       className={`${
                         mode === "dark" ? "text-[#909BBC]" : "text-[#373737]"
@@ -391,7 +439,7 @@ const ScanResult = () => {
                   </svg>
 
                   <p className="font-bold text-[14px]">
-                    {scanresult?.result_json.High_Severity ?? 0} 
+                    {scanresult?.result_json?.High_Severity ?? 0} 
                     <span
                       className={`${
                         mode === "dark" ? "text-[#909BBC]" : "text-[#373737]"
@@ -431,7 +479,7 @@ const ScanResult = () => {
                   </svg>
 
                   <p className="font-bold text-[14px]">
-                    {scanresult?.result_json.Medium_Severity ?? 0} 
+                    {scanresult?.result_json?.Medium_Severity ?? 0} 
                     <span
                       className={`${
                         mode === "dark" ? "text-[#909BBC]" : "text-[#373737]"
@@ -504,10 +552,13 @@ const ScanResult = () => {
                 </span>
               </h2>
               <div className="flex items-center gap-4">
-                <select name="" id="" className="bg-transparent p-2">
+                {/* <select name="" id="" className="bg-transparent p-2">
                   <option value="">Group By</option>
-                </select>
-                <button className="flex items-center gap-3">
+                </select> */}
+                <button
+                  onClick={() => setShowPopOver(!showPopOver)}
+                  className="flex items-center gap-3"
+                >
                   <p>Filter</p>
                   <svg
                     width="18"
@@ -738,6 +789,13 @@ const ScanResult = () => {
           }}
         />
       )}
+
+      <FilterModal
+        filterDataChange={(e) => filterUpdated(e)}
+        headfilterFields={filterFields}
+        setshowFilter={(e) => setShowPopOver(e)}
+        showFilter={showPopOver}
+      />
     </div>
   );
 };

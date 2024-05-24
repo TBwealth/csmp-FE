@@ -54,8 +54,8 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
   const handleSubmit = () => {
     mutate(
       {
-        name: nameValue,
-        code: codeValue,
+        cloud_provider: "AWS",
+        resource_type: "",
         status: statusValue,
       },
       {
@@ -83,8 +83,9 @@ const ModalProviderServices = ({ editItem, handleHide, isOpen }: any) => {
       {
         id: +valueId,
         data: {
-          name: nameValue,
-          code: codeValue,
+          // name: nameValue,
+          cloud_provider: "AWS",
+          resource_type: "",
           status: statusValue,
         },
       },

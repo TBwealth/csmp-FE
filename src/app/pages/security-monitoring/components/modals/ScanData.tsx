@@ -35,7 +35,7 @@ const ScanData = ({ data }: Props) => {
           </div>
           <div className="w-full px-10">
             <h3 className="font-normal text-[14px] mb-3 text-left">
-              <span className="font-bold">{data?.result_json.Total_checks} </span>checks performed
+              <span className="font-bold">{data?.result_json?.Total_checks} </span>checks performed
             </h3>
             <div className="grid grid-cols-3 gap-3">
               <div className="flex items-center gap-10 col-span-2 border-end">
@@ -104,14 +104,14 @@ const ScanData = ({ data }: Props) => {
                   <h3 className="font-normal text-[12px] mb-3 text-left">
                     Failed checks
                   </h3>
-                  <h3 className="font-bold text-[14px] text-[#FF161A]">{data?.result_json.Failed}</h3>
+                  <h3 className="font-bold text-[14px] text-[#FF161A]">{data?.result_json?.Failed}</h3>
                 </div>
               </div>
               <div className="">
                 <h3 className="font-normal text-[12px] mb-3 text-left">
                   Successful
                 </h3>
-                <h3 className="font-bold text-[14px] text-[#00B712]">{data?.result_json.Passed}</h3>
+                <h3 className="font-bold text-[14px] text-[#00B712]">{data?.result_json?.Passed}</h3>
               </div>
             </div>
             <div className="mt-12">
@@ -148,7 +148,7 @@ const ScanData = ({ data }: Props) => {
                     stroke-linejoin="round"
                   ></path>
                 </svg>
-                <p className="text-[12px]">{data?.policy_run.policy ?? ""}</p>
+                <p className="text-[12px]">{data?.policy_run?.policy?.name ?? ""}</p>
               </div>
               <div className="flex items-center gap-4 my-4">
                 <FaGlobe
@@ -158,7 +158,7 @@ const ScanData = ({ data }: Props) => {
                 <p className="text-[12px]">{data?.region}</p>
               </div>
             </div>
-            <Link to={`/monitoring/resource-scanning/${data?.policy_run.id}`} className="block w-fit mt-6 font-medium text-[12px]">
+            <Link to={`/monitoring/resource-scanning/${data?.policy_run?.id}`} className="block w-fit mt-6 font-medium text-[12px]">
               <p className="underline">view report</p>
             </Link>
           </div>

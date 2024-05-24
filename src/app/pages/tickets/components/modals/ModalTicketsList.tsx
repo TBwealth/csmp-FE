@@ -53,9 +53,9 @@ const ModalTicketsList = ({
   // } = useGetTickets(page);
   // console.log("daaaaa", allTickets);
 
-  const { data: ticketTypes } = useGetTicketsTypes({page:1, pageSize: 100});
-  const { data: tenantData } = useGetAccountTenant({page:1, pageSize: 100});
-  const { data: assets } = useGetAssets({page:1, pageSize: 100});
+  const { data: ticketTypes } = useGetTicketsTypes({ page: 1, pageSize: 100 });
+  const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
+  const { data: assets } = useGetAssets({ page: 1, pageSize: 100 });
 
   const { data: userData } = useGetAccountUsers(page);
   const userstsr: AccountsApiUsersList200Response | any = userData;
@@ -149,13 +149,13 @@ const ModalTicketsList = ({
   const handleSubmit = () => {
     mutate(
       {
-        assigned_to: { id: assignedToValue?.id },
+        assigned_to: assignedToValue?.id,
         code: codeValue,
         status: statusValue.toUpperCase(),
-        asset: { id: assetValue?.id },
+        asset: assetValue?.id,
         description: descriptionValue,
         subject: subjectValue,
-        ticket_type: { id: ticketType?.id },
+        ticket_type: ticketType?.id,
         // date_joined: new Date()
       },
       {
@@ -185,15 +185,13 @@ const ModalTicketsList = ({
       {
         id: valueId,
         data: {
-          assigned_to: { id: assignedToValue?.id },
+          assigned_to: assignedToValue?.id,
           code: codeValue,
           status: statusValue.toUpperCase(),
-          asset: {
-            id: editItem?.asset_id ?? "",
-          },
+          asset: assetValue?.id,
           description: descriptionValue,
           subject: subjectValue,
-          ticket_type: { id: ticketType?.id },
+          ticket_type: ticketType?.id,
         },
       },
       {
@@ -287,7 +285,7 @@ const ModalTicketsList = ({
                   className="form-control bg-transparent"
                   onChange={(e) => {
                     setTenantValue(e.target.value);
-                    handleFetchTenantUsers(e.target.value)
+                    handleFetchTenantUsers(e.target.value);
                   }}
                 >
                   <option value="">Select Tenant</option>
@@ -402,13 +400,10 @@ const ModalTicketsList = ({
               </span>
             )}
             {(isLoading || editLoading) && (
-                <span
-                  className="indicator-progress"
-                  style={{ display: "block" }}
-                >
-                  Please wait...{" "}
-                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
             )}
           </button>
         </Modal.Footer>

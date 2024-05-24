@@ -8,7 +8,7 @@ import { useGetCloudProviderResourceTypes } from "../../../../api/api-services/c
 import { CloudProviderCloudProviderResourceTypesList200Response } from "../../../../api/axios-client";
 import useAlert from "../../../components/useAlert";
 type Region = {
-  cloud_provider: number;
+  cloud_provider: string;
   region_name: string;
   status: boolean;
 };
@@ -18,7 +18,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
   const [page, setPage] = useState(1);
   const [user, setUser] = useState<any>(null);
   const [region, setRegion] = useState<Region>({
-    cloud_provider: editItem?.cloud_provider ?? 0,
+    cloud_provider: editItem?.cloud_provider ?? "AWS",
     region_name: editItem?.region_name ?? "",
     status: editItem?.status ?? true,
   });
@@ -66,7 +66,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
       {
         onSuccess: (res: any) => {
           setRegion({
-            cloud_provider: 0,
+            cloud_provider: "AWS",
             region_name: "",
             status: true
           });
@@ -91,7 +91,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
       {
         onSuccess: (res: any) => {
           setRegion({
-            cloud_provider: 0,
+            cloud_provider: "AWS",
             region_name: "",
             status: true,
           });
@@ -131,14 +131,27 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
                 className="form-control bg-transparent"
                 value={region.cloud_provider}
                 onChange={(e) =>
-                  setRegion({ ...region, cloud_provider: +e.target.value })
+                  setRegion({ ...region, cloud_provider: e.target.value })
                 }
               >
                 <option value="">Select Provider</option>
-                {listClouds?.map((item) => (
+                {[
+                  {
+                    id: "AWS",
+                    name: "aws",
+                  },
+                  {
+                    id: "AZURE",
+                    name: "azure",
+                  },
+                  {
+                    id: "GPC",
+                    name: "gpc",
+                  },
+                ]?.map((item) => (
                   <option key={item?.id} value={item?.id}>
                     {/* {item?.cloud_provider_name} */}
-                    {item?.account_id}
+                    {item?.name}
                   </option>
                 ))}
               </select>

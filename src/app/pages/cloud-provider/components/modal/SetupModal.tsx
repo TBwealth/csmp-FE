@@ -2,36 +2,143 @@ import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import useAlert from "../../../components/useAlert";
 import {
+  usePostSuppressionSetup,
+  useUpdateSuppressionSetup,
+  useGetAssets,
+} from "../../../../api/api-services/systemQuery";
+import { useGetRulesList } from "../../../../api/api-services/policyQuery";
+
+import { useGetCloudProviderServicesList } from "../../../../api/api-services/cloudProviderQuery";
+import {
   FaGlobe,
   FaBars,
   FaCheckSquare,
   FaComment,
   FaCalendar,
+  FaServer,
 } from "react-icons/fa";
+import {
+  CloudProviderResourceTypesList200Response,
+  PolicyRulesList200Response,
+} from "../../../../api/axios-client";
 
 type Props = {};
 
-const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
+const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
   const [setupData, setSetupData] = useState({
     region: editItem ? editItem.region : "",
-    resource_id: editItem ? editItem.resource_id : "",
-    type: editItem ? editItem.type : "",
-    rule_id: editItem ? editItem.rule_id : "",
-    exp_date: editItem ? editItem.exp_date : "",
-    comment: editItem ? editItem.comment : "",
-    status: editItem ? (editItem.status === "Active" ? true : false) : false,
+    resource_id: editItem ? editItem.resource_type?.id : "",
+    cloud_provider: "AWS",
+    type: editItem ? editItem?.resource?.id : "",
+    rule_id: editItem ? editItem.rule?.id : "",
+    exp_date: editItem ? editItem.expiration : "",
+    comment: editItem ? editItem.comments : "",
+    status: editItem ? editItem.status : false,
   });
 
+  const [allResource, setAllResource] = useState<any[]>([]);
+  const [allRules, setAllRules] = useState<any[]>([]);
+  const [allAssets, setAllAssets] = useState<any[]>([]);
+
+  const { mutate, isLoading, error } = usePostSuppressionSetup();
+  const { mutate: editMutate, isLoading: editLoading } =
+    useUpdateSuppressionSetup();
   const { showAlert, hideAlert, Alert } = useAlert();
 
+  const { data: resource } = useGetCloudProviderServicesList({
+    page: 1,
+    pageSize: 1000,
+  });
+  const resourcestr: CloudProviderResourceTypesList200Response | any = resource;
+  const { data: assets } = useGetAssets({ page: 1, pageSize: 1000 });
+  const assetstr: CloudProviderResourceTypesList200Response | any = assets;
+  const { data: rules } = useGetRulesList({ page: 1, pageSize: 1000 });
+  const rulesstr: PolicyRulesList200Response | any = rules;
+
   const editHandleSubmit = () => {
-    console.log(setSetupData);
-    handleHide();
-  }
-  const handleSubmit = () => {
-    console.log(setSetupData);
-    handleHide();
-  }
+    editMutate(
+      {
+        id: editItem?.id,
+        data: {
+          cloud_provider: null,
+          comments: setupData.comment,
+          expiration: setupData.exp_date,
+          region: setupData.region,
+          resource: setupData.type,
+          resource_type: setupData.resource_id,
+          rule: setupData.rule_id,
+          status: setupData.status,
+        },
+      },
+      {
+        onSuccess: (res: any) => {
+          // handleHide();
+          showAlert(res?.data?.message, "success");
+          setSetupData({
+            cloud_provider: "AWS",
+            comment: "",
+            exp_date: "",
+            region: "",
+            resource_id: "",
+            rule_id: "",
+            status: false,
+            type: "",
+          });
+        },
+
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    setAllResource(resourcestr?.data?.data?.results!);
+    setAllRules(rulesstr?.data?.data?.results!);
+    setAllAssets(assetstr?.data?.data?.results!);
+  }, [rulesstr, resourcestr, assetstr]);
+
+  const handleCreate = () => {
+    mutate(
+      {
+        data: {
+          cloud_provider: null,
+          comments: setupData.comment,
+          expiration: setupData.exp_date,
+          region: setupData.region,
+          resource: setupData.type,
+          resource_type: setupData.resource_id,
+          rule: setupData.rule_id,
+          status: setupData.status,
+        },
+      },
+      {
+        onSuccess: (res: any) => {
+          // handleHide();
+          showAlert(res?.data?.message, "success");
+          setSetupData({
+            cloud_provider: "AWS",
+            comment: "",
+            exp_date: "",
+            region: "",
+            resource_id: "",
+            rule_id: "",
+            status: false,
+            type: "",
+          });
+        },
+
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -139,7 +246,43 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
               </p>
             </div>
           )}
-          <div className="grid grid-cols-1 gap-3">
+          <div className="grid md:grid-cols-2 gap-3">
+            <div className="">
+              <label className="form-label fs-6 fw-bold flex items-center gap-2">
+                <FaServer color={mode === "dark" ? "#FFFFFF" : "#373737"} />
+                <span>Cloud Provider</span>
+              </label>
+              <select
+                data-placeholder="Select option"
+                autoComplete="off"
+                className="form-control bg-transparent"
+                disabled
+                value={setupData.cloud_provider}
+                onChange={(e) =>
+                  setSetupData({ ...setupData, cloud_provider: e.target.value })
+                }
+              >
+                <option value="">Select Provider</option>
+                {[
+                  {
+                    id: "AWS",
+                    name: "aws",
+                  },
+                  {
+                    id: "AZURE",
+                    name: "azure",
+                  },
+                  {
+                    id: "GPC",
+                    name: "gpc",
+                  },
+                ]?.map((item: any) => (
+                  <option key={item?.id} value={item?.id}>
+                    {item?.name}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="">
               <label className="form-label fs-6 fw-bold flex items-center gap-2">
                 <FaGlobe color={mode === "dark" ? "#FFFFFF" : "#373737"} />
@@ -151,15 +294,15 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
                 className="form-control bg-transparent"
                 value={setupData.region}
                 onChange={(e) =>
-                  setSetupData({ ...setupData, region: +e.target.value })
+                  setSetupData({ ...setupData, region: e.target.value })
                 }
               >
                 <option value="">Select Region</option>
-                {/* {listClouds?.map((item) => (
-                  <option key={item?.id} value={item?.id}>
-                    {item?.name}
+                {regions?.map((item: any) => (
+                  <option key={item?.id} value={item?.region_name}>
+                    {item?.region_name}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
             <div className="">
@@ -177,11 +320,11 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
                 }
               >
                 <option value="">Select Resource Type</option>
-                {/* {listClouds?.map((item) => (
+                {allResource?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.name}
+                    {item?.resource_type}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
             <div className="">
@@ -199,11 +342,11 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
                 }
               >
                 <option value="">Select Resource Type</option>
-                {/* {listClouds?.map((item) => (
+                {allAssets?.map((item) => (
                   <option key={item?.id} value={item?.id}>
                     {item?.name}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
             <div className="">
@@ -217,36 +360,18 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
                 data-placeholder="Select option"
                 autoComplete="off"
                 className="form-control bg-transparent"
-                value={setupData.type}
+                value={setupData.rule_id}
                 onChange={(e) =>
-                  setSetupData({ ...setupData, type: +e.target.value })
+                  setSetupData({ ...setupData, rule_id: +e.target.value })
                 }
               >
-                <option value="">Select Resource Type</option>
-                {/* {listClouds?.map((item) => (
+                <option value="">Select Rule</option>
+                {allRules?.map((item) => (
                   <option key={item?.id} value={item?.id}>
                     {item?.name}
                   </option>
-                ))} */}
+                ))}
               </select>
-            </div>
-            <div className="">
-              <label className="form-label fs-6 fw-bold flex items-center gap-2">
-                <FaComment color={mode === "dark" ? "#FFFFFF" : "#373737"} />
-                <span>Comment </span>
-              </label>
-              <textarea
-                placeholder="Enter Comment"
-                name="code"
-                autoComplete="off"
-                className="form-control bg-transparent"
-                rows={3}
-                cols={10}
-                value={setupData.comment}
-                onChange={(e) =>
-                  setSetupData({ ...setupData, comment: e.target.value })
-                }
-              ></textarea>
             </div>
             <div className="">
               <label className="form-label fs-6 fw-bold flex items-center gap-2">
@@ -269,7 +394,26 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
                 permanent{" "}
               </p>
             </div>
-            <div className="">
+            <div className="md:col-span-2">
+              <label className="form-label fs-6 fw-bold flex items-center gap-2">
+                <FaComment color={mode === "dark" ? "#FFFFFF" : "#373737"} />
+                <span>Comment </span>
+              </label>
+              <textarea
+                placeholder="Enter Comment"
+                name="code"
+                autoComplete="off"
+                className="form-control bg-transparent"
+                rows={3}
+                cols={10}
+                value={setupData.comment}
+                onChange={(e) =>
+                  setSetupData({ ...setupData, comment: e.target.value })
+                }
+              ></textarea>
+            </div>
+
+            <div className="md:col-span-2">
               <label
                 htmlFor="status"
                 className="form-label fs-6 fw-bold flex items-center gap-2"
@@ -291,12 +435,18 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light rounded-full" onClick={handleHide}>
+          <button
+            type="button"
+            className="btn btn-light rounded-full"
+            onClick={handleHide}
+          >
             Close
           </button>
           <button
             type="button"
-            className={`rounded-full bg-primary text-white py-2 px-4 ${editItem ? "w-32" : "w-fit"}`}
+            className={`rounded-full bg-primary text-white py-2 px-4 ${
+              editItem ? "w-32" : "w-fit"
+            }`}
             disabled={
               !setupData.comment ||
               !setupData.exp_date ||
@@ -305,18 +455,19 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
               !setupData.rule_id ||
               !setupData.type
             }
-            onClick={editItem ? editHandleSubmit : handleSubmit}
+            onClick={editItem ? editHandleSubmit : handleCreate}
           >
-            {/* {(!isLoading || !assetIsLoading) && (
-              <span className="indicator-label">continue</span>
+            {!isLoading && !editLoading && (
+              <span className="indicator-label">
+                {editItem ? "Save" : "Create Suppression"}
+              </span>
             )}
-            {(isLoading || assetIsLoading) && (
+            {(isLoading || editLoading) && (
               <span className="indicator-progress" style={{ display: "block" }}>
                 Please wait...{" "}
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
-            )} */}
-           {editItem ? "Save" :  "Create Suppression"} 
+            )}
           </button>
         </Modal.Footer>
       </Modal>

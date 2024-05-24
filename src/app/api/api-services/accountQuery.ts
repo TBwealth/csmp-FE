@@ -268,9 +268,9 @@ export const usePostAccountUsers = () => {
   return mutation;
 };
 
-export const useGetAccountUserLoginLogs = (page: number) => {
-  const query = useQuery(["user_login_logs", page], () =>
-    accountApi.accountsApiActivityLogsList({ page })
+export const useGetAccountUserLoginLogs = (data: any) => {
+  const query = useQuery(["user_login_logs", data], () =>
+    accountApi.accountsApiActivityLogsList({ ...data })
   );
   return query;
 };
