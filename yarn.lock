@@ -801,6 +801,11 @@
   dependencies:
     "moment" "^2.10.2"
 
+"@types/dom-to-image@^2.6.7":
+  "integrity" "sha512-me5VbCv+fcXozblWwG13krNBvuEOm6kA5xoa4RrjDJCNFOZSWR3/QLtOXimBHk1Fisq69Gx3JtOoXtg1N1tijg=="
+  "resolved" "https://registry.npmjs.org/@types/dom-to-image/-/dom-to-image-2.6.7.tgz"
+  "version" "2.6.7"
+
 "@types/eslint-scope@^3.7.3":
   "integrity" "sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg=="
   "resolved" "https://registry.npmjs.org/@types/eslint-scope/-/eslint-scope-3.7.7.tgz"
@@ -2555,6 +2560,11 @@
     "domelementtype" "^2.0.1"
     "entities" "^2.0.0"
 
+"dom-to-image@^2.6.0":
+  "integrity" "sha512-Dt0QdaHmLpjURjU7Tnu3AgYSF2LuOmksSGsUcE6ItvJoCWTBEmiMXcqBdNSAm9+QbbwD7JMoVsuuKX6ZVQv1qA=="
+  "resolved" "https://registry.npmjs.org/dom-to-image/-/dom-to-image-2.6.0.tgz"
+  "version" "2.6.0"
+
 "domelementtype@^2.0.1":
   "integrity" "sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw=="
   "resolved" "https://registry.npmjs.org/domelementtype/-/domelementtype-2.3.0.tgz"
@@ -3425,7 +3435,7 @@
   "resolved" "https://registry.npmjs.org/hsla-regex/-/hsla-regex-1.0.0.tgz"
   "version" "1.0.0"
 
-"html2canvas@^1.0.0-rc.5":
+"html2canvas@^1.0.0-rc.5", "html2canvas@^1.4.1":
   "integrity" "sha512-fPU6BHNpsyIhr8yyMpTLLxAbkaK8ArIBcmZIRiBLiDhjeqvXolaEmDGmELFuX9I4xDcaKKcJl+TKZLqruBbmWA=="
   "resolved" "https://registry.npmjs.org/html2canvas/-/html2canvas-1.4.1.tgz"
   "version" "1.4.1"
@@ -3969,6 +3979,14 @@
   "integrity" "sha512-zW1ix99/mtR4MbIni7IqvrpfHmuTaICl6iv6wqjRN86Nxtwaw/QtOeDbpXqYSzHIJK9JvgtLM283sc5x+ipkJg=="
   "resolved" "https://registry.npmjs.org/jspdf-autotable/-/jspdf-autotable-3.8.2.tgz"
   "version" "3.8.2"
+
+"jspdf-html2canvas@^1.5.2":
+  "integrity" "sha512-jA/QvZWPiBJFR7Ut4XCwKsOcml1L75lvO7+mmw5qgTfmi8qbfHNr2DPXeQ8J6mNKJfB4Fn8QBBiYcr2NR3ssdQ=="
+  "resolved" "https://registry.npmjs.org/jspdf-html2canvas/-/jspdf-html2canvas-1.5.2.tgz"
+  "version" "1.5.2"
+  dependencies:
+    "html2canvas" "^1.4.1"
+    "jspdf" "^2.5.1"
 
 "jspdf@^2.5.1":
   "integrity" "sha512-hXObxz7ZqoyhxET78+XR34Xu2qFGrJJ2I2bE5w4SM8eFaFEkW2xcGRVUss360fYelwRSid/jT078kbNvmoW0QA=="

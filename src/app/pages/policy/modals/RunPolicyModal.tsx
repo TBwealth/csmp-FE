@@ -26,6 +26,7 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
       {
         onSuccess: (res: any) => {
           showAlert(res?.data?.message, "success");
+          hideAlert();
           console.log(res);
         },
         onError: (err) => {
@@ -51,7 +52,9 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
       },
       {
         onSuccess: (res: any) => {
+          console.log(res);
           showAlert(res?.data?.message, "success");
+          hideAlert();
           console.log(res);
         },
         onError: (err) => {
@@ -104,7 +107,7 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
           <div>
             <label className="form-label fs-6 fw-bold">Active?:</label>
             <input
-              className="form-check-input w-15px h-15px mx-1 mt-1"
+              className="form-check-input p-2 w-15px h-15px mx-1 mt-1"
               type="checkbox"
               id="flexSwitchCheckChecked"
               checked={policy?.status}

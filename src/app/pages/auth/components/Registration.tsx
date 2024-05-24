@@ -252,7 +252,7 @@ export function Registration() {
             >
               <option value="">Select country</option>
               {countries.map((country) => (
-                <option key={country.id} value={country.id}>
+                <option key={country.id} value={country.name}>
                   {country.name}
                 </option>
               ))}

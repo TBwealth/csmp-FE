@@ -111,7 +111,7 @@ export const TableheaderComponent = ({
   const [sortbydropdownPopoverShow, setsortbydropdownPopoverShow] =
     useState<boolean>(false);
   const [myDateInit, setmyDateInit] = useState<boolean>(false);
-  const [selectedexport, setselectedexport] = useState<string>("pdf");
+  const [selectedexport, setselectedexport] = useState<string>("");
   const todaysDate = new Date().toISOString();
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
     null,
@@ -231,7 +231,9 @@ export const TableheaderComponent = ({
   return (
     <>
       <div className="flex flex-wrap justify-between items-center pt-5 text-sm">
-        <h1 className="mb-2 md:mb-0  text-[14px] font-semibold">{tableTitle}</h1>
+        <h1 className="mb-2 md:mb-0  text-[14px] font-semibold">
+          {tableTitle}
+        </h1>
         <div className="flex flex-wrap-reverse justify-between lg:space-x-2 space-x-1 items-center">
           {showDateRange && (
             <div className="border-[0.5px] border-[#CED4DA] bg-white rounded-md flex items-center pl-2 space-x-1 text-sm cursor-pointer">
@@ -472,12 +474,12 @@ export const TableheaderComponent = ({
         >
           <Modal.Body>
             <div>
-              <div className="px-10 space-y-12 pt-10 pb-16">
+              <div className="px-10 space-y-12 p-5">
                 <div className="flex justify-between">
                   <h2 className="font-bold text-[14px]">Filter By</h2>
                 </div>
                 {headfilterFields.length > 0 && (
-                  <form className="lg:self-start w-full grid md:grid-cols-2 gap-x-6 gap-y-10">
+                  <form className="lg:self-start w-full grid md:grid-cols-2 gap-6">
                     {headfilterFields.map((field, i) => (
                       <div className="w-full">
                         {(field.type === COLUMN_TYPES.Text ||
@@ -490,11 +492,12 @@ export const TableheaderComponent = ({
                               <input
                                 type="text"
                                 name=""
+                                className="form-control bg-transparent"
                                 placeholder={field.title}
                                 onChange={(e) =>
                                   fieldValueChanged(e, field.name)
                                 }
-                                className="text-[10px] font-medium w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary"
+                                // className="text-[10px] font-medium w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary"
                               />
                             </div>
                           )}
@@ -508,10 +511,11 @@ export const TableheaderComponent = ({
                               <select
                                 name=""
                                 id=""
+                                className="form-control bg-transparent"
                                 onChange={(e) =>
                                   fieldValueChanged(e, field.name)
                                 }
-                                className="bg-[#F2F5F9] w-full text-sm border-0 rounded-md focus:ring-1 focus:ring-primary"
+                                // className="bg-[#F2F5F9] w-full text-sm border-0 rounded-md focus:ring-1 focus:ring-primary"
                               >
                                 <option value="">
                                   --Select {field.title}--
@@ -666,15 +670,17 @@ export const TableheaderComponent = ({
                   </div>
 
                   <div className="flex justify-center">
-                    <span
+                    <button
+                      disabled={!selectedexport}
                       onClick={() => {
                         downloadas(selectedexport);
+                        setselectedexport("");
                         setshowExportModal(!showExportModal);
                       }}
-                      className="border border-solid flex-1 hover:border-dotted bg-primary text-white border-purple-900 rounded flex items-center justify-center px-2 w-3/5 py-2 cursor-pointer"
+                      className="border border-solid flex-1 hover:border-dotted bg-primary text-white border-purple-900 rounded flex items-center justify-center px-2 w-3/5 py-2"
                     >
                       Export
-                    </span>
+                    </button>
                   </div>
                 </div>
               </div>

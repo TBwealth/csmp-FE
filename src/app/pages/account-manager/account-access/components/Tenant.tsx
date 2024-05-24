@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useGetAccountTenant } from "../../../../api/api-services/accountQuery";
 import {
@@ -29,17 +29,15 @@ import {
 
 export class TenantWithStatus implements IStatus {
   id: string = "";
-  tenant_name: string = "";
-  admin_email: string = "";
-  code: string = "";
+  full_name: string = "";
+  business_email: string = "";
+  countrt: string = "";
   status: string = "";
 
   constructor(tenant: any) {
     this.id = tenant.id;
-    this.tenant_name = tenant.tenant_name;
-    this.admin_email = tenant.admin_email;
-    this.code = tenant.code;
-    this.status = tenant.status;
+    this.full_name = tenant.full_name;
+    this.business_email = tenant.business_email;
   }
 
   getStatusLabel() {
@@ -55,8 +53,6 @@ export class TenantWithStatus implements IStatus {
 }
 
 const Tenant = () => {
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
   const [items, setItems] = useState<any[]>([]);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
@@ -65,26 +61,40 @@ const Tenant = () => {
   const { showAlert, hideAlert, Alert } = useAlert();
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
-  const currentPage = 0;
+  const currentPage = 1;
   const [totalItems, settotalItems] = useState<number>(0);
 
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    full_name: undefined,
+    email: undefined,
+    country: undefined,
+  });
+
   const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+    { name: "full_name", title: "Full Name", type: ColumnTypes.Text },
+    { name: "email", title: "Email", type: ColumnTypes.Text },
+    { name: "country", title: "Country", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
     // { name: ACTIONS.DELETE, label: "Delete" },
   ];
 
-  const { data, isLoading, error } = useGetAccountTenant({page, pageSize});
+  const { data, isLoading, error, refetch } = useGetAccountTenant({
+    ...filter.current,
+  });
 
   const datastsr: AccountsApiTenantsList200Response | any = data;
 
   useEffect(() => {
-    setItems(
-      datastsr?.data?.data?.results.map((x: any) => new TenantWithStatus(x))
+    setItems(datastsr?.data?.data?.results);
+    setshowEmpty(
+      datastsr?.data?.data?.results
+        ? datastsr?.data?.data?.results?.length === 0
+        : true
     );
-    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0 : true);
     settotalItems(Math.ceil(datastsr?.data?.data?.count));
 
     hideAlert();
@@ -96,7 +106,6 @@ const Tenant = () => {
     }
   }, [data, error]);
 
-
   const tableColumns: TableColumn[] = [
     {
       name: "id",
@@ -104,28 +113,19 @@ const Tenant = () => {
       type: ColumnTypes.Text,
     },
     {
-      name: "tenant_name",
+      name: "full_name",
       title: "Name",
       type: ColumnTypes.Text,
     },
     {
-      name: "admin_email",
+      name: "business_email",
       title: "Admin Email",
       type: ColumnTypes.Text,
     },
     {
-      name: "code",
-      title: "Code",
+      name: "country",
+      title: "Country",
       type: ColumnTypes.Text,
-    },
-    {
-      name: "status",
-      title: "Status",
-      type: ColumnTypes.Status,
-      statusEnum: [
-        { key: true, value: "Active" },
-        { key: false, value: "InActive" },
-      ],
     },
   ];
 
@@ -139,14 +139,24 @@ const Tenant = () => {
     }
   }
   function refreshrecord() {
-    useGetAccountTenant({page, pageSize});
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      full_name: undefined,
+      email: undefined,
+      country: undefined,
+    };
+    refetch();
   }
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetAccountTenant({page, pageSize});
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      full_name: data?.fullName,
+      email: data?.email,
+      country: data?.country,
+    };
+    refetch();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
@@ -162,13 +172,13 @@ const Tenant = () => {
       <ComponentsheaderComponent
         backbuttonClick={() => {}}
         pageName="Tenants"
-        requiredButton={topActionButtons}
+        requiredButton={[]}
         buttonClick={(e) => {
           modal(e);
         }}
       />
 
-      {(showEmpty || isLoading) ? (
+      {showEmpty || isLoading ? (
         <DefaultContent
           pageHeader="All Tenants"
           pageDescription="No record found"

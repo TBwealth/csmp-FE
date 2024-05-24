@@ -291,12 +291,12 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleHide}>
+          <button type="button" className="btn btn-light rounded-full" onClick={handleHide}>
             Close
           </button>
           <button
             type="button"
-            className="rounded-full bg-primary text-white py-2 px-4"
+            className={`rounded-full bg-primary text-white py-2 px-4 ${editItem ? "w-32" : "w-fit"}`}
             disabled={
               !setupData.comment ||
               !setupData.exp_date ||
@@ -316,7 +316,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode }: any) => {
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )} */}
-            Create Suppression
+           {editItem ? "Save" :  "Create Suppression"} 
           </button>
         </Modal.Footer>
       </Modal>

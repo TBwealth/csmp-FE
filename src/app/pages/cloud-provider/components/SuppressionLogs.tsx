@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Popover } from "react-tiny-popover";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
+import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
+import { AccountsApiTenantsList200Response } from "../../../api/axios-client";
 
 const LogsCard = ({
   date,
@@ -66,7 +69,15 @@ const LogsCard = ({
           {rule}
         </p>
         <p className="font-semibold text-[12px]">{resource_id}</p>
-        <p className={`font-semibold text-[12px] ${severity.toLowerCase() === "high" ? "text-[#FF7D30]" : "text-[#FF161A]"}`}>{severity}</p>
+        <p
+          className={`font-semibold text-[12px] ${
+            severity.toLowerCase() === "high"
+              ? "text-[#FF7D30]"
+              : "text-[#FF161A]"
+          }`}
+        >
+          {severity}
+        </p>
         <p className="font-semibold text-[12px] text-start">{exp_date}</p>
         <p className="col-span-2 flex items-center justify-between w-full">
           {comment}
@@ -112,8 +123,22 @@ const LogsCard = ({
   );
 };
 
+type Filter = {
+  severity: string;
+  tenant: string;
+};
+
 const SuppressionLogs = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [listTenants, setListTenants] = useState<any[]>([]);
+  const [showPopOver, setShowPopOver] = useState(false);
+  const [filterValue, setFilterValue] = useState<Filter>({
+    severity: "",
+    tenant: "",
+  });
+  const [user, setUser] = useState<any>(null);
+  const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
+  const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
   const logs = [
     {
       date: "2/3/2024 ",
@@ -161,42 +186,116 @@ const SuppressionLogs = () => {
       suppressed_by: "Joseph Kelvin",
     },
   ];
+
+  useEffect(() => {
+    const localUser = localStorage.getItem("user");
+    if (localUser) {
+      const parsedUser = JSON.parse(localUser);
+      setUser(parsedUser);
+    }
+  }, []);
+
+  useEffect(() => {
+    setListTenants(tenantstsr?.data?.data?.results);
+  }, [tenantstsr]);
   return (
     <div className="w-[90%] mx-auto pt-12">
       <div className="pb-4 mb-10 border-bottom flex items-center  justify-between w-full">
         <p className="text-[14px] font-semibold">Suppressions logs</p>
-        <button className="text-[14px] pl-3 border-start flex items-center justify-center gap-3">
-          <span className="underline">Filter</span>
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+        <Popover
+          onClickOutside={() => setShowPopOver(false)}
+          isOpen={showPopOver}
+          positions={["bottom", "left", "top", "right"]}
+          content={
+            <div
+              className={`w-64 p-6 rounded-md shadow-sm ${
+                mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
+              }`}
+            >
+              {user?.role.name !== "Tenant" && (
+                <div className="form-group">
+                  <label htmlFor="tenant" className="w-full mb-2">
+                    Tenant
+                  </label>
+                  <select
+                    data-placeholder="Select option"
+                    autoComplete="off"
+                    value={filterValue.tenant}
+                    onChange={(e) =>
+                      setFilterValue({ ...filterValue, tenant: e.target.value })
+                    }
+                    className="form-control bg-transparent"
+                    // value={asset.tenant}
+                  >
+                    <option value="">Select Tenant</option>
+                    {listTenants?.map((item) => (
+                      <option key={item?.id} value={item?.id}>
+                        {item?.full_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              <div className="form-group">
+                <label htmlFor="severity" className="w-full mb-2">
+                  Severity
+                </label>
+                <input
+                  type="text"
+                  className="form-control bg-transparent"
+                  placeholder="enter severity"
+                  value={filterValue.severity}
+                  onChange={(e) =>
+                    setFilterValue({ ...filterValue, severity: e.target.value })
+                  }
+                />
+              </div>
+
+              <button
+                onClick={() => setShowPopOver(false)}
+                className="bg-primary block w-24 my-4 rounded-md p-3 text-white"
+              >
+                Apply
+              </button>
+            </div>
+          }
+        >
+          <button
+            onClick={() => setShowPopOver(!showPopOver)}
+            className="text-[14px] pl-3 border-start flex items-center justify-center gap-3"
           >
-            <path
-              d="M2.25 4.5H15.75"
-              stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M5.25 9L12.75 9"
-              stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M8.25 13.5L9.75 13.5"
-              stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
+            <span className="underline">Filter</span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.25 4.5H15.75"
+                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5.25 9L12.75 9"
+                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M8.25 13.5L9.75 13.5"
+                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        </Popover>
       </div>
       <p className="mt-4 mb-8 text-[14px] font-semibold">
         Instances or logs where suppression setups were applied or utilized
@@ -245,10 +344,9 @@ const SuppressionLogs = () => {
           <p className="font-semibold text-[12px]">Exp Date</p>
           <p className="font-semibold text-[12px] col-span-2">Comment</p>
         </div>
-        {
-          logs.map((log, idx) => (
-            <LogsCard
-            key={log.comment+idx}
+        {logs.map((log, idx) => (
+          <LogsCard
+            key={log.comment + idx}
             region={log.region}
             comment={log.comment}
             date={log.date}
@@ -261,9 +359,9 @@ const SuppressionLogs = () => {
             suppressed_by={log.suppressed_by}
             status={log.status}
             resource={log.resource}
-            />
-          ))
-        }
+            mode={mode}
+          />
+        ))}
       </div>
     </div>
   );

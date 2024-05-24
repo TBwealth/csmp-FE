@@ -65,7 +65,20 @@ const SetUp = () => {
         {steps === 1 && (
           <StepOne
             next={() => setSteps((steps) => steps + 1)}
-            handleHide={() => {}}
+            handleHide={() => {
+              sessionStorage.setItem("top-title", "Dashboard");
+                sessionStorage.setItem(
+                  "children",
+                  JSON.stringify([
+                    {
+                      title: "Dashboard",
+                      href: "/dashboard",
+                    },
+                  ])
+                );
+                navigate("/dashboard");
+              navigate("/dashboard");
+            }}
             inModal={false}
           />
         )}

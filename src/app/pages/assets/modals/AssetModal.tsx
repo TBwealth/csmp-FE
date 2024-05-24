@@ -41,7 +41,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
     description: editItem?.description ?? "",
     name: editItem?.name ?? "",
     resource_types: editItem?.resource_types ?? 0,
-    rule_code: editItem?.rule.code ?? "",
+    rule_code: editItem?.rule_code ?? "",
   });
 
   const [token, setToken] = useState("");
@@ -196,7 +196,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 <option value="">Select Tenant</option>
                 {listTenants?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.tenant_name}
+                    {item?.full_name}
                   </option>
                 ))}
               </select>
@@ -239,7 +239,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 <option value="">Select a Provider</option>
                 {listClouds?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.name}
+                    {item?.account_id}
                   </option>
                 ))}
               </select>
@@ -292,7 +292,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 <option value="">Select a region</option>
                 {listRegions?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.name}
+                    {item?.region_name}
                   </option>
                 ))}
               </select>
@@ -300,7 +300,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
             <div className="">
               <label className="form-label fs-6 fw-bold">Rule Code</label>
               <input
-                placeholder="Enter IP"
+                placeholder="Enter Rule Code"
                 type="text"
                 name="text"
                 autoComplete="off"

@@ -27,6 +27,8 @@ export class RulesWithStatus implements IStatus {
   id: string = "";
   name: string = "";
   code: string = "";
+  service: string = "";
+  description: string = "";
   status: string = "";
   isDefault: string = "";
 
@@ -35,6 +37,8 @@ export class RulesWithStatus implements IStatus {
     this.name = tenant.name;
     this.code = tenant.code;
     this.status = tenant.status;
+    this.service = tenant.service;
+    this.description = tenant.description;
     this.isDefault = tenant.isDefault;
   }
 

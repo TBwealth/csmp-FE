@@ -1,24 +1,53 @@
 import { useState, useEffect } from "react";
 import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
 import {
- useGetRegions,
- useCreateRegion
+  useGetRegions,
+  useCreateRegion,
 } from "../../../api/api-services/systemQuery";
 import {
-    ACTIONS,
-    ColumnTypes,
-    TableAction,
-    TableActionEvent,
-    TableColumn,
-  } from "../../../components/models";
-  import useAlert from "../../components/useAlert";
-  import RegionModal from "./modal/RegionModal";
-  import DefaultContent from "../../../components/defaultContent/defaultContent";
-  import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
+  ACTIONS,
+  ColumnTypes,
+  TableAction,
+  TableActionEvent,
+  TableColumn,
+} from "../../../components/models";
+import useAlert from "../../components/useAlert";
+import RegionModal from "./modal/RegionModal";
+import DefaultContent from "../../../components/defaultContent/defaultContent";
+import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
 import { SystemSettingsRegionsList200Response } from "../../../api/axios-client";
+import {
+  IStatus,
+  MyColor,
+} from "../../../components/tableComponents/status/status";
+
+export class RegionWithStatus implements IStatus {
+  id: string = "";
+  cloud_provider: string = "";
+  region_name: string = "";
+  status: string = "";
+
+  constructor(tenant: any) {
+    this.id = tenant.id;
+    this.cloud_provider = tenant.cloud_provider;
+    this.region_name = tenant.region_name;
+    this.status = tenant.status;
+  }
+
+  getStatusLabel() {
+    if (this.status) return "Active";
+    if (!this.status) return "InActive";
+    return "";
+  }
+  getStatusColor() {
+    if (this.status) return new MyColor(0, 175, 175);
+    if (!this.status) return new MyColor(242, 153, 74);
+    return new MyColor(242, 0, 74);
+  }
+}
 
 const CloudRegion = () => {
-    const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<any[]>([]);
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState(false);
@@ -39,31 +68,32 @@ const CloudRegion = () => {
       type: ColumnTypes.Text,
     },
     {
-      name: "name",
-      title: "Name",
+      name: "cloud_provider",
+      title: "Cloud Provider",
       type: ColumnTypes.Text,
     },
     {
-      name: "code",
-      title: "Code",
+      name: "region_name",
+      title: "Name",
       type: ColumnTypes.Text,
     },
 
     {
-      name: "longitude",
-      title: "Longitude",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "latitude",
-      title: "Latitude",
-      type: ColumnTypes.Text,
+      name: "status",
+      title: "Status",
+      type: ColumnTypes.Status,
+      statusEnum: [
+        { key: true, value: "Active" },
+        { key: false, value: "InActive" },
+      ],
     },
   ];
   const { data, isLoading, error } = useGetRegions(1);
   const datastsr: SystemSettingsRegionsList200Response | any = data;
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results);
+    setItems(
+      datastsr?.data?.data?.results.map((x: any) => new RegionWithStatus(x))
+    );
     setshowEmpty(
       datastsr?.data?.data?.results
         ? datastsr?.data?.data?.results?.length === 0
@@ -78,13 +108,13 @@ const CloudRegion = () => {
       }
     }
   }, [data, error]);
-  
+
   const topActionButtons = [
     { name: "add_new_user", label: "Add Region", icon: "plus", outline: false },
   ];
   function modal(buttion: any) {
     if (buttion === "add_new_user") {
-    setShowModal(true);
+      setShowModal(true);
       setEditItems(null);
     }
   }
@@ -104,14 +134,14 @@ const CloudRegion = () => {
       setShowModal(true);
     }
     if (event.name === "3") {
-    //   navigate(`/assets/assets-list/${event.data.id}`);
+      //   navigate(`/assets/assets-list/${event.data.id}`);
       // handleDelete(event.data.id);
     }
   }
 
   return (
     <div>
-        <ComponentsheaderComponent
+      <ComponentsheaderComponent
         backbuttonClick={() => {}}
         pageName="Regions"
         requiredButton={topActionButtons}
@@ -119,8 +149,8 @@ const CloudRegion = () => {
           modal(e);
         }}
       />
-      
-      {(showEmpty || isLoading) ? (
+
+      {showEmpty || isLoading ? (
         <DefaultContent
           pageHeader="All Regions"
           pageDescription="No record found"
@@ -155,7 +185,7 @@ const CloudRegion = () => {
           sortOptionSelected={() => {}}
         />
       )}
-      
+
       {showModal && (
         <RegionModal
           isOpen={showModal}
@@ -164,7 +194,7 @@ const CloudRegion = () => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default CloudRegion
+export default CloudRegion;

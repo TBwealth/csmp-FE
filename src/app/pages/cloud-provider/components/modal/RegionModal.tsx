@@ -9,10 +9,8 @@ import { CloudProviderCloudProviderResourceTypesList200Response } from "../../..
 import useAlert from "../../../components/useAlert";
 type Region = {
   cloud_provider: number;
-  name: string;
-  code: string;
-  latitude: string;
-  longitude: string;
+  region_name: string;
+  status: boolean;
 };
 
 const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
@@ -21,14 +19,12 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
   const [user, setUser] = useState<any>(null);
   const [region, setRegion] = useState<Region>({
     cloud_provider: editItem?.cloud_provider ?? 0,
-    code: editItem?.code ?? "",
-    latitude: editItem?.latitude ?? "",
-    longitude: editItem?.longitude ?? "",
-    name: editItem?.name ?? "",
+    region_name: editItem?.region_name ?? "",
+    status: editItem?.status ?? true,
   });
   const { showAlert, hideAlert, Alert } = useAlert();
   const [listClouds, setListClouds] = useState<any[]>([]);
-  const { data: cloud } = useGetCloudProviderResourceTypes({page, pageSize});
+  const { data: cloud } = useGetCloudProviderResourceTypes({ page, pageSize });
   const cloudstsr:
     | CloudProviderCloudProviderResourceTypesList200Response
     | any = cloud;
@@ -48,10 +44,13 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
     }
   }, []);
 
-
   useEffect(() => {
-    if(user?.role.name === "Tenant") {
-      setListClouds(cloudstsr?.data?.data?.results.filter((res:any) => user?.tenant?.id === res.tenant));
+    if (user?.role.name === "Tenant") {
+      setListClouds(
+        cloudstsr?.data?.data?.results.filter(
+          (res: any) => user?.tenant?.id === res.tenant
+        )
+      );
     } else {
       setListClouds(cloudstsr?.data?.data?.results);
     }
@@ -59,15 +58,17 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
 
   const handleSubmit = () => {
     mutate(
-      { data: { ...region } },
+      { data: { 
+        cloud_provider: "AWS",
+        region_name: region.region_name,
+        status: region.status
+       } },
       {
         onSuccess: (res: any) => {
           setRegion({
             cloud_provider: 0,
-            code: "",
-            latitude: "",
-            longitude: "",
-            name: "",
+            region_name: "",
+            status: true
           });
           showAlert(res?.data?.message, "success");
           console.log(res);
@@ -91,10 +92,8 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
         onSuccess: (res: any) => {
           setRegion({
             cloud_provider: 0,
-            code: "",
-            latitude: "",
-            longitude: "",
-            name: "",
+            region_name: "",
+            status: true,
           });
           showAlert(res?.data?.message, "success");
           console.log(res);
@@ -123,7 +122,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3">
             <div className="">
               <label className="form-label fs-6 fw-bold">Cloud Provider:</label>
               <select
@@ -145,58 +144,32 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
               </select>
             </div>
             <div className="">
-              <label className="form-label fs-6 fw-bold">Name:</label>
+              <label className="form-label fs-6 fw-bold">Region Name:</label>
               <input
                 placeholder="Enter Name"
                 type="text"
                 name="name"
                 autoComplete="off"
                 className="form-control bg-transparent"
-                value={region.name}
-                onChange={(e) => setRegion({ ...region, name: e.target.value })}
-              />
-            </div>
-            <div className="">
-              <label className="form-label fs-6 fw-bold">Code:</label>
-              <input
-                placeholder="Enter Code"
-                type="text"
-                name="code"
-                autoComplete="off"
-                className="form-control bg-transparent"
-                value={region.code}
-                onChange={(e) => setRegion({ ...region, code: e.target.value })}
-              />
-            </div>
-            <div className="">
-              <label className="form-label fs-6 fw-bold">Longitude:</label>
-              <input
-                placeholder="Enter Longitude"
-                type="text"
-                name="longitude"
-                autoComplete="off"
-                maxLength={50}
-                className="form-control bg-transparent"
-                value={region.longitude}
+                value={region.region_name}
                 onChange={(e) =>
-                  setRegion({ ...region, longitude: e.target.value })
+                  setRegion({ ...region, region_name: e.target.value })
                 }
               />
             </div>
-            <div className="">
-              <label className="form-label fs-6 fw-bold">Latitude</label>
+            <div className="mt-3 flex items-center gap-3">
               <input
                 placeholder="Enter Latitude"
-                type="text"
+                type="checkbox"
                 name="latitude"
                 autoComplete="off"
-                maxLength={50}
-                className="form-control bg-transparent"
-                value={region.latitude}
+                className="w-5 h-5 rounded-md bg-primary"
+                checked={region.status}
                 onChange={(e) =>
-                  setRegion({ ...region, latitude: e.target.value })
+                  setRegion({ ...region, status: e.target.checked })
                 }
               />
+              <label className="form-label fs-6 fw-bold">Status</label>
             </div>
           </div>
         </Modal.Body>
@@ -208,13 +181,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
           <button
             type="button"
             className="btn btn-primary w-50"
-            disabled={
-              !region.cloud_provider ||
-              !region.code ||
-              !region.latitude ||
-              !region.longitude ||
-              !region.name
-            }
+            disabled={!region.cloud_provider || !region.region_name}
             onClick={editItem ? editHandleSubmit : handleSubmit}
           >
             {(!isLoading || !assetIsLoading) && (

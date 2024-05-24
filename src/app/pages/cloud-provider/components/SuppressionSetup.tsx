@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Popover } from "react-tiny-popover";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import SetupModal from "./modal/SetupModal";
+import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
+import { AccountsApiTenantsList200Response } from "../../../api/axios-client";
 
 const SetupCard = ({
   provider,
@@ -14,7 +17,7 @@ const SetupCard = ({
   status,
   comment,
   mode,
-  setData
+  setData,
 }: any) => {
   return (
     <div
@@ -72,9 +75,7 @@ const SetupCard = ({
         <p className="font-normal text-[10px] w-72">
           {comment.slice(0, 15)}...
         </p>
-        <button
-        onClick={setData}
-        >
+        <button onClick={setData}>
           <svg
             width="17"
             height="16"
@@ -102,9 +103,19 @@ const SetupCard = ({
 };
 const SuppressionSetup = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
-
+  const [listTenants, setListTenants] = useState<any[]>([]);
+  const [showPopOver, setShowPopOver] = useState(false);
   const [editItem, setEditItems] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
+  // const [pageSize, setPageSize] = useState(100);
+  // const [page, setPage] = useState(1);
+
+  const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
+  const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
+
+  useEffect(() => {
+    setListTenants(tenantstsr?.data?.data?.results);
+  }, [tenantstsr]);
 
   const setups = [
     {
@@ -244,38 +255,76 @@ const SuppressionSetup = () => {
         </div>
         <div className="my-10 pb-4 border-bottom flex items-center justify-between w-full">
           <p className="text-[14px] font-semibold">Suppressions</p>
-          <button className="text-[14px] pl-3 border-start flex items-center justify-center gap-3">
-            <span className="underline">Filter</span>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <Popover
+            onClickOutside={() => setShowPopOver(false)}
+            isOpen={showPopOver}
+            positions={["bottom", "left", "top", "right"]}
+            content={
+              <div
+                className={`w-64 p-6 rounded-md shadow-sm ${
+                  mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
+                }`}
+              >
+                <div className="form-group">
+                  <label htmlFor="tenant" className="w-full mb-2">
+                    Tenant
+                  </label>
+                  <select
+                    data-placeholder="Select option"
+                    autoComplete="off"
+                    className="form-control bg-transparent"
+                    // value={asset.tenant}
+                    onChange={(e) =>
+                      setShowPopOver(false)
+                    }
+                  >
+                    <option value="">Select Tenant</option>
+                    {listTenants?.map((item) => (
+                      <option key={item?.id} value={item?.id}>
+                        {item?.full_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            }
+          >
+            <button
+              onClick={() => setShowPopOver(!showPopOver)}
+              className="text-[14px] pl-3 border-start flex items-center justify-center gap-3"
             >
-              <path
-                d="M2.25 4.5H15.75"
-                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M5.25 9L12.75 9"
-                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M8.25 13.5L9.75 13.5"
-                stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+              <span className="underline">Filter</span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 18 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2.25 4.5H15.75"
+                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M5.25 9L12.75 9"
+                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M8.25 13.5L9.75 13.5"
+                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </Popover>
         </div>
         <div className="w-full overflow-auto p-2">
           <div

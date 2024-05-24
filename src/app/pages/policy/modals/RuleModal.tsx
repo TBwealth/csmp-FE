@@ -40,7 +40,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     setPolicies(datastsr?.data?.data?.results);
     if (editItem) {
       //   setIsOpen(true);
-      console.log(editItem, "Showwwwwwwwwwwww");
+      // console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
       setNameValue(editItem?.name);
       setCodeValue(editItem?.code);
@@ -176,7 +176,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               name="text"
               autoComplete="off"
               className="form-control bg-transparent"
-              value={codeValue}
+              value={serviceValue}
               onChange={(e) => setServiceValue(e.target.value)}
             />
           </div>
@@ -186,9 +186,9 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               name="description"
               id=""
               rows={3}
-              cols={10}
+              cols={30}
               value={descValue}
-              className="form-check-input mx-1 mt-1"
+              className="form-control bg-transparent"
               onChange={(e) => setDescValue(e.target.value)}
             ></textarea>
           </div>

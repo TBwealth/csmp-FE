@@ -92,7 +92,7 @@ const Profile = () => {
                 {user?.email}
               </div>
             </div>
-            <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
+            {/* <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
               <p className="md:col-span-1 font-medium text-[14px]">Role:</p>
               <div className={`col-span-2 shadow-md p-3 rounded-md w-full border-bottom font-medium text-[14px] ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>
                 {user?.role?.name}
@@ -101,9 +101,9 @@ const Profile = () => {
             <div className="mt-6 grid md:grid-cols-3 gap-x-4 gap-y-8">
               <p className="md:col-span-1 font-medium text-[14px]">Tenant:</p>
               <div className={`col-span-2 shadow-md p-3 rounded-md w-full border-bottom font-medium text-[14px] ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : "bg-white"}`}>
-                {user?.tenant}
+                {user?.tenant?.full_name}
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

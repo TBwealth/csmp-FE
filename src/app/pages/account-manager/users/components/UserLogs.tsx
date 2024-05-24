@@ -45,11 +45,6 @@ const UserLogs = () => {
       type: ColumnTypes.Text,
     },
     {
-      name: "actor",
-      title: "Actor",
-      type: ColumnTypes.Text,
-    },
-    {
       name: "action_type",
       title: "Action Type",
       type: ColumnTypes.Text,

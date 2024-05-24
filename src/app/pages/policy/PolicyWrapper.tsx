@@ -68,11 +68,11 @@ const PolicyWrapper = () => {
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
     { name: ACTIONS.VIEW, label: "View Rules" },
-    { name: ACTIONS.DELETE, label: "Run Policy" },
+    // { name: ACTIONS.ACTIVATE, label: "Run Policy" },
     // { name: ACTIONS.ACTIVATE, label: "Run Scan" },
   ];
   const { data, isLoading, error } = useGetPolicies({page, pageSize});
-  console.log(data);
+  // console.log(data);
 
   const { mutate, isLoading: scanLoading } = useScanPolicy();
 

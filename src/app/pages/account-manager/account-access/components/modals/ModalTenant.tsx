@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
 import {
-  usePostAccountTenant,
+  // usePostAccountTenant,
   useUpdateAccountTenant,
 } from "../../../../../api/api-services/accountQuery";
 import useAlert from "../../../../components/useAlert";
 import Modal from "react-bootstrap/Modal";
+import { useGetCloudCountries } from "../../../../../api/api-services/cloudProviderQuery";
+import { CloudProviderCountriesList200Response } from "../../../../../api/axios-client";
 
 const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
-
+  const [countries, setCountries] = useState<any[]>([]);
   const [valueId, setValueId] = useState("");
   const [nameValue, setNameValue] = useState("");
-  const [codeValue, setCodeValue] = useState("");
   const [adminEmailValue, setAdminEmailValue] = useState("");
-  const [statusValue, setStatusValue] = useState(false);
+  const [countryValue, setCountryValue] = useState("");
   const { showAlert, hideAlert, Alert } = useAlert();
-
-  const { mutate, isLoading, error } = usePostAccountTenant();
+  const { data } = useGetCloudCountries();
+  const datastr: CloudProviderCountriesList200Response | any = data;
+  // const { mutate, isLoading, error } = usePostAccountTenant();
   const {
     mutate: editMutate,
     isLoading: editLoading,
@@ -25,23 +27,20 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   } = useUpdateAccountTenant(+valueId);
 
   useEffect(() => {
+    setCountries(datastr?.data?.data?.results ?? []);
     if (editItem) {
-      // setIsOpen(true);
-      console.log(editItem, "Showwwwwwwwwwwww");
       setValueId(editItem?.id);
-      setAdminEmailValue(editItem?.admin_email);
-      setNameValue(editItem?.tenant_name);
-      setCodeValue(editItem?.code);
-      setStatusValue(editItem?.status);
+      setAdminEmailValue(editItem?.business_email);
+      setNameValue(editItem?.full_name);
+      setCountryValue(editItem?.country);
     } else {
       setValueId("");
       setAdminEmailValue("");
       setNameValue("");
-      setCodeValue("");
-      setStatusValue(false);
+      setCountryValue("");
       handleClose();
     }
-  }, [editItem]);
+  }, [editItem, datastr]);
 
   const handleClose = () => {
     // setIsOpen(false);
@@ -50,44 +49,39 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     onClearEdit();
   };
 
-  const handleSubmit = () => {
-    mutate(
-      {
-        tenant_name: nameValue,
-        code: codeValue,
-        admin_email: adminEmailValue,
-        status: statusValue,
-      },
-      {
-        onSuccess: (res: any) => {
-          // handleClose();
-          console.log(res);
-          showAlert(res?.data?.message, "success");
-          setAdminEmailValue("");
-          setNameValue("");
-          setCodeValue("");
-          setStatusValue(false);
-        },
+  // const handleSubmit = () => {
+  //   mutate(
+  //     {
+  //       tenant_name: nameValue,
+  //       admin_email: adminEmailValue,
+  //     },
+  //     {
+  //       onSuccess: (res: any) => {
+  //         // handleClose();
+  //         console.log(res);
+  //         showAlert(res?.data?.message, "success");
+  //         setAdminEmailValue("");
+  //         setNameValue("");
+  //       },
 
-        onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
-            // showAlert(err?.response?.data?.message, "danger");
-          }
-        },
-      }
-    );
-  };
+  //       onError: (err) => {
+  //         if (error instanceof Error) {
+  //           showAlert(error?.message || "An unknown error occurred", "danger");
+  //           // showAlert(err?.response?.data?.message, "danger");
+  //         }
+  //       },
+  //     }
+  //   );
+  // };
 
   const editHandleSubmit = () => {
     editMutate(
       {
         id: +valueId,
         data: {
-          tenant_name: nameValue,
-          code: codeValue,
-          admin_email: adminEmailValue,
-          status: statusValue,
+          business_email: adminEmailValue,
+          full_name: nameValue,
+          country: countryValue
         },
       },
       {
@@ -97,13 +91,11 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           showAlert(res?.data?.message, "success");
           setAdminEmailValue("");
           setNameValue("");
-          setCodeValue("");
-          setStatusValue(false);
         },
 
         onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
           }
           // showAlert(err?.response?.data?.message, "danger");
         },
@@ -137,21 +129,9 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               onChange={(e) => setNameValue(e.target.value)}
             />
           </div>
-          <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">Code:</label>
-            <input
-              placeholder="Enter Code"
-              type="text"
-              name="text"
-              autoComplete="off"
-              className="form-control bg-transparent"
-              value={codeValue}
-              onChange={(e) => setCodeValue(e.target.value)}
-            />
-          </div>
 
           <div className="mb-10">
-            <label className="form-label fs-6 fw-bold">Admin Email:</label>
+            <label className="form-label fs-6 fw-bold">Business Email:</label>
             <input
               placeholder="Enter Admin Email"
               type="text"
@@ -162,15 +142,22 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               onChange={(e) => setAdminEmailValue(e.target.value)}
             />
           </div>
-          <div>
-            <label className="form-label fs-6 fw-bold">Active?:</label>
-            <input
-              className="form-check-input w-15px h-15px mx-1 mt-1"
-              type="checkbox"
-              id="flexSwitchCheckChecked"
-              checked={statusValue}
-              onChange={(e) => setStatusValue(e.target.checked)}
-            />
+          <div className="mb-5">
+            <label className="form-label fs-6 fw-bold">Country:</label>
+            <select 
+            className="form-control bg-transparent"
+            name="" 
+            id=""
+            value={+countryValue}
+              onChange={(e) => setCountryValue(e.target.value)}
+            >
+              <option value="">select country</option>
+              {countries.map((country) => (
+                <option key={country.id} value={country.name}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
           </div>
         </Modal.Body>
         <Alert />
@@ -182,16 +169,16 @@ const AddTenantModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
             type="button"
             className="btn btn-primary"
             disabled={
-              nameValue === "" || codeValue === "" || adminEmailValue === ""
+              nameValue === "" || adminEmailValue === ""
             }
-            onClick={editItem ? editHandleSubmit : handleSubmit}
+            onClick={editHandleSubmit}
           >
-            {!isLoading && !editLoading && (
+            {!editLoading && (
               <span className="indicator-label">
                 {editItem ? "Edit" : "Continue"}
               </span>
             )}
-            {(isLoading || editLoading) && (
+            {(editLoading) && (
               <span className="indicator-progress" style={{ display: "block" }}>
                 Please wait...{" "}
                 <span className="spinner-border spinner-border-sm align-middle ms-2"></span>

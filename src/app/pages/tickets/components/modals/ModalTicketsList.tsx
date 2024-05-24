@@ -72,7 +72,7 @@ const ModalTicketsList = ({
   // console.log(datastsr);
   const handleFetchTenantUsers = (val: string) => {
     const filtered = userstsr?.data?.data?.results.filter(
-      (user: any) => user?.tenant === val
+      (user: any) => user?.tenant?.full_name === val
     );
     setUsers(filtered);
   };
@@ -285,12 +285,15 @@ const ModalTicketsList = ({
                   id="tenant"
                   value={tenantValue}
                   className="form-control bg-transparent"
-                  onChange={(e) => handleFetchTenantUsers(e.target.value)}
+                  onChange={(e) => {
+                    setTenantValue(e.target.value);
+                    handleFetchTenantUsers(e.target.value)
+                  }}
                 >
                   <option value="">Select Tenant</option>
                   {listTenants?.map((data: any) => (
-                    <option key={data?.id} value={data?.tenant_name}>
-                      {data?.tenant_name}
+                    <option key={data?.id} value={data?.full_name}>
+                      {data?.full_name}
                     </option>
                   ))}
                 </select>

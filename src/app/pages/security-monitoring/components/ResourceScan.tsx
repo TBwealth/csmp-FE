@@ -380,8 +380,8 @@ const ResourceScan = () => {
                         >
                           <option>Select Region</option>
                           {allRegions.map((region) => (
-                            <option key={region.name} value={region.id}>
-                              {region.name}
+                            <option key={region.region_name} value={region.id}>
+                              {region.region_name}
                             </option>
                           ))}
                         </select>
