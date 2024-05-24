@@ -2031,18 +2031,6 @@ export interface TenantRegister {
      * @type {string}
      * @memberof TenantRegister
      */
-    'password': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TenantRegister
-     */
-    'password2': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TenantRegister
-     */
     'user_image'?: string | null;
 }
 /**
@@ -3414,12 +3402,15 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * List Tenants
          * @summary List created Tenants
+         * @param {string} [fullName] full_name
+         * @param {string} [businessEmail] business_email
+         * @param {string} [country] country
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiTenantsList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        accountsApiTenantsList: async (fullName?: string, businessEmail?: string, country?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/accounts/api/tenants/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3434,6 +3425,18 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (fullName !== undefined) {
+                localVarQueryParameter['full_name'] = fullName;
+            }
+
+            if (businessEmail !== undefined) {
+                localVarQueryParameter['business_email'] = businessEmail;
+            }
+
+            if (country !== undefined) {
+                localVarQueryParameter['country'] = country;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -4112,13 +4115,16 @@ export const AccountsApiFp = function(configuration?: Configuration) {
         /**
          * List Tenants
          * @summary List created Tenants
+         * @param {string} [fullName] full_name
+         * @param {string} [businessEmail] business_email
+         * @param {string} [country] country
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async accountsApiTenantsList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccountsApiTenantsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiTenantsList(page, pageSize, options);
+        async accountsApiTenantsList(fullName?: string, businessEmail?: string, country?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccountsApiTenantsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiTenantsList(fullName, businessEmail, country, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -4473,13 +4479,16 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
         /**
          * List Tenants
          * @summary List created Tenants
+         * @param {string} [fullName] full_name
+         * @param {string} [businessEmail] business_email
+         * @param {string} [country] country
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        accountsApiTenantsList(page?: number, pageSize?: number, options?: any): AxiosPromise<AccountsApiTenantsList200Response> {
-            return localVarFp.accountsApiTenantsList(page, pageSize, options).then((request) => request(axios, basePath));
+        accountsApiTenantsList(fullName?: string, businessEmail?: string, country?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<AccountsApiTenantsList200Response> {
+            return localVarFp.accountsApiTenantsList(fullName, businessEmail, country, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * partially update Tenant
@@ -4946,6 +4955,27 @@ export interface AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest {
  * @interface AccountsApiAccountsApiTenantsListRequest
  */
 export interface AccountsApiAccountsApiTenantsListRequest {
+    /**
+     * full_name
+     * @type {string}
+     * @memberof AccountsApiAccountsApiTenantsList
+     */
+    readonly fullName?: string
+
+    /**
+     * business_email
+     * @type {string}
+     * @memberof AccountsApiAccountsApiTenantsList
+     */
+    readonly businessEmail?: string
+
+    /**
+     * country
+     * @type {string}
+     * @memberof AccountsApiAccountsApiTenantsList
+     */
+    readonly country?: string
+
     /**
      * A page number within the paginated result set.
      * @type {number}
@@ -5441,7 +5471,7 @@ export class AccountsApi extends BaseAPI {
      * @memberof AccountsApi
      */
     public accountsApiTenantsList(requestParameters: AccountsApiAccountsApiTenantsListRequest = {}, options?: AxiosRequestConfig) {
-        return AccountsApiFp(this.configuration).accountsApiTenantsList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return AccountsApiFp(this.configuration).accountsApiTenantsList(requestParameters.fullName, requestParameters.businessEmail, requestParameters.country, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
