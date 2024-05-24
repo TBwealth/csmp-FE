@@ -1,5 +1,8 @@
 import { Dispatch, useState } from "react";
 import { useRecoilValue } from "recoil";
+import {
+  FaCheckSquare
+} from "react-icons/fa"
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import awsLogo from "../../../../../public/media/logos/aws-logo.svg";
 import azureLogo from "../../../../../public/media/logos/azure-logo.svg";
@@ -80,7 +83,7 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
           </p>
         </div>
         <div className="grid md:grid-cols-3 md:col-span-2 w-full gap-16">
-          <label htmlFor="aws" className="hover:cursor-pointer w-full">
+          <label htmlFor="aws" className="hover:cursor-pointer w-full relative">
             <div
               className={`${
                 selectedProvider === "aws" ? "bg-white" : "bg-[#EAEAEA]/20"
@@ -95,6 +98,9 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
                 AWS Account
               </p>
             </div>
+            {
+              selectedProvider === "aws" && (<FaCheckSquare color="#284CB3" size={14} className="absolute top-2 right-3"/>)
+            }
             <input
               type="radio"
               name="provider"
@@ -111,6 +117,9 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
             <small className="text-primary bg-[#E9EDF7] w-fit rounded-full py-1 px-4 absolute -top-2 -right-2">
               <b>SOON</b>
             </small>
+            {
+              selectedProvider === "azure" && (<FaCheckSquare color="#284CB3" size={14} className="absolute top-2 right-3"/>)
+            }
             <div
               className={`${
                 selectedProvider === "azure" ? "bg-white" : "bg-[#EAEAEA]/20"
@@ -138,6 +147,9 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
             <small className="text-primary bg-[#E9EDF7] w-fit rounded-full py-1 px-4 absolute -top-2 -right-2">
               <b>SOON</b>
             </small>
+            {
+              selectedProvider === "gcp" && (<FaCheckSquare color="#284CB3" size={14} className="absolute top-2 right-3"/>)
+            }
             <div
               className={`${
                 selectedProvider === "gcp" ? "bg-white" : "bg-[#EAEAEA]/20"
@@ -165,7 +177,7 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
       </div>
       <div className="mt-8 border-top-2 w-full flex p-5 items-end justify-end gap-6">
         <button 
-        onClick={inModal ? () => handleHide : () => {}}
+        onClick={inModal ? () => handleHide() : () => {}}
         className="bg-[#284CB3]/40 w-32 rounded-full p-2 text-white text-center">
           Cancel
         </button>

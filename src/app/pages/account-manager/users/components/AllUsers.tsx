@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import {
   useGetAccountUsers,
@@ -33,10 +33,19 @@ const AllUsers = () => {
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    firstName: undefined,
+    lastName: undefined,
+    email: undefined
+  })
   const navigate = useNavigate()
 
   const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+    { name: "first_name", title: "First Name", type: ColumnTypes.Text },
+    { name: "last_name", title: "Last Name", type: ColumnTypes.Text },
+    { name: "email", title: "Email", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
@@ -63,27 +72,27 @@ const AllUsers = () => {
       title: "Email",
       type: ColumnTypes.Text,
     },
-    // {
-    //   name: "role",
-    //   title: "Role",
-    //   type: ColumnTypes.Object,
-    //   objKey: "name",
-    // },
-    {
-      name: "tenant",
-      title: "Tenant",
-      type: ColumnTypes.Text,
-    },
   ];
 
-  const { data, isLoading, error } = useGetAccountUsers(page);
+  const { data, isLoading, error, refetch } = useGetAccountUsers({...filter.current});
 
 
 
   const datastsr: AccountsApiUsersList200Response | any = data;
 
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results);
+    setItems(datastsr?.data?.data?.results.map((res: any) => {
+      return {
+        id: res?.id,
+        first_name: res?.first_name,
+        last_name: res?.last_name,
+        email: res?.email,
+        role: res?.role?.name.toLowerCase(),
+        role_id: res?.role?.id,
+        tenant: res?.tenant?.full_name,
+        tenant_id: res?.tenant?.id,
+      }
+    }));
     setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0: true);
     settotalItems(Math.ceil(datastsr?.data?.data?.count));
     hideAlert();
@@ -105,14 +114,24 @@ const AllUsers = () => {
     }
   }
   function refreshrecord() {
-    useGetAccountUsers(1);
+    filter.current = {
+      page:1, 
+      pageSize: 10,
+      firstName: undefined,
+      lastName: undefined,
+      email: undefined
+    }
+    refetch();
   }
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetAccountUsers(1);
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      firstName: data?.first_name,
+      lastName: data?.last_name,
+      email: data?.email
+    };
+    refetch()
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {

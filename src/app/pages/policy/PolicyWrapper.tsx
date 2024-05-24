@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useAlert from "../components/useAlert";
 import {
   useGetPolicies,
@@ -62,17 +62,39 @@ const PolicyWrapper = () => {
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
+  const filter = useRef<any>({
+    page: 1, 
+    pageSize: 10,
+    name: undefined,
+    code: undefined,
+    status: undefined
+  })
   const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+    { name: "name", title: "Name", type: ColumnTypes.Text },
+    { name: "code", title: "Code", type: ColumnTypes.Text },
+    { 
+      name: "status", 
+      title: "Status", 
+      type: ColumnTypes.List,
+      listValue: [{
+        id:false,
+        name: "Inactive"
+      },
+      {
+        id:true,
+        name: "Active"
+      },
+    ],
+      listIdField: "id",
+      listTextField: "name",
+     },
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
     { name: ACTIONS.VIEW, label: "View Rules" },
-    { name: ACTIONS.DELETE, label: "Run Policy" },
-    // { name: ACTIONS.ACTIVATE, label: "Run Scan" },
   ];
-  const { data, isLoading, error } = useGetPolicies({page, pageSize});
-  console.log(data);
+  const { data, isLoading, error, refetch } = useGetPolicies({...filter.current});
+  // console.log(data);
 
   const { mutate, isLoading: scanLoading } = useScanPolicy();
 
@@ -134,19 +156,31 @@ const PolicyWrapper = () => {
     }
   }
   function refreshrecord() {
-    useGetPolicies({page, pageSize});
+    filter.current= {
+      page: 1,
+      pageSize: 10,
+      status: undefined,
+      name: undefined,
+      code: undefined
+    }
+    refetch()
   }
 
   const handleViewPolicyRules = (id: any) => {
     navigate(`/policy-rules/${id}`);
   };
 
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetPolicies({page, pageSize});
+  function filterUpdated(data: any) {
+    filter.current = { 
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      status: data?.status,
+      name: data?.name,
+      code: data?.code
+
+     };
+
+     refetch();
   }
   function handleScanPolicy(id: number, frequency: string) {
     mutate(

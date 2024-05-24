@@ -1,10 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGetTickets } from "../../../api/api-services/ticketQuery";
+import {
+  useGetTickets,
+  useGetTicketsTypes,
+} from "../../../api/api-services/ticketQuery";
+import { useGetAssets } from "../../../api/api-services/systemQuery";
 import { UsersListLoading } from "../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../components/useAlert";
 // import { Dropdown, DropdownButton } from "react-bootstrap";
-import { TicketsTicketTypesList200Response } from "../../../api/axios-client";
+import {
+  AccountsApiTenantsList200Response,
+  SystemSettingsAssetManagementsList200Response,
+  TicketsTicketTypesList200Response,
+} from "../../../api/axios-client";
 import { ModalTicketsList } from "./modals/ModalTicketsList";
 import {
   ACTIONS,
@@ -20,6 +28,7 @@ import {
   IStatus,
   MyColor,
 } from "../../../components/tableComponents/status/status";
+import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
 
 export class TicketWithStatus implements IStatus {
   id: string = "";
@@ -40,7 +49,7 @@ export class TicketWithStatus implements IStatus {
   assigned_to_first_name: string = "";
   assigned_to_last_name: string = "";
   assigned_to_email: string = "";
-  status: string="";
+  status: string = "";
 
   constructor(ticket: any) {
     this.id = ticket.id;
@@ -54,7 +63,7 @@ export class TicketWithStatus implements IStatus {
     this.status = ticket.status;
     this.asset_id = ticket.asset_id;
     this.asset_code = ticket.asset_code;
-    this.asset_name = ticket.asset_code;
+    this.asset_name = ticket.asset_name;
     this.asset_description = ticket.asset_description;
     this.createdBy = ticket.createdBy;
     this.tenant = ticket.tenant;
@@ -70,8 +79,8 @@ export class TicketWithStatus implements IStatus {
     return "Pending";
   }
   getStatusColor() {
-    if (this.status  === "OPEN") return new MyColor(0, 175, 175);
-    if (this.status  === "CLOSED") return new MyColor(242, 0, 74);
+    if (this.status === "OPEN") return new MyColor(0, 175, 175);
+    if (this.status === "CLOSED") return new MyColor(242, 0, 74);
     return new MyColor(242, 153, 74);
   }
 }
@@ -89,21 +98,46 @@ const TicketsTickets = () => {
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
   const navigate = useNavigate();
+  const filter = useRef<any>({
+    asset: undefined,
+    assignedTo: undefined,
+    ticketType: undefined,
+    page: 1,
+    pageSize: 10,
+  });
 
-  const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
-  ];
+  const [filterFields, setFilterFields] = useState<TableColumn[]>([
+    {
+      name: "asset",
+      title: "Asset",
+      type: ColumnTypes.Text,
+      // listValue: [],
+      // listIdField: "id",
+      // listTextField: "name",
+    },
+    {
+      name: "assignedTo",
+      title: "Assigned To",
+      type: ColumnTypes.Text,
+      // listValue: [],
+      // listIdField: "id",
+      // listTextField: "name",
+    },
+    {
+      name: "ticketType",
+      title: "Ticket Type",
+      type: ColumnTypes.List,
+      listValue: [],
+      listIdField: "id",
+      listTextField: "name",
+    },
+  ]);
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
     { name: ACTIONS.VIEW, label: "View Activities" },
     // { name: ACTIONS.DELETE, label: "Delete" },
   ];
   const tableColumns: TableColumn[] = [
-    {
-      name: "asset_id",
-      title: "Asset ID",
-      type: ColumnTypes.Text,
-    },
     {
       name: "asset_name",
       title: "Asset",
@@ -139,16 +173,23 @@ const TicketsTickets = () => {
       title: "Status",
       type: ColumnTypes.Status,
       statusEnum: [
-        { key: true, value: "Active" },
-        { key: false, value: "InActive" },
+        { key: "OPEN", value: "Open" },
+        { key: "CLOSE", value: "Close" },
+        { key: "PENDING", value: "Pending" },
       ],
     },
   ];
 
-  const { data, isLoading, error } = useGetTickets({page, pageSize});
-  console.log(data);
-
+  // const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
+  // const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
+  const { data: ticketTypes } = useGetTicketsTypes({ page: 1, pageSize: 100 });
+  const ticketstsr: TicketsTicketTypesList200Response | any = ticketTypes;
+  const { data, isLoading, error, refetch } = useGetTickets({
+    ...filter.current,
+  });
   const datastsr: TicketsTicketTypesList200Response | any = data;
+  // const { data: assets } = useGetAssets({ page: 1, pageSize: 1000 });
+  // const assetstsr: SystemSettingsAssetManagementsList200Response | any = assets;
 
   useEffect(() => {
     const mapped = datastsr?.data?.data?.results.map((res: any) => {
@@ -174,7 +215,7 @@ const TicketsTickets = () => {
         assigned_to_email: res?.assigned_to?.email,
       };
     });
-    if(mapped) {
+    if (mapped) {
       setItems(mapped.map((x: any) => new TicketWithStatus(x)));
     }
     setshowEmpty(
@@ -183,7 +224,47 @@ const TicketsTickets = () => {
         : true
     );
     settotalItems(Math.ceil(datastsr?.data?.data?.count));
-    console.log(items);
+    // if (assetstsr?.data?.data?.results) {
+    //   const trans: TableColumn[] = filterFields.map((res: any) => {
+    //     if (res.name === "asset") {
+    //       return {
+    //         ...res,
+    //         listValue: assetstsr.data?.data?.results.map((res: any) => {
+    //           return {
+    //             id: res?.id,
+    //             name: res?.name
+    //           }
+    //         }),
+    //       };
+    //     } else return res;
+    //   });
+    //   setFilterFields([...trans]);
+    // }
+    // if (tenantstsr?.data?.data?.results) {
+    //   const trans: TableColumn[] = filterFields.map((res: any) => {
+    //     if (res.name === "assignedTo") {
+    //       return {
+    //         ...res,
+    //         listValue: tenantstsr.data?.data?.results.map((res: any) => {
+    //           return { id: res?.id, name: res?.name };
+    //         }),
+    //       };
+    //     } else return res;
+    //   });
+    //   setFilterFields([...filterFields, ...trans]);
+    // }
+    if (ticketstsr?.data?.data?.results) {
+      setFilterFields(
+        filterFields.map((res: any) => {
+          if (res.name === "ticketType") {
+            return {
+              ...res,
+              listValue: ticketstsr.data?.data?.results,
+            };
+          } else return res;
+        })
+      );
+    }
     hideAlert();
     if (error) {
       if (error instanceof Error) {
@@ -191,7 +272,7 @@ const TicketsTickets = () => {
         showAlert(error?.message || "An unknown error occurred", "danger");
       }
     }
-  }, [data, error]);
+  }, [data, error, ticketstsr]);
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add Ticket", icon: "plus", outline: false },
@@ -203,14 +284,24 @@ const TicketsTickets = () => {
     }
   }
   function refreshrecord() {
-    useGetTickets({page, pageSize});
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      asset: undefined,
+      assignedTo: undefined,
+      ticketType: undefined,
+    };
+    refetch();
   }
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetTickets({page, pageSize});
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      asset: data?.asset,
+      assignedTo: data?.assignedTo,
+      ticketType: data?.ticketType,
+    };
+    refetch();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {

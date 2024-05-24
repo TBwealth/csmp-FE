@@ -165,9 +165,9 @@ export const useGetSingleResult = (id: number) => {
   return query;
 };
 
-export const useGetAllScanHistory = (page: number, pageSize: number) => {
+export const useGetAllScanHistory = (data: any) => {
   const query = useQuery(["scan-history"], () =>
-    policyApi.policyPolicyRunScanHistoryList({page, pageSize})
+    policyApi.policyPolicyRunScanHistoryList({...data})
   );
 
   return query;

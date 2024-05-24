@@ -6,9 +6,9 @@ import {
 } from "../../../api/api-services/systemQuery";
 import useAlert from "../../components/useAlert";
 import axios from "axios";
-import {
-  useGetCloudProviderResourceTypes,
-} from "../../../api/api-services/cloudProviderQuery";
+// import {
+//   useGetCloudProviderResourceTypes,
+// } from "../../../api/api-services/cloudProviderQuery";
 import { Modal } from "react-bootstrap";
 import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
 import {
@@ -25,7 +25,7 @@ type Asset = {
   public_ip?: string;
   description: string;
   cloud_identifier: string;
-  cloud_provider: number;
+  cloud_provider: string;
   region: number;
 };
 
@@ -36,12 +36,12 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
     tenant: editItem?.tenant ?? 0,
     region: editItem?.region ?? 0,
     cloud_identifier: editItem?.cloud_identifier ?? "",
-    cloud_provider: editItem?.cloud_provider ?? 0,
+    cloud_provider: editItem?.cloud_provider ?? "AWS",
     code: editItem?.code ?? "",
     description: editItem?.description ?? "",
     name: editItem?.name ?? "",
     resource_types: editItem?.resource_types ?? 0,
-    rule_code: editItem?.rule.code ?? "",
+    rule_code: editItem?.rule_code ?? "",
   });
 
   const [token, setToken] = useState("");
@@ -52,14 +52,14 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
   const [listClouds, setListClouds] = useState<any[]>([]);
   const [listResources, setListResources] = useState<any[]>([]);
   const { showAlert, hideAlert, Alert } = useAlert();
-  const { data: tenantData } = useGetAccountTenant({page, pageSize});
+  const { data: tenantData } = useGetAccountTenant({ page, pageSize });
 
-  const { data: cloud } = useGetCloudProviderResourceTypes({page, pageSize});
+  // const { data: cloud } = useGetCloudProviderResourceTypes({page, pageSize});
   const { data: regions } = useGetRegions(1);
 
-  const cloudstsr:
-    | CloudProviderCloudProviderResourceTypesList200Response
-    | any = cloud;
+  // const cloudstsr:
+  //   | CloudProviderCloudProviderResourceTypesList200Response
+  //   | any = cloud;
   const datastsr: AccountsApiTenantsList200Response | any = tenantData;
   const regionstsr: AccountsApiTenantsList200Response | any = regions;
 
@@ -84,7 +84,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
             tenant: 0,
             region: 0,
             cloud_identifier: "",
-            cloud_provider: 0,
+            cloud_provider: "AWS",
             code: "",
             description: "",
             name: "",
@@ -117,7 +117,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
             tenant: 0,
             region: 0,
             cloud_identifier: "",
-            cloud_provider: 0,
+            cloud_provider: "AWS",
             code: "",
             description: "",
             name: "",
@@ -140,10 +140,10 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
     );
   };
 
-  const handleFetchProviderResource = async (id: number) => {
+  const handleFetchProviderResource = async (id: string) => {
     try {
       const res = await axios.get(
-        `https://cspm-api.midrapps.com/cloud_provider/cloud_provider_resource_types/${id ? id : 0}/`,
+        `https://cspm-api.midrapps.com/cloud_provider/resource_types/?cloud_provider=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -151,7 +151,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
         }
       );
       if (res?.status === 200) {
-        setListResources(res?.data?.data?.resource_type);
+        setListResources(res?.data?.data?.results);
       }
     } catch (error) {
       console.log(error);
@@ -160,12 +160,10 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
 
   useEffect(() => {
     setListTenants(datastsr?.data?.data?.results);
-    setListClouds(cloudstsr?.data?.data?.results);
+    // setListClouds(cloudstsr?.data?.data?.results);
     setListRegions(regionstsr?.data?.data?.results);
-    if(cloudstsr) {
-        handleFetchProviderResource(editItem?.cloud_provider);
-    }
-  }, [tenantData, cloud, regionstsr]);
+    handleFetchProviderResource("AWS");
+  }, [tenantData, regionstsr]);
 
   return (
     <>
@@ -196,7 +194,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 <option value="">Select Tenant</option>
                 {listTenants?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.tenant_name}
+                    {item?.full_name}
                   </option>
                 ))}
               </select>
@@ -232,12 +230,25 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 data-placeholder="Select option"
                 value={asset.cloud_provider}
                 onChange={(e) => {
-                  handleFetchProviderResource(+e.target.value);
-                  setAsset({ ...asset, cloud_provider: +e.target.value });
+                  handleFetchProviderResource(e.target.value);
+                  setAsset({ ...asset, cloud_provider: e.target.value });
                 }}
               >
                 <option value="">Select a Provider</option>
-                {listClouds?.map((item) => (
+                {[
+                  {
+                    id: "AWS",
+                    name: "aws",
+                  },
+                  {
+                    id: "AZURE",
+                    name: "azure",
+                  },
+                  {
+                    id: "GPC",
+                    name: "gpc",
+                  },
+                ]?.map((item) => (
                   <option key={item?.id} value={item?.id}>
                     {item?.name}
                   </option>
@@ -274,7 +285,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 <option value="">Select a resource type</option>
                 {listResources?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.name}
+                    {item?.resource_type}
                   </option>
                 ))}
               </select>
@@ -292,7 +303,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                 <option value="">Select a region</option>
                 {listRegions?.map((item) => (
                   <option key={item?.id} value={item?.id}>
-                    {item?.name}
+                    {item?.region_name}
                   </option>
                 ))}
               </select>
@@ -300,7 +311,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
             <div className="">
               <label className="form-label fs-6 fw-bold">Rule Code</label>
               <input
-                placeholder="Enter IP"
+                placeholder="Enter Rule Code"
                 type="text"
                 name="text"
                 autoComplete="off"

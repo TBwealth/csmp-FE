@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { MainTableComponent } from "../../components/tableComponents/maincomponent/maintable";
 import { useGetAssets } from "../../api/api-services/systemQuery";
@@ -27,15 +27,21 @@ const Assets = () => {
   const [totalItems, settotalItems] = useState<number>(0);
   const navigate = useNavigate();
   const [editItems, setEditItems] = useState<any | undefined>();
-
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    services: undefined,
+    ruleCode: undefined,
+  });
   const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+    { name: "services", title: "Service", type: ColumnTypes.Text },
+    { name: "ruleCode", title: "Rule Code", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
     { name: ACTIONS.VIEW, label: "View" },
   ];
- 
+
   const tableColumns: TableColumn[] = [
     {
       name: "id",
@@ -75,7 +81,7 @@ const Assets = () => {
     },
   ];
 
-  const { data, isLoading, error } = useGetAssets({page, pageSize});
+  const { data, isLoading, error, refetch } = useGetAssets({ ...filterFields });
   const datastsr: SystemSettingsAssetManagementsList200Response | any = data;
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);
@@ -105,14 +111,22 @@ const Assets = () => {
     }
   }
   function refreshrecord() {
-    useGetAssets({page, pageSize});
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      services: undefined,
+      ruleCode: undefined,
+    };
+    refetch();
   }
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetAssets({page, pageSize});
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      services: data?.services,
+      ruleCode: data?.ruleCode,
+    };
+    refetch();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {

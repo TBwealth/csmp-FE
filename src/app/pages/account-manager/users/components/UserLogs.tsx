@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Content } from "../../../../../_metronic/layout/components/content";
 import { useGetAccountUserLoginLogs } from "../../../../api/api-services/accountQuery";
 import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
@@ -30,23 +30,38 @@ const UserLogs = () => {
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
-
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    status: undefined
+  })
   const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+    { 
+      name: "status", 
+      title: "Status", 
+      type: ColumnTypes.List,
+      listValue: [
+        {
+        id: "Failed",
+        name: "failed"
+      },
+        {
+        id: "Success",
+        name: "success"
+      },
+    ],
+      listIdField: "id",
+      listTextField: "name",
+     },
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.DELETE, label: "Delete" },
+    // { name: ACTIONS.DELETE, label: "Delete" },
   ];
   const tableColumns: TableColumn[] = [
     {
       name: "id",
       title: "ID",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "actor",
-      title: "Actor",
       type: ColumnTypes.Text,
     },
     {
@@ -71,8 +86,7 @@ const UserLogs = () => {
     },
   ];
 
-  const { data, isLoading, error } = useGetAccountUserLoginLogs(page);
-  console.log("daaaaa", data);
+  const { data, isLoading, error, refetch } = useGetAccountUserLoginLogs({...filter.current});
 
   const datastsr:  any = data;
 
@@ -100,14 +114,18 @@ const UserLogs = () => {
     }
   }
   function refreshrecord() {
-    useGetAccountUserLoginLogs(1);
+    filter.current = {
+      page: 1,
+    pageSize: 10,
+    action_type: undefined
+    }
+    // filterFields
+    refetch()
   }
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetAccountUserLoginLogs(1);
+  function filterUpdated(data: any) {
+    filter.current = {
+
+    }
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {

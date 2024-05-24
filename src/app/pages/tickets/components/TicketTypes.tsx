@@ -1,14 +1,22 @@
-import { useEffect, useState } from "react";
-import { useGetTicketsTypes} from "../../../api/api-services/ticketQuery";
+import { useEffect, useRef, useState } from "react";
+import { useGetTicketsTypes } from "../../../api/api-services/ticketQuery";
 import useAlert from "../../components/useAlert";
 import { TicketsTicketTypesList200Response } from "../../../api/axios-client";
 import { ModalTicketTypes } from "./modals/ModalTicketTypes";
-import { ACTIONS, ColumnTypes, TableAction, TableActionEvent, TableColumn } from "../../../components/models";
+import {
+  ACTIONS,
+  ColumnTypes,
+  TableAction,
+  TableActionEvent,
+  TableColumn,
+} from "../../../components/models";
 import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
 import { ComponentsheaderComponent } from "../../../components/componentsheader/componentsheader.component";
-import { IStatus, MyColor } from "../../../components/tableComponents/status/status";
-
+import {
+  IStatus,
+  MyColor,
+} from "../../../components/tableComponents/status/status";
 
 export class TicketWithStatus implements IStatus {
   id: string = "";
@@ -48,13 +56,34 @@ const TicketTypes = () => {
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    status: undefined,
+    name: undefined,
+  });
   const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+    { name: "name", title: "Name", type: ColumnTypes.Text },
+    // { name: "code", title: "Code", type: ColumnTypes.Text },
+    {
+      name: "status",
+      title: "Status",
+      type: ColumnTypes.List,
+      listValue: [
+        {
+          id: false,
+          name: "Inactive",
+        },
+        {
+          id: true,
+          name: "Active",
+        },
+      ],
+      listIdField: "id",
+      listTextField: "name",
+    },
   ];
-  const tableActions: TableAction[] = [
-    { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.DELETE, label: "Delete" },
-  ];
+  const tableActions: TableAction[] = [{ name: ACTIONS.EDIT, label: "Edit" }];
   const tableColumns: TableColumn[] = [
     {
       name: "id",
@@ -81,14 +110,22 @@ const TicketTypes = () => {
       ],
     },
   ];
-  const { data, isLoading, error } = useGetTicketsTypes({page, pageSize});
-  console.log(data)
+  const { data, isLoading, error, refetch } = useGetTicketsTypes({
+    ...filter.current,
+  });
+  console.log(data);
 
   const datastsr: TicketsTicketTypesList200Response | any = data;
 
   useEffect(() => {
-    setItems(datastsr?.data?.data?.results.map((x: any) => new TicketWithStatus(x)));
-    setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0 : true);
+    setItems(
+      datastsr?.data?.data?.results.map((x: any) => new TicketWithStatus(x))
+    );
+    setshowEmpty(
+      datastsr?.data?.data?.results
+        ? datastsr?.data?.data?.results?.length === 0
+        : true
+    );
     settotalItems(Math.ceil(datastsr?.data?.data?.count));
     hideAlert();
     if (error) {
@@ -99,14 +136,17 @@ const TicketTypes = () => {
     }
   }, [data, error]);
 
-  
-
   const filteredItems = items?.filter((item) =>
     item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const topActionButtons = [
-    { name: "add_new_user", label: "Add Ticket Type", icon: "plus", outline: false },
+    {
+      name: "add_new_user",
+      label: "Add Ticket Type",
+      icon: "plus",
+      outline: false,
+    },
   ];
   function modal(buttion: any) {
     if (buttion === "add_new_user") {
@@ -115,14 +155,24 @@ const TicketTypes = () => {
     }
   }
   function refreshrecord() {
-    useGetTicketsTypes({page, pageSize});
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      status: undefined,
+      name: undefined,
+    };
+    refetch();
   }
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetTicketsTypes({page, pageSize});
+  function filterUpdated(data: any) {
+    console.log(data);
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      name: data?.name,
+      status: data?.status,
+    };
+
+    refetch();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
@@ -154,30 +204,30 @@ const TicketTypes = () => {
         />
       ) : (
         <MainTableComponent
-        filterChange={(e: any) => filterUpdated(e)}
-        showActions={true}
-        showFilter={true}
-        actionClick={(e: any) => tableActionClicked(e)}
-        actions={tableActions}
-        userData={items}
-        tableColum={tableColumns}
-        totalItems={totalItems}
-        currentTablePage={currentPage}
-        loading={isLoading}
-        InputFileName="All Tickets Types"
-        filterFields={filterFields}
-        showCheckBox={true}
-        bulkactionClicked={(e: any) => {}}
-        Bulkactions={[]}
-        showBulkAction={true}
-        actionChecked={() => {}}
-        actionBulkChecked={() => {}}
-        pageChange={() => {}}
-        dateRangeChanged={() => {}}
-        toggleColumnsEvent={() => {}}
-        toggleCustomFilter={() => {}}
-        sortOptionSelected={() => {}}
-      />
+          filterChange={(e: any) => filterUpdated(e)}
+          showActions={true}
+          showFilter={true}
+          actionClick={(e: any) => tableActionClicked(e)}
+          actions={tableActions}
+          userData={items}
+          tableColum={tableColumns}
+          totalItems={totalItems}
+          currentTablePage={currentPage}
+          loading={isLoading}
+          InputFileName="All Tickets Types"
+          filterFields={filterFields}
+          showCheckBox={true}
+          bulkactionClicked={(e: any) => {}}
+          Bulkactions={[]}
+          showBulkAction={true}
+          actionChecked={() => {}}
+          actionBulkChecked={() => {}}
+          pageChange={() => {}}
+          dateRangeChanged={() => {}}
+          toggleColumnsEvent={() => {}}
+          toggleCustomFilter={() => {}}
+          sortOptionSelected={() => {}}
+        />
       )}
       {/* {!showEmpty && (
         <MainTableComponent

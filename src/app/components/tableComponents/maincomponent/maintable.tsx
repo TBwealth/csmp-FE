@@ -418,9 +418,13 @@ export const MainTableComponent = ({
       pageChange(currentPage! + 1);
       setfilter({
         ...filter,
-        ...{ pageNumber: currentPage! + 1, pageSize: newPageSize },
+        ...{ page: currentPage! + 1, pageSize: newPageSize },
       });
-      filterChange(filter);
+      filterChange({
+        ...filter,
+        page: currentPage! + 1,
+        pageSize: newPageSize,
+      });
       setpageSize(newPageSize);
     }
   }
@@ -429,7 +433,7 @@ export const MainTableComponent = ({
     pageChange(currentPage! + 1);
     setfilter({
       ...filter,
-      ...{ pageNumber: currentPage! + 1, pageSize: newPageSize },
+      ...{ page: currentPage! + 1, pageSize: newPageSize },
     });
     filterChange(filter);
   }
@@ -438,9 +442,13 @@ export const MainTableComponent = ({
     pageChange(currentPage! + 1);
     setfilter({
       ...filter,
-      ...{ pageNumber: currentPage! + 1, pageSize: newPageSize },
+      ...{ page: currentPage! + 1, pageSize: newPageSize },
     });
-    filterChange(filter);
+    filterChange({
+      ...filter,
+      page: currentPage! + 1,
+      pageSize: newPageSize,
+    });
   }
   function handleSortChange(event: any) {
     let innUserData = [...usersTableData!];
@@ -452,7 +460,8 @@ export const MainTableComponent = ({
     setusersTableData(innUserData);
   }
   function handleSearch(event: any) {
-    if (event && (event !== "" || event === null)) {
+    const inp = event.target.value;
+    if (inp) {
       setusersTableData(tableData!);
       let truchk = false;
       setusersTableData(
@@ -463,7 +472,7 @@ export const MainTableComponent = ({
                 uf[sval.name]
                   .toString()
                   .toLowerCase()
-                  .indexOf(event.toString().toLowerCase()) > -1
+                  .includes(inp.toLowerCase())
               ) {
                 truchk = true;
                 return true;
@@ -594,7 +603,11 @@ export const MainTableComponent = ({
   };
   return (
     <>
-      <div className={`space-y-3 m-8 p-5 shadow-md rounded-md border ${mode?.mode! === "dark" ? "bg-lightDark" : "bg-white"}`}>
+      <div
+        className={`space-y-3 m-8 p-5 shadow-md rounded-md border ${
+          mode?.mode! === "dark" ? "bg-lightDark" : "bg-white"
+        }`}
+      >
         {showFilter && selectedRecord! <= 0 && (
           <TableheaderComponent
             filterFields={filterFields}
@@ -661,7 +674,11 @@ export const MainTableComponent = ({
         <div className="relative overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className={`border-b boder-gray-300 ${mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#181C32]"} font-bold`}>
+              <tr
+                className={`border-b boder-gray-300 ${
+                  mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#181C32]"
+                } font-bold`}
+              >
                 {showCheckBox && (
                   <th className="py-3 px-3">
                     <div className="items-center flex ">
@@ -720,7 +737,11 @@ export const MainTableComponent = ({
             {!loading && (
               <tbody className="divide-y divide-gray-200 font-normal">
                 {usersTableData?.map((data: any, i) => (
-                  <tr className={`text-[12px] font-semibold ${mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#181C32]"}`}>
+                  <tr
+                    className={`text-[12px] font-semibold ${
+                      mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#181C32]"
+                    }`}
+                  >
                     {showCheckBox && (
                       <td className="py-3 px-3">
                         <div className="items-center flex">
@@ -885,17 +906,29 @@ export const MainTableComponent = ({
                   <span>Rows per page</span>
                 </span>
                 <div>
-                <input
-                  value={newPageSize}
-                  onKeyUp={(e: any) => setnewPageSize(e.target.value)}
-                  onChange={() => pageSizeChange()}
-                  type="number"
-                  min={1}
-                  max={totalItems}
-                  className="form-control rounded"
-                  name="newPageSize"
-                />
-               </div>
+                  <input
+                    value={newPageSize}
+                    onKeyUp={(e: any) => {
+                      filterChange({
+                        ...filter,
+                        pageSize: e.target.value,
+                      });
+                      setnewPageSize(e.target.value);
+                    }}
+                    onChange={(e) => {
+                      filterChange({
+                        ...filter,
+                        pageSize: e.target.value,
+                      });
+                      setnewPageSize(+e.target.value);
+                    }}
+                    type="number"
+                    min={1}
+                    // max={totalItems}
+                    className="form-control w-24 rounded"
+                    name="newPageSize"
+                  />
+                </div>
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "row" }}>
@@ -907,8 +940,8 @@ export const MainTableComponent = ({
                 }}
               >
                 {currentPage! * pageSize + 1} -
-                {pageSize * (currentPage! + 1) < totalItems
-                  ? pageSize * (currentPage! + 1)
+                {pageSize * (currentPage! - 1) < totalItems
+                  ? pageSize * (currentPage! - 1)
                   : totalItems}{" "}
                 of
                 {totalItems}

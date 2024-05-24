@@ -6,12 +6,12 @@ import {
   AccountsApiAccountsApiUpdateRolePermissionUpdateRequest,
   CustomPasswordReset,
   Login,
-  Register,
   Role,
   RolePermission,
   Tenant,
   TokenRefresh,
   AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest,
+  AccountsApiAccountsApiCreateUsersCreateRequest,
 } from "../axios-client";
 import { accountApi } from "./index";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -194,24 +194,24 @@ export const useGetAccountCustomTenant = (page: number) => {
   return query;
 };
 
-export const usePostAccountTenant = () => {
-  const queryClient = useQueryClient();
-  const mutation = useMutation(
-    (data: any) => accountApi.accountsApiTenantsCreate({ data }),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["tenants"]);
-      },
-    }
-  );
-  return mutation;
-};
+// export const usePostAccountTenant = () => {
+//   const queryClient = useQueryClient();
+//   const mutation = useMutation(
+//     (data: any) => accountApi.accountsApiTenantsCreate({ data }),
+//     {
+//       onSuccess: () => {
+//         queryClient.invalidateQueries(["tenants"]);
+//       },
+//     }
+//   );
+//   return mutation;
+// };
 
 export const useUpdateAccountTenant = (id: number) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({ id, data }: any) =>
+    ({ id, data }: AccountsApiAccountsApiTenantsUpdateRequest) =>
       accountApi.accountsApiTenantsUpdate({ id, data }),
     {
       onSuccess: () => {
@@ -223,9 +223,9 @@ export const useUpdateAccountTenant = (id: number) => {
   return mutation;
 };
 
-export const useGetAccountUsers = (page: number) => {
-  const query = useQuery(["users", page], () =>
-    accountApi.accountsApiUsersList({ page })
+export const useGetAccountUsers = (data: any) => {
+  const query = useQuery(["users", data], () =>
+    accountApi.accountsApiUsersList({...data })
   );
   return query;
 };
@@ -241,10 +241,10 @@ export const useUpdateAccountUsers = (id: number) => {
 
   const mutation = useMutation(
     ({ id, data }: AccountsApiAccountsApiUsersUpdateRequest) =>
-      accountApi.accountsApiUsersUpdate({ id, data }),
+      accountApi.accountsApiUsersPartialUpdate({ id, data }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["tenants"]);
+        queryClient.invalidateQueries(["users"]);
       },
     }
   );
@@ -252,9 +252,25 @@ export const useUpdateAccountUsers = (id: number) => {
   return mutation;
 };
 
-export const useGetAccountUserLoginLogs = (page: number) => {
-  const query = useQuery(["user_login_logs", page], () =>
-    accountApi.accountsApiActivityLogsList({ page })
+export const usePostAccountUsers = () => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    ({ data }: AccountsApiAccountsApiCreateUsersCreateRequest) =>
+      accountApi.accountsApiCreateUsersCreate({ data }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["users"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useGetAccountUserLoginLogs = (data: any) => {
+  const query = useQuery(["user_login_logs", data], () =>
+    accountApi.accountsApiActivityLogsList({ ...data })
   );
   return query;
 };

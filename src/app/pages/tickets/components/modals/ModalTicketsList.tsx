@@ -53,9 +53,9 @@ const ModalTicketsList = ({
   // } = useGetTickets(page);
   // console.log("daaaaa", allTickets);
 
-  const { data: ticketTypes } = useGetTicketsTypes({page:1, pageSize: 100});
-  const { data: tenantData } = useGetAccountTenant({page:1, pageSize: 100});
-  const { data: assets } = useGetAssets({page:1, pageSize: 100});
+  const { data: ticketTypes } = useGetTicketsTypes({ page: 1, pageSize: 100 });
+  const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
+  const { data: assets } = useGetAssets({ page: 1, pageSize: 100 });
 
   const { data: userData } = useGetAccountUsers(page);
   const userstsr: AccountsApiUsersList200Response | any = userData;
@@ -72,7 +72,7 @@ const ModalTicketsList = ({
   // console.log(datastsr);
   const handleFetchTenantUsers = (val: string) => {
     const filtered = userstsr?.data?.data?.results.filter(
-      (user: any) => user?.tenant === val
+      (user: any) => user?.tenant?.full_name === val
     );
     setUsers(filtered);
   };
@@ -149,13 +149,13 @@ const ModalTicketsList = ({
   const handleSubmit = () => {
     mutate(
       {
-        assigned_to: { id: assignedToValue?.id },
+        assigned_to: assignedToValue?.id,
         code: codeValue,
         status: statusValue.toUpperCase(),
-        asset: { id: assetValue?.id },
+        asset: assetValue?.id,
         description: descriptionValue,
         subject: subjectValue,
-        ticket_type: { id: ticketType?.id },
+        ticket_type: ticketType?.id,
         // date_joined: new Date()
       },
       {
@@ -185,15 +185,13 @@ const ModalTicketsList = ({
       {
         id: valueId,
         data: {
-          assigned_to: { id: assignedToValue?.id },
+          assigned_to: assignedToValue?.id,
           code: codeValue,
           status: statusValue.toUpperCase(),
-          asset: {
-            id: editItem?.asset_id ?? "",
-          },
+          asset: assetValue?.id,
           description: descriptionValue,
           subject: subjectValue,
-          ticket_type: { id: ticketType?.id },
+          ticket_type: ticketType?.id,
         },
       },
       {
@@ -285,12 +283,15 @@ const ModalTicketsList = ({
                   id="tenant"
                   value={tenantValue}
                   className="form-control bg-transparent"
-                  onChange={(e) => handleFetchTenantUsers(e.target.value)}
+                  onChange={(e) => {
+                    setTenantValue(e.target.value);
+                    handleFetchTenantUsers(e.target.value);
+                  }}
                 >
                   <option value="">Select Tenant</option>
                   {listTenants?.map((data: any) => (
-                    <option key={data?.id} value={data?.tenant_name}>
-                      {data?.tenant_name}
+                    <option key={data?.id} value={data?.full_name}>
+                      {data?.full_name}
                     </option>
                   ))}
                 </select>
@@ -399,13 +400,10 @@ const ModalTicketsList = ({
               </span>
             )}
             {(isLoading || editLoading) && (
-                <span
-                  className="indicator-progress"
-                  style={{ display: "block" }}
-                >
-                  Please wait...{" "}
-                  <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
-                </span>
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
             )}
           </button>
         </Modal.Footer>

@@ -57,10 +57,11 @@ const Roles = () => {
       );
       if (resp.status === 200) {
         const mapped = resp?.data?.data.permissions.map(
-          (perm: any) => perm.name
+          (perm: any) => perm.id
         );
+        console.log(mapped);
         const updatPerm = perms?.map((perm: any) => {
-          if (mapped.includes(perm?.name)) {
+          if (mapped.includes(perm?.id)) {
             return {
               ...perm,
               isPerm: true,
@@ -79,11 +80,12 @@ const Roles = () => {
   };
 
   const { mutate } = useUpdateRolePermission();
-  useEffect(() => {
-    if (selected?.id) {
-      handleFetchRolePerm(selected?.id);
-    }
-  }, [selected]);
+
+  // useEffect(() => {
+  //   if (selected?.id) {
+  //     handleFetchRolePerm(selected?.id);
+  //   }
+  // }, [selected]);
 
   useEffect(() => {
     setItems(datastsr?.data?.data?.results);

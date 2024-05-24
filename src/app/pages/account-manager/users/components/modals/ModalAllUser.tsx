@@ -1,38 +1,34 @@
 import { useEffect, useState } from "react";
 import { KTIcon, KTSVG } from "../../../../../../_metronic/helpers";
 import {
-  useGetAccountRoles,
-  useGetAccountTenant,
+  // useGetAccountRoles,
+  // useGetAccountTenant,
   useUpdateAccountUsers,
+  usePostAccountUsers,
 } from "../../../../../api/api-services/accountQuery";
 import useAlert from "../../../../components/useAlert";
 import { Modal } from "react-bootstrap";
-import { AccountsApiRolesList200Response } from "../../../../../api/axios-client";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(100);
-  const [roles, setRoles] = useState<any[] | undefined>([]);
-  const [tenant, setTenant] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
   const [firstNameValue, setFirstNameValue] = useState("");
   const [lastNameValue, setLastNameValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
-  const [roleValue, setRoleValue] = useState("");
-  const [tenantValue, setTenantValue] = useState("");
+
   const { showAlert, hideAlert, Alert } = useAlert();
 
-  const {
-    data: allRoles,
-    isLoading: roleLoading,
-    error: roleError,
-  } = useGetAccountRoles(page);
-  const {
-    data: allTenant,
-    isLoading: tenantLoading,
-    error: tenantError,
-  } = useGetAccountTenant({page, pageSize});
+  // const {
+  //   data: allRoles,
+  //   isLoading: roleLoading,
+  //   error: roleError,
+  // } = useGetAccountRoles(page);
+  // const {
+  //   data: allTenant,
+  //   isLoading: tenantLoading,
+  //   error: tenantError,
+  // } = useGetAccountTenant({ page, pageSize });
 
   const {
     mutate: editMutate,
@@ -40,8 +36,14 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     error: editError,
   } = useUpdateAccountUsers(+valueId);
 
-  const allRolesData: AccountsApiRolesList200Response | any = allRoles;
-  const allTenantData: AccountsApiRolesList200Response | any = allTenant;
+  const {
+    mutate,
+    isLoading: createLoading,
+    error: createError,
+  } = usePostAccountUsers();
+
+  // const allRolesData: AccountsApiRolesList200Response | any = allRoles;
+  // const allTenantData: AccountsApiRolesList200Response | any = allTenant;
 
   const handleClose = () => {
     // setIsOpen(false);
@@ -51,13 +53,11 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     setFirstNameValue("");
     setLastNameValue("");
     setEmailValue("");
-    setRoleValue("");
-    setTenantValue("");
   };
 
   useEffect(() => {
-    setRoles(allRolesData?.data?.data?.results);
-    setTenant(allTenantData?.data?.data?.results);
+    // setRoles(allRolesData?.data?.data?.results);
+    // setTenant(allTenantData?.data?.data?.results);
     if (editItem) {
       // setIsOpen(true);
       console.log(editItem, "Showwwwwwwwwwwww");
@@ -65,13 +65,37 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
       setFirstNameValue(editItem?.first_name);
       setLastNameValue(editItem?.last_name);
       setEmailValue(editItem?.email);
-      setRoleValue(editItem?.role?.name);
-      setTenantValue(editItem?.tenant);
+      // setRoleValue(editItem?.role_id);
+      // setTenantValue(editItem?.tenant);
     } else {
       handleClose();
     }
-  }, [allRoles, allTenant, editItem]);
+  }, [editItem]);
 
+  const createHandleSubmit = () => {
+    mutate(
+      {
+        data: {
+          first_name: firstNameValue,
+          last_name: lastNameValue,
+          email: emailValue,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          showAlert("User Added Successfully", "success");
+          // handleClose();
+          console.log(res);
+        },
+
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
+      }
+    );
+  };
   const editHandleSubmit = () => {
     editMutate(
       {
@@ -79,11 +103,7 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
         data: {
           first_name: firstNameValue,
           last_name: lastNameValue,
-          tenant: tenantValue,
           email: emailValue,
-          role: {
-            name: roleValue,
-          },
         },
       },
       {
@@ -116,8 +136,8 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="mb-10">
+          <div className="grid grid-cols-1 gap-3">
+            <div className="">
               <label className="form-label fs-6 fw-bold">First Name:</label>
               <input
                 placeholder="Enter First Name"
@@ -129,7 +149,7 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
                 onChange={(e) => setFirstNameValue(e.target.value)}
               />
             </div>
-            <div className="mb-10">
+            <div className="">
               <label className="form-label fs-6 fw-bold">Last Name:</label>
               <input
                 placeholder="Enter Last Name"
@@ -141,7 +161,7 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
                 onChange={(e) => setLastNameValue(e.target.value)}
               />
             </div>
-            <div className="mb-10">
+            <div className="">
               <label className="form-label fs-6 fw-bold">Email:</label>
               <input
                 placeholder="Enter Email"
@@ -153,17 +173,18 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
                 onChange={(e) => setEmailValue(e.target.value)}
               />
             </div>
-            <div className="mb-10">
+           
+            {/* <div className="mb-10">
               <label className="form-label fs-6 fw-bold">Role:</label>
               <select
                 className="form-select form-select-solid fw-bolder"
                 data-placeholder="Select option"
-                value={roleValue}
+                value={+roleValue}
                 onChange={(e) => setRoleValue(e.target.value)}
               >
                 <option value="">Select a Role</option>
                 {roles?.map((item) => (
-                  <option key={item?.id} value={item?.name}>
+                  <option key={item?.id} value={item?.id}>
                     {item?.name}
                   </option>
                 ))}
@@ -181,12 +202,12 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               >
                 <option value="">Select a Tenant</option>
                 {tenant?.map((item) => (
-                  <option key={item?.id} value={item?.tenant_name}>
-                    {item?.tenant_name}
+                  <option key={item?.id} value={item?.full_name}>
+                    {item?.full_name}
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
         </Modal.Body>
         <Alert />
@@ -197,14 +218,22 @@ const ModalAllUser = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           <button
             type="button"
             className="btn btn-primary"
-            disabled={roleValue === "" || tenantValue === ""}
-            onClick={editHandleSubmit}
+            disabled={
+              !firstNameValue ||
+              !lastNameValue ||
+              !emailValue
+            }
+            onClick={editItem ? editHandleSubmit : createHandleSubmit}
           >
-            {!editLoading && <span className="indicator-label">continue</span>}
-            {editLoading && (
+            {(!editLoading || !createLoading) &&
+              (editItem ? (
+                <span className="indicator-label">continue</span>
+              ) : (
+                <span>Create</span>
+              ))}
+            {(editLoading || createLoading) && (
               <span className="indicator-progress" style={{ display: "block" }}>
                 Please wait...{" "}
-                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}
           </button>
