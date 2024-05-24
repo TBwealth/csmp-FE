@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal } from "react-bootstrap";
 import {
   useUpdateRegion,
@@ -35,6 +35,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
     isLoading: assetIsLoading,
     error: regionError,
   } = useUpdateRegion(editItem ? editItem?.id : 0);
+
 
   useEffect(() => {
     const localUser = localStorage.getItem("user");

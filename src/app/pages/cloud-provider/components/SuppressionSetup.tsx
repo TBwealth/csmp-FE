@@ -177,7 +177,7 @@ const SuppressionSetup = () => {
 
   useEffect(() => {
     setListTenants(tenantstsr?.data?.data?.results);
-    setAllsetups(datastsr?.data?.data?.results);
+    setAllsetups(datastsr?.data?.data?.results ?? []);
     setshowEmpty(
       datastsr?.data?.data?.results
         ? datastsr?.data?.data?.results.length === 0
@@ -203,53 +203,6 @@ const SuppressionSetup = () => {
       );
     }
   }, [tenantstsr, datastsr, regionstsr]);
-
-  const setups = [
-    {
-      provider: "Gilotec Prod",
-      tenant_id: "T01",
-      type: "EC2",
-      resource_id: "EC2-001",
-      rule_id: "RL001",
-      region: "All Regions",
-      exp_date: "2/3/2024 ",
-      status: "Active",
-      comment: "We will not run rule RL001 on EC2-00. . .",
-    },
-    {
-      provider: "Gilotec Prod",
-      tenant_id: "T01",
-      type: "S3 Bucket",
-      resource_id: "EC2-047",
-      rule_id: "RL058",
-      region: "US-East-1",
-      exp_date: "None",
-      status: "Active",
-      comment: "WE WILL NOT RUN  AWS-RDS  FOREVER UNTIL UPDATED",
-    },
-    {
-      provider: "Gilotec Prod",
-      tenant_id: "T01",
-      type: "AWS-RDS",
-      resource_id: "--",
-      rule_id: "--",
-      region: "Canada",
-      exp_date: "None",
-      status: "Active",
-      comment: "--",
-    },
-    {
-      provider: "Gilotec Prod",
-      tenant_id: "T01",
-      type: "AWS-RDS",
-      resource_id: "RDS-001",
-      rule_id: "--",
-      region: "All Regions",
-      exp_date: "2/3/2024",
-      status: "Expired",
-      comment: "Ignore this instance for now till further notice",
-    },
-  ];
 
   function filterUpdated(data: any) {
     filter.current = {

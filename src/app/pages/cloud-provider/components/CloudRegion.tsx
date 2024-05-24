@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MainTableComponent } from "../../../components/tableComponents/maincomponent/maintable";
 import {
   useGetRegions,
@@ -54,8 +54,14 @@ const CloudRegion = () => {
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
   const [editItems, setEditItems] = useState<any | undefined>();
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    code:undefined,
+    name: undefined
+  })
   const filterFields: TableColumn[] = [
-    { name: "keyword", title: "Keyword", type: ColumnTypes.Text },
+    { name: "name", title: "Name", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
     { name: ACTIONS.EDIT, label: "Edit" },
@@ -88,7 +94,7 @@ const CloudRegion = () => {
       ],
     },
   ];
-  const { data, isLoading, error } = useGetRegions(1);
+  const { data, isLoading, error, refetch } = useGetRegions({...filter.current});
   const datastsr: SystemSettingsRegionsList200Response | any = data;
   useEffect(() => {
     setItems(
@@ -119,14 +125,21 @@ const CloudRegion = () => {
     }
   }
   function refreshrecord() {
-    useGetRegions(1);
+    filter.current = {
+      page: 1,
+      pageSize: 10,
+      code:undefined,
+      name: undefined
+    }
+   refetch();
   }
-  function filterUpdated(filter: any) {
-    filter.current = { ...filter.current, ...filter };
-    let nfilter = filter.current;
-    nfilter.pageIndex = filter.page;
-    filter.current = nfilter;
-    useGetRegions(1);
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      name: data?.name,
+    }
+    refetch();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {

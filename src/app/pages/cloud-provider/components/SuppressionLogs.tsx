@@ -259,7 +259,7 @@ const SuppressionLogs = () => {
 
   useEffect(() => {
     setListTenants(tenantstsr?.data?.data?.results);
-    setAllLogs(datastsr?.data?.data?.results);
+    setAllLogs(datastsr?.data?.data?.results ?? []);
     setshowEmpty(
       datastsr?.data?.data?.results
         ? datastsr?.data?.data?.results.length === 0
@@ -365,21 +365,21 @@ const SuppressionLogs = () => {
               <p className="font-semibold text-[12px]">Exp Date</p>
               <p className="font-semibold text-[12px] col-span-2">Comment</p>
             </div>
-            {logs.map((log, idx) => (
+            {allLogs.map((log, idx) => (
               <LogsCard
                 key={log.comment + idx}
-                region={log.region}
-                comment={log.comment}
-                date={log.date}
-                description={log.description}
-                exp_date={log.exp_date}
-                message={log.message}
-                resource_id={log.resource_id}
-                rule={log.rule}
-                severity={log.severity}
-                suppressed_by={log.suppressed_by}
-                status={log.status}
-                resource={log.resource}
+                region={log?.region ?? ""}
+                comment={log?.comments ?? ""}
+                date={log?.created_on.split("T")[0] ?? ""}
+                description={log?.description ?? ""}
+                exp_date={log?.expiration ?? ""}
+                message={log?.message ?? ""}
+                resource_id={log?.resource_id ?? ""}
+                rule={log?.rule ?? ""}
+                severity={log?.severity ?? ""}
+                suppressed_by={log?.suppressed_by ?? ""}
+                status={log?.status ?? ""}
+                resource={log?.resource ?? ""}
                 mode={mode}
               />
             ))}
