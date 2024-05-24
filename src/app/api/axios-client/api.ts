@@ -1365,7 +1365,7 @@ export interface ProviderService {
      * @type {string}
      * @memberof ProviderService
      */
-    'account_id': string;
+    'account_id'?: string | null;
     /**
      * 
      * @type {boolean}
