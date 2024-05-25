@@ -195,7 +195,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
                   mode === "dark" ? "text-[#FFFFFF]" : "text-[#6A6A6A]"
                 }`}
               >
-                Suppression ID: 38982744
+                Suppression ID: {editItem?.id}
               </p>
             </div>
           ) : (

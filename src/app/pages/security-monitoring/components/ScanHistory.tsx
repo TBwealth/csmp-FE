@@ -718,14 +718,14 @@ const ScanHistory = () => {
           <h3 className="font-normal text-base mb-8 text-left">
             These are scheduled recurring resource scan.
           </h3>
-          {ocuringdata.map((d) => (
+          {/* {ocuringdata.map((d) => (
             <ReOccurringCard
               title={d.title}
               next={d.next}
               region={d.region}
               mode={mode}
             />
-          ))}
+          ))} */}
         </div>
       )}
       <FilterModal
