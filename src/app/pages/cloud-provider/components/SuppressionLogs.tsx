@@ -142,6 +142,7 @@ const SuppressionLogs = () => {
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const [listTenants, setListTenants] = useState<any[]>([]);
   const [showPopOver, setShowPopOver] = useState(false);
+  const [checks, setChecks] = useState<any[]>([]);
   const [filterValue, setFilterValue] = useState<Filter>({
     severity: "",
     tenant: "",
@@ -368,18 +369,18 @@ const SuppressionLogs = () => {
             {allLogs.map((log, idx) => (
               <LogsCard
                 key={log.comment + idx}
-                region={log?.region ?? ""}
+                region={log?.result_json?.checks[0].region ?? ""}
                 comment={log?.comments ?? ""}
                 date={log?.created_on.split("T")[0] ?? ""}
-                description={log?.description ?? ""}
+                description={log?.result_json?.checks[0]?.remediation_desc ?? ""}
                 exp_date={log?.expiration ?? ""}
-                message={log?.message ?? ""}
+                message={log?.result_json?.checks[0].finding_desc ?? ""}
                 resource_id={log?.resource_id ?? ""}
-                rule={log?.rule ?? ""}
-                severity={log?.severity ?? ""}
+                rule={log?.result_json ? `${log?.result_json?.checks[0].rule_code.slice(0, 16)}...` : ""}
+                severity={log?.result_json?.checks[0]?.severity ?? ""}
                 suppressed_by={log?.suppressed_by ?? ""}
-                status={log?.status ?? ""}
-                resource={log?.resource ?? ""}
+                status={log?.result_json?.checks[0].status_code ?? ""}
+                resource={log?.result_json?.checks[0].service ?? ""}
                 mode={mode}
               />
             ))}

@@ -41,6 +41,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
       {
         data: {
           account_id: payload.cloud_name,
+          account_name: payload.cloud_name,
           cloud_provider_name: "aws",
           environment: payload.environment,
           onboarding_type: type,

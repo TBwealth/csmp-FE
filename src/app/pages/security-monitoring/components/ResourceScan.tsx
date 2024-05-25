@@ -27,19 +27,16 @@ import ScanData from "./modals/ScanData";
 import axios from "axios";
 
 const scanSchema = Yup.object().shape({
-  provider: Yup.string().required("provider is required"),
+  provider: Yup.string(),
   policy_id: Yup.string().required("policy id is required"),
-  region: Yup.string().required("region is  required"),
+  region: Yup.string(),
   frequency: Yup.string().required("scan frequency is  required"),
 });
 
 const ResourceScan = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
-  const [pageSize, setPageSize] = useState(100);
-  const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [allProviders, setAllProviders] = useState<any[]>([]);
   const [allRegions, setAllRegions] = useState<any[]>([]);
   const [allPolicy, setAllPolicy] = useState<any[]>([]);
   const [allTenant, setAllTenant] = useState<any[]>([]);
@@ -104,15 +101,6 @@ const ResourceScan = () => {
   };
 
   useEffect(() => {
-    // if (user?.role.name === "Tenant") {
-    //   setAllProviders(
-    //     datastsr?.data?.data?.results.filter(
-    //       (res: any) => user?.tenant?.id === res.tenant
-    //     ) || []
-    //   );
-    // } else {
-    //   setAllProviders(datastsr?.data?.data?.results || []);
-    // }
     setAllRegions(regionstsr?.data?.data?.results || []);
     setAllPolicy(policystsr?.data?.data?.results || []);
     setAllTenant(tenantstsr?.data?.data?.results || []);
@@ -175,7 +163,7 @@ const ResourceScan = () => {
               <div className="mt-10">
                 <Formik
                   initialValues={{
-                    provider: "AWS",
+                    provider: "",
                     policy_id: "",
                     region: "",
                     frequency: "",
