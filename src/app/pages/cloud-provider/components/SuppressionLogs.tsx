@@ -370,7 +370,7 @@ const SuppressionLogs = () => {
               <LogsCard
                 key={log.comment + idx}
                 region={log?.result_json?.checks[0].region ?? ""}
-                comment={log?.comments ?? ""}
+                comment={log?.comments ? `${log?.comments.slice(0, 20)}...` : ""}
                 date={log?.created_on.split("T")[0] ?? ""}
                 description={log?.result_json?.checks[0]?.remediation_desc ?? ""}
                 exp_date={log?.expiration ?? ""}
@@ -378,7 +378,7 @@ const SuppressionLogs = () => {
                 resource_id={log?.resource_id ?? ""}
                 rule={log?.result_json ? `${log?.result_json?.checks[0].rule_code.slice(0, 16)}...` : ""}
                 severity={log?.result_json?.checks[0]?.severity ?? ""}
-                suppressed_by={log?.suppressed_by ?? ""}
+                suppressed_by={log?.suppressed_by?.full_name ?? ""}
                 status={log?.result_json?.checks[0].status_code ?? ""}
                 resource={log?.result_json?.checks[0].service ?? ""}
                 mode={mode}
