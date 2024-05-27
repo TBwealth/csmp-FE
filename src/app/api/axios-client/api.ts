@@ -2203,7 +2203,7 @@ export interface Ticket {
      * @type {number}
      * @memberof Ticket
      */
-    'ticket_type': number;
+    'ticket_type': any;
     /**
      * 
      * @type {string}
@@ -2227,7 +2227,7 @@ export interface Ticket {
      * @type {number}
      * @memberof Ticket
      */
-    'asset': number;
+    'asset': any;
     /**
      * 
      * @type {string}
@@ -2245,7 +2245,7 @@ export interface Ticket {
      * @type {number}
      * @memberof Ticket
      */
-    'assigned_to': number;
+    'assigned_to': any;
     /**
      * 
      * @type {string}
