@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { FaTimes } from "react-icons/fa";
 import { FilterField } from "./tableComponents/tableheader/tableheader";
 import { ColumnTypes } from "./tableComponents/models";
 import { RangeSlider } from "rsuite";
@@ -46,22 +45,11 @@ const FilterModal = ({
       </Modal.Header>
       <Modal.Body>
         <div className="mb-10">
-          {/* <div className="flex justify-between items-center">
-              <h2 className="font-bold text-[14px]">Filter By</h2>
-              <button
-                onClick={() => setshowFilter(false)}
-                className="flex items-center justify-center"
-              >
-                <FaTimes size={16} color="#000" />
-              </button>
-            </div> */}
           {headfilterFields.length > 0 && (
             <form className="lg:self-start mb-8 w-full grid md:grid-cols-2 gap-6 font-medium">
               {headfilterFields.map((field, i) => (
                 <div className="w-full">
-                  {(field.type === COLUMN_TYPES.Text ||
-                    field.type === undefined) &&
-                    field.listValue!?.length < 1 && (
+                  {(field.type === COLUMN_TYPES.Text) && (
                       <div>
                         <label className="block mb-1 text-sm">
                           {field.title}

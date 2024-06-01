@@ -1,7 +1,10 @@
 import {
   Policy,
   PolicyApiPolicyPolicyDetailUpdateRequest,
+  PolicyApiPolicyPolicyRepoRunScanCreateRequest,
   PolicyApiPolicyPolicyRunScanCreateRequest,
+  PolicyApiPolicyRepoScanSetupCreateRequest,
+  PolicyApiPolicyRepoScanSetupDeleteRequest,
   PolicyApiPolicyRulesUpdateRequest,
   PolicyApiPolicyUpdatePolicyRuleUpdateRequest,
   Rule,
@@ -84,7 +87,9 @@ export const useUpdateSinglePolicyRules = (id: number) => {
 };
 
 export const useGetRulesList = (data: any) => {
-  const query = useQuery(["rules"], () => policyApi.policyRulesList({ ...data }));
+  const query = useQuery(["rules"], () =>
+    policyApi.policyRulesList({ ...data })
+  );
   return query;
 };
 
@@ -153,7 +158,7 @@ export const useScanPolicy = () => {
 
 export const useGetAllScanResults = (data: any) => {
   const query = useQuery(["all-scan"], () =>
-    policyApi.policyPolicyRunResultsList({...data})
+    policyApi.policyPolicyRunResultsList({ ...data })
   );
   return query;
 };
@@ -167,7 +172,7 @@ export const useGetSingleResult = (id: number) => {
 
 export const useGetAllScanHistory = (data: any) => {
   const query = useQuery(["scan-history"], () =>
-    policyApi.policyPolicyRunScanHistoryList({...data})
+    policyApi.policyPolicyRunScanHistoryList({ ...data })
   );
 
   return query;
@@ -181,3 +186,60 @@ export const useGetScanStat = () => {
   return query;
 };
 
+/*   
+
+REPOSITORY
+*/
+
+// GET REPOSITORY
+
+export const useGetAllRepository = (data: any) => {
+  const query = useQuery(["all-repo"], () =>
+    policyApi.policyRepoScanSetupList({ ...data })
+  );
+  return query;
+};
+
+export const useCreateRepoScan = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: PolicyApiPolicyRepoScanSetupCreateRequest) =>
+      policyApi.policyRepoScanSetupCreate(data),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["all-repo"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useDeleteRepoScan = () => {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: PolicyApiPolicyRepoScanSetupDeleteRequest) =>
+      policyApi.policyRepoScanSetupDelete(data),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["all-repo"]);
+      },
+    }
+  );
+
+  return mutation;
+};
+export const useGetSingleRepoScan = (id: number) => {
+  const query = useQuery(["all-repo"], () =>
+    policyApi.policyRepoScanSetupRead({ id })
+  );
+  return query;
+};
+export const useRunRepoScan = () => {
+  const mutation = useMutation(
+    (data: PolicyApiPolicyPolicyRepoRunScanCreateRequest) =>
+      policyApi.policyPolicyRepoRunScanCreate(data)
+  );
+
+  return mutation;
+};

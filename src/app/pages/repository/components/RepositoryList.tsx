@@ -1,15 +1,32 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Popover } from "react-tiny-popover";
+import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
+import {
+  useGetAllRepository,
+  useDeleteRepoScan,
+  useCreateRepoScan,
+} from "../../../api/api-services/policyQuery";
 import { useRecoilValue } from "recoil";
+import FilterModal from "../../../components/FilterModal";
 import githubImg from "../../../../../public/media/logos/github.svg";
 import gitlabImg from "../../../../../public/media/logos/gitlab.svg";
 import bitImg from "../../../../../public/media/logos/bitbucket.svg";
 import dockerImg from "../../../../../public/media/logos/docker.svg";
 import database from "../../../../../public/media/logos/database.svg";
 import { Modal } from "react-bootstrap";
-import { FaCheckSquare, FaUser, FaKey } from "react-icons/fa";
+import { FaCheckSquare, FaUser, FaKey, FaGlobe } from "react-icons/fa";
+import {
+  PolicyRepoScanSetupList200Response,
+  AccountsApiTenantsList200Response,
+} from "../../../api/axios-client";
+import useAlert from "../../components/useAlert";
+import DefaultContent from "../../../components/defaultContent/defaultContent";
+import {
+  ColumnTypes,
+  TableColumn,
+} from "../../../components/tableComponents/models";
 
 const EmptyRepo = ({ showModal }: any) => {
   return (
@@ -46,16 +63,17 @@ const EmptyRepo = ({ showModal }: any) => {
   );
 };
 
-const RepoCard = ({ data, setDelete }: any) => {
+const RepoCard = ({ data, setDelete, mode }: any) => {
   const [popUp, showPopUP] = useState(false);
+  const navigate = useNavigate();
   return (
     <div
       className={`flex relative shadow-md mb-5 items-center border justify-between rounded-xl p-5 ${
-        data?.mode === "dark" ? "bg-lightDark" : "bg-white"
+        mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
       <div className="flex items-center gap-3">
-        {data?.logo === "hub" ? (
+        {data?.repo_type === "Github" ? (
           <svg
             width="24"
             height="25"
@@ -68,7 +86,7 @@ const RepoCard = ({ data, setDelete }: any) => {
               fill="#373737"
             />
           </svg>
-        ) : data?.logo === "lab" ? (
+        ) : data?.repo_type === "Git Lab" ? (
           <svg
             width="26"
             height="25"
@@ -117,7 +135,7 @@ const RepoCard = ({ data, setDelete }: any) => {
               </clipPath>
             </defs>
           </svg>
-        ) : data?.logo === "bit" ? (
+        ) : data?.repo_type === "Bit Bucket" ? (
           <svg
             width="21"
             height="17"
@@ -156,10 +174,10 @@ const RepoCard = ({ data, setDelete }: any) => {
             </defs>
           </svg>
         )}
-        <p className="text-[18px] font-medium">{data?.name}</p>
+        <p className="text-[18px] font-medium">{data?.repo_name}</p>
       </div>
       <div className="flex relative items-center gap-6">
-        <button className="bg-transparent">
+        <a href={data?.repo_url} className="bg-transparent" target="_blank">
           <svg
             width="18"
             height="19"
@@ -171,16 +189,16 @@ const RepoCard = ({ data, setDelete }: any) => {
               fillRule="evenodd"
               clipRule="evenodd"
               d="M6.64286 6.3125L5.35714 6.3125C3.52226 6.3125 2.0625 7.75388 2.0625 9.49822C2.0625 11.0019 3.14511 12.2788 4.62112 12.6043C4.85723 12.6563 5.1035 12.6839 5.35714 12.6839C5.6678 12.6839 5.91964 12.9358 5.91964 13.2464C5.91964 13.5571 5.6678 13.8089 5.35714 13.8089C5.02159 13.8089 4.6941 13.7724 4.37888 13.7029C2.41948 13.2708 0.9375 11.5622 0.9375 9.49822C0.9375 7.1024 2.93154 5.1875 5.35714 5.1875L6.64286 5.1875C9.07603 5.1875 11.0625 7.32187 11.0625 9.49822C11.0625 9.80888 10.8107 10.0607 10.5 10.0607C10.1893 10.0607 9.9375 9.80888 9.9375 9.49822C9.9375 7.93698 8.44852 6.3125 6.64286 6.3125Z"
-              fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+              fill={mode === "dark" ? "#EAEAEA" : "#373737"}
             />
             <path
               fillRule="evenodd"
               clipRule="evenodd"
               d="M11.3571 12.6836L12.6429 12.6836C14.4777 12.6836 15.9375 11.2422 15.9375 9.49787C15.9375 7.9942 14.8549 6.71731 13.3789 6.39184C13.1428 6.33978 12.8965 6.31216 12.6429 6.31216C12.3322 6.31216 12.0804 6.06032 12.0804 5.74966C12.0804 5.439 12.3322 5.18716 12.6429 5.18716C12.9784 5.18716 13.3059 5.22372 13.6211 5.29323C15.5805 5.72529 17.0625 7.43393 17.0625 9.49787C17.0625 11.8937 15.0685 13.8086 12.6429 13.8086L11.3571 13.8086C8.92397 13.8086 6.9375 11.6742 6.9375 9.49787C6.9375 9.18721 7.18934 8.93537 7.5 8.93537C7.81066 8.93537 8.0625 9.18721 8.0625 9.49787C8.0625 11.0591 9.55148 12.6836 11.3571 12.6836Z"
-              fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+              fill={mode === "dark" ? "#EAEAEA" : "#373737"}
             />
           </svg>
-        </button>
+        </a>
         <Popover
           onClickOutside={() => showPopUP(false)}
           isOpen={popUp}
@@ -191,7 +209,7 @@ const RepoCard = ({ data, setDelete }: any) => {
                 key={20}
                 id="dropdown"
                 className={`z-10 ${
-                  data?.mode === "dark" ? "bg-lightDark" : "bg-white"
+                  mode === "dark" ? "bg-lightDark" : "bg-white"
                 } divide-y divide-gray-100 rounded-md shadow-sm px-2`}
                 style={{ minWidth: "11rem" }}
               >
@@ -202,7 +220,10 @@ const RepoCard = ({ data, setDelete }: any) => {
                 >
                   <li className="border-start-0">
                     <button
-                      onClick={() => showPopUP(false)}
+                      onClick={() => {
+                        navigate(`repository/list/${data?.id}`);
+                        showPopUP(false);
+                      }}
                       className="flex items-center p-4 gap-4 border-bottom justify-between font-medium"
                     >
                       <svg
@@ -216,13 +237,13 @@ const RepoCard = ({ data, setDelete }: any) => {
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M15.2372 9.98083C12.7362 4.42306 5.26409 4.42306 2.76309 9.98083C2.63561 10.2641 2.30261 10.3904 2.01931 10.263C1.73601 10.1355 1.6097 9.80247 1.73718 9.51917C4.63619 3.07694 13.3641 3.07694 16.2631 9.51917C16.3906 9.80247 16.2643 10.1355 15.981 10.263C15.6977 10.3904 15.3647 10.2641 15.2372 9.98083Z"
-                          fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                          fill={mode === "dark" ? "#EAEAEA" : "#373737"}
                         />
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M9 8.8125C9.93198 8.8125 10.6875 9.56802 10.6875 10.5C10.6875 11.432 9.93198 12.1875 9 12.1875C8.06802 12.1875 7.3125 11.432 7.3125 10.5C7.3125 9.56802 8.06802 8.8125 9 8.8125ZM11.8125 10.5C11.8125 8.9467 10.5533 7.6875 9 7.6875C7.4467 7.6875 6.1875 8.9467 6.1875 10.5C6.1875 12.0533 7.4467 13.3125 9 13.3125C10.5533 13.3125 11.8125 12.0533 11.8125 10.5Z"
-                          fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                          fill={mode === "dark" ? "#EAEAEA" : "#373737"}
                         />
                       </svg>
                       <p className="text-[12px] font-medium">view Repo</p>
@@ -247,13 +268,13 @@ const RepoCard = ({ data, setDelete }: any) => {
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M15.0975 6.19609C15.4035 6.24989 15.6079 6.54154 15.5541 6.8475L14.0578 15.3572C14.0578 15.3572 14.0578 15.3572 14.0578 15.3572C13.8845 16.3434 13.0278 17.0626 12.0266 17.0626H5.97365C4.97234 17.0626 4.1157 16.3434 3.94231 15.3572L2.44609 6.8475C2.3923 6.54153 2.59672 6.24989 2.90269 6.19609C3.20865 6.1423 3.5003 6.34672 3.5541 6.65269L5.05032 15.1624C5.12913 15.6107 5.51853 15.9376 5.97365 15.9376H12.0266C12.4816 15.9376 12.871 15.6107 12.9498 15.1624L12.9498 15.1624L14.4461 6.65268C14.4999 6.34672 14.7915 6.14229 15.0975 6.19609Z"
-                          fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                          fill={mode === "dark" ? "#EAEAEA" : "#373737"}
                         />
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M7.96875 2.0625C7.45098 2.0625 7.03125 2.48223 7.03125 3V3.9375H10.9688V3C10.9688 2.48223 10.549 2.0625 10.0312 2.0625H7.96875ZM5.90625 3.9375V3C5.90625 1.86091 6.82966 0.9375 7.96875 0.9375H10.0312C11.1704 0.9375 12.0938 1.86092 12.0938 3V3.9375H15.75C16.0607 3.9375 16.3125 4.18934 16.3125 4.5C16.3125 4.81066 16.0607 5.0625 15.75 5.0625H2.25C1.93934 5.0625 1.6875 4.81066 1.6875 4.5C1.6875 4.18934 1.93934 3.9375 2.25 3.9375H5.90625Z"
-                          fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                          fill={mode === "dark" ? "#EAEAEA" : "#373737"}
                         />
                       </svg>
 
@@ -275,33 +296,33 @@ const RepoCard = ({ data, setDelete }: any) => {
             >
               <path
                 d="M13.5 9.875C13.7071 9.875 13.875 9.70711 13.875 9.5C13.875 9.29289 13.7071 9.125 13.5 9.125C13.2929 9.125 13.125 9.29289 13.125 9.5C13.125 9.70711 13.2929 9.875 13.5 9.875Z"
-                fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                fill={mode === "dark" ? "#EAEAEA" : "#373737"}
               />
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M13.5 9.6875C13.6036 9.6875 13.6875 9.60355 13.6875 9.5C13.6875 9.39645 13.6036 9.3125 13.5 9.3125C13.3964 9.3125 13.3125 9.39645 13.3125 9.5C13.3125 9.60355 13.3964 9.6875 13.5 9.6875ZM12.5625 9.5C12.5625 8.98223 12.9822 8.5625 13.5 8.5625C14.0178 8.5625 14.4375 8.98223 14.4375 9.5C14.4375 10.0178 14.0178 10.4375 13.5 10.4375C12.9822 10.4375 12.5625 10.0178 12.5625 9.5Z"
-                fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                fill={mode === "dark" ? "#EAEAEA" : "#373737"}
               />
               <path
                 d="M9 9.875C9.20711 9.875 9.375 9.70711 9.375 9.5C9.375 9.29289 9.20711 9.125 9 9.125C8.79289 9.125 8.625 9.29289 8.625 9.5C8.625 9.70711 8.79289 9.875 9 9.875Z"
-                fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                fill={mode === "dark" ? "#EAEAEA" : "#373737"}
               />
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M9 9.6875C9.10355 9.6875 9.1875 9.60355 9.1875 9.5C9.1875 9.39645 9.10355 9.3125 9 9.3125C8.89645 9.3125 8.8125 9.39645 8.8125 9.5C8.8125 9.60355 8.89645 9.6875 9 9.6875ZM8.0625 9.5C8.0625 8.98223 8.48223 8.5625 9 8.5625C9.51777 8.5625 9.9375 8.98223 9.9375 9.5C9.9375 10.0178 9.51777 10.4375 9 10.4375C8.48223 10.4375 8.0625 10.0178 8.0625 9.5Z"
-                fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                fill={mode === "dark" ? "#EAEAEA" : "#373737"}
               />
               <path
                 d="M4.5 9.875C4.70711 9.875 4.875 9.70711 4.875 9.5C4.875 9.29289 4.70711 9.125 4.5 9.125C4.29289 9.125 4.125 9.29289 4.125 9.5C4.125 9.70711 4.29289 9.875 4.5 9.875Z"
-                fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                fill={mode === "dark" ? "#EAEAEA" : "#373737"}
               />
               <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
                 d="M4.5 9.6875C4.60355 9.6875 4.6875 9.60355 4.6875 9.5C4.6875 9.39645 4.60355 9.3125 4.5 9.3125C4.39645 9.3125 4.3125 9.39645 4.3125 9.5C4.3125 9.60355 4.39645 9.6875 4.5 9.6875ZM3.5625 9.5C3.5625 8.98223 3.98223 8.5625 4.5 8.5625C5.01777 8.5625 5.4375 8.98223 5.4375 9.5C5.4375 10.0178 5.01777 10.4375 4.5 10.4375C3.98223 10.4375 3.5625 10.0178 3.5625 9.5Z"
-                fill={data?.mode === "dark" ? "#EAEAEA" : "#373737"}
+                fill={mode === "dark" ? "#EAEAEA" : "#373737"}
               />
             </svg>
           </button>
@@ -315,20 +336,191 @@ const RepositoryList = () => {
   const [allRepos, setAllRepos] = useState<any>([]);
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [showDelete, setShowDelete] = useState(false);
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    tenant: undefined,
+    repoUrl: undefined,
+    repoType: undefined,
+  });
   const [selectedProvider, setSelectedProvider] = useState("");
   const [showAdd, setShowAdd] = useState(false);
+  const [showPopOver, setShowPopOver] = useState(false);
+  const { showAlert, Alert } = useAlert();
   const [step, setStep] = useState(1);
+  const [selectedId, setSelectedId] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [repoData, setRepoData] = useState<any>({
     pat: "",
     username: "",
+    url: "",
   });
 
   const repos = ["Github", "Git Lab", "Bit Bucket", "Docker Hub"];
+  const [filterFields, setFilterFields] = useState<TableColumn[]>([
+    {
+      name: "repoUrl",
+      title: "Repo Url",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "repoType",
+      title: "Repo Type",
+      type: ColumnTypes.List,
+      listValue: [
+        {
+          name: "Github",
+        },
+        {
+          name: "Git Lab",
+        },
+        {
+          name: "Bit Bucket",
+        },
+        {
+          name: "Docker Hub",
+        },
+      ],
+      listIdField: "name",
+      listTextField: "name",
+    },
+  ]);
+
+  const { data, isLoading, error, refetch } = useGetAllRepository({
+    ...filter.current,
+  });
+  const datastsr: PolicyRepoScanSetupList200Response | any = data;
+  const { data: tenant } = useGetAccountTenant({ page: 1, pageSize: 100 });
+  const tenantstsr: AccountsApiTenantsList200Response | any = tenant;
+
+  const { mutate, isLoading: createLoading } = useCreateRepoScan();
+  const { mutate: deleteMutate, isLoading: deleteLoading } =
+    useDeleteRepoScan();
+
+  const handleCreateRepo = () => {
+    mutate(
+      {
+        data: {
+          access_token: repoData.pat,
+          repo_type: selectedProvider,
+          repo_url: repoData.url,
+          repo_name: repoData?.username,
+        },
+      },
+      {
+        onSuccess: (res) => {
+          console.log(res);
+          setShowAdd(false);
+        },
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
+      }
+    );
+  };
+
+  const handleDeleteRepo = () => {
+    deleteMutate(
+      {
+        id: +selectedId,
+      },
+      {
+        onSuccess: (res) => {
+          console.log(res);
+          setShowDelete(false);
+        },
+        onError: (err) => {
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
+          }
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    const localUser = localStorage.getItem("user");
+    if (localUser) {
+      const parsedUser = JSON.parse(localUser);
+      if (parsedUser.role.name === "Admin") {
+        setIsAdmin(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    setAllRepos(datastsr?.data?.data?.results ?? []);
+    if (tenantstsr?.data?.data?.results && isAdmin) {
+      setFilterFields([
+        {
+          name: "repoUrl",
+          title: "Repo Url",
+          type: ColumnTypes.Text,
+        },
+        {
+          name: "repoType",
+          title: "Repo Type",
+          type: ColumnTypes.List,
+          listValue: [
+            {
+              name: "Github",
+            },
+            {
+              name: "Git Lab",
+            },
+            {
+              name: "Bit Bucket",
+            },
+            {
+              name: "Docker Hub",
+            },
+          ],
+          listIdField: "name",
+          listTextField: "name",
+        },
+        {
+          name: "tenant",
+          title: "Tenant",
+          type: ColumnTypes.List,
+          listValue: tenantstsr?.data?.data?.results,
+          listIdField: "id",
+          listTextField: "full_name",
+        },
+      ]);
+    }
+    if (error) {
+      if (error instanceof Error) {
+        showAlert(error?.message || "An unknown error occurred", "danger");
+      }
+    }
+  }, [datastsr, tenantstsr, error]);
+
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+      tenant: data?.tenant,
+      repoUrl: data?.repoUrl,
+      repoType: data?.repoType,
+    };
+    refetch();
+  }
 
   return (
     <div className="p-4 md:p-12 w-full lg:p-36">
       {allRepos.length < 1 ? (
-        <EmptyRepo showModal={() => setShowAdd(true)} />
+        <>
+          <DefaultContent
+            pageHeader="All Repository"
+            pageDescription="No record found"
+            loading={isLoading}
+            buttonValue=""
+            buttonClick={() => {}}
+          />
+          {!isLoading && <EmptyRepo showModal={() => setShowAdd(true)} />}
+        </>
       ) : (
         <div className="W-[90%] md:w-[70%] mx-auto">
           <div className="flex border-bottom pb-5 items-center justify-between my-10">
@@ -337,7 +529,7 @@ const RepositoryList = () => {
                 {`Repository (${allRepos.length})`}
               </p>
               <button
-                onClick={() => setShowAdd(true)}
+                onClick={() => setShowPopOver(true)}
                 className="border-start p-3 flex items-center justify-center"
               >
                 <svg
@@ -394,17 +586,23 @@ const RepositoryList = () => {
           </div>
           {allRepos.map((repo: any) => (
             <RepoCard
-              key={repo}
-              data={{
-                logo: "bit",
-                mode,
-                name: "Scrapenext.git",
+              key={repo?.id}
+              data={repo}
+              mode={mode}
+              setDelete={() => {
+                setSelectedId(repo?.id);
+                setShowDelete(true);
               }}
-              setDelete={() => setShowDelete(true)}
             />
           ))}
         </div>
       )}
+      <FilterModal
+        filterDataChange={(e) => filterUpdated(e)}
+        headfilterFields={filterFields}
+        setshowFilter={(e) => setShowPopOver(e)}
+        showFilter={showPopOver}
+      />
       <Modal
         show={showDelete}
         onHide={() => setShowDelete(!showDelete)}
@@ -441,6 +639,7 @@ const RepositoryList = () => {
             </svg>
           </Modal.Title>
         </Modal.Header>
+        <Alert />
         <Modal.Body className="p-3">
           <div className="flex w-full items-center mb-6 flex-col justify-center gap-4">
             <h1 className="font-semibold text-[18px]">Delete Repo</h1>
@@ -461,10 +660,11 @@ const RepositoryList = () => {
                 Cancel
               </button>
               <button
-                onClick={() => setShowDelete(!showDelete)}
+                disabled={!selectedId}
+                onClick={handleDeleteRepo}
                 className="bg-[#284CB3] font-medium w-48 rounded-full text-white p-3"
               >
-                Yes, Delete
+                {deleteLoading ? "Deleting..." : "Yes, Delete"}
               </button>
             </div>
           </div>
@@ -637,6 +837,27 @@ const RepositoryList = () => {
                   }
                 />
               </div>
+              {/* url */}
+              <div className="form-group mb-10">
+                <label htmlFor="url" className="flex items-center gap-1">
+                  <FaGlobe
+                    size={12}
+                    color={mode === "dark" ? "#EAEAEA" : "#000000"}
+                  />
+                  <p className="font-semibold text-[14px]">Repo Url</p>
+                </label>
+                <input
+                  autoComplete="off"
+                  className="form-control bg-transparent"
+                  type="text"
+                  id="url"
+                  name="url"
+                  value={repoData.url}
+                  onChange={(e) =>
+                    setRepoData({ ...repoData, url: e.target.value })
+                  }
+                />
+              </div>
               {/* PAT */}
               <div className="form-group mb-10">
                 <label htmlFor="pat" className="flex items-center gap-1">
@@ -663,6 +884,7 @@ const RepositoryList = () => {
             </div>
           )}
         </Modal.Body>
+        <Alert />
         <Modal.Footer className="border-top-0">
           <div className="flex w-full items-end justify-end">
             <button
@@ -674,12 +896,14 @@ const RepositoryList = () => {
                 if (step === 1) {
                   setStep(2);
                 } else {
-                  console.log("hello");
+                  handleCreateRepo();
                 }
               }}
-              className="rounded-full w-48 font-medium bg-primary p-3 text-white"
+              className={`rounded-full ${
+                createLoading ? "w-fit" : "w-48"
+              }  font-medium bg-primary p-3 text-white`}
             >
-              Connect Repo
+              {createLoading ? "Connecting..." : "Connect Repo"}
             </button>
           </div>
         </Modal.Footer>
