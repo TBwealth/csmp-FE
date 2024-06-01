@@ -174,7 +174,7 @@ const RepoCard = ({ data, setDelete, mode }: any) => {
             </defs>
           </svg>
         )}
-        <p className="text-[18px] font-medium">{data?.repo_name}</p>
+        <p className="text-[12px] md:text-[18px] font-medium">{data?.repo_name}</p>
       </div>
       <div className="flex relative items-center gap-6">
         <a href={data?.repo_url} className="bg-transparent" target="_blank">

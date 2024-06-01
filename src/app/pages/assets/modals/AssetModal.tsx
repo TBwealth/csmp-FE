@@ -179,7 +179,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid md:grid-cols-2 gap-3">
             <div className="">
               <label className="form-label fs-6 fw-bold">Tenant:</label>
               <select

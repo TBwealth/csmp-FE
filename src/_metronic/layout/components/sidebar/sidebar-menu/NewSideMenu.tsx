@@ -719,7 +719,7 @@ const NewSideMenu = () => {
 
   return (
     <div className="flex items-start">
-      <div className="border-end pr-2 pt-8 w-fit md:h-screen">
+      <div className="border-end pr-2 pt-8 w-fit overflow-auto">
         <div className="p-3">
           {mode === "dark" ? (
             <Link
@@ -882,10 +882,11 @@ const NewSideMenu = () => {
             </Link>
           )}
         </div>
-        <div className="mt-12">
+        <div className="mt-10">
           {routes.map((link) => (
             <div
-              className="flex items-center gap-2 mb-6"
+            role="button"
+              className="flex items-center gap-2 mb-4"
               onClick={() => {
                 setPageTitle(link.children![0].title);
                 sessionStorage.setItem("top-title", link.title);
@@ -944,7 +945,7 @@ const NewSideMenu = () => {
             </div>
           ))}
         </div>
-        <div className="mt-20 pl-3">
+        <div className="mt-16 pl-3">
           <button
             onClick={() => {
               setPopOpen(!popOpen);

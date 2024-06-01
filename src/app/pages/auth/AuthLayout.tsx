@@ -90,7 +90,7 @@ const AuthLayout = () => {
             </defs>
           </svg>
           <p className="font-extrabold text-[24px] text-[#F7F7F8]">
-            Cloud<span className="font-thin">Accord</span>
+            Cloud<span className="font-normal">Accord</span>
           </p>
         </div>
         <h1 className="text-[#F7F7F8] w-fit mx-auto font-semibold text-[24px] md:text-[48px] text-ceter">
