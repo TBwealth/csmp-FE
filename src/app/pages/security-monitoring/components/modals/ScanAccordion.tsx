@@ -78,7 +78,7 @@ const ScanAccordion = ({
           </svg>
           <p className="font-semibold text-[14px]">{name.slice(0, 70)}...</p>
         </div>
-        <p className={`font-thin text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"}`}>{service}</p>
+        <p className={`font-medium text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"}`}>{service}</p>
         <p className={severity?.toUpperCase() === "HIGH" ? "text-[#FF7D30] text-[12px] font-semibold uppercase" : "text-[#2AB849] text-[12px] font-semibold uppercase"}>
           {severity}
         </p>
@@ -143,12 +143,12 @@ const ScanAccordion = ({
       </button>
       {isOpen && (
         <div
-          className={`w-full md:pl-8 p-10 my-2 shadow-sm ${
+          className={`w-full font-medium md:pl-8 p-10 my-2 shadow-sm ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
           <div className="grid grid-cols-3 gap-y-4">
-            <p>Status:</p>
+            <p className="font-semibold">Status:</p>
             <p
               className={
                 status.toLowerCase() === "fail"
@@ -158,11 +158,11 @@ const ScanAccordion = ({
             >
               {status.toUpperCase()}
             </p>
-            <p>Message:</p>
+            <p className="font-semibold">Message:</p>
             <p className="text-left col-span-2">{message}</p>
-            <p>Description:</p>
+            <p className="font-semibold">Description:</p>
             <p className="text-left col-span-2">{description}</p>
-            <p>Region:</p>
+            <p className="font-semibold">Region:</p>
             <p className="text-left col-span-2">{region}</p>
           </div>
           <button
@@ -171,9 +171,9 @@ const ScanAccordion = ({
               setIsOpen(false);
               setIsChecked(false);
             }}
-            className="bg-[#284CB3] text-white flex items-center gap-3 rounded-full w-32 px-3 py-2 mt-6"
+            className="bg-[#284CB3] text-white flex items-center justify-center gap-3 rounded-full w-36 px-3 py-2 mt-6"
           >
-            <p>Resolve</p>
+            <p className="font-medium">Resolve</p>
             <svg
               width="16"
               height="17"
@@ -210,13 +210,13 @@ const ScanAccordion = ({
         </div>
       )}
       {isModalOpen && (
-        <div className="w-full flex items-center justify-center h-[100vh] fixed z-[9999999] top-0 left-0 bg-black/70">
+        <div className="w-full font-medium flex items-center justify-center h-[100vh] fixed z-[9999999] top-0 left-0 bg-black/70">
           <div
             className={`w-[40%] rounded-md ${
               mode === "dark" ? "bg-lightDark" : "bg-white"
             }`}
           >
-            <div className="flex items-end justify-end p-4">
+            <div className="flex font-medium items-end justify-end p-4">
               <button onClick={() => setIsModalOpen(false)}>
                 <svg
                   width="10"
@@ -292,25 +292,25 @@ const ScanAccordion = ({
                   ID: 32749748347282
                 </p> */}
               </div>
-              <div className="mt-4 grid md:grid-cols-3 gap-3 pb-2 border-bottom px-4">
-                <p>Status:</p>
+              <div className="mt-4 font-medium grid md:grid-cols-3 gap-3 pb-2 border-bottom px-4">
+                <p className="font-semibold">Status:</p>
                 <p className="text-[#FF161A] md:col-span-2">{status}</p>
                 {/* <p>Resource Id:</p>
                 <p className="md:col-span-2">sg-04cc9e5ccd9ca7f80</p> */}
-                <p>Resource:</p>
+                <p className="font-semibold">Resource:</p>
                 <p className="md:col-span-2">{provider}</p>
-                <p>Message:</p>
+                <p className="font-semibold">Message:</p>
                 <p className="md:col-span-2">
                   {message}
                 </p>
-                <p>Description:</p>
+                <p className="font-semibold">Description:</p>
                 <p className="md:col-span-2">
                   {description}
                 </p>
               </div>
               <div className="mt-4 px-4 pb-2">
-                <h2 className="text-lg mb-3">Remediation</h2>
-                <div className="p-4 rounded-md bg-[#284CB31A] flex items-center gap-2">
+                <h2 className="text-lg mb-3 font-medium">Remediation</h2>
+                <div className="p-4 font-medium rounded-md bg-[#284CB31A] flex items-center gap-2">
                   <svg
                     width="18"
                     height="18"
@@ -361,12 +361,6 @@ const ScanAccordion = ({
             </div>
           </div>
         </div>
-        // <ResolveModal
-        //   isOpen={isModalOpen}
-        //   handleHide={() => {
-        //     setTicketOpen(true)
-        //   }}
-        // />
       )}
       {ticketOpen && (
         <ResolveModal

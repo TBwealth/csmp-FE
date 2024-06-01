@@ -33,7 +33,7 @@ export const ComponentsheaderComponent = ({
               onClick={() => backbuttonClick("back")}
               // className="border trigger border-solid hover:border-dotted border-gray-400
               //        md:w-58 shadow-md rounded  md:px-6 py-1 px-3 text-sm text-center flex items-center justify-center capitalize"
-              className="  trigger border-solid hover:border-dotted border-gray-400
+              className="  trigger border-solid hover:border-dotted border-gray-400 font-medium
                      md:w-58  rounded-full     md:px-6  px-3 -mb-9 pt-6 text-sm text-center flex items-center capitalize"
             >
               <svg
@@ -62,7 +62,7 @@ export const ComponentsheaderComponent = ({
                 <button
                   type="button"
                   onClick={() => buttonClick(val.name)}
-                  className="border trigger border-solid hover:border-dotted border-purple-900 text-primary
+                  className="border trigger border-solid hover:border-dotted font-medium border-purple-900 text-primary
                          md:w-50 shadow-md rounded-[5px] bg-white md:px-8  py-3 px-5 text-sm text-center capitalize "
                 >
                   {val.label}
@@ -72,7 +72,7 @@ export const ComponentsheaderComponent = ({
                 <button
                   type="button"
                   onClick={() => buttonClick(val.name)}
-                  className="bg-primary md:w-50 text-sm shadow-md  rounded-[5px] md:px-8 py-3 px-5 text-white text-center capitalize"
+                  className="bg-primary md:w-50 text-sm shadow-md font-medium  rounded-[5px] md:px-8 py-3 px-5 text-white text-center capitalize"
                 >
                   {val.label}
                 </button>

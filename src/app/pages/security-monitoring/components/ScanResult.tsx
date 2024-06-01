@@ -157,16 +157,16 @@ const ScanResult = () => {
                   <p className="font-semibold text-[14px]">{`${checks.length > 0 ? checks.length: "No" } Region`}</p>
                 </div>
                 <p
-                  className={`text-[12px] ${
+                  className={`text-[12px] font-medium ${
                     mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
                   }`}
                 >
                   {scanresult && `${scanresult.stop_time.split("T")[0]}`}
                 </p>
-                <p className="rounded-2xl px-2 py-1 w-24 text-primary text-center bg-[#284CB31A]">
+                <p className="rounded-2xl font-medium px-2 py-1 w-24 text-primary text-center bg-[#284CB31A]">
                   Manual
                 </p>
-                <button className="flex items-center gap-3 hover:cursor-pointer">
+                <button className="flex font-medium items-center gap-3 hover:cursor-pointer">
                   <p className="underline text-[12px]">JSON</p>
                   <svg
                     width="18"
@@ -220,7 +220,7 @@ const ScanResult = () => {
                 }}
                 className="w-32 bg-[#284CB3] py-2 px-3 rounded-full flex items-center gap-2 justify-center"
               >
-                <span className="text-white">Rescan</span>
+                <span className="text-white font-medium">Rescan</span>
                 <svg
                   width="20px"
                   height="20px"
@@ -391,7 +391,7 @@ const ScanResult = () => {
                     <span
                       className={`${
                         mode === "dark" ? "text-[#909BBC]" : "text-[#373737]"
-                      } font-normal`}
+                      } font-medium`}
                     >
                       Critical threats
                     </span>
@@ -443,7 +443,7 @@ const ScanResult = () => {
                     <span
                       className={`${
                         mode === "dark" ? "text-[#909BBC]" : "text-[#373737]"
-                      } font-normal`}
+                      } font-medium`}
                     >
                       High threats
                     </span>
@@ -483,7 +483,7 @@ const ScanResult = () => {
                     <span
                       className={`${
                         mode === "dark" ? "text-[#909BBC]" : "text-[#373737]"
-                      } font-normal`}
+                      } font-medium`}
                     >
                       Warnings threats
                     </span>
@@ -535,7 +535,7 @@ const ScanResult = () => {
                     <span
                       className={`${
                         mode === "dark" ? "text-[#909BBC]" : "text-[#373737]"
-                      } font-normal`}
+                      } font-medium`}
                     >
                       Low Risks
                     </span>
@@ -546,7 +546,7 @@ const ScanResult = () => {
             <div className="mt-16 flex items-center justify-between gap-10 border-bottom pb-8">
               <h2 className="flex-1 font-lg md:font-xl font-bold">
                 Compliance Status{" "}
-                <span className="font-thin">
+                <span className="font-medium">
                   (based on last scan{" "}
                   {`${time} ${Number(time.split(":")[0]) > 12 ? "PM" : "AM"}`})
                 </span>
@@ -557,7 +557,7 @@ const ScanResult = () => {
                 </select> */}
                 <button
                   onClick={() => setShowPopOver(!showPopOver)}
-                  className="flex items-center gap-3"
+                  className="flex items-center gap-3 font-medium"
                 >
                   <p>Filter</p>
                   <svg
@@ -594,7 +594,7 @@ const ScanResult = () => {
                   onClick={downloadform}
                   className="flex items-center gap-3"
                 >
-                  <p className="underline">Export PDF</p>
+                  <p className="underline font-medium">Export PDF</p>
                   <svg
                     width="18"
                     height="19"
@@ -628,7 +628,7 @@ const ScanResult = () => {
 
           <div>
             <div
-              className={`grid grid-cols-6 p-4 rounded-md mb-3 shadow-sm w-full ${
+              className={`grid font-medium grid-cols-6 p-4 rounded-md mb-3 shadow-sm w-full ${
                 mode === "dark" ? "bg-lightDark" : "bg-white"
               }`}
             >
@@ -735,7 +735,7 @@ const ScanResult = () => {
                     ))}
                 </div>
                 <div className="mt-10 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 font-medium">
                     <p>Num on row:</p>
                     <select
                       name=""
@@ -760,14 +760,14 @@ const ScanResult = () => {
                           setOffset((offset) => offset - pageCount);
                         }
                       }}
-                      className="bg-primary w-24 rounded-md p-2 text-white"
+                      className="bg-primary font-medium w-24 rounded-md p-2 text-white"
                     >
                       previous
                     </button>
                     <button
                       disabled={pageCount >= checks.length}
                       onClick={() => setOffset((offset) => offset + pageCount)}
-                      className="bg-primary w-24 rounded-md p-2 text-white"
+                      className="bg-primary font-medium w-24 rounded-md p-2 text-white"
                     >
                       Next
                     </button>

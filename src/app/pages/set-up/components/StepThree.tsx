@@ -22,7 +22,7 @@ const StepThree = ({ goBack, next, handleHide }: Props) => {
 
   return (
     <div
-      className={`w-[90%] rounded-lg border-2 mx-auto md:w-[68%] ${
+      className={`w-[90%] font-medium rounded-lg border-2 mx-auto md:w-[68%] ${
         mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
       }`}
     >
@@ -68,7 +68,7 @@ const StepThree = ({ goBack, next, handleHide }: Props) => {
           </svg>
         </button>
       </div>
-      <div className="p-6 mt-6">
+      <div className="p-6 mt-6 font-medium">
         <div className="mb-6">
           <label htmlFor="automated" className="flex items-center gap-2">
             <input
@@ -86,7 +86,7 @@ const StepThree = ({ goBack, next, handleHide }: Props) => {
               Automated setup (recommended)
             </p>
           </label>
-          <div className="w-full md:w-[80%] pl-6 text-[#373737] mt-3 text-[14px]">
+          <div className="w-full md:w-[80%] font-medium pl-6 text-[#373737] mt-3 text-[14px]">
             Use CloudFormation to enable Cross-Account Access, delegating access
             to your resources from Cloud Conformity account using a predefined
             policy. You can review the CloudFormation template.
@@ -107,7 +107,7 @@ const StepThree = ({ goBack, next, handleHide }: Props) => {
             />
             <p className="font-semibold text-[14px]">Manual setup (DIY)</p>
           </label>
-          <div className="w-full md:w-[80%] pl-6 text-[#373737] mt-3 text-[14px]">
+          <div className="w-full md:w-[80%] font-medium pl-6 text-[#373737] mt-3 text-[14px]">
             Manually setup Cross-Account Access, delegating access to your
             resources from Cloud Conformity account using a custom policy.
           </div>
@@ -116,14 +116,14 @@ const StepThree = ({ goBack, next, handleHide }: Props) => {
       <div className="mt-8 border-top-2 w-full flex p-5 items-end justify-end gap-6">
         <button
           onClick={() => goBack()}
-          className="bg-[#284CB3]/40 w-32 rounded-full p-2 text-white text-center"
+          className="bg-[#284CB3]/40 w-32 font-medium rounded-full p-2 text-white text-center"
         >
           Cancel
         </button>
         <button
           disabled={!authType}
           onClick={() => next()}
-          className="bg-[#284CB3] w-32 rounded-full p-2 text-white text-center"
+          className="bg-[#284CB3] w-32 font-medium rounded-full p-2 text-white text-center"
         >
           Continue
         </button>

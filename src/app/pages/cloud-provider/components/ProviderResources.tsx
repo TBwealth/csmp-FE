@@ -80,7 +80,7 @@ const ProviderResources = () => {
         </p>
         <button
           onClick={() => setShowModal(true)}
-          className="rounded-full w-48 p-3 flex text-white items-center justify-center gap-2 bg-primary text--white"
+          className="rounded-full w-48 p-3 flex font-medium text-white items-center justify-center gap-2 bg-primary text--white"
         >
           <p>Add new account</p>
           <svg

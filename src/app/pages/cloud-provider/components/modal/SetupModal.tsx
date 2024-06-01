@@ -191,7 +191,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
               </div>
               <h1 className="text-[18px] font-semibold">Edit Setup</h1>
               <p
-                className={`text-[12px] font-normal ${
+                className={`text-[12px] font-medium ${
                   mode === "dark" ? "text-[#FFFFFF]" : "text-[#6A6A6A]"
                 }`}
               >
@@ -238,7 +238,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
                 Setup new suppression
               </h1>
               <p
-                className={`text-[12px] font-normal ${
+                className={`text-[12px] font-medium ${
                   mode === "dark" ? "text-[#FFFFFF]" : "text-[#6A6A6A]"
                 }`}
               >
@@ -389,7 +389,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
                   setSetupData({ ...setupData, exp_date: e.target.value })
                 }
               />
-              <p className="text-[10px] mt-1">
+              <p className="text-[10px] font-medium mt-1">
                 Expiration date can make suppression setup temporary or
                 permanent{" "}
               </p>
@@ -437,14 +437,14 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
         <Modal.Footer>
           <button
             type="button"
-            className="btn btn-light rounded-full"
+            className="btn btn-light rounded-full font-medium "
             onClick={handleHide}
           >
             Close
           </button>
           <button
             type="button"
-            className={`rounded-full bg-primary text-white py-2 px-4 ${
+            className={`rounded-full bg-primary text-white font-medium  py-2 px-4 ${
               editItem ? "w-32" : "w-fit"
             }`}
             disabled={
@@ -458,14 +458,14 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
             onClick={editItem ? editHandleSubmit : handleCreate}
           >
             {!isLoading && !editLoading && (
-              <span className="indicator-label">
+              <span className="indicator-label font-medium ">
                 {editItem ? "Save" : "Create Suppression"}
               </span>
             )}
             {(isLoading || editLoading) && (
               <span className="indicator-progress" style={{ display: "block" }}>
                 Please wait...{" "}
-                <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+                <span className=" font-medium spinner-border spinner-border-sm align-middle ms-2"></span>
               </span>
             )}
           </button>

@@ -10,7 +10,7 @@ const SetUp = () => {
   const [steps, setSteps] = useState(1);
   const navigate = useNavigate();
   return (
-    <div className="w-full min-h-screen bg-[#F7F7F8]">
+    <div className="w-full font-medium min-h-screen bg-[#F7F7F8]">
       <div className="flex items-center justify-between w-full px-8 py-4 border-bottom">
         <div className="flex items-center gap-8">
           <Link to="/" className="flex items-center gap-1">

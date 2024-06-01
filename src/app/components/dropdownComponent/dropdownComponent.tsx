@@ -27,8 +27,6 @@ export const DropdownChildren = () => {
             transition
             duration-150
             ease-in-out
-            flex
-            items-center
             whitespace-nowrap
             cursor-pointer
           "
@@ -113,7 +111,7 @@ export const DropdownComponent = ({
               >
                 <ul
                   key={28}
-                  className="py-2 text-sm space-y-2 "
+                  className="py-2 text-sm space-y-2 font-medium"
                   aria-labelledby="dropdownDefaultButton"
                 >
                   {actions.map((act: any) => (

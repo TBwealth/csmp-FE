@@ -435,7 +435,7 @@ backgroundImage: "none",
          </div>        
                 )}
                 {enableAddNew && (
-                  <span onClick={()=>{onAddNewClick(true); toggleDataPanel();}} className="pl-4 pt-2 text-primary text-sm font-normal cursor-pointer">Add new</span>
+                  <span onClick={()=>{onAddNewClick(true); toggleDataPanel();}} className="pl-4 pt-2 text-primary text-sm font-medium cursor-pointer">Add new</span>
                 )}
 
   </div>

@@ -79,7 +79,7 @@ const SetupCard = ({
         {status.toString()}
       </p>
       <div className="col-span-2 flex items-center justify-between w-full">
-        <p className="font-normal text-[10px] w-72">
+        <p className="font-medium text-[10px] w-72">
           {comment.slice(0, 15)}...
         </p>
         <button onClick={setData}>
@@ -297,7 +297,7 @@ const SuppressionSetup = () => {
           </div>
           <button
             onClick={() => setShowModal(true)}
-            className="rounded-full text-[14px] py-3 px-4 bg-primary text-white flex items-center justify-center gap-2"
+            className="rounded-full font-medium text-[14px] py-3 px-4 bg-primary text-white flex items-center justify-center gap-2"
           >
             <span>New Suppression</span>
             <svg
@@ -320,7 +320,7 @@ const SuppressionSetup = () => {
           <p className="text-[14px] font-semibold">Suppressions</p>
           <button
             onClick={() => setShowPopOver(!showPopOver)}
-            className="text-[14px] pl-3 border-start flex items-center justify-center gap-3"
+            className="text-[14px] pl-3 border-start font-medium flex items-center justify-center gap-3"
           >
             <span className="underline">Filter</span>
             <svg

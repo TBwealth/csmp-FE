@@ -140,9 +140,9 @@ const ResourceScan = () => {
               className="form-control bg-transparent mb-3 md:w-[50%]"
               onChange={(e) => fetchTenantLatestScan(e.target.value)}
             >
-              <option>Select Tenant</option>
+              <option value="" className="font-medium">Select Tenant</option>
               {allTenant.map((tenant) => (
-                <option key={tenant?.id} value={tenant?.id}>
+                <option key={tenant?.id} value={tenant?.id} className="font-medium">
                   {tenant?.full_name}
                 </option>
               ))}
@@ -265,7 +265,7 @@ const ResourceScan = () => {
                             }
                           )}
                         >
-                          <option>Select Provider</option>
+                          <option value="" className="font-medium">Select Provider</option>
                           {[
                             {
                               id: "AWS",
@@ -280,7 +280,7 @@ const ResourceScan = () => {
                               name: "gpc",
                             },
                           ].map((provider) => (
-                            <option key={provider.name} value={provider.id}>
+                            <option key={provider.name} value={provider.id} className="font-medium">
                               {provider.name}
                             </option>
                           ))}
@@ -345,9 +345,9 @@ const ResourceScan = () => {
                             }
                           )}
                         >
-                          <option>Select Policy</option>
+                          <option value="" className="font-medium">Select Policy</option>
                           {allPolicy.map((policy) => (
-                            <option key={policy.name} value={policy.id}>
+                            <option key={policy.name} value={policy.id} className="font-medium">
                               {policy.name}
                             </option>
                           ))}
@@ -382,9 +382,9 @@ const ResourceScan = () => {
                             }
                           )}
                         >
-                          <option>Select Region</option>
+                          <option value="" className="font-medium">Select Region</option>
                           {allRegions.map((region) => (
-                            <option key={region.region_name} value={region.id}>
+                            <option key={region.region_name} value={region.id} className="font-medium">
                               {region.region_name}
                             </option>
                           ))}
@@ -420,7 +420,7 @@ const ResourceScan = () => {
                             }
                           )}
                         >
-                          <option>Select Frequency</option>
+                          <option value="" className="font-medium">Select Frequency</option>
                           {[
                             "once",
                             "weekly",
@@ -428,7 +428,7 @@ const ResourceScan = () => {
                             "yearly",
                             "bi-annually",
                           ].map((region) => (
-                            <option key={region} value={region}>
+                            <option key={region} value={region} className="font-medium">
                               {region}
                             </option>
                           ))}
@@ -450,7 +450,7 @@ const ResourceScan = () => {
                       </div>
                       <button
                         type="submit"
-                        className="btn btn-primary w-full flex items-center justify-center"
+                        className="btn font-medium btn-primary w-full flex items-center justify-center"
                         disabled={
                           loading ||
                           !form.isValid ||
@@ -497,7 +497,7 @@ const ResourceScan = () => {
                         )}
                         {loading && (
                           <span
-                            className="indicator-progress"
+                            className="indicator-progress font-medium"
                             style={{ display: "block" }}
                           >
                             Please wait...{" "}
@@ -512,7 +512,7 @@ const ResourceScan = () => {
             </div>
             <div className="w-full md:w-[45%]">
               <div
-                className={`rounded-md flex items-center justify-between mb-10 border shadow-md p-4 md:p-8 ${
+                className={`rounded-md font-medium flex items-center justify-between mb-10 border shadow-md p-4 md:p-8 ${
                   mode === "dark" ? "bg-lightDark" : "bg-white"
                 }`}
               >

@@ -87,13 +87,13 @@ const LogsCard = ({
           {severity}
         </p>
         <p className="font-semibold text-[12px] text-start">{exp_date}</p>
-        <p className="col-span-2 flex items-center justify-between w-full">
+        <p className="col-span-2 font-medium flex items-center justify-between w-full">
           {comment}
         </p>
       </button>
       {isOpen && (
         <div
-          className={`w-full md:pl-8 p-10 my-2 shadow-sm ${
+          className={`w-full md:pl-8 p-10 my-2 font-medium shadow-sm ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -108,21 +108,21 @@ const LogsCard = ({
             >
               {status.toUpperCase()}
             </p>
-            <p>Resource Id:</p>
+            <p className="font-semibold">Resource Id:</p>
             <p className="text-left col-span-2">{resource_id}</p>
-            <p>Resource:</p>
+            <p className="font-semibold">Resource:</p>
             <p className="text-left col-span-2">{resource}</p>
-            <p>Region:</p>
+            <p className="font-semibold">Region:</p>
             <p className="text-left col-span-2">{region}</p>
-            <p>Message:</p>
+            <p className="font-semibold">Message:</p>
             <p className="text-left col-span-2">{message}</p>
-            <p>Description:</p>
+            <p className="font-semibold">Description:</p>
             <p className="text-left col-span-2">{description}</p>
-            <p>Comment:</p>
+            <p className="font-semibold">Comment:</p>
             <p className="text-left col-span-2">{comment}</p>
-            <p>Exp Date:</p>
+            <p className="font-semibold">Exp Date:</p>
             <p className="text-left col-span-2">Suppressed until {exp_date}</p>
-            <p>Suppressed by:</p>
+            <p className="font-semibold">Suppressed by:</p>
             <p className="text-left col-span-2">{suppressed_by}</p>
           </div>
         </div>
@@ -273,7 +273,7 @@ const SuppressionLogs = () => {
         <p className="text-[14px] font-semibold">Suppressions logs</p>
         <button
           onClick={() => setShowPopOver(!showPopOver)}
-          className="text-[14px] pl-3 border-start flex items-center justify-center gap-3"
+          className="text-[14px] font-medium pl-3 border-start flex items-center justify-center gap-3"
         >
           <span className="underline">Filter</span>
           <svg

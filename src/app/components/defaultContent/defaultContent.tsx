@@ -43,7 +43,7 @@ export default function DefaultContent({
                 <div className="col text-center">
                   <button
                     type="submit"
-                    className="bg-primary hover:bg-white hover:text-primary
+                    className="bg-primary hover:bg-white hover:text-primary font-medium
                 md:w-50 text-xs shadow-md  rounded md:px-8 py-2 px-3 text-white text-center capitalize"
                     onClick={() => buttonClick("")}
                   >
@@ -75,7 +75,7 @@ export default function DefaultContent({
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              &nbsp; <span className="text-xs">Loading...</span>
+              &nbsp; <span className="text-sm font-medium">Loading...</span>
             </div>
           )}
         </div>

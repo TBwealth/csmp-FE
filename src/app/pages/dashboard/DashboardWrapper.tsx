@@ -74,22 +74,22 @@ const DashboardPage: FC = () => {
           <h5 className="font-semibold text-lg">Security issues:</h5>
           <div className="grid md:grid-cols-5 w-full gap-2">
             <div className={`w-full md:col-span-1  p-3 rounded-lg border shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
-              <p className="mb-3">Security issues by severity</p>
+              <p className="mb-3 font-semibold">Security issues by severity</p>
               <div className="flex flex-col">
                 <div className="!border-l-2 border-l-rose-900 pl-2 mb-4">
-                  <p>Critical</p>
+                  <p className="font-medium">Critical</p>
                   <h1 className="text-xl font-semibold">0</h1>
                 </div>
                 <div className="!border-l-2 !border-l-red-500 pl-2  mb-4">
-                  <p>High</p>
+                  <p className="font-medium">High</p>
                   <h1 className="text-xl font-semibold">456</h1>
                 </div>
                 <div className="!border-l-2 !border-l-orange-400 pl-2  mb-4">
-                  <p>Medium</p>
+                  <p className="font-medium">Medium</p>
                   <h1 className="text-xl font-semibold">45</h1>
                 </div>
                 <div className="!border-l-2 !border-l-yellow-400 pl-2  mb-4">
-                  <p>Low</p>
+                  <p className="font-medium">Low</p>
                   <h1 className="text-xl font-semibold">0</h1>
                 </div>
               </div>
@@ -97,7 +97,7 @@ const DashboardPage: FC = () => {
             <div className={`w-full md:col-span-4 border p-3 md:p-6 rounded-lg shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <p className="mb-3 font-semibold text-lg">Top security issues</p>
               <div>
-                <div className="flex flex-col gap-3 lg:flex-row items-start justify-between">
+                <div className="font-medium flex flex-col gap-3 lg:flex-row items-start justify-between">
                   <p>Publicly exposed virtual machine with high priviledges</p>
                   <p className="flex items-start justify-center gap-2">
                     <span>
@@ -107,7 +107,7 @@ const DashboardPage: FC = () => {
                     <span>499 security issues </span>
                   </p>
                 </div>
-                <div className="my-3 flex flex-col gap-3 lg:flex-row items-start justify-between">
+                <div className="my-3 font-medium flex flex-col gap-3 lg:flex-row items-start justify-between">
                   <p className="">
                     IAM Role with third party access and high priviledges
                   </p>
@@ -119,7 +119,7 @@ const DashboardPage: FC = () => {
                     <span>0 security issues </span>
                   </p>
                 </div>
-                <div className="flex flex-col gap-3 lg:flex-row items-start justify-between">
+                <div className="flex font-medium flex-col gap-3 lg:flex-row items-start justify-between">
                   <p className="">
                     Partially public virtual machine with high priviledges
                   </p>
@@ -138,13 +138,13 @@ const DashboardPage: FC = () => {
         <div className="w-full mb-6">
           <h5 className="font-semibold text-lg">Assets at high risk</h5>
           <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-5">
-            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
+            <div className={`border font-medium p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3">In total</h4>
               <h1 className="">
                 <i className="fa-sharp !text-orange-400 fa-regular fa-gem fs-2 mr-1"></i>46
               </h1>
             </div>
-            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
+            <div className={`border p-3 font-medium rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3">Public</h4>
               <section className="flex items-center justify-between mt-3">
                 <aside className="flex items-start mt-3 gap-2">
@@ -163,7 +163,7 @@ const DashboardPage: FC = () => {
                 </aside>
               </section>
             </div>
-            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
+            <div className={`border p-3 font-medium rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3 ">
                 With critical/high severity secrets
               </h4>
@@ -171,7 +171,7 @@ const DashboardPage: FC = () => {
                 <i className="bi bi-key !text-green-500 fs-2 rotate-45 mr-2"></i>0
               </h1>
             </div>
-            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
+            <div className={`border p-3 font-medium rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3 ">
                 With critical/high severity CVEs
               </h4>
@@ -179,7 +179,7 @@ const DashboardPage: FC = () => {
                 <i className="bi bi-bug !text-green-500 fs-2 mr-2"></i>0
               </h1>
             </div>
-            <div className={`border p-3 rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
+            <div className={`border p-3 font-medium rounded-md shadow-md ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}>
               <h4 className="mb-3 ">With sensitive data</h4>
               <h1 className="">
                 <i className="bi !text-green-500 bi-file-earmark-lock fs-2 mr-2"></i>0
@@ -194,17 +194,17 @@ const DashboardPage: FC = () => {
               <p className="font-semibold text-lg">By asset type</p>
               <div className="table">
                 <div className="table_top">
-                  <div className="table_top__left ">
+                  <div className="table_top__left font-medium">
                     <p className="">Highest Risk</p>
                     <p className="">Type</p>
                   </div>
-                  <div className="table_top__right ">
+                  <div className="table_top__right font-medium">
                     <p className="">Critical</p>
                     <p className="">High</p>
                     <p className="">All</p>
                   </div>
                 </div>
-                <div className="table_bottom">
+                <div className="table_bottom font-medium">
                   <div className="table_top___left">
                     <div className="table_bot__container ">
                       <span>8.2</span>
@@ -259,7 +259,7 @@ const DashboardPage: FC = () => {
             </div>
             <div className={`${mode === "dark" ? "bg-lightDark" : "bg-white"} md:col-span-2 border rounded-md p-3 shadow-md`}>
               <p className="font-semibold text-lg">By asset</p>
-              <div className="table ">
+              <div className="table font-medium">
                 <div className="table_top ">
                   <div className="by_asset_top ">
                     <p className="">Risk</p>
@@ -268,7 +268,7 @@ const DashboardPage: FC = () => {
                     <p className="">Environment</p>
                   </div>
                 </div>
-                <div className="table_bottom_asset">
+                <div className="table_bottom_asset font-medium">
                   <div className="by_asset_top ">
                     <div className="table_bot__container ">
                       <span>8.2</span>
@@ -314,7 +314,7 @@ const DashboardPage: FC = () => {
             </div>
             <div className={`${mode === "dark" ? "bg-lightDark" : "bg-white"} rounded-md p-3 shadow-md border`}>
               <p className="mb-3 font-semibold text-lg">Environment by risk</p>
-              <div className="flex flex-col">
+              <div className="flex flex-col font-medium">
                 <div className="!border-l-2 border-l-rose-900 pl-2 mb-4">
                   <p>Critical</p>
                   <h1 className="text-xl font-semibold">0</h1>

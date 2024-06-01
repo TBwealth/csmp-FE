@@ -23,7 +23,7 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
         mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
       }`}
     >
-      <div className="flex items-center p-6 justify-between w-full">
+      <div className="flex font-medium items-center p-6 justify-between w-full">
         <div className="flex items-center gap-5">
           <div className="w-12 h-12 rounded-full flex bg-[#284CB30D] items-center justify-center">
             <svg
@@ -62,7 +62,7 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
           </svg>
         </button>
       </div>
-      <div className="w-full grid md:grid-cols-3 p-6 gap-5 mt-10">
+      <div className="w-full font-medium grid md:grid-cols-3 p-6 gap-5 mt-10">
         <div className="flex flex-col items-start justify-center">
           <h4
             className={`mb-4 text-[16px] font-semibold ${
@@ -82,7 +82,7 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
             available soon
           </p>
         </div>
-        <div className="grid md:grid-cols-3 md:col-span-2 w-full gap-16">
+        <div className="grid font-medium md:grid-cols-3 md:col-span-2 w-full gap-16">
           <label htmlFor="aws" className="hover:cursor-pointer w-full relative">
             <div
               className={`${
@@ -178,12 +178,12 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
       <div className="mt-8 border-top-2 w-full flex p-5 items-end justify-end gap-6">
         <button 
         onClick={inModal ? () => handleHide() : () => {}}
-        className="bg-[#284CB3]/40 w-32 rounded-full p-2 text-white text-center">
+        className="bg-[#284CB3]/40 w-32 font-medium rounded-full p-2 text-white text-center">
           Cancel
         </button>
         <button
           onClick={() => next()}
-          className="bg-[#284CB3] w-32 rounded-full p-2 text-white text-center"
+          className="bg-[#284CB3] w-32 font-medium rounded-full p-2 text-white text-center"
         >
           Continue
         </button>

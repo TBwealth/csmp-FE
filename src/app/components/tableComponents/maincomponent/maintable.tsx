@@ -57,8 +57,6 @@ export const DropdownChild = () => {
             transition
             duration-150
             ease-in-out
-            flex
-            items-center
             whitespace-nowrap
             cursor-pointer
           "
@@ -676,7 +674,7 @@ export const MainTableComponent = ({
             <thead>
               <tr
                 className={`border-b boder-gray-300 ${
-                  mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#181C32]"
+                  mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#373737]"
                 } font-bold`}
               >
                 {showCheckBox && (
@@ -735,11 +733,11 @@ export const MainTableComponent = ({
               </tr>
             </thead>
             {!loading && (
-              <tbody className="divide-y divide-gray-200 font-normal">
+              <tbody className="divide-y divide-gray-200 font-medium">
                 {usersTableData?.map((data: any, i) => (
                   <tr
-                    className={`text-[12px] font-semibold ${
-                      mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#181C32]"
+                    className={`text-[12px] font-medium ${
+                      mode.mode === "dark" ? "text-[#EAEAEA]" : "text-[#373737]"
                     }`}
                   >
                     {showCheckBox && (
@@ -901,7 +899,7 @@ export const MainTableComponent = ({
         {!table2 && showPagination && (
           <div className="flex justify-between">
             <div>
-              <div className="flex flex-row space-x-2">
+              <div className="flex flex-row space-x-2 font-medium">
                 <span className="flex items-center">
                   <span>Rows per page</span>
                 </span>
@@ -937,6 +935,7 @@ export const MainTableComponent = ({
                   paddingRight: "10px",
                   display: "flex",
                   alignItems: "center",
+                  fontWeight: 500,
                 }}
               >
                 {currentPage! * pageSize + 1} -
@@ -951,6 +950,7 @@ export const MainTableComponent = ({
                   paddingRight: "10px",
                   display: "flex",
                   alignItems: "center",
+                  fontWeight: 500,
                 }}
                 className="page_btn"
               >
