@@ -6,7 +6,6 @@ const ScanPolicyModal = ({ isOpen, handleHide, err, errType }: any) => {
   const { showAlert, Alert } = useAlert();
 
   useEffect(() => {
-    console.log(err);
     showAlert(errType === "success" ? err?.data?.data.detail: err?.response?.message || "An unknow error occured", errType);
   }, []);
   return (
@@ -18,7 +17,7 @@ const ScanPolicyModal = ({ isOpen, handleHide, err, errType }: any) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Resource Scan</Modal.Title>
+          <Modal.Title>Scan</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-10"></div>

@@ -108,7 +108,7 @@ const ProviderResources = () => {
           buttonClick={() => refreshrecord()}
         />
       ) : (
-        <div className="W-[90%] md:w-[70%] mx-auto">
+        <div className="w-[90%] md:w-[70%] mx-auto">
           {items.map((item) => (
             <div
               key={item.name}
@@ -143,14 +143,14 @@ const ProviderResources = () => {
                     fill="#FF9900"
                   />
                 </svg>
-                <p className="text-[18px] font-semibold">{item.account_id}</p>
+                <p className="text-[14px] md:text-[18px] font-semibold">{item.account_id}</p>
                 <span className="p-2 w-16 text-center rounded-full text-primary bg-[#284CB31A] text-[8px] font-semibold">
                   {item.environment}
                 </span>
               </div>
               <div className="flex items-center gap-3">
                 <p
-                  className={`font-semibold border-end pr-2 text-[14px] ${
+                  className={`font-semibold border-end pr-2 text-[12px] md:text-[14px] ${
                     item.connection_status === "Connected"
                       ? "text-[#00B712]"
                       : ""
@@ -305,7 +305,7 @@ const ProviderResources = () => {
         </div>
       )}
       {showModal && (
-        <div className="w-full flex items-center justify-center h-[100vh] overflow-auto fixed z-[9999999] top-0 left-0 bg-black/70">
+        <div className="w-full flex items-center justify-center md:h-[100vh] overflow-auto absolute z-[9999999] top-0 left-0 bg-black/70">
           <div className="w-full flex items-center justify-center pt-8 overflow-auto">
             {steps === 1 && (
               <StepOne

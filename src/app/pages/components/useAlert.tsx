@@ -21,7 +21,7 @@ const useAlert = () => {
           status ? `alert-${status}` : "d-none"
         }`}
       >
-        <div className="alert-text font-weight-bold text-center">{message}</div>
+        <div className="alert-text font-semibold text-center">{message}</div>
       </div>
     );
   };

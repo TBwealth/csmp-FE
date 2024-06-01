@@ -32,6 +32,7 @@ const PrivateRoutes = () => {
   const PolicyRule = lazy(() => import("../pages/policy/PolicyRule"));
   const AssetsPage = lazy(() => import("../pages/assets/AssetsPage"));
   const SettingsPage = lazy(() => import("../pages/settings/SettingsPage"));
+  const RepositoryPage = lazy(() => import("../pages/repository/RepositoryPage"));
   const SecurityMonitoring = lazy(() => import("../pages/security-monitoring/SecurityMonitoringPage"));
   
 
@@ -92,6 +93,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <Policy />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path="/repository/*"
+          element={
+            <SuspensedView>
+              <RepositoryPage />
             </SuspensedView>
           }
         />

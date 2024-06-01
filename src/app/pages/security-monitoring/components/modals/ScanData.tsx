@@ -14,7 +14,7 @@ const ScanData = ({ data }: Props) => {
     <>
       {data ? (
         <div
-          className={`rounded-md flex items-center gap-8 justify-center flex-col mb-10 border shadow-md py-6 ${
+          className={`rounded-xl flex items-center gap-8 justify-center flex-col mb-10 border shadow-md py-6 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
