@@ -283,7 +283,7 @@ const NewSideMenu = () => {
     {
       title: "Repository MANAGEMENT",
       href: "/repository/list",
-      path: "/list",
+      path: "/repository",
       allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
@@ -295,8 +295,8 @@ const NewSideMenu = () => {
         >
           <g clip-path="url(#clip0_947_1672)">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M4.8838 13.0819C5.11471 13.2897 5.13343 13.6454 4.92561 13.8763L4.91811 13.8846C4.71029 14.1155 4.35462 14.1343 4.12371 13.9264C3.8928 13.7186 3.87408 13.363 4.0819 13.132L4.0894 13.1237C4.29722 12.8928 4.65289 12.8741 4.8838 13.0819Z"
               fill={
                 pathname.includes("/repository")
@@ -307,8 +307,8 @@ const NewSideMenu = () => {
               }
             />
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M4.8838 4.0819C5.11471 4.28972 5.13343 4.64539 4.92561 4.8763L4.91811 4.88463C4.71029 5.11554 4.35462 5.13426 4.12371 4.92644C3.8928 4.71862 3.87408 4.36296 4.0819 4.13205L4.0894 4.12371C4.29722 3.8928 4.65289 3.87408 4.8838 4.0819Z"
               fill={
                 pathname.includes("/repository")
@@ -319,8 +319,8 @@ const NewSideMenu = () => {
               }
             />
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M2.0625 2.0625V6.9375H15.9375V2.0625H2.0625ZM0.9375 1.95C0.9375 1.39081 1.39081 0.9375 1.95 0.9375H16.05C16.6092 0.9375 17.0625 1.39081 17.0625 1.95V7.05C17.0625 7.60919 16.6092 8.0625 16.05 8.0625H1.95C1.39081 8.0625 0.9375 7.60919 0.9375 7.05V1.95Z"
               fill={
                 pathname.includes("/repository")
@@ -331,8 +331,8 @@ const NewSideMenu = () => {
               }
             />
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M2.0625 11.0625V15.9375H15.9375V11.0625H2.0625ZM0.9375 10.95C0.9375 10.3908 1.39081 9.9375 1.95 9.9375H16.05C16.6092 9.9375 17.0625 10.3908 17.0625 10.95V16.05C17.0625 16.6092 16.6092 17.0625 16.05 17.0625H1.95C1.39081 17.0625 0.9375 16.6092 0.9375 16.05V10.95Z"
               fill={
                 pathname.includes("/repository")

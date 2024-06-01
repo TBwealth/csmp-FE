@@ -89,13 +89,13 @@ const ResolveModal = ({ isOpen, handleHide }: any) => {
   const handleSubmit = () => {
     mutate(
       {
-        assigned_to: { id: assignedToValue?.id },
+        assigned_to: assignedToValue?.id ,
         code: codeValue,
         status: statusValue.toUpperCase(),
-        asset: { id: assetValue?.id },
+        asset: assetValue?.id,
         description: descriptionValue,
         subject: subjectValue,
-        ticket_type: { id: ticketType?.id },
+        ticket_type: ticketType?.id,
         // date_joined: new Date()
       },
       {
