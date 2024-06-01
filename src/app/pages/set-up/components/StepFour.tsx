@@ -8,6 +8,7 @@ import { FaKey } from "react-icons/fa";
 import awsImg from "../../../../../public/media/logos/awsfile.svg";
 import code from "../../../../../public/media/logos/code.svg";
 
+
 type Props = {
   goBack: Dispatch<void>;
   handleHide: Dispatch<void>;
@@ -35,6 +36,19 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
   }, []);
 
   console.log(type);
+  const downloadTemplate = () => {
+    const link = document.createElement('a');
+    link.setAttribute('type', 'hidden');
+    link.href = "../../assets/CloudConformity.template";
+    link.download = "CloudFormation template";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+}
+
+ const launchAutomation = ()=>{
+    window.open("https://eu-west-1.console.aws.amazon.com/console/home?nc2=h_ct&src=header-signin", "_blank");
+  }
 
   const handleCreateServiceProvider = () => {
     mutate(
@@ -125,13 +139,13 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
               </p>
               <p>
                 2. Download and review our{" "}
-                <span className="text-primary underline">
+                <span onClick={downloadTemplate} className="text-primary underline cursor-pointer">
                   CloudFormation template
                 </span>
               </p>
               <p>
                 3. Click{" "}
-                <span className="bg-primary text-white rounded-md p-2">
+                <span onClick={launchAutomation} className="bg-primary text-white rounded-md p-2 cursor-pointer">
                   Launch Automation
                 </span>
               </p>

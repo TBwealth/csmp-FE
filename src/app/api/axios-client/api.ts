@@ -663,6 +663,37 @@ export interface CustomPolicyRun {
 /**
  * 
  * @export
+ * @interface CustomRepoScanSetUp
+ */
+export interface CustomRepoScanSetUp {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomRepoScanSetUp
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomRepoScanSetUp
+     */
+    'repo_url': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomRepoScanSetUp
+     */
+    'repo_type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomRepoScanSetUp
+     */
+    'repo_name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CustomResource
  */
 export interface CustomResource {
@@ -716,6 +747,44 @@ export interface CustomRule {
      * @memberof CustomRule
      */
     'name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomSuppressedBySeializer
+ */
+export interface CustomSuppressedBySeializer {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomSuppressedBySeializer
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomSuppressedBySeializer
+     */
+    'full_name'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CustomTenantSeializer
+ */
+export interface CustomTenantSeializer {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomTenantSeializer
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomTenantSeializer
+     */
+    'full_name': string;
 }
 /**
  * 
@@ -840,6 +909,31 @@ export interface Login {
 /**
  * 
  * @export
+ * @interface OneTimeRepoScan
+ */
+export interface OneTimeRepoScan {
+    /**
+     * 
+     * @type {number}
+     * @memberof OneTimeRepoScan
+     */
+    'policy_id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof OneTimeRepoScan
+     */
+    'repo_url': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OneTimeRepoScan
+     */
+    'access_token': string;
+}
+/**
+ * 
+ * @export
  * @interface PasswordChange
  */
 export interface PasswordChange {
@@ -917,6 +1011,12 @@ export interface Policy {
      * @memberof Policy
      */
     'created_by'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Policy
+     */
+    'policy_type': string;
 }
 /**
  * 
@@ -1076,6 +1176,37 @@ export interface PolicyPolicyRunScanStatsList200Response {
 /**
  * 
  * @export
+ * @interface PolicyRepoScanSetupList200Response
+ */
+export interface PolicyRepoScanSetupList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyRepoScanSetupList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRepoScanSetupList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRepoScanSetupList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<RepoScanSetUp>}
+     * @memberof PolicyRepoScanSetupList200Response
+     */
+    'results': Array<RepoScanSetUp>;
+}
+/**
+ * 
+ * @export
  * @interface PolicyRule
  */
 export interface PolicyRule {
@@ -1218,7 +1349,19 @@ export interface PolicyRun {
      * @type {string}
      * @memberof PolicyRun
      */
-    'cloud': string;
+    'cloud'?: string | null;
+    /**
+     * 
+     * @type {CustomRepoScanSetUp}
+     * @memberof PolicyRun
+     */
+    'repo': CustomRepoScanSetUp;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRun
+     */
+    'scan_type': string;
 }
 /**
  * 
@@ -1280,6 +1423,12 @@ export interface PolicyRunResult {
      * @memberof PolicyRunResult
      */
     'scan_message': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRunResult
+     */
+    'scan_type': string;
 }
 /**
  * 
@@ -1402,7 +1551,7 @@ export interface ProviderServiceInput {
      * @type {string}
      * @memberof ProviderServiceInput
      */
-    'account_id': string;
+    'account_id': string | null;
     /**
      * 
      * @type {string}
@@ -1590,6 +1739,68 @@ export interface Region {
 /**
  * 
  * @export
+ * @interface RepoScan
+ */
+export interface RepoScan {
+    /**
+     * 
+     * @type {number}
+     * @memberof RepoScan
+     */
+    'policy_id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RepoScan
+     */
+    'repo_id': number;
+}
+/**
+ * 
+ * @export
+ * @interface RepoScanSetUp
+ */
+export interface RepoScanSetUp {
+    /**
+     * 
+     * @type {number}
+     * @memberof RepoScanSetUp
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepoScanSetUp
+     */
+    'access_token': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepoScanSetUp
+     */
+    'tenant'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepoScanSetUp
+     */
+    'repo_url': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepoScanSetUp
+     */
+    'repo_type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RepoScanSetUp
+     */
+    'repo_name'?: string;
+}
+/**
+ * 
+ * @export
  * @interface ResourceTypes
  */
 export interface ResourceTypes {
@@ -1722,6 +1933,12 @@ export interface Rule {
      * @memberof Rule
      */
     'service': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Rule
+     */
+    'rule_type': string;
 }
 /**
  * 
@@ -1737,10 +1954,16 @@ export interface RuleSuppressionLog {
     'id'?: number;
     /**
      * 
-     * @type {number}
+     * @type {CustomTenantSeializer}
      * @memberof RuleSuppressionLog
      */
-    'tenant': number;
+    'tenant': CustomTenantSeializer;
+    /**
+     * 
+     * @type {CustomSuppressedBySeializer}
+     * @memberof RuleSuppressionLog
+     */
+    'suppressed_by': CustomSuppressedBySeializer;
     /**
      * 
      * @type {string}
@@ -7761,10 +7984,11 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {string} [name] Filter result by policy name
          * @param {string} [code] Filter by policy code
          * @param {boolean} [status] Filter by policy status
+         * @param {string} [policyType] Filter by policy_type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyListCreateList: async (page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyListCreateList: async (page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, policyType?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_list_create/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7800,11 +8024,91 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['status'] = status;
             }
 
+            if (policyType !== undefined) {
+                localVarQueryParameter['policy_type'] = policyType;
+            }
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {OneTimeRepoScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyOneTimeRepoScanCreate: async (data: OneTimeRepoScan, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyPolicyOneTimeRepoScanCreate', 'data', data)
+            const localVarPath = `/policy/policy_one_time_repo_scan/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {RepoScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRepoRunScanCreate: async (data: RepoScan, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyPolicyRepoRunScanCreate', 'data', data)
+            const localVarPath = `/policy/policy_repo_run_scan/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -7935,12 +8239,13 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {number} [id] Retrieve Object by Object id
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
+         * @param {string} [scanType] Filter by Scan Type
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunResultsList: async (tenant?: number, id?: number, policyRunId?: number, severity?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyRunResultsList: async (tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_run_results/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7970,6 +8275,10 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (severity !== undefined) {
                 localVarQueryParameter['severity'] = severity;
+            }
+
+            if (scanType !== undefined) {
+                localVarQueryParameter['scan_type'] = scanType;
             }
 
             if (page !== undefined) {
@@ -8075,10 +8384,12 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {number} [policy] Filter by Policy
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {any} [date] Filter by Date
+         * @param {number} [repo] Filter by Repo ID
+         * @param {string} [scanType] Filter by Scan Type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunScanHistoryList: async (page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyRunScanHistoryList: async (page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_run_scan_history/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8120,6 +8431,14 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (date !== undefined) {
                 localVarQueryParameter['date'] = date;
+            }
+
+            if (repo !== undefined) {
+                localVarQueryParameter['repo'] = repo;
+            }
+
+            if (scanType !== undefined) {
+                localVarQueryParameter['scan_type'] = scanType;
             }
 
 
@@ -8254,15 +8573,13 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
-         * List Policy Run Results
-         * @summary List PolicyScan Stats
+         * 
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {number} [tenantId] Filter by Tenant ID. Admin can pass Tenant ID params to check stats on behalf of a tenant
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunScanStatsList: async (page?: number, pageSize?: number, tenantId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyRunScanStatsList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_run_scan_stats/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8286,8 +8603,136 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['page_size'] = pageSize;
             }
 
-            if (tenantId !== undefined) {
-                localVarQueryParameter['tenant_id'] = tenantId;
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupCreate: async (data: RepoScanSetUp, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyRepoScanSetupCreate', 'data', data)
+            const localVarPath = `/policy/repo_scan_setup/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupDelete: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('policyRepoScanSetupDelete', 'id', id)
+            const localVarPath = `/policy/repo_scan_setup/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List Repos
+         * @summary List Created Repos
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by tenant ID
+         * @param {string} [repoUrl] Filter by repo url
+         * @param {string} [repoType] Filter by repo type
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupList: async (page?: number, pageSize?: number, tenant?: number, repoUrl?: string, repoType?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/policy/repo_scan_setup/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (repoUrl !== undefined) {
+                localVarQueryParameter['repo_url'] = repoUrl;
+            }
+
+            if (repoType !== undefined) {
+                localVarQueryParameter['repo_type'] = repoType;
             }
 
 
@@ -8295,6 +8740,126 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupPartialUpdate: async (id: number, data: RepoScanSetUp, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('policyRepoScanSetupPartialUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyRepoScanSetupPartialUpdate', 'data', data)
+            const localVarPath = `/policy/repo_scan_setup/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('policyRepoScanSetupRead', 'id', id)
+            const localVarPath = `/policy/repo_scan_setup/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupUpdate: async (id: number, data: RepoScanSetUp, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('policyRepoScanSetupUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyRepoScanSetupUpdate', 'data', data)
+            const localVarPath = `/policy/repo_scan_setup/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -8348,10 +8913,11 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {boolean} [status] Filter by rule status
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [ruleType] Filter by rule type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyRulesList: async (service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyRulesList: async (service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, ruleType?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/rules/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8389,6 +8955,10 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (pageSize !== undefined) {
                 localVarQueryParameter['page_size'] = pageSize;
+            }
+
+            if (ruleType !== undefined) {
+                localVarQueryParameter['rule_type'] = ruleType;
             }
 
 
@@ -8641,11 +9211,32 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {string} [name] Filter result by policy name
          * @param {string} [code] Filter by policy code
          * @param {boolean} [status] Filter by policy status
+         * @param {string} [policyType] Filter by policy_type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyListCreateList(page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyListCreateList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyListCreateList(page, pageSize, name, code, status, options);
+        async policyPolicyListCreateList(page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, policyType?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyListCreateList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyListCreateList(page, pageSize, name, code, status, policyType, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {OneTimeRepoScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyOneTimeRepoScanCreate(data: OneTimeRepoScan, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<OneTimeRepoScan>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyOneTimeRepoScanCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {RepoScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyRepoRunScanCreate(data: RepoScan, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RepoScan>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRepoRunScanCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -8687,13 +9278,14 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {number} [id] Retrieve Object by Object id
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
+         * @param {string} [scanType] Filter by Scan Type
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunResultsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultsList(tenant, id, policyRunId, severity, page, pageSize, options);
+        async policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunResultsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -8726,11 +9318,13 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {number} [policy] Filter by Policy
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {any} [date] Filter by Date
+         * @param {number} [repo] Filter by Repo ID
+         * @param {string} [scanType] Filter by Scan Type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunScanHistoryList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, options);
+        async policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunScanHistoryList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, repo, scanType, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -8766,16 +9360,81 @@ export const PolicyApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * List Policy Run Results
-         * @summary List PolicyScan Stats
+         * 
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {number} [tenantId] Filter by Tenant ID. Admin can pass Tenant ID params to check stats on behalf of a tenant
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRunScanStatsList(page?: number, pageSize?: number, tenantId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunScanStatsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanStatsList(page, pageSize, tenantId, options);
+        async policyPolicyRunScanStatsList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunScanStatsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanStatsList(page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyRepoScanSetupCreate(data: RepoScanSetUp, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RepoScanSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRepoScanSetupCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyRepoScanSetupDelete(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRepoScanSetupDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List Repos
+         * @summary List Created Repos
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by tenant ID
+         * @param {string} [repoUrl] Filter by repo url
+         * @param {string} [repoType] Filter by repo type
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyRepoScanSetupList(page?: number, pageSize?: number, tenant?: number, repoUrl?: string, repoType?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRepoScanSetupList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRepoScanSetupList(page, pageSize, tenant, repoUrl, repoType, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyRepoScanSetupPartialUpdate(id: number, data: RepoScanSetUp, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RepoScanSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRepoScanSetupPartialUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyRepoScanSetupRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RepoScanSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRepoScanSetupRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyRepoScanSetupUpdate(id: number, data: RepoScanSetUp, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RepoScanSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRepoScanSetupUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -8797,11 +9456,12 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {boolean} [status] Filter by rule status
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [ruleType] Filter by rule type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyRulesList(service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRulesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRulesList(service, name, code, status, page, pageSize, options);
+        async policyRulesList(service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, ruleType?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRulesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRulesList(service, name, code, status, page, pageSize, ruleType, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -8921,11 +9581,30 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {string} [name] Filter result by policy name
          * @param {string} [code] Filter by policy code
          * @param {boolean} [status] Filter by policy status
+         * @param {string} [policyType] Filter by policy_type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyListCreateList(page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, options?: any): AxiosPromise<PolicyPolicyListCreateList200Response> {
-            return localVarFp.policyPolicyListCreateList(page, pageSize, name, code, status, options).then((request) => request(axios, basePath));
+        policyPolicyListCreateList(page?: number, pageSize?: number, name?: string, code?: string, status?: boolean, policyType?: string, options?: any): AxiosPromise<PolicyPolicyListCreateList200Response> {
+            return localVarFp.policyPolicyListCreateList(page, pageSize, name, code, status, policyType, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {OneTimeRepoScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyOneTimeRepoScanCreate(data: OneTimeRepoScan, options?: any): AxiosPromise<OneTimeRepoScan> {
+            return localVarFp.policyPolicyOneTimeRepoScanCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RepoScan} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRepoRunScanCreate(data: RepoScan, options?: any): AxiosPromise<RepoScan> {
+            return localVarFp.policyPolicyRepoRunScanCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -8963,13 +9642,14 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {number} [id] Retrieve Object by Object id
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
+         * @param {string} [scanType] Filter by Scan Type
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyPolicyRunResultsList200Response> {
-            return localVarFp.policyPolicyRunResultsList(tenant, id, policyRunId, severity, page, pageSize, options).then((request) => request(axios, basePath));
+        policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyPolicyRunResultsList200Response> {
+            return localVarFp.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -8999,11 +9679,13 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {number} [policy] Filter by Policy
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {any} [date] Filter by Date
+         * @param {number} [repo] Filter by Repo ID
+         * @param {string} [scanType] Filter by Scan Type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, options?: any): AxiosPromise<PolicyPolicyRunScanHistoryList200Response> {
-            return localVarFp.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, options).then((request) => request(axios, basePath));
+        policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, options?: any): AxiosPromise<PolicyPolicyRunScanHistoryList200Response> {
+            return localVarFp.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, repo, scanType, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9035,16 +9717,75 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.policyPolicyRunScanHistoryUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
-         * List Policy Run Results
-         * @summary List PolicyScan Stats
+         * 
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {number} [tenantId] Filter by Tenant ID. Admin can pass Tenant ID params to check stats on behalf of a tenant
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunScanStatsList(page?: number, pageSize?: number, tenantId?: number, options?: any): AxiosPromise<PolicyPolicyRunScanStatsList200Response> {
-            return localVarFp.policyPolicyRunScanStatsList(page, pageSize, tenantId, options).then((request) => request(axios, basePath));
+        policyPolicyRunScanStatsList(page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyPolicyRunScanStatsList200Response> {
+            return localVarFp.policyPolicyRunScanStatsList(page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupCreate(data: RepoScanSetUp, options?: any): AxiosPromise<RepoScanSetUp> {
+            return localVarFp.policyRepoScanSetupCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupDelete(id: number, options?: any): AxiosPromise<void> {
+            return localVarFp.policyRepoScanSetupDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List Repos
+         * @summary List Created Repos
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by tenant ID
+         * @param {string} [repoUrl] Filter by repo url
+         * @param {string} [repoType] Filter by repo type
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupList(page?: number, pageSize?: number, tenant?: number, repoUrl?: string, repoType?: string, options?: any): AxiosPromise<PolicyRepoScanSetupList200Response> {
+            return localVarFp.policyRepoScanSetupList(page, pageSize, tenant, repoUrl, repoType, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupPartialUpdate(id: number, data: RepoScanSetUp, options?: any): AxiosPromise<RepoScanSetUp> {
+            return localVarFp.policyRepoScanSetupPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupRead(id: number, options?: any): AxiosPromise<RepoScanSetUp> {
+            return localVarFp.policyRepoScanSetupRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this repo scan set up.
+         * @param {RepoScanSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyRepoScanSetupUpdate(id: number, data: RepoScanSetUp, options?: any): AxiosPromise<RepoScanSetUp> {
+            return localVarFp.policyRepoScanSetupUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9064,11 +9805,12 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {boolean} [status] Filter by rule status
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
+         * @param {string} [ruleType] Filter by rule type
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyRulesList(service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyRulesList200Response> {
-            return localVarFp.policyRulesList(service, name, code, status, page, pageSize, options).then((request) => request(axios, basePath));
+        policyRulesList(service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, ruleType?: string, options?: any): AxiosPromise<PolicyRulesList200Response> {
+            return localVarFp.policyRulesList(service, name, code, status, page, pageSize, ruleType, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9250,6 +9992,41 @@ export interface PolicyApiPolicyPolicyListCreateListRequest {
      * @memberof PolicyApiPolicyPolicyListCreateList
      */
     readonly status?: boolean
+
+    /**
+     * Filter by policy_type
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyListCreateList
+     */
+    readonly policyType?: string
+}
+
+/**
+ * Request parameters for policyPolicyOneTimeRepoScanCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest
+ */
+export interface PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest {
+    /**
+     * 
+     * @type {OneTimeRepoScan}
+     * @memberof PolicyApiPolicyPolicyOneTimeRepoScanCreate
+     */
+    readonly data: OneTimeRepoScan
+}
+
+/**
+ * Request parameters for policyPolicyRepoRunScanCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyRepoRunScanCreateRequest
+ */
+export interface PolicyApiPolicyPolicyRepoRunScanCreateRequest {
+    /**
+     * 
+     * @type {RepoScan}
+     * @memberof PolicyApiPolicyPolicyRepoRunScanCreate
+     */
+    readonly data: RepoScan
 }
 
 /**
@@ -9334,6 +10111,13 @@ export interface PolicyApiPolicyPolicyRunResultsListRequest {
      * @memberof PolicyApiPolicyPolicyRunResultsList
      */
     readonly severity?: string
+
+    /**
+     * Filter by Scan Type
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyRunResultsList
+     */
+    readonly scanType?: string
 
     /**
      * A page number within the paginated result set.
@@ -9432,6 +10216,20 @@ export interface PolicyApiPolicyPolicyRunScanHistoryListRequest {
      * @memberof PolicyApiPolicyPolicyRunScanHistoryList
      */
     readonly date?: any
+
+    /**
+     * Filter by Repo ID
+     * @type {number}
+     * @memberof PolicyApiPolicyPolicyRunScanHistoryList
+     */
+    readonly repo?: number
+
+    /**
+     * Filter by Scan Type
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyRunScanHistoryList
+     */
+    readonly scanType?: string
 }
 
 /**
@@ -9509,13 +10307,132 @@ export interface PolicyApiPolicyPolicyRunScanStatsListRequest {
      * @memberof PolicyApiPolicyPolicyRunScanStatsList
      */
     readonly pageSize?: number
+}
+
+/**
+ * Request parameters for policyRepoScanSetupCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyRepoScanSetupCreateRequest
+ */
+export interface PolicyApiPolicyRepoScanSetupCreateRequest {
+    /**
+     * 
+     * @type {RepoScanSetUp}
+     * @memberof PolicyApiPolicyRepoScanSetupCreate
+     */
+    readonly data: RepoScanSetUp
+}
+
+/**
+ * Request parameters for policyRepoScanSetupDelete operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyRepoScanSetupDeleteRequest
+ */
+export interface PolicyApiPolicyRepoScanSetupDeleteRequest {
+    /**
+     * A unique integer value identifying this repo scan set up.
+     * @type {number}
+     * @memberof PolicyApiPolicyRepoScanSetupDelete
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for policyRepoScanSetupList operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyRepoScanSetupListRequest
+ */
+export interface PolicyApiPolicyRepoScanSetupListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof PolicyApiPolicyRepoScanSetupList
+     */
+    readonly page?: number
 
     /**
-     * Filter by Tenant ID. Admin can pass Tenant ID params to check stats on behalf of a tenant
+     * Number of results to return per page.
      * @type {number}
-     * @memberof PolicyApiPolicyPolicyRunScanStatsList
+     * @memberof PolicyApiPolicyRepoScanSetupList
      */
-    readonly tenantId?: number
+    readonly pageSize?: number
+
+    /**
+     * Filter by tenant ID
+     * @type {number}
+     * @memberof PolicyApiPolicyRepoScanSetupList
+     */
+    readonly tenant?: number
+
+    /**
+     * Filter by repo url
+     * @type {string}
+     * @memberof PolicyApiPolicyRepoScanSetupList
+     */
+    readonly repoUrl?: string
+
+    /**
+     * Filter by repo type
+     * @type {string}
+     * @memberof PolicyApiPolicyRepoScanSetupList
+     */
+    readonly repoType?: string
+}
+
+/**
+ * Request parameters for policyRepoScanSetupPartialUpdate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyRepoScanSetupPartialUpdateRequest
+ */
+export interface PolicyApiPolicyRepoScanSetupPartialUpdateRequest {
+    /**
+     * A unique integer value identifying this repo scan set up.
+     * @type {number}
+     * @memberof PolicyApiPolicyRepoScanSetupPartialUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {RepoScanSetUp}
+     * @memberof PolicyApiPolicyRepoScanSetupPartialUpdate
+     */
+    readonly data: RepoScanSetUp
+}
+
+/**
+ * Request parameters for policyRepoScanSetupRead operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyRepoScanSetupReadRequest
+ */
+export interface PolicyApiPolicyRepoScanSetupReadRequest {
+    /**
+     * A unique integer value identifying this repo scan set up.
+     * @type {number}
+     * @memberof PolicyApiPolicyRepoScanSetupRead
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for policyRepoScanSetupUpdate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyRepoScanSetupUpdateRequest
+ */
+export interface PolicyApiPolicyRepoScanSetupUpdateRequest {
+    /**
+     * A unique integer value identifying this repo scan set up.
+     * @type {number}
+     * @memberof PolicyApiPolicyRepoScanSetupUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {RepoScanSetUp}
+     * @memberof PolicyApiPolicyRepoScanSetupUpdate
+     */
+    readonly data: RepoScanSetUp
 }
 
 /**
@@ -9579,6 +10496,13 @@ export interface PolicyApiPolicyRulesListRequest {
      * @memberof PolicyApiPolicyRulesList
      */
     readonly pageSize?: number
+
+    /**
+     * Filter by rule type
+     * @type {string}
+     * @memberof PolicyApiPolicyRulesList
+     */
+    readonly ruleType?: string
 }
 
 /**
@@ -9733,7 +10657,29 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyListCreateList(requestParameters: PolicyApiPolicyPolicyListCreateListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyListCreateList(requestParameters.page, requestParameters.pageSize, requestParameters.name, requestParameters.code, requestParameters.status, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyListCreateList(requestParameters.page, requestParameters.pageSize, requestParameters.name, requestParameters.code, requestParameters.status, requestParameters.policyType, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyPolicyOneTimeRepoScanCreate(requestParameters: PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyOneTimeRepoScanCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyPolicyRepoRunScanCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyPolicyRepoRunScanCreate(requestParameters: PolicyApiPolicyPolicyRepoRunScanCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRepoRunScanCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9779,7 +10725,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyRunResultsList(requestParameters: PolicyApiPolicyPolicyRunResultsListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRunResultsList(requestParameters.tenant, requestParameters.id, requestParameters.policyRunId, requestParameters.severity, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyRunResultsList(requestParameters.tenant, requestParameters.id, requestParameters.policyRunId, requestParameters.severity, requestParameters.scanType, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9813,7 +10759,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyRunScanHistoryList(requestParameters: PolicyApiPolicyPolicyRunScanHistoryListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRunScanHistoryList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, requestParameters.scanFrequency, requestParameters.policy, requestParameters.cloudProvider, requestParameters.date, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyRunScanHistoryList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, requestParameters.scanFrequency, requestParameters.policy, requestParameters.cloudProvider, requestParameters.date, requestParameters.repo, requestParameters.scanType, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9850,15 +10796,81 @@ export class PolicyApi extends BaseAPI {
     }
 
     /**
-     * List Policy Run Results
-     * @summary List PolicyScan Stats
+     * 
      * @param {PolicyApiPolicyPolicyRunScanStatsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PolicyApi
      */
     public policyPolicyRunScanStatsList(requestParameters: PolicyApiPolicyPolicyRunScanStatsListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRunScanStatsList(requestParameters.page, requestParameters.pageSize, requestParameters.tenantId, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyRunScanStatsList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyRepoScanSetupCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyRepoScanSetupCreate(requestParameters: PolicyApiPolicyRepoScanSetupCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyRepoScanSetupCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyRepoScanSetupDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyRepoScanSetupDelete(requestParameters: PolicyApiPolicyRepoScanSetupDeleteRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyRepoScanSetupDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List Repos
+     * @summary List Created Repos
+     * @param {PolicyApiPolicyRepoScanSetupListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyRepoScanSetupList(requestParameters: PolicyApiPolicyRepoScanSetupListRequest = {}, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyRepoScanSetupList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, requestParameters.repoUrl, requestParameters.repoType, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyRepoScanSetupPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyRepoScanSetupPartialUpdate(requestParameters: PolicyApiPolicyRepoScanSetupPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyRepoScanSetupPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyRepoScanSetupReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyRepoScanSetupRead(requestParameters: PolicyApiPolicyRepoScanSetupReadRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyRepoScanSetupRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyRepoScanSetupUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyRepoScanSetupUpdate(requestParameters: PolicyApiPolicyRepoScanSetupUpdateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyRepoScanSetupUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9881,7 +10893,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyRulesList(requestParameters: PolicyApiPolicyRulesListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyRulesList(requestParameters.service, requestParameters.name, requestParameters.code, requestParameters.status, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyRulesList(requestParameters.service, requestParameters.name, requestParameters.code, requestParameters.status, requestParameters.page, requestParameters.pageSize, requestParameters.ruleType, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -10377,12 +11389,14 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
          * @param {any} [expiration] Filter by Expiration
          * @param {any} [createdOn] Filter by Created On
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
+         * @param {number} [suppressedBy] Filter by Suppressed_by User
+         * @param {string} [resourceId] Filter by Resource ID
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogList: async (tenant?: number, comments?: string, expiration?: any, createdOn?: any, severity?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsRuleSuppressionLogList: async (tenant?: number, comments?: string, expiration?: any, createdOn?: any, severity?: string, suppressedBy?: number, resourceId?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/system_settings/rule_suppression_log/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10416,6 +11430,14 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
 
             if (severity !== undefined) {
                 localVarQueryParameter['severity'] = severity;
+            }
+
+            if (suppressedBy !== undefined) {
+                localVarQueryParameter['suppressed_by'] = suppressedBy;
+            }
+
+            if (resourceId !== undefined) {
+                localVarQueryParameter['resource_id'] = resourceId;
             }
 
             if (page !== undefined) {
@@ -11146,13 +12168,15 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          * @param {any} [expiration] Filter by Expiration
          * @param {any} [createdOn] Filter by Created On
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
+         * @param {number} [suppressedBy] Filter by Suppressed_by User
+         * @param {string} [resourceId] Filter by Resource ID
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsRuleSuppressionLogList(tenant?: number, comments?: string, expiration?: any, createdOn?: any, severity?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleSuppressionLogList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogList(tenant, comments, expiration, createdOn, severity, page, pageSize, options);
+        async systemSettingsRuleSuppressionLogList(tenant?: number, comments?: string, expiration?: any, createdOn?: any, severity?: string, suppressedBy?: number, resourceId?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsRuleSuppressionLogList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsRuleSuppressionLogList(tenant, comments, expiration, createdOn, severity, suppressedBy, resourceId, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -11430,13 +12454,15 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          * @param {any} [expiration] Filter by Expiration
          * @param {any} [createdOn] Filter by Created On
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
+         * @param {number} [suppressedBy] Filter by Suppressed_by User
+         * @param {string} [resourceId] Filter by Resource ID
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsRuleSuppressionLogList(tenant?: number, comments?: string, expiration?: any, createdOn?: any, severity?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRuleSuppressionLogList200Response> {
-            return localVarFp.systemSettingsRuleSuppressionLogList(tenant, comments, expiration, createdOn, severity, page, pageSize, options).then((request) => request(axios, basePath));
+        systemSettingsRuleSuppressionLogList(tenant?: number, comments?: string, expiration?: any, createdOn?: any, severity?: string, suppressedBy?: number, resourceId?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsRuleSuppressionLogList200Response> {
+            return localVarFp.systemSettingsRuleSuppressionLogList(tenant, comments, expiration, createdOn, severity, suppressedBy, resourceId, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -11844,6 +12870,20 @@ export interface SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest {
      * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogList
      */
     readonly severity?: string
+
+    /**
+     * Filter by Suppressed_by User
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogList
+     */
+    readonly suppressedBy?: number
+
+    /**
+     * Filter by Resource ID
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsRuleSuppressionLogList
+     */
+    readonly resourceId?: string
 
     /**
      * A page number within the paginated result set.
@@ -12268,7 +13308,7 @@ export class SystemSettingsApi extends BaseAPI {
      * @memberof SystemSettingsApi
      */
     public systemSettingsRuleSuppressionLogList(requestParameters: SystemSettingsApiSystemSettingsRuleSuppressionLogListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogList(requestParameters.tenant, requestParameters.comments, requestParameters.expiration, requestParameters.createdOn, requestParameters.severity, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return SystemSettingsApiFp(this.configuration).systemSettingsRuleSuppressionLogList(requestParameters.tenant, requestParameters.comments, requestParameters.expiration, requestParameters.createdOn, requestParameters.severity, requestParameters.suppressedBy, requestParameters.resourceId, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
