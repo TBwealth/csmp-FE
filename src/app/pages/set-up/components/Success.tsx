@@ -22,7 +22,7 @@ const Success = ({ handleHide }: any) => {
 
   return (
     <div
-      className={`w-[90%] rounded-lg border-2 mx-auto md:w-[68%] ${
+      className={`w-[90%] font-medium rounded-lg border-2 mx-auto md:w-[68%] ${
         mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
       }`}
     >
@@ -110,7 +110,7 @@ const Success = ({ handleHide }: any) => {
         <div className="mt-8 border-top-2 w-full flex p-5 items-end justify-end gap-6">
           <button
             onClick={() => handleHide()}
-            className="bg-[#284CB3] w-32 rounded-full p-2 text-white text-center"
+            className="bg-[#284CB3] w-32 font-medium rounded-full p-2 text-white text-center"
           >
             Done
           </button>

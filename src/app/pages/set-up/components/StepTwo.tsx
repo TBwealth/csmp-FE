@@ -30,7 +30,7 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
   
   return (
     <div
-      className={`w-[90%] rounded-lg border-2 mx-auto md:w-[68%] ${
+      className={`w-[90%] font-medium rounded-lg border-2 mx-auto md:w-[68%] ${
         mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
       }`}
     >
@@ -55,7 +55,7 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
           <p className="text-[18px] font-semibold text-[#373737]">
             Add a new AWS account
           </p>
-          <Link to="/" className="p-3 border-start text-[#6A6A6A] text-[12px]">
+          <Link to="/" className="p-3 font-medium border-start text-[#6A6A6A] text-[12px]">
             Need help? Click here{" "}
           </Link>
         </div>
@@ -125,7 +125,7 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
       <div className="mt-8 border-top-2 w-full flex p-5 items-end justify-end gap-6">
         <button
           onClick={() => goBack()}
-          className="bg-[#284CB3]/40 w-32 rounded-full p-2 text-white text-center"
+          className="bg-[#284CB3]/40 w-32 font-medium rounded-full p-2 text-white text-center"
         >
           Cancel
         </button>
@@ -135,7 +135,7 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
             next();
         }}
           disabled={!data?.cloud_name || !data?.environment}
-          className="bg-[#284CB3] w-32 rounded-full p-2 text-white text-center"
+          className="bg-[#284CB3] w-32 font-medium rounded-full p-2 text-white text-center"
         >
           Continue
         </button>

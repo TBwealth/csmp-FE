@@ -66,7 +66,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
 
   return (
     <div
-      className={`w-[90%] rounded-lg border-2 mx-auto md:w-[68%] ${
+      className={`w-[90%] font-medium rounded-lg border-2 mx-auto md:w-[68%] ${
         mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
       } ${inModal ? "h-[90vh] overflow-auto" : ""}`}
     >
@@ -217,14 +217,14 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
       <div className="my-8 border-top-2 border-bottom-2 w-full flex p-5 items-end justify-end gap-6">
         <button
           onClick={() => goBack()}
-          className="bg-[#284CB3]/40 w-32 rounded-full p-2 text-white text-center"
+          className="bg-[#284CB3]/40 w-32 font-medium rounded-full p-2 text-white text-center"
         >
           Cancel
         </button>
         <button
           disabled={!arn}
           onClick={handleCreateServiceProvider}
-          className="bg-[#284CB3] w-48 rounded-full p-2 text-white text-center"
+          className="bg-[#284CB3] w-48 font-medium rounded-full p-2 text-white text-center"
         >
           {isLoading ? "connecting......" : "Connect AWS Account"}
         </button>
@@ -287,7 +287,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
               ? "How to add an AWS account with automated setup"
               : "How to add an AWS account manually"}
           </p>
-          <Link to="/" className="p-3 border-start text-[#6A6A6A] text-[12px]">
+          <Link to="/" className="p-3 border-start text-[#6A6A6A] text-[12px] font-medium">
             Need help? Contact support{" "}
           </Link>
         </div>

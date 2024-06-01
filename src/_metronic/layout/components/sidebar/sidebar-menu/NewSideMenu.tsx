@@ -900,19 +900,19 @@ const NewSideMenu = () => {
           <div className="menu-item px-5 my-1">
             <Link
               to="/crafted/account/settings"
-              className="menu-link"
+              className="menu-link font-medium"
               onClick={() => setPopOpen(false)}
             >
               Account Settings
             </Link>
           </div>
-          <div className="menu-item px-5">
+          <div className="menu-item px-5 ">
             <a
               onClick={() => {
                 logout();
                 setPopOpen(false);
               }}
-              className="menu-link"
+              className="menu-link font-medium"
             >
               Sign Out
             </a>
@@ -923,7 +923,7 @@ const NewSideMenu = () => {
         <div className="pt-6">
           <div className="menu-item">
             <div className="menu-content pt-8 pb-2">
-              <span className={`${mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"} menu-section text-muted text-uppercase fs-8 ls-1`}>
+              <span className={`${mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"} menu-section font-medium text-muted text-uppercase fs-8 ls-1`}>
                 {topTitle}
               </span>
             </div>

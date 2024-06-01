@@ -348,7 +348,7 @@ const ScanHistory = () => {
           <h1 className="font-semibold text-[18px]">
             {stats?.total_scans ?? 0}
             <span
-              className={`pl-2 font-normal text-[14px] ${
+              className={`pl-2 font-medium text-[14px] ${
                 mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
               }`}
             >
@@ -408,7 +408,7 @@ const ScanHistory = () => {
           <h1 className="font-semibold text-[18px]">
             {stats?.recurring_scans ?? 0}
             <span
-              className={`pl-2 font-normal text-[14px] ${
+              className={`pl-2 font-medium text-[14px] ${
                 mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
               }`}
             >
@@ -482,7 +482,7 @@ const ScanHistory = () => {
           <h1 className="font-semibold text-[18px]">
             {stats?.threats_found ?? 0}
             <span
-              className={`pl-2 font-normal text-[14px] ${
+              className={`pl-2 font-medium text-[14px] ${
                 mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
               }`}
             >
@@ -493,7 +493,7 @@ const ScanHistory = () => {
             <h1 className="font-semibold text-[18px]">
               {stats?.resolved ?? 0}
               <span
-                className={`pl-2 font-normal text-[14px] ${
+                className={`pl-2 font-medium text-[14px] ${
                   mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
                 }`}
               >
@@ -666,7 +666,7 @@ const ScanHistory = () => {
 
           <div className="w-full mt-10">
             {totalCount > 10 && (
-              <div className="flex items-center justify-between w-full">
+              <div className="flex items-center font-medium justify-between w-full">
                 <div className="flex items-center gap-2">
                   <p>page size:</p>
                   <select
@@ -681,7 +681,7 @@ const ScanHistory = () => {
                     <option value="100">100</option>
                   </select>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex font-medium items-center gap-3">
                   <button
                     disabled={page === 0}
                     onClick={() => {
@@ -693,7 +693,7 @@ const ScanHistory = () => {
                         setPage((page) => page - 1);
                       }
                     }}
-                    className="p-2 rounded-md w-24 bg-primary text-white hover:bg-transparent hover:text-primary hover:border-primary"
+                    className="p-2 rounded-md font-medium w-24 bg-primary text-white hover:bg-transparent hover:text-primary hover:border-primary"
                   >
                     Previous
                   </button>
@@ -703,7 +703,7 @@ const ScanHistory = () => {
                       // useGetAllScanHistory(page + 1, 5)
                       setPage((page) => page + 1);
                     }}
-                    className="p-2 bg-primary text-white rounded-md w-24 hover:bg-transparent hover:text-primary hover:border-primary"
+                    className="p-2 bg-primary font-medium text-white rounded-md w-24 hover:bg-transparent hover:text-primary hover:border-primary"
                   >
                     Next
                   </button>
@@ -715,7 +715,7 @@ const ScanHistory = () => {
       )}
       {tab === "reocurring" && (
         <div className="mt-10 w-full">
-          <h3 className="font-normal text-base mb-8 text-left">
+          <h3 className="font-medium text-base mb-8 text-left">
             These are scheduled recurring resource scan.
           </h3>
           {/* {ocuringdata.map((d) => (

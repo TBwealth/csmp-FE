@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowContainer, Popover } from "react-tiny-popover";
 import { TableColumn, TableAction, ColumnTypes } from "../models";
-import searchIcon from "../../../../_metronic/assets/icons/Icon-ionic-md-search.svg";
+import { FaTimes } from "react-icons/fa";
 import filterIcon from "../../../../_metronic/assets/icons/Icon-filter.svg";
 import { Modal } from "react-bootstrap";
 import { Dropdown } from "flowbite-react";
@@ -22,7 +22,7 @@ export const RenderSortIconButton = () => {
       <div>
         <div className="dropdown relative">
           <span
-            className="dropdown-toggle mb-2 border border-gray-300 flex items-center py-4 px-3 text-sm rounded-md lg:px-3 space-x-3 transition duration-150 ease-in-out whitespace-nowrap cursor-pointer show_filter"
+            className="dropdown-toggle mb-2 border font-medium border-gray-300 flex items-center py-4 px-3 text-sm rounded-md lg:px-3 space-x-3 transition duration-150 ease-in-out whitespace-nowrap cursor-pointer show_filter"
             aria-expanded="false"
           >
             Sort By
@@ -204,7 +204,7 @@ export const TableheaderComponent = ({
 
   function submitFilter() {
     filterDataChange(filterData);
-    setfilterData({})
+    setfilterData({});
     setshowFilter(false);
   }
 
@@ -235,7 +235,7 @@ export const TableheaderComponent = ({
         <h1 className="mb-2 md:mb-0  text-[14px] font-semibold">
           {tableTitle}
         </h1>
-        <div className="flex flex-wrap-reverse justify-between lg:space-x-2 space-x-1 items-center">
+        <div className="flex font-medium flex-wrap-reverse justify-between lg:space-x-2 space-x-1 items-center">
           {showDateRange && (
             <div className="border-[0.5px] border-[#CED4DA] bg-white rounded-md flex items-center pl-2 space-x-1 text-sm cursor-pointer">
               <i className="fa fa-calendar"></i>
@@ -255,7 +255,7 @@ export const TableheaderComponent = ({
             </div>
           )}
 
-          <div className="flex space-x-3 items-center print">
+          <div className="font-medium flex space-x-3 items-center print">
             <span
               onClick={() => downloadas("Print")}
               className="flex space-x-1 place-self-center cursor-pointer"
@@ -315,27 +315,27 @@ export const TableheaderComponent = ({
             className="flex space-x-1 border-[0.5px] mb-2 border-[#CED4DA] py-2.5 px-3 rounded-md place-self-center mr-3 export_btn"
             data-modal-id="modal1"
           >
-            <p className="text-base font-normal hover:cursor-pointer">
+            <p className="text-base font-medium hover:cursor-pointer">
               Export as
             </p>
           </button>
 
           {bulkDeactivate && (
             <button
-              className="flex space-x-1 border-[0.5px] border-[#CED4DA] py-2.5 px-3 rounded-md place-self-center mr-3 export_btn"
+              className=" font-medium flex space-x-1 border-[0.5px] border-[#CED4DA] py-2.5 px-3 rounded-md place-self-center mr-3 export_btn"
               data-modal-id="modal1"
             >
-              <p className="text-base text-[#1C1919] font-normal hover:cursor-pointer">
+              <p className="text-base text-[#1C1919] font-medium hover:cursor-pointer">
                 Deactivate
               </p>
             </button>
           )}
           {bulkDuplicate && (
             <button
-              className="flex space-x-1 border-[0.5px] border-[#CED4DA] py-2.5 px-3 rounded-md place-self-center mr-3 export_btn"
+              className="font-medium flex space-x-1 border-[0.5px] border-[#CED4DA] py-2.5 px-3 rounded-md place-self-center mr-3 export_btn"
               data-modal-id="modal1"
             >
-              <p className="text-base text-[#1C1919] font-normal hover:cursor-pointer">
+              <p className="text-base text-[#1C1919] font-medium hover:cursor-pointer">
                 Duplicate
               </p>
             </button>
@@ -361,14 +361,14 @@ export const TableheaderComponent = ({
                     >
                       {showOtherFilter && (
                         <li onClick={() => sortRecentAndOldest("Desc")}>
-                          <span className="dropdown-item py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
+                          <span className="dropdown-item py-2 px-4 font-medium block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
                             Most Recent
                           </span>
                         </li>
                       )}
                       {showOtherFilter && (
                         <li onClick={() => sortRecentAndOldest("Asc")}>
-                          <span className="dropdown-item py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
+                          <span className="dropdown-item py-2 px-4 font-medium block w-full whitespace-nowrap bg-transparent hover:bg-gray-100">
                             Oldest
                           </span>
                         </li>
@@ -422,10 +422,12 @@ export const TableheaderComponent = ({
                     {sortList && (
                       <span
                         onClick={() => onSortOptionClick(sortList)}
-                        className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent hover:bg-gray-100"
+                        className="dropdown-item text-sm py-2 px-4 font-medium block w-full whitespace-nowrap bg-transparent hover:bg-gray-100"
                       >
                         <div className="flex flex-row w-full">
-                          <div className="flex flex-auto pr-7">{sortList}</div>
+                          <div className="flex flex-auto pr-7 font-medium">
+                            {sortList}
+                          </div>
                         </div>
                       </span>
                     )}
@@ -442,7 +444,7 @@ export const TableheaderComponent = ({
               />
               <input
                 type="text"
-                className="form-control form-control-solid w-250px ps-14 border border-gray-300"
+                className="form-control font-medium form-control-solid w-250px ps-14 border border-gray-300"
                 placeholder="search"
                 onChange={handleSearch}
               />
@@ -474,115 +476,112 @@ export const TableheaderComponent = ({
           keyboard={false}
         >
           <Modal.Body>
-            <div>
-              <div className="px-10 space-y-12 p-5">
-                <div className="flex justify-between">
-                  <h2 className="font-bold text-[14px]">Filter By</h2>
-                </div>
-                {headfilterFields.length > 0 && (
-                  <form className="lg:self-start w-full grid md:grid-cols-2 gap-6">
-                    {headfilterFields.map((field, i) => (
-                      <div className="w-full">
-                        {(field.type === COLUMN_TYPES.Text ||
-                          field.type === undefined) &&
-                          field.listValue!?.length < 1 && (
-                            <div>
-                              <label className="block mb-1 text-sm">
-                                {field.title}
-                              </label>
-                              <input
-                                type="text"
-                                name=""
-                                className="form-control bg-transparent"
-                                placeholder={field.title}
-                                onChange={(e) =>
-                                  fieldValueChanged(e, field.name)
-                                }
-                                // className="text-[10px] font-medium w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary"
-                              />
-                            </div>
-                          )}
-
-                        {field.type === COLUMN_TYPES.List &&
-                          field.listValue!?.length > 0 && (
-                            <div>
-                              <label className="block mb-1 text-sm">
-                                {field.title}
-                              </label>
-                              <select
-                                name=""
-                                id=""
-                                className="form-control bg-transparent"
-                                onChange={(e) =>
-                                  fieldValueChanged(e, field.name)
-                                }
-                                // className="bg-[#F2F5F9] w-full text-sm border-0 rounded-md focus:ring-1 focus:ring-primary"
-                              >
-                                <option value="">
-                                  --Select {field.title}--
-                                </option>
-                                {field.listValue?.map((listv) => (
-                                  <option value={listv[field.listIdField!]}>
-                                    {listv[field.listTextField!]}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          )}
-
-                        {field.type === COLUMN_TYPES.slider &&
-                          field.listValue!.length < 1 &&
-                          showFilter && (
-                            <div>
-                              <label className="block mb-1 text-sm justify-between">
-                                <span>{field.title}</span>
-                              </label>
-                              <div className="w-full custom-slider">
-                                <RangeSlider
-                                  max={50}
-                                  defaultValue={[
-                                    filterData[field!.sliderStartName!],
-                                    filterData[field!.sliderEndName!],
-                                  ]}
-                                  constraint={([start, end]) =>
-                                    start <= field?.sliderMin! &&
-                                    end >= field?.sliderMax!
-                                  }
-                                />
-                              </div>
-                            </div>
-                          )}
-                        {field.type === COLUMN_TYPES.Date && (
+            <Modal.Header closeButton className="px-0 py-2">
+              <Modal.Title>Filter By</Modal.Title>
+            </Modal.Header>
+            <div className="my-10">
+              {headfilterFields.length > 0 && (
+                <form className="lg:self-start w-full grid md:grid-cols-2 gap-6 font-medium">
+                  {headfilterFields.map((field, i) => (
+                    <div className="w-full">
+                      {(field.type === COLUMN_TYPES.Text ||
+                        field.type === undefined) &&
+                        field.listValue!?.length < 1 && (
                           <div>
                             <label className="block mb-1 text-sm">
                               {field.title}
                             </label>
-                            <div className="w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary flex justify-between">
-                              <DatePicker
-                                onChange={(date: any) =>
-                                  fieldValueChanged(date, field.name)
+                            <input
+                              type="text"
+                              name=""
+                              className="form-control bg-transparent"
+                              placeholder={field.title}
+                              onChange={(e) => fieldValueChanged(e, field.name)}
+                              // className="text-[10px] font-medium w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary"
+                            />
+                          </div>
+                        )}
+
+                      {field.type === COLUMN_TYPES.List &&
+                        field.listValue!?.length > 0 && (
+                          <div>
+                            <label className="block mb-1 text-sm">
+                              {field.title}
+                            </label>
+                            <select
+                              name=""
+                              id=""
+                              className="form-control bg-transparent"
+                              onChange={(e) => fieldValueChanged(e, field.name)}
+                              // className="bg-[#F2F5F9] w-full text-sm border-0 rounded-md focus:ring-1 focus:ring-primary"
+                            >
+                              <option value="" className="font-medium">
+                                --Select {field.title}--
+                              </option>
+                              {field.listValue?.map((listv) => (
+                                <option
+                                  value={listv[field.listIdField!]}
+                                  className="font-medium"
+                                >
+                                  {listv[field.listTextField!]}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
+
+                      {field.type === COLUMN_TYPES.slider &&
+                        field.listValue!.length < 1 &&
+                        showFilter && (
+                          <div>
+                            <label className="block mb-1 text-sm justify-between">
+                              <span>{field.title}</span>
+                            </label>
+                            <div className="w-full custom-slider">
+                              <RangeSlider
+                                max={50}
+                                defaultValue={[
+                                  filterData[field!.sliderStartName!],
+                                  filterData[field!.sliderEndName!],
+                                ]}
+                                constraint={([start, end]) =>
+                                  start <= field?.sliderMin! &&
+                                  end >= field?.sliderMax!
                                 }
-                                placeholderText="Select Date"
                               />
                             </div>
                           </div>
                         )}
-                      </div>
-                    ))}
-                  </form>
-                )}
+                      {field.type === COLUMN_TYPES.Date && (
+                        <div>
+                          <label className="block mb-1 text-sm">
+                            {field.title}
+                          </label>
+                          <div className="w-full border border-[#C4CDD5] rounded-md focus:ring-1 focus:ring-primary flex justify-between">
+                            <DatePicker
+                              onChange={(date: any) =>
+                                fieldValueChanged(date, field.name)
+                              }
+                              placeholderText="Select Date"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </form>
+              )}
 
-                <div className="lg:self-start w-full grid md:grid-cols-2 gap-x-6 gap-y-10">
-                  {headfilterFields.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => submitFilter()}
-                      className="border border-solid hover:border-dotted bg-primary hover:bg-white border-purple-900 hover:text-primary text-white font-bold rounded flex items-center justify-center px-2 w-64 py-2"
-                    >
-                      Apply
-                    </button>
-                  )}
-                </div>
+              <div className="lg:self-start mt-8 w-full grid md:grid-cols-2 gap-x-6 gap-y-10">
+                {headfilterFields.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => submitFilter()}
+                    className="border border-solid hover:border-dotted bg-primary hover:bg-white border-purple-900 hover:text-primary text-white font-bold rounded flex items-center justify-center px-2 w-64 py-2"
+                  >
+                    Apply
+                  </button>
+                )}
               </div>
             </div>
           </Modal.Body>

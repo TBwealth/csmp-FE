@@ -32,11 +32,11 @@ const ScanLoading = ({ name, policy, region }: Props) => {
       </p>
       <div className="mt-20 flex items-center flex-col md:flex-row gap-6">
         <div className="border-end flex-1">
-          <div className="flex items-center gap-3 mb-16">
+          <div className="flex items-center gap-3 mb-16 font-medium">
             <img src={scanimg} alt="search icon" />
             <h2 className={`${mode === "dark" ? "text-[#909BBC]": "text-[#6A6A6A]"} text-[18px] leading-10 uppercase`}>Scanning. . . </h2>
           </div>
-          <div className="relative">
+          <div className="relative font-medium">
             <svg
               aria-hidden="true"
               className="block w-52 h-52 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"

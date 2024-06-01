@@ -245,9 +245,15 @@ const ModalTicketsList = ({
                   setTicketType(selected[0]);
                 }}
               >
-                <option value="">Select Type</option>
+                <option value="" className="font-medium">
+                  Select Type
+                </option>
                 {tickets?.map((data: any) => (
-                  <option value={data.id} key={data.name}>
+                  <option
+                    value={data.id}
+                    key={data.name}
+                    className="font-medium"
+                  >
                     {data.name}
                   </option>
                 ))}
@@ -267,9 +273,15 @@ const ModalTicketsList = ({
                   setAssetValue(selected[0]);
                 }}
               >
-                <option value="">Select Assets</option>
+                <option value="" className="font-medium">
+                  Select Assets
+                </option>
                 {ticketAssets?.map((data: any) => (
-                  <option key={data?.id} value={data?.id}>
+                  <option
+                    key={data?.id}
+                    value={data?.id}
+                    className="font-medium"
+                  >
                     {data?.name}
                   </option>
                 ))}
@@ -288,9 +300,15 @@ const ModalTicketsList = ({
                     handleFetchTenantUsers(e.target.value);
                   }}
                 >
-                  <option value="">Select Tenant</option>
+                  <option value="" className="font-medium">
+                    Select Tenant
+                  </option>
                   {listTenants?.map((data: any) => (
-                    <option key={data?.id} value={data?.full_name}>
+                    <option
+                      key={data?.id}
+                      value={data?.full_name}
+                      className="font-medium"
+                    >
                       {data?.full_name}
                     </option>
                   ))}
@@ -311,9 +329,12 @@ const ModalTicketsList = ({
                   setAssignedToValue(selected[0]);
                 }}
               >
-                <option value="">Select User</option>
+                <option value="" className="font-medium">
+                  Select User
+                </option>
                 {users?.map((data: any) => (
                   <option
+                    className="font-medium"
                     value={data.id}
                     key={`${data.first_name}_${data.last_name}`}
                   >{`${data.first_name} ${data.last_name}`}</option>
@@ -353,9 +374,9 @@ const ModalTicketsList = ({
                 value={statusValue}
                 onChange={(e) => setStatusValue(e.target.value)}
               >
-                <option value="">Select Status</option>
+                <option value="" className="font-medium">Select Status</option>
                 {["Open", "Closed", "Pending"].map((data: any) => (
-                  <option key={data} value={data}>
+                  <option key={data} value={data} className="font-medium">
                     {data}
                   </option>
                 ))}
@@ -377,12 +398,12 @@ const ModalTicketsList = ({
         </Modal.Body>
         <Alert />
         <Modal.Footer>
-          <button type="button" className="btn btn-light" onClick={handleHide}>
+          <button type="button" className="btn btn-light font-medium" onClick={handleHide}>
             Close
           </button>
           <button
             type="button"
-            className="btn btn-primary"
+            className="btn btn-primary font-medium"
             disabled={
               !codeValue ||
               !descriptionValue ||
