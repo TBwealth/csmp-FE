@@ -24,7 +24,7 @@ const NewSideMenu = () => {
   const [children, setChildren] = useState<Links[]>([]);
   const [topTitle, setTopTitle] = useState("");
   const [popOpen, setPopOpen] = useState(false);
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const localChildren = sessionStorage.getItem("children");
@@ -37,7 +37,7 @@ const NewSideMenu = () => {
       setTopTitle(localtitle!);
     }
 
-    if(localUser) {
+    if (localUser) {
       const parsed = JSON.parse(localUser);
       setUser(parsed);
     }
@@ -277,6 +277,91 @@ const NewSideMenu = () => {
         {
           title: "Network Log",
           href: "",
+        },
+      ],
+    },
+    {
+      title: "Repository MANAGEMENT",
+      href: "/repository/list",
+      path: "/list",
+      allowedRoles: ["Admin", "Tenant"],
+      icon: (
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g clip-path="url(#clip0_947_1672)">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4.8838 13.0819C5.11471 13.2897 5.13343 13.6454 4.92561 13.8763L4.91811 13.8846C4.71029 14.1155 4.35462 14.1343 4.12371 13.9264C3.8928 13.7186 3.87408 13.363 4.0819 13.132L4.0894 13.1237C4.29722 12.8928 4.65289 12.8741 4.8838 13.0819Z"
+              fill={
+                pathname.includes("/repository")
+                  ? "#284CB3"
+                  : mode === "dark"
+                  ? "#EAEAEA"
+                  : "#000000"
+              }
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M4.8838 4.0819C5.11471 4.28972 5.13343 4.64539 4.92561 4.8763L4.91811 4.88463C4.71029 5.11554 4.35462 5.13426 4.12371 4.92644C3.8928 4.71862 3.87408 4.36296 4.0819 4.13205L4.0894 4.12371C4.29722 3.8928 4.65289 3.87408 4.8838 4.0819Z"
+              fill={
+                pathname.includes("/repository")
+                  ? "#284CB3"
+                  : mode === "dark"
+                  ? "#EAEAEA"
+                  : "#000000"
+              }
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M2.0625 2.0625V6.9375H15.9375V2.0625H2.0625ZM0.9375 1.95C0.9375 1.39081 1.39081 0.9375 1.95 0.9375H16.05C16.6092 0.9375 17.0625 1.39081 17.0625 1.95V7.05C17.0625 7.60919 16.6092 8.0625 16.05 8.0625H1.95C1.39081 8.0625 0.9375 7.60919 0.9375 7.05V1.95Z"
+              fill={
+                pathname.includes("/repository")
+                  ? "#284CB3"
+                  : mode === "dark"
+                  ? "#EAEAEA"
+                  : "#000000"
+              }
+            />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M2.0625 11.0625V15.9375H15.9375V11.0625H2.0625ZM0.9375 10.95C0.9375 10.3908 1.39081 9.9375 1.95 9.9375H16.05C16.6092 9.9375 17.0625 10.3908 17.0625 10.95V16.05C17.0625 16.6092 16.6092 17.0625 16.05 17.0625H1.95C1.39081 17.0625 0.9375 16.6092 0.9375 16.05V10.95Z"
+              fill={
+                pathname.includes("/repository")
+                  ? "#284CB3"
+                  : mode === "dark"
+                  ? "#EAEAEA"
+                  : "#000000"
+              }
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_947_1672">
+              <rect width="18" height="18" fill="white" />
+            </clipPath>
+          </defs>
+        </svg>
+      ),
+      children: [
+        {
+          title: "Repository",
+          href: "/repository/list",
+        },
+        {
+          title: "Repository Scan",
+          href: "/repository/scan",
+        },
+        {
+          title: "Scan history",
+          href: "/repository/scan-history",
         },
       ],
     },
@@ -628,7 +713,9 @@ const NewSideMenu = () => {
     // },
   ];
 
-  const routes = links.filter(link => link.allowedRoles?.includes(user?.role.name));
+  const routes = links.filter((link) =>
+    link.allowedRoles?.includes(user?.role.name)
+  );
 
   return (
     <div className="flex items-start">
@@ -858,37 +945,37 @@ const NewSideMenu = () => {
           ))}
         </div>
         <div className="mt-20 pl-3">
-        <button
-          onClick={() => {
-            setPopOpen(!popOpen);
-          }}
-          className="rounded-full p-2 bg-primary flex items-center justify-center"
-        >
-          <svg
-            width="18px"
-            height="18px"
-            stroke-width="1.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            color="#FFFFFF"
+          <button
+            onClick={() => {
+              setPopOpen(!popOpen);
+            }}
+            className="rounded-full p-2 bg-primary flex items-center justify-center"
           >
-            <path
-              d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20"
-              stroke="#FFFFFF"
+            <svg
+              width="18px"
+              height="18px"
               stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-            <path
-              d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
-              stroke="#FFFFFF"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></path>
-          </svg>
-        </button>
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              color="#FFFFFF"
+            >
+              <path
+                d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20"
+                stroke="#FFFFFF"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+                stroke="#FFFFFF"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </button>
         </div>
       </div>
       {popOpen && (
@@ -923,7 +1010,11 @@ const NewSideMenu = () => {
         <div className="pt-6">
           <div className="menu-item">
             <div className="menu-content pt-8 pb-2">
-              <span className={`${mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"} menu-section font-medium text-muted text-uppercase fs-8 ls-1`}>
+              <span
+                className={`${
+                  mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+                } menu-section font-medium text-muted text-uppercase fs-8 ls-1`}
+              >
                 {topTitle}
               </span>
             </div>
