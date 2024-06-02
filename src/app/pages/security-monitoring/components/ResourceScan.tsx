@@ -84,7 +84,7 @@ const ResourceScan = () => {
   const fetchTenantLatestScan = async (tenant_id: string) => {
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/policy/policy_run_results/${tenant_id}`,
+        `https://cspm-api.midrapps.com/policy/policy_run_results/?tenant=${tenant_id}&scan_type=Cloud&page=1&page_size=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -93,7 +93,7 @@ const ResourceScan = () => {
       );
       if (resp.status === 200) {
         // console.log(resp.data.data);
-        setScanData(resp.data.data);
+        setScanData(resp?.data?.data?.results[0] ?? {});
       }
     } catch (err) {
       console.log(err);

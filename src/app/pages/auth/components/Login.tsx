@@ -112,7 +112,7 @@ export function Login() {
       >
 
         <div className="separator separator-content my-14">
-          <span className="w-full  text-[18px] font-medium">
+          <span className="w-full  text-[12px] md:text-[18px] font-medium">
             Enter your Login details
           </span>
         </div>
@@ -135,7 +135,7 @@ export function Login() {
 
         {/* begin::Form group */}
         <div className="fv-row mb-8">
-          <label className="text-[14px] font-medium">Email</label>
+          <label className="text-[12px] md:text-[14px] font-medium">Email</label>
           <input
             placeholder="Email"
             {...formik.getFieldProps("email")}
@@ -160,7 +160,7 @@ export function Login() {
 
         {/* begin::Form group */}
         <div className="fv-row mb-3">
-          <label className="text-[14px] font-medium">Password</label>
+          <label className="text-[12px] md:text-[14px] font-medium">Password</label>
           <input
             type="password"
             autoComplete="off"
