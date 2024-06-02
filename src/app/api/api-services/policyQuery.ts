@@ -23,7 +23,7 @@ export const useGetPolicies = (data: any) => {
 export const useCreatePolicies = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    (data: Policy) => policyApi.policyPolicyListCreateCreate({ data }),
+    (data: any) => policyApi.policyPolicyListCreateCreate({ data }),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["policies"]);
@@ -37,7 +37,7 @@ export const useUpdatePolicies = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
-    ({ id, data }: PolicyApiPolicyPolicyDetailUpdateRequest) =>
+    ({ id, data }: any) =>
       policyApi.policyPolicyDetailPartialUpdate({ id, data }),
     {
       onSuccess: () => {
@@ -96,7 +96,7 @@ export const useGetRulesList = (data: any) => {
 export const useRuleCreate = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    (data: Rule) => policyApi.policyRulesCreate({ data }),
+    (data: any) => policyApi.policyRulesCreate({ data }),
     {
       onSuccess: (res) => {
         queryClient.invalidateQueries(["rules"]);
@@ -110,7 +110,7 @@ export const useRuleCreate = () => {
 export const useRuleUpdate = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    ({ id, data }: PolicyApiPolicyRulesUpdateRequest) =>
+    ({ id, data }: any) =>
       policyApi.policyRulesUpdate({ id, data }),
     {
       onSuccess: (res) => {
