@@ -109,7 +109,7 @@ const AuthLayout = () => {
           alt="decorative background"
           className="absolute bottom-16 left-0 max-w-full h-[400px]"
         />
-        <div className="z-20 relative w-48 md:w-64 mx-auto md:mt-32 p-4 md:-mb-72 rounded-t-full bg-gradient-to-r flex items-center justify-center flex-col from-[#2E54C3] to-[#1F3A89] h-96 shadow-lg">
+        <div className="z-20 relative w-48 md:w-64 mx-auto md:mt-24 p-4 md:-mb-72 rounded-t-full bg-gradient-to-r flex items-center justify-center flex-col from-[#2E54C3] to-[#1F3A89] h-72 md:h-96 shadow-lg">
           <svg
             width="100"
             height="157"
@@ -122,7 +122,7 @@ const AuthLayout = () => {
               fill="white"
             />
           </svg>
-          <p className="text-[#FFFFFF] w-32 text-center">
+          <p className="text-[#FFFFFF] w-32 text-center font-medium">
             Cloud Secure and safe
           </p>
         </div>

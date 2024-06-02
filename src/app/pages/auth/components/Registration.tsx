@@ -364,7 +364,7 @@ export function Registration() {
             id=""
             className="h-5 w-5 rounded-md"
           />
-          <p className="text-[12px]">
+          <p className="text-[12px] font-medium">
             I agree to{" "}
             <Link to="/" className="text-[#2E54C3] underline">
               Terms and conditions
@@ -415,7 +415,7 @@ export function Registration() {
             )}
           </button>
         </div>
-        <div className="text-[14px] mt-8">
+        <div className="text-[14px] mt-8 font-medium">
           Already a Cloud accord user?{" "}
           <Link to="/auth/login" className="text-primary">
             Sign In

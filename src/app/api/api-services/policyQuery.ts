@@ -1,6 +1,7 @@
 import {
   Policy,
   PolicyApiPolicyPolicyDetailUpdateRequest,
+  PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest,
   PolicyApiPolicyPolicyRepoRunScanCreateRequest,
   PolicyApiPolicyPolicyRunScanCreateRequest,
   PolicyApiPolicyRepoScanSetupCreateRequest,
@@ -14,7 +15,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 // POLICY
 export const useGetPolicies = (data: any) => {
-  const query = useQuery(["policies"], () =>
+  const query = useQuery(["policies", data], () =>
     policyApi.policyPolicyListCreateList({ ...data })
   );
   return query;
@@ -87,7 +88,7 @@ export const useUpdateSinglePolicyRules = (id: number) => {
 };
 
 export const useGetRulesList = (data: any) => {
-  const query = useQuery(["rules"], () =>
+  const query = useQuery(["rules", data], () =>
     policyApi.policyRulesList({ ...data })
   );
   return query;
@@ -157,7 +158,7 @@ export const useScanPolicy = () => {
 };
 
 export const useGetAllScanResults = (data: any) => {
-  const query = useQuery(["all-scan"], () =>
+  const query = useQuery(["all-scan", data], () =>
     policyApi.policyPolicyRunResultsList({ ...data })
   );
   return query;
@@ -171,7 +172,7 @@ export const useGetSingleResult = (id: number) => {
 };
 
 export const useGetAllScanHistory = (data: any) => {
-  const query = useQuery(["scan-history"], () =>
+  const query = useQuery(["scan-history", data], () =>
     policyApi.policyPolicyRunScanHistoryList({ ...data })
   );
 
@@ -239,6 +240,14 @@ export const useRunRepoScan = () => {
   const mutation = useMutation(
     (data: PolicyApiPolicyPolicyRepoRunScanCreateRequest) =>
       policyApi.policyPolicyRepoRunScanCreate(data)
+  );
+
+  return mutation;
+};
+export const useRunRepoOnceScan = () => {
+  const mutation = useMutation(
+    (data: PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest) =>
+      policyApi.policyPolicyOneTimeRepoScanCreate(data)
   );
 
   return mutation;

@@ -7,7 +7,7 @@ import {
 } from "../../../api/api-services/policyQuery";
 import { useRecoilValue } from "recoil";
 import { FaGlobe } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   PolicyPolicyRunScanHistoryList200Response,
   PolicyPolicyRunScanStatsList200Response,
@@ -26,7 +26,6 @@ const ScanCard = ({
   mode,
   id,
 }: any) => {
-  const navigate = useNavigate();
 
   return (
     <div
@@ -58,7 +57,7 @@ const ScanCard = ({
         >
           {Compliance} %
         </p>
-        <button onClick={() => navigate(`/monitoring/resource-scanning/${id}`)}>
+        <Link to={`/monitoring/resource-scanning/${id}`}>
           <svg
             width="17"
             height="16"
@@ -79,7 +78,7 @@ const ScanCard = ({
               fill={mode === "dark" ? "#EAEAEA" : "black"}
             />
           </svg>
-        </button>
+        </Link>
       </div>
     </div>
   );
@@ -177,6 +176,7 @@ const ScanHistory = () => {
     policy: undefined,
     cloudProvider: undefined,
     date: undefined,
+    scanType: "Cloud",
   });
 
   const [filterFields, setFilterFields] = useState<TableColumn[]>([
@@ -223,7 +223,7 @@ const ScanHistory = () => {
     setAllScanHistory(datastsr?.data?.data?.results ?? []);
     setIsNext(datastsr?.data?.data.next ? true : false);
     setTotalCount(datastsr?.data?.data.count);
-    setStats(statstr?.data?.data);
+    setStats(statstr?.data?.data.cloud);
     if (policiestr?.data?.data?.results) {
       const trans: TableColumn[] = filterFields.map((fi: TableColumn) => {
         if (fi.name === "policy") {
@@ -244,23 +244,23 @@ const ScanHistory = () => {
     }
   }, [scanHistory, statstr, policiestr]);
 
-  const ocuringdata = [
-    {
-      title: "ISO EAC 27001 system check . ",
-      next: "Next Scheduled scan: 12:00PM",
-      region: "All Region",
-    },
-    {
-      title: "ISO EAC 27001 system check . ",
-      next: "Next Scheduled scan: 12:00PM",
-      region: "All Region",
-    },
-    {
-      title: "ISO EAC 27001 system check . ",
-      next: "Next Scheduled scan: 12:00PM",
-      region: "All Region",
-    },
-  ];
+  // const ocuringdata = [
+  //   {
+  //     title: "ISO EAC 27001 system check . ",
+  //     next: "Next Scheduled scan: 12:00PM",
+  //     region: "All Region",
+  //   },
+  //   {
+  //     title: "ISO EAC 27001 system check . ",
+  //     next: "Next Scheduled scan: 12:00PM",
+  //     region: "All Region",
+  //   },
+  //   {
+  //     title: "ISO EAC 27001 system check . ",
+  //     next: "Next Scheduled scan: 12:00PM",
+  //     region: "All Region",
+  //   },
+  // ];
 
   function refreshrecord() {
     filter.current = {
@@ -269,6 +269,7 @@ const ScanHistory = () => {
       policy: undefined,
       cloudProvider: undefined,
       date: undefined,
+      scanType: "Cloud",
     };
     refetch();
   }
@@ -280,6 +281,7 @@ const ScanHistory = () => {
       policy: data?.policy,
       cloudProvider: data?.cloudProvider,
       date: data?.date,
+      scanType: "Cloud",
     };
     refetch();
   }
@@ -665,7 +667,7 @@ const ScanHistory = () => {
           )}
 
           <div className="w-full mt-10">
-            {totalCount > 10 && (
+            {(allScanHistory.length > 0 && totalCount > 10) && (
               <div className="flex items-center font-medium justify-between w-full">
                 <div className="flex items-center gap-2">
                   <p>page size:</p>

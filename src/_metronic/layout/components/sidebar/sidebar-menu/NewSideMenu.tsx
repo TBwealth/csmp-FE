@@ -718,8 +718,8 @@ const NewSideMenu = () => {
   );
 
   return (
-    <div className="flex items-start">
-      <div className="border-end pr-2 pt-8 w-fit overflow-auto">
+    <div className="flex items-start md:h-screen">
+      <div className="border-end pr-2 pt-8 w-fit">
         <div className="p-3">
           {mode === "dark" ? (
             <Link
@@ -882,101 +882,103 @@ const NewSideMenu = () => {
             </Link>
           )}
         </div>
-        <div className="mt-10">
-          {routes.map((link) => (
-            <div
-            role="button"
-              className="flex items-center gap-2 mb-4"
-              onClick={() => {
-                setPageTitle(link.children![0].title);
-                sessionStorage.setItem("top-title", link.title);
-                if (link.children) {
-                  sessionStorage.setItem(
-                    "children",
-                    JSON.stringify(link.children)
-                  );
-                }
-              }}
-            >
-              {pathname.includes(link.path) ? (
-                <svg
-                  width="6"
-                  height="50"
-                  viewBox="0 0 6 50"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0 0C3.31371 0 6 2.68629 6 6V44C6 47.3137 3.31371 50 0 50V0Z"
-                    fill="#284CB3"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  width="6"
-                  height="50"
-                  viewBox="0 0 6 50"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0 0C3.31371 0 6 2.68629 6 6V44C6 47.3137 3.31371 50 0 50V0Z"
-                    fill={mode === "dark" ? "#101222" : "#FFFFFF"}
-                  />
-                </svg>
-              )}
-              <Link
-                to={link.href!}
-                key={link.title}
+        <div className="md:overflow-auto md:h-[90vh]">
+          <div className="mt-10">
+            {routes.map((link) => (
+              <div
+                role="button"
+                className="flex items-center gap-2 mb-4"
                 onClick={() => {
                   setPageTitle(link.children![0].title);
                   sessionStorage.setItem("top-title", link.title);
                   if (link.children) {
-                    setTopTitle(link.title);
-                    setChildren(link.children!);
-                    setIsOpen(true);
-                  } else {
-                    setIsOpen(false);
+                    sessionStorage.setItem(
+                      "children",
+                      JSON.stringify(link.children)
+                    );
                   }
                 }}
               >
-                {link.icon}
-              </Link>
-            </div>
-          ))}
-        </div>
-        <div className="mt-16 pl-3">
-          <button
-            onClick={() => {
-              setPopOpen(!popOpen);
-            }}
-            className="rounded-full p-2 bg-primary flex items-center justify-center"
-          >
-            <svg
-              width="18px"
-              height="18px"
-              stroke-width="1.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              color="#FFFFFF"
+                {pathname.includes(link.path) ? (
+                  <svg
+                    width="6"
+                    height="50"
+                    viewBox="0 0 6 50"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 0C3.31371 0 6 2.68629 6 6V44C6 47.3137 3.31371 50 0 50V0Z"
+                      fill="#284CB3"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    width="6"
+                    height="50"
+                    viewBox="0 0 6 50"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0 0C3.31371 0 6 2.68629 6 6V44C6 47.3137 3.31371 50 0 50V0Z"
+                      fill={mode === "dark" ? "#101222" : "#FFFFFF"}
+                    />
+                  </svg>
+                )}
+                <Link
+                  to={link.href!}
+                  key={link.title}
+                  onClick={() => {
+                    setPageTitle(link.children![0].title);
+                    sessionStorage.setItem("top-title", link.title);
+                    if (link.children) {
+                      setTopTitle(link.title);
+                      setChildren(link.children!);
+                      setIsOpen(true);
+                    } else {
+                      setIsOpen(false);
+                    }
+                  }}
+                >
+                  {link.icon}
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div className="mt-16 pl-3">
+            <button
+              onClick={() => {
+                setPopOpen(!popOpen);
+              }}
+              className="rounded-full p-2 bg-primary flex items-center justify-center"
             >
-              <path
-                d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20"
-                stroke="#FFFFFF"
+              <svg
+                width="18px"
+                height="18px"
                 stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <path
-                d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
-                stroke="#FFFFFF"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-            </svg>
-          </button>
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                color="#FFFFFF"
+              >
+                <path
+                  d="M5 20V19C5 15.134 8.13401 12 12 12V12C15.866 12 19 15.134 19 19V20"
+                  stroke="#FFFFFF"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+                <path
+                  d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z"
+                  stroke="#FFFFFF"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
       {popOpen && (
