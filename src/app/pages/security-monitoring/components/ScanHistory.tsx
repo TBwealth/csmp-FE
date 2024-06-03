@@ -26,7 +26,6 @@ const ScanCard = ({
   mode,
   id,
 }: any) => {
-
   return (
     <div
       className={`grid grid-cols-7 p-4 rounded-md mb-3 shadow-sm w-full ${
@@ -291,7 +290,7 @@ const ScanHistory = () => {
 
   return (
     <div className="w-full p-10">
-      <div className="grid grid-cols-4 gap-8">
+      <div className="grid md:grid-cols-4 gap-8">
         <div
           className={`flex shadow-sm items-center justify-center rounded-xl p-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -350,7 +349,7 @@ const ScanHistory = () => {
           <h1 className="font-semibold text-[18px]">
             {stats?.total_scans ?? 0}
             <span
-              className={`pl-2 font-medium text-[14px] ${
+              className={`pl-2 font-medium text-[12px] md:text-[14px] ${
                 mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
               }`}
             >
@@ -410,7 +409,7 @@ const ScanHistory = () => {
           <h1 className="font-semibold text-[18px]">
             {stats?.recurring_scans ?? 0}
             <span
-              className={`pl-2 font-medium text-[14px] ${
+              className={`pl-2 font-medium text-[12px] md:text-[14px] ${
                 mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
               }`}
             >
@@ -440,7 +439,7 @@ const ScanHistory = () => {
           </svg>
         </div>
         <div
-          className={`col-span-2 w-fit flex items-center justify-center shadow-sm rounded-xl p-6 gap-4 ${
+          className={`md:col-span-2 w-fit flex items-center justify-center shadow-sm rounded-xl p-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -484,7 +483,7 @@ const ScanHistory = () => {
           <h1 className="font-semibold text-[18px]">
             {stats?.threats_found ?? 0}
             <span
-              className={`pl-2 font-medium text-[14px] ${
+              className={`pl-2 font-medium text-[12px] md:text-[14px] ${
                 mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
               }`}
             >
@@ -531,15 +530,15 @@ const ScanHistory = () => {
           </div>
         </div>
       </div>
-      <div className="my-10 flex items-center w-full justify-between border-bottom">
+      <div className="my-10 flex flex-col md:flex-row items-center w-full justify-between border-bottom">
         <div className="">
           {["scan history", "reocurring", "threat", "incident"].map((d) => (
             <button
               key={d}
               className={`uppercase p-4 ${
                 d === tab
-                  ? "font-bold text-[14px] border-bottom-3 border-primary"
-                  : `font-medium text-[14px] ${
+                  ? "font-bold text-[10px] md:text-[14px] border-bottom-3 border-primary"
+                  : `font-medium text-[8px] md:text-[14px] ${
                       mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
                     }`
               }`}
@@ -549,7 +548,7 @@ const ScanHistory = () => {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 -order-1 md:order-1">
           {/* <select
             name=""
             id=""
@@ -559,7 +558,7 @@ const ScanHistory = () => {
           </select> */}
           <button
             onClick={() => setShowPopOver(!showPopOver)}
-            className="flex text-[12px] font-medium items-center gap-3"
+            className="flex text-[10px] md:text-[12px] font-medium items-center gap-3"
           >
             <p>Filter</p>
             <svg
@@ -595,79 +594,84 @@ const ScanHistory = () => {
         </div>
       </div>
       {tab === "scan history" && (
-        <div className="mt-10 w-full">
-          <div
-            className={`grid grid-cols-7 p-4 rounded-md mb-3 shadow-sm w-full ${
-              mode === "dark" ? "bg-lightDark" : "bg-white"
-            }`}
-          >
-            <p className="font-semibold text-[12px] col-span-2">Policy Used</p>
-            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
-              <span>Cloud</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+        <>
+          <div className="mt-10 w-full overflow-auto">
+            <div
+              className={`grid grid-cols-7 p-4 rounded-md mb-3 shadow-sm w-[180vw] md:w-full ${
+                mode === "dark" ? "bg-lightDark" : "bg-white"
+              }`}
+            >
+              <p className="font-semibold text-[12px] col-span-2">
+                Policy Used
+              </p>
+              <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
+                <span>Cloud</span>{" "}
+                <svg
+                  width="10"
+                  height="5"
+                  viewBox="0 0 10 5"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 0.75L5 4.25L8.5 0.75"
+                    stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
+                <span>Date</span>{" "}
+                <svg
+                  width="10"
+                  height="5"
+                  viewBox="0 0 10 5"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1.5 0.75L5 4.25L8.5 0.75"
+                    stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <p className="font-semibold text-[12px] text-center">
+                Vulnerability
+              </p>
+              <p className="font-semibold text-[12px]">Compliance</p>
+            </div>
+            <div className="w-[180vw] md:w-full">
+              {isLoading || allScanHistory.length < 1 ? (
+                <DefaultContent
+                  pageHeader="Scan History"
+                  pageDescription="No record found"
+                  loading={isLoading}
+                  buttonValue="Refresh"
+                  buttonClick={() => refreshrecord()}
                 />
-              </svg>
-            </button>
-            <button className="flex text-[12px] items-center justify-center gap-2 font-semibold">
-              <span>Date</span>{" "}
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M1.5 0.75L5 4.25L8.5 0.75"
-                  stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-            <p className="font-semibold text-[12px] text-center">
-              Vulnerability
-            </p>
-            <p className="font-semibold text-[12px]">Compliance</p>
+              ) : (
+                allScanHistory.map((d: any) => (
+                  <ScanCard
+                    policy={d.policy}
+                    cloud={d.cloud}
+                    Region={d.Region}
+                    Date={d.end_date}
+                    Vulnerability={d.vulnerability}
+                    Compliance={d.compliance}
+                    mode={mode}
+                    id={d.id}
+                  />
+                ))
+              )}
+            </div>
           </div>
-          {isLoading || allScanHistory.length < 1 ? (
-            <DefaultContent
-              pageHeader="Scan History"
-              pageDescription="No record found"
-              loading={isLoading}
-              buttonValue="Refresh"
-              buttonClick={() => refreshrecord()}
-            />
-          ) : (
-            allScanHistory.map((d) => (
-              <ScanCard
-                policy={d.policy}
-                cloud={d.cloud}
-                Region={d.Region}
-                Date={d.end_date}
-                Vulnerability={d.vulnerability}
-                Compliance={d.compliance}
-                mode={mode}
-                id={d.id}
-              />
-            ))
-          )}
-
           <div className="w-full mt-10">
-            {(allScanHistory.length > 0 && totalCount > 10) && (
+            {allScanHistory.length > 0 && totalCount > 10 && (
               <div className="flex items-center font-medium justify-between w-full">
                 <div className="flex items-center gap-2">
                   <p>page size:</p>
@@ -713,7 +717,7 @@ const ScanHistory = () => {
               </div>
             )}
           </div>
-        </div>
+        </>
       )}
       {tab === "reocurring" && (
         <div className="mt-10 w-full">

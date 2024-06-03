@@ -155,7 +155,7 @@ const RepositoryScan = () => {
   };
 
   return (
-    <div className="p-12">
+    <div className="p-8">
       {loading ? (
         <ScanLoading
           name={loadingData.name}
@@ -920,11 +920,11 @@ const RepositoryScan = () => {
                           <p className="font-medium text-[10px] mb-2">
                             compliant
                           </p>
-                          <div className="rounded-md h-[8px] w-[100px] bg-[#DADADA]">
+                          <div className="rounded-md h-[5px] md:h-[8px] w-[60px] md:w-[100px] bg-[#DADADA]">
                             <div
                               className={`${
                                 width >= 100 ? "rounded-full" : "rounded-l-full"
-                              } h-[8px]`}
+                              } h-[5px] md:h-[8px]`}
                               style={{ width: `${width}%` }}
                             ></div>
                           </div>
