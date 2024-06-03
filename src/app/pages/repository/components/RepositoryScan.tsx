@@ -98,7 +98,9 @@ const RepositoryScan = () => {
       if (resp.status === 200) {
         // console.log(resp.data.data.results[0]);
         setScanData(resp?.data?.data?.results[0] ?? {});
-        setWidth(() => Math.floor(resp?.data?.data?.results[0]?.result_json?.Compliance ?? 0))
+        setWidth(() =>
+          Math.floor(resp?.data?.data?.results[0]?.result_json?.Compliance ?? 0)
+        );
       }
     } catch (err) {
       console.log(err);
@@ -912,16 +914,20 @@ const RepositoryScan = () => {
                       <div className="grid grid-cols-3 gap-3 mt-8">
                         <div className="flex items-center justify-center flex-col border-end">
                           <h1 className="font-semibold text-[14px]">
-                            {Math.floor(scanData?.result_json?.Compliance ?? 0)}%
+                            {Math.floor(scanData?.result_json?.Compliance ?? 0)}
+                            %
                           </h1>
                           <p className="font-medium text-[10px] mb-2">
                             compliant
                           </p>
-                          <div
-                            className={`rounded-md h-[8px] w-[100px] bg-gradient-to-r from-[#00B712] ${
-                              width > 0 ? `from-[${width}%]` : "from-[0%]"
-                            } to-[#DADADA] via-[#DADADA] via-[10%] t0-[20%]`}
-                          ></div>
+                          <div className="rounded-md h-[8px] w-[100px] bg-[#DADADA]">
+                            <div
+                              className={`${
+                                width >= 100 ? "rounded-full" : "rounded-l-full"
+                              } h-[8px]`}
+                              style={{ width: `${width}%` }}
+                            ></div>
+                          </div>
                         </div>
                         <div className="border-end">
                           <h3 className="font-medium text-[12px] mb-3 text-left">

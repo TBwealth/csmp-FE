@@ -28,12 +28,14 @@ export class PolicyWithStatus implements IStatus {
   name: string = "";
   code: string = "";
   status: string = "";
+  policy_type: string = "";
 
   constructor(tenant: any) {
     this.id = tenant.id;
     this.name = tenant.name;
     this.code = tenant.code;
     this.status = tenant.status;
+    this.policy_type = tenant.policy_type;
   }
 
   getStatusLabel() {
@@ -67,11 +69,25 @@ const PolicyWrapper = () => {
     pageSize: 10,
     name: undefined,
     code: undefined,
+    policyType: undefined,
     status: undefined
   })
   const filterFields: TableColumn[] = [
     { name: "name", title: "Name", type: ColumnTypes.Text },
     { name: "code", title: "Code", type: ColumnTypes.Text },
+    { name: "policyType", 
+    title: "Type", 
+    type: ColumnTypes.List,
+    listValue: [{
+      name: "Repository"
+    },
+    {
+      name: "Cloud"
+    },
+  ],
+    listIdField: "name",
+    listTextField: "name",
+   },
     { 
       name: "status", 
       title: "Status", 
@@ -136,6 +152,11 @@ const PolicyWrapper = () => {
       type: ColumnTypes.Text,
     },
     {
+      name: "policy_type",
+      title: "Policy Type",
+      type: ColumnTypes.Text,
+    },
+    {
       name: "status",
       title: "Status",
       type: ColumnTypes.Status,
@@ -161,6 +182,7 @@ const PolicyWrapper = () => {
       pageSize: 10,
       status: undefined,
       name: undefined,
+      policyType: undefined,
       code: undefined
     }
     refetch()
@@ -176,7 +198,8 @@ const PolicyWrapper = () => {
       pageSize: data?.pageSize ?? 10,
       status: data?.status,
       name: data?.name,
-      code: data?.code
+      code: data?.code,
+      policyType: data?.policyType,
 
      };
 

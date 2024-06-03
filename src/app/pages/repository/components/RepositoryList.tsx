@@ -9,6 +9,7 @@ import {
   useCreateRepoScan,
 } from "../../../api/api-services/policyQuery";
 import { useRecoilValue } from "recoil";
+import RepoDetails from "./modal/RepoDetails";
 import FilterModal from "../../../components/FilterModal";
 import githubImg from "../../../../../public/media/logos/github.svg";
 import gitlabImg from "../../../../../public/media/logos/gitlab.svg";
@@ -63,9 +64,9 @@ const EmptyRepo = ({ showModal }: any) => {
   );
 };
 
-const RepoCard = ({ data, setDelete, mode }: any) => {
+const RepoCard = ({ data, setDelete, mode, showDetails }: any) => {
   const [popUp, showPopUP] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   return (
     <div
       className={`flex relative shadow-md mb-5 items-center border justify-between rounded-xl p-5 ${
@@ -174,7 +175,9 @@ const RepoCard = ({ data, setDelete, mode }: any) => {
             </defs>
           </svg>
         )}
-        <p className="text-[12px] md:text-[18px] font-medium">{data?.repo_name}</p>
+        <p className="text-[12px] md:text-[18px] font-medium">
+          {data?.repo_name}
+        </p>
       </div>
       <div className="flex relative items-center gap-6">
         <a href={data?.repo_url} className="bg-transparent" target="_blank">
@@ -221,7 +224,8 @@ const RepoCard = ({ data, setDelete, mode }: any) => {
                   <li className="border-start-0">
                     <button
                       onClick={() => {
-                        navigate(`repository/list/${data?.id}`);
+                        showDetails();
+                        // navigate(`repository/list/${data?.id}`);
                         showPopUP(false);
                       }}
                       className="flex items-center p-4 gap-4 border-bottom justify-between font-medium"
@@ -336,6 +340,7 @@ const RepositoryList = () => {
   const [allRepos, setAllRepos] = useState<any>([]);
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [showDelete, setShowDelete] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const filter = useRef<any>({
     page: 1,
     pageSize: 10,
@@ -350,6 +355,7 @@ const RepositoryList = () => {
   const [step, setStep] = useState(1);
   const [selectedId, setSelectedId] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [selectedRepo, setSelectedRepo] = useState<any>({});
   const [repoData, setRepoData] = useState<any>({
     pat: "",
     username: "",
@@ -589,6 +595,10 @@ const RepositoryList = () => {
               key={repo?.id}
               data={repo}
               mode={mode}
+              showDetails={() => {
+                setSelectedRepo(() => repo);
+                setShowDetails(true);
+              }}
               setDelete={() => {
                 setSelectedId(repo?.id);
                 setShowDelete(true);
@@ -908,6 +918,12 @@ const RepositoryList = () => {
           </div>
         </Modal.Footer>
       </Modal>
+
+      <RepoDetails
+        data={selectedRepo}
+        handleHide={() => setShowDetails(false)}
+        isOpen={showDetails}
+      />
     </div>
   );
 };

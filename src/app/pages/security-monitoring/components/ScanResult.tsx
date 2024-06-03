@@ -126,7 +126,7 @@ const ScanResult = () => {
   console.log(offset, checks.length);
   return (
     <div className="">
-      {isLoading ? (
+      {(isLoading || scanLoading) ? (
         <DefaultContent
           pageHeader="Scan Result"
           pageDescription="No record found"
@@ -255,7 +255,7 @@ const ScanResult = () => {
               </button>
             </div>
             <h3 className="font-semibold text-[18px] my-8 pl-3 text-left">
-              Gilotec cloudname
+              {scanresult?.policy_run?.policy?.name}
             </h3>
             <div className="mt-16 grid md:grid-cols-4 gap-6 mb-8">
               <div className="flex items-center gap-10 border-end">

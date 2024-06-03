@@ -30,6 +30,7 @@ export class RulesWithStatus implements IStatus {
   service: string = "";
   description: string = "";
   status: string = "";
+  rule_type: string = "";
   isDefault: string = "";
 
   constructor(tenant: any) {
@@ -37,6 +38,7 @@ export class RulesWithStatus implements IStatus {
     this.name = tenant.name;
     this.code = tenant.code;
     this.status = tenant.status;
+    this.rule_type = tenant.rule_type;
     this.service = tenant.service;
     this.description = tenant.description;
     this.isDefault = tenant.isDefault;
@@ -71,6 +73,7 @@ const PolicyRule = () => {
     pageSize: 10,
     name: undefined,
     status: undefined,
+    ruleType: undefined,
     code: undefined,
   });
   const filterFields: TableColumn[] = [
@@ -175,6 +178,11 @@ const PolicyRule = () => {
       type: ColumnTypes.Text,
     },
     {
+      name: "rule_type",
+      title: "Rule Type",
+      type: ColumnTypes.Text,
+    },
+    {
       name: "code",
       title: "Code",
       type: ColumnTypes.Text,
@@ -204,6 +212,7 @@ const PolicyRule = () => {
       pageSize: 10,
       name: undefined,
       status: undefined,
+      ruleType: undefined,
       code: undefined,
     }
 
@@ -216,6 +225,7 @@ const PolicyRule = () => {
       pageSize: data?.pageSize ?? 10,
       name: data?.name,
       status: data?.status,
+      ruleType: data?.ruleType,
       code: data?.code,
      }
 

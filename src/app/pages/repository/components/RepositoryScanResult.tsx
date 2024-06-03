@@ -135,7 +135,7 @@ const RepositoryScanResult = () => {
 
   return (
     <div className="">
-      {isLoading ? (
+      {(isLoading || scanLoading) ? (
         <DefaultContent
           pageHeader="Scan Result"
           pageDescription="No record found"
@@ -252,7 +252,7 @@ const RepositoryScanResult = () => {
               </button>
             </div>
             <h3 className="font-semibold text-[18px] my-8 pl-3 text-left">
-              Gilotec cloudname
+             {scanresult?.repo?.repo_name ?? ""}
             </h3>
             <div className="mt-16 grid md:grid-cols-4 gap-6 mb-8">
               <div className="flex items-center flex-col justify-center gap-2 border-end">
@@ -263,10 +263,10 @@ const RepositoryScanResult = () => {
                   Compliant
                 </p>
                 <div
-                  className={`rounded-full h-[16px] w-[200px] bg-gradient-to-r from-[#00B712] ${
-                    width > 0 ? `from-[${width}%]` : "from-[0%]"
-                  } to-[#DADADA] via-[#DADADA] via-[10%] t0-[20%]`}
-                ></div>
+                  className="rounded-full h-[16px] w-[200px] bg-[#DADADA]"
+                >
+                  <div className="rounded-l-full bg-[#00B712] h-[16px]" style={{width: `${width}%`}}></div>
+                </div>
               </div>
               <div className="border-end pt-10 pr-4">
                 <h3 className="font-medium text-[14px] mb-3 text-left">
