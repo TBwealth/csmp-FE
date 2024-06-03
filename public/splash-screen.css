@@ -1,6 +1,6 @@
 @font-face {
   font-family: "avenir-next";
-  src: url(../public/fonts/AvenirNextLTPro-Regular.otf);
+  src: url(../public/fonts/AvenirNextLTPro-Regular.otf) format( opentype );
   font-weight: 400;
 }
 
