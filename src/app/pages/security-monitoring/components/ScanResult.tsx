@@ -200,7 +200,7 @@ const ScanResult = () => {
                     {
                       data: {
                         policy_id: scanresult?.policy_run?.policy?.id,
-                        scan_frequency: "Once",
+                        scan_frequency: scanresult?.scan_frequency,
                       },
                     },
                     {
