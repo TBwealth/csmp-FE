@@ -11,7 +11,7 @@ const ResultCard = ({ data }: any) => {
   return (
     <div className="w-full">
       <button
-        className={`grid grid-cols-5 shadow-sm ${
+        className={`grid grid-cols-5 shadow-sm w-[180vw] md:w-full ${
           mode === "dark" ? "bg-lightDark" : "bg-white"
         } p-4 w-full mb-3`}
         onClick={() => {

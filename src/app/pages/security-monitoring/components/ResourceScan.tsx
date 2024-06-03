@@ -124,7 +124,7 @@ const ResourceScan = () => {
   };
 
   return (
-    <div className="p-4 md:p-12 lg:p-36">
+    <div className="p-8">
       {scanLoading ? (
         <ScanLoading
           name={loadingData.name}

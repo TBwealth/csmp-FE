@@ -126,7 +126,7 @@ const ScanResult = () => {
   console.log(offset, checks.length);
   return (
     <div className="">
-      {(isLoading || scanLoading) ? (
+      {isLoading || scanLoading ? (
         <DefaultContent
           pageHeader="Scan Result"
           pageDescription="No record found"
@@ -137,35 +137,43 @@ const ScanResult = () => {
       ) : (
         <div className="mt-10 md:w-[95%] mx-auto p-4">
           <div className="w-full" ref={printableArea}>
-            <div className="flex items-center justify-between flex-cols md:flex-row gap-10">
-              <div className="flex justify-between items-center w-full md:w-[60%] gap-2">
-                <button onClick={() => navigate(-1)}>
-                  <FaChevronLeft
-                    className="hover:cursor-pointer"
-                    color={mode === "dark" ? "#EAEAEA" : "#000000"}
-                    size={14}
-                  />
-                </button>
-                <p className="font-semibold text-[14px]">
-                  <span className="pr-2">ISO EAC 27001</span> system check
-                </p>
+            <div className="flex items-center justify-between flex-col md:flex-row gap-10">
+              <div className="flex justify-between flex-col md:flex-row items-center w-full md:w-[60%] gap-2">
                 <div className="flex items-center gap-2">
-                  <FaGlobe
-                    color={mode === "dark" ? "#EAEAEA" : "#000000"}
-                    size={14}
-                  />
-                  <p className="font-semibold text-[14px]">{`${checks.length > 0 ? checks.length: "No" } Region`}</p>
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => navigate(-1)}>
+                      <FaChevronLeft
+                        className="hover:cursor-pointer"
+                        color={mode === "dark" ? "#EAEAEA" : "#000000"}
+                        size={14}
+                      />
+                    </button>
+                    <p className="font-semibold text-[12px] md:text-[14px]">
+                      <span className="pr-2">ISO EAC 27001</span> system check
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <FaGlobe
+                      color={mode === "dark" ? "#EAEAEA" : "#000000"}
+                      size={14}
+                    />
+                    <p className="font-semibold text-[14px]">{`${
+                      checks.length > 0 ? checks.length : "No"
+                    } Region`}</p>
+                  </div>
                 </div>
-                <p
-                  className={`text-[12px] font-medium ${
-                    mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
-                  }`}
-                >
-                  {scanresult && `${scanresult.stop_time.split("T")[0]}`}
-                </p>
-                <p className="rounded-2xl font-medium px-2 py-1 w-24 text-primary text-center bg-[#284CB31A]">
-                  Manual
-                </p>
+                <div className="flex items-center gap-2">
+                  <p
+                    className={`text-[12px] font-medium ${
+                      mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+                    }`}
+                  >
+                    {scanresult && `${scanresult.stop_time.split("T")[0]}`}
+                  </p>
+                  <p className="rounded-2xl font-medium px-2 py-1 w-24 text-primary text-center bg-[#284CB31A]">
+                    Manual
+                  </p>
+                </div>
                 <button className="flex font-medium items-center gap-3 hover:cursor-pointer">
                   <p className="underline text-[12px]">JSON</p>
                   <svg
@@ -192,9 +200,7 @@ const ScanResult = () => {
               </div>
 
               <button
-              disabled={
-                !scanresult?.policy_run?.policy?.id
-              }
+                disabled={!scanresult?.policy_run?.policy?.id}
                 onClick={() => {
                   mutate(
                     {
@@ -218,7 +224,7 @@ const ScanResult = () => {
                     }
                   );
                 }}
-                className="w-32 bg-[#284CB3] py-2 px-3 rounded-full flex items-center gap-2 justify-center"
+                className="w-52 md:w-32 bg-[#284CB3] py-2 px-3 rounded-full flex items-center gap-2 justify-center"
               >
                 <span className="text-white font-medium">Rescan</span>
                 <svg
@@ -254,7 +260,7 @@ const ScanResult = () => {
                 </svg>
               </button>
             </div>
-            <h3 className="font-semibold text-[18px] my-8 pl-3 text-left">
+            <h3 className="font-semibold text-[14px] md:text-[18px] my-8 pl-3 text-left">
               {scanresult?.policy_run?.policy?.name}
             </h3>
             <div className="mt-16 grid md:grid-cols-4 gap-6 mb-8">
@@ -627,95 +633,95 @@ const ScanResult = () => {
           </div>
 
           <div>
-            <div
-              className={`grid font-medium grid-cols-6 p-4 rounded-md mb-3 shadow-sm w-full ${
-                mode === "dark" ? "bg-lightDark" : "bg-white"
-              }`}
-            >
-              <p className="font-semibold col-span-3 flex items-center gap-2">
-                <svg
-                  width="18px"
-                  height="18px"
-                  stroke-width="1.5"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  color={mode === "dark" ? "#EAEAEA" : "#000000"}
-                >
-                  <path
-                    d="M8 9C8 9 9 8 12 8C15 8 16 9 16 9"
-                    stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+            <div className="w-full overflow-auto">
+              <div
+                className={`grid font-medium grid-cols-6 p-4 rounded-md mb-3 shadow-sm w-[180vw] md:w-full ${
+                  mode === "dark" ? "bg-lightDark" : "bg-white"
+                }`}
+              >
+                <p className="font-semibold col-span-3 flex items-center gap-2">
+                  <svg
+                    width="18px"
+                    height="18px"
                     stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                  <path
-                    d="M12 14C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12C11.4477 12 11 12.4477 11 13C11 13.5523 11.4477 14 12 14Z"
-                    fill={mode === "dark" ? "#EAEAEA" : "#000000"}
-                    stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                  <path
-                    d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
-                    stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>
-                </svg>
-                <span>Compliant Rule</span>
-              </p>
-              <button className="flex items-center justify-center gap-2 font-semibold">
-                <span>Service</span>{" "}
-                <svg
-                  width="10"
-                  height="5"
-                  viewBox="0 0 10 5"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.5 0.75L5 4.25L8.5 0.75"
-                    stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <button className="flex items-center justify-center gap-2 font-semibold">
-                <span>Severity</span>{" "}
-                <svg
-                  width="10"
-                  height="5"
-                  viewBox="0 0 10 5"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M1.5 0.75L5 4.25L8.5 0.75"
-                    stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-              <p className="font-semibold">Status</p>
-            </div>
-            {checks.length < 1 ? (
-              <DefaultContent
-                pageHeader="All Checks"
-                pageDescription="No record found"
-                loading={isLoading}
-                buttonValue=""
-                buttonClick={() => {}}
-              />
-            ) : (
-              <>
-                <div className="w-[200%] md:w-full overflow-x-auto">
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    color={mode === "dark" ? "#EAEAEA" : "#000000"}
+                  >
+                    <path
+                      d="M8 9C8 9 9 8 12 8C15 8 16 9 16 9"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M12 14C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12C11.4477 12 11 12.4477 11 13C11 13.5523 11.4477 14 12 14Z"
+                      fill={mode === "dark" ? "#EAEAEA" : "#000000"}
+                      stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                    <path
+                      d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </svg>
+                  <span>Compliant Rule</span>
+                </p>
+                <button className="flex items-center justify-center gap-2 font-semibold">
+                  <span>Service</span>{" "}
+                  <svg
+                    width="10"
+                    height="5"
+                    viewBox="0 0 10 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 0.75L5 4.25L8.5 0.75"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <button className="flex items-center justify-center gap-2 font-semibold">
+                  <span>Severity</span>{" "}
+                  <svg
+                    width="10"
+                    height="5"
+                    viewBox="0 0 10 5"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1.5 0.75L5 4.25L8.5 0.75"
+                      stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <p className="font-semibold">Status</p>
+              </div>
+              {checks.length < 1 ? (
+                <DefaultContent
+                  pageHeader="All Checks"
+                  pageDescription="No record found"
+                  loading={isLoading}
+                  buttonValue=""
+                  buttonClick={() => {}}
+                />
+              ) : (
+                <div className="w-[180vw] md:w-full">
                   {checks
                     .slice(offset, offset + pageCount)
                     .map((d: any, idx: number) => (
@@ -734,46 +740,48 @@ const ScanResult = () => {
                       />
                     ))}
                 </div>
-                <div className="mt-10 flex items-center justify-between">
-                  <div className="flex items-center gap-3 font-medium">
-                    <p>Num on row:</p>
-                    <select
-                      name=""
-                      id=""
-                      className="p-2"
-                      value={pageCount}
-                      onChange={(e) => setPageCount(+e.target.value)}
-                    >
-                      <option value={5}>5</option>
-                      <option value={10}>10</option>
-                      <option value={20}>20</option>
-                      <option value={50}>50</option>
-                    </select>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button
-                      disabled={offset === 0}
-                      onClick={() => {
-                        if (offset <= 0) {
-                          setOffset(0);
-                        } else {
-                          setOffset((offset) => offset - pageCount);
-                        }
-                      }}
-                      className="bg-primary font-medium w-24 rounded-md p-2 text-white"
-                    >
-                      previous
-                    </button>
-                    <button
-                      disabled={pageCount >= checks.length}
-                      onClick={() => setOffset((offset) => offset + pageCount)}
-                      className="bg-primary font-medium w-24 rounded-md p-2 text-white"
-                    >
-                      Next
-                    </button>
-                  </div>
+              )}
+            </div>
+            {checks.length > 1 && (
+              <div className="mt-10 flex items-center justify-between">
+                <div className="flex items-center gap-3 font-medium">
+                  <p>Num on row:</p>
+                  <select
+                    name=""
+                    id=""
+                    className="p-2"
+                    value={pageCount}
+                    onChange={(e) => setPageCount(+e.target.value)}
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={20}>20</option>
+                    <option value={50}>50</option>
+                  </select>
                 </div>
-              </>
+                <div className="flex items-center gap-3">
+                  <button
+                    disabled={offset === 0}
+                    onClick={() => {
+                      if (offset <= 0) {
+                        setOffset(0);
+                      } else {
+                        setOffset((offset) => offset - pageCount);
+                      }
+                    }}
+                    className="bg-primary font-medium w-24 rounded-md p-2 text-white"
+                  >
+                    previous
+                  </button>
+                  <button
+                    disabled={pageCount >= checks.length}
+                    onClick={() => setOffset((offset) => offset + pageCount)}
+                    className="bg-primary font-medium w-24 rounded-md p-2 text-white"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         </div>
