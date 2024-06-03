@@ -15,6 +15,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   const [policies, setPolicies] = useState<any[] | undefined>([]);
   const [valueId, setValueId] = useState("");
   const [nameValue, setNameValue] = useState("");
+  const [ruleTypeValue, setRuleTypeValue] = useState("");
   const [codeValue, setCodeValue] = useState("");
   const [statusValue, setStatusValue] = useState(false);
   const [descValue, setDescValue] = useState("");
@@ -26,7 +27,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
     data: allPolicies,
     isLoading: serviceLoading,
     error: serviceError,
-  } = useGetPolicies({page, pageSize});
+  } = useGetPolicies({ page, pageSize });
 
   const { mutate, isLoading, error } = useRuleCreate();
   const {
@@ -48,6 +49,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
       setTenantValue(editItem?.tenant);
       setDescValue(editItem?.description);
       setServiceValue(editItem?.service);
+      setRuleTypeValue(editItem?.rule_type);
     } else {
       setValueId("");
       setCodeValue("");
@@ -55,6 +57,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
       setNameValue("");
       setDescValue("");
       setServiceValue("");
+      setRuleTypeValue("");
       setTenantValue(0);
     }
   }, [allPolicies, editItem]);
@@ -74,6 +77,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
         status: statusValue,
         description: descValue,
         service: serviceValue,
+        rule_type: ruleTypeValue,
       },
       {
         onSuccess: (res: any) => {
@@ -85,12 +89,13 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           setStatusValue(false);
           setNameValue("");
           setServiceValue("");
+          setRuleTypeValue("");
           setTenantValue(0);
         },
 
         onError: (err) => {
-          if (error instanceof Error) {
-            showAlert(error?.message || "An unknown error occurred", "danger");
+          if (err instanceof Error) {
+            showAlert(err?.message || "An unknown error occurred", "danger");
             // showAlert(err?.response?.data?.message, "danger");
           }
         },
@@ -108,6 +113,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           status: statusValue,
           description: descValue,
           service: serviceValue,
+          rule_type: ruleTypeValue,
         },
       },
       {
@@ -144,6 +150,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className="grid md:grid-cols-2 gap-3">
           <div className="mb-10">
             <label className="form-label fs-6 fw-bold">Name:</label>
             <input
@@ -180,7 +187,30 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               onChange={(e) => setServiceValue(e.target.value)}
             />
           </div>
-          <div>
+          <div className="mb-10">
+            <label className="form-label fs-6 fw-bold">Rule Type:</label>
+            <select
+              className="form-control bg-transparent"
+              value={ruleTypeValue}
+              onChange={(e) => setRuleTypeValue(e.target.value)}
+              name="rule_type"
+              id="rule_type"
+            >
+              <option value="" className="font-medium">select rule type</option>
+              <option value="Cloud" className="font-medium">Cloud</option>
+              <option value="Repository" className="font-medium">Repository</option>
+            </select>
+            {/* <input
+              placeholder="Enter Seervice"
+              type="text"
+              name="text"
+              autoComplete="off"
+              className="form-control bg-transparent"
+              value={serviceValue}
+              onChange={(e) => setServiceValue(e.target.value)}
+            /> */}
+          </div>
+          <div className="md:col-span-2">
             <label className="form-label fs-6 fw-bold">Description:</label>
             <textarea
               name="description"
@@ -192,7 +222,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               onChange={(e) => setDescValue(e.target.value)}
             ></textarea>
           </div>
-          <div>
+          <div className="md:col-span-2">
             <label className="form-label fs-6 fw-bold">Active?:</label>
             <input
               className="form-check-input w-15px h-15px mx-1 mt-1"
@@ -201,6 +231,8 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
               checked={statusValue}
               onChange={(e) => setStatusValue(e.target.checked)}
             />
+          </div>
+
           </div>
         </Modal.Body>
         <Alert />
@@ -211,7 +243,9 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
           <button
             type="button"
             className="btn btn-primary"
-            disabled={nameValue === "" || codeValue === "" || serviceValue === ""}
+            disabled={
+              nameValue === "" || codeValue === "" || serviceValue === ""
+            }
             onClick={editItem ? editHandleSubmit : handleSubmit}
           >
             {!isLoading && !editLoading && (

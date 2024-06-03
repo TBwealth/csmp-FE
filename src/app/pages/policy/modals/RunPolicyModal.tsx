@@ -10,6 +10,7 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
   const [policy, setPolicy] = useState<any>({
     name: editItem ? editItem?.name : "",
     code: editItem ? editItem?.code : "",
+    policy_type: editItem ? editItem?.policy_type : "",
     status: editItem ? editItem?.status : true,
   });
   const { showAlert, hideAlert, Alert } = useAlert();
@@ -22,6 +23,7 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
         name: policy.name,
         code: policy?.code,
         status: policy?.staus,
+        policy_type: policy?.policy_type
       },
       {
         onSuccess: (res: any) => {
@@ -46,6 +48,7 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
           name: policy?.name,
           code: policy?.code,
           status: policy?.status,
+          policy_type: policy?.policy_type
         },
       },
       {
@@ -100,6 +103,22 @@ const RunPolicyModal = ({ editItem, isOpen, handleHide }: any) => {
               value={policy.code}
               onChange={(e) => setPolicy({ ...policy, code: e.target.value })}
             />
+          </div>
+          <div className="mb-10">
+            <label className="form-label fs-6 fw-bold">Type:</label>
+            <select
+              name="type"
+              id="type"
+              className="form-control bg-transparent"
+              value={policy.policy_type}
+              onChange={(e) =>
+                setPolicy({ ...policy, policy_type: e.target.value })
+              }
+            >
+              <option value-="" className="font-medium">select type</option>
+              <option value="Cloud" className="font-medium">Cloud</option>
+              <option value="Repository" className="font-medium">Repository</option>
+            </select>
           </div>
           <div>
             <label className="form-label fs-6 fw-bold">Active?:</label>

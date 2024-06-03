@@ -143,9 +143,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M12 14C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12C11.4477 12 11 12.4477 11 13C11 13.5523 11.4477 14 12 14Z"
@@ -163,9 +163,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
@@ -176,9 +176,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
         </svg>
       ),
@@ -235,9 +235,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M2 17V4C2 2.89543 2.89543 2 4 2H20C21.1046 2 22 2.89543 22 4V17C22 18.1046 21.1046 19 20 19H4C2.89543 19 2 18.1046 2 17Z"
@@ -248,7 +248,7 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
+            strokeWidth="1.5"
           ></path>
           <path
             d="M9 10.5L11 12.5L15 8.5"
@@ -259,9 +259,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
         </svg>
       ),
@@ -395,9 +395,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M8 10H16M8 6H12M8 14H11"
@@ -408,9 +408,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M16 2V5.4C16 5.73137 16.2686 6 16.6 6H20"
@@ -421,9 +421,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M19.9923 15.125L22.5477 15.774C22.8137 15.8416 23.0013 16.0833 22.9931 16.3576C22.8214 22.1159 19.5 23 19.5 23C19.5 23 16.1786 22.1159 16.0069 16.3576C15.9987 16.0833 16.1863 15.8416 16.4523 15.774L19.0077 15.125C19.3308 15.043 19.6692 15.043 19.9923 15.125Z"
@@ -434,9 +434,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
         </svg>
       ),
@@ -481,9 +481,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M7 21V20C7 17.2386 9.23858 15 12 15V15C14.7614 15 17 17.2386 17 20V21"
@@ -494,7 +494,7 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
+            strokeWidth="1.5"
           ></path>
           <path
             d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"
@@ -505,9 +505,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
         </svg>
       ),
@@ -560,9 +560,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M9 9.01L9.01 8.99889"
@@ -573,9 +573,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M12 9.01L12.01 8.99889"
@@ -586,9 +586,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
         </svg>
       ),
@@ -641,9 +641,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
           <path
             d="M19.6224 10.3954L18.5247 7.7448L20 6L18 4L16.2647 5.48295L13.5578 4.36974L12.9353 2H10.981L10.3491 4.40113L7.70441 5.51596L6 4L4 6L5.45337 7.78885L4.3725 10.4463L2 11V13L4.40111 13.6555L5.51575 16.2997L4 18L6 20L7.79116 18.5403L10.397 19.6123L11 22H13L13.6045 19.6132L16.2551 18.5155C16.6969 18.8313 18 20 18 20L20 18L18.5159 16.2494L19.6139 13.598L21.9999 12.9772L22 11L19.6224 10.3954Z"
@@ -654,9 +654,9 @@ const NewSideMenu = () => {
                 ? "#EAEAEA"
                 : "#000000"
             }
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
         </svg>
       ),
@@ -762,8 +762,8 @@ const NewSideMenu = () => {
                     y2="15.8173"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="white" />
-                    <stop offset="0.683389" stop-color="#CBCBCB" />
+                    <stop offset="0.198551" stopColor="white" />
+                    <stop offset="0.683389" stopColor="#CBCBCB" />
                   </linearGradient>
                   <linearGradient
                     id="paint1_linear_98_13455"
@@ -773,8 +773,8 @@ const NewSideMenu = () => {
                     y2="15.8173"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="white" />
-                    <stop offset="0.683389" stop-color="#CBCBCB" />
+                    <stop offset="0.198551" stopColor="white" />
+                    <stop offset="0.683389" stopColor="#CBCBCB" />
                   </linearGradient>
                   <linearGradient
                     id="paint2_linear_98_13455"
@@ -784,8 +784,8 @@ const NewSideMenu = () => {
                     y2="24.1838"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="white" />
-                    <stop offset="0.683389" stop-color="#CBCBCB" />
+                    <stop offset="0.198551" stopColor="white" />
+                    <stop offset="0.683389" stopColor="#CBCBCB" />
                   </linearGradient>
                   <linearGradient
                     id="paint3_linear_98_13455"
@@ -795,8 +795,8 @@ const NewSideMenu = () => {
                     y2="24.1838"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="white" />
-                    <stop offset="0.683389" stop-color="#CBCBCB" />
+                    <stop offset="0.198551" stopColor="white" />
+                    <stop offset="0.683389" stopColor="#CBCBCB" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -841,8 +841,8 @@ const NewSideMenu = () => {
                     y2="15.8173"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="#2E54C3" />
-                    <stop offset="0.683389" stop-color="#1F3A89" />
+                    <stop offset="0.198551" stopColor="#2E54C3" />
+                    <stop offset="0.683389" stopColor="#1F3A89" />
                   </linearGradient>
                   <linearGradient
                     id="paint1_linear_98_13201"
@@ -852,8 +852,8 @@ const NewSideMenu = () => {
                     y2="15.8173"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="#2E54C3" />
-                    <stop offset="0.683389" stop-color="#1F3A89" />
+                    <stop offset="0.198551" stopColor="#2E54C3" />
+                    <stop offset="0.683389" stopColor="#1F3A89" />
                   </linearGradient>
                   <linearGradient
                     id="paint2_linear_98_13201"
@@ -863,8 +863,8 @@ const NewSideMenu = () => {
                     y2="24.1838"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="#2E54C3" />
-                    <stop offset="0.683389" stop-color="#1F3A89" />
+                    <stop offset="0.198551" stopColor="#2E54C3" />
+                    <stop offset="0.683389" stopColor="#1F3A89" />
                   </linearGradient>
                   <linearGradient
                     id="paint3_linear_98_13201"
@@ -874,8 +874,8 @@ const NewSideMenu = () => {
                     y2="24.1838"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="#2E54C3" />
-                    <stop offset="0.683389" stop-color="#1F3A89" />
+                    <stop offset="0.198551" stopColor="#2E54C3" />
+                    <stop offset="0.683389" stopColor="#1F3A89" />
                   </linearGradient>
                 </defs>
               </svg>

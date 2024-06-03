@@ -6,6 +6,7 @@ import {
   PolicyApiPolicyPolicyRunScanCreateRequest,
   PolicyApiPolicyRepoScanSetupCreateRequest,
   PolicyApiPolicyRepoScanSetupDeleteRequest,
+  PolicyApiPolicyRepoScanSetupUpdateRequest,
   PolicyApiPolicyRulesUpdateRequest,
   PolicyApiPolicyUpdatePolicyRuleUpdateRequest,
   Rule,
@@ -240,6 +241,14 @@ export const useRunRepoScan = () => {
   const mutation = useMutation(
     (data: PolicyApiPolicyPolicyRepoRunScanCreateRequest) =>
       policyApi.policyPolicyRepoRunScanCreate(data)
+  );
+
+  return mutation;
+};
+export const useUpdateRepoScan = () => {
+  const mutation = useMutation(
+    ({id, data}: PolicyApiPolicyRepoScanSetupUpdateRequest) =>
+      policyApi.policyRepoScanSetupUpdate({id, data})
   );
 
   return mutation;
