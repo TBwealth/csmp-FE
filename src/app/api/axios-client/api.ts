@@ -512,10 +512,10 @@ export interface CreateRuleSuppressionSetUp {
     'tenant'?: number;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof CreateRuleSuppressionSetUp
      */
-    'cloud_provider': number | null;
+    'cloud_provider': string;
     /**
      * 
      * @type {number}
@@ -558,6 +558,31 @@ export interface CreateRuleSuppressionSetUp {
      * @memberof CreateRuleSuppressionSetUp
      */
     'status'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface CustomCloudAccount
+ */
+export interface CustomCloudAccount {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomCloudAccount
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomCloudAccount
+     */
+    'account_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomCloudAccount
+     */
+    'cloud_provider_name': string;
 }
 /**
  * 
@@ -845,6 +870,19 @@ export interface CustomTicketType {
 /**
  * 
  * @export
+ * @interface FetchAsset
+ */
+export interface FetchAsset {
+    /**
+     * 
+     * @type {number}
+     * @memberof FetchAsset
+     */
+    'cloud_provider_account_id': number;
+}
+/**
+ * 
+ * @export
  * @interface FullScan
  */
 export interface FullScan {
@@ -854,6 +892,12 @@ export interface FullScan {
      * @memberof FullScan
      */
     'tenant_id'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof FullScan
+     */
+    'cloud_provider_account_id': number;
 }
 /**
  * 
@@ -1362,6 +1406,12 @@ export interface PolicyRun {
      * @memberof PolicyRun
      */
     'scan_type': string;
+    /**
+     * 
+     * @type {CustomCloudAccount}
+     * @memberof PolicyRun
+     */
+    'cloud_account': CustomCloudAccount;
 }
 /**
  * 
@@ -1429,6 +1479,18 @@ export interface PolicyRunResult {
      * @memberof PolicyRunResult
      */
     'scan_type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyRunResult
+     */
+    'scan_frequency'?: string | null;
+    /**
+     * 
+     * @type {CustomRepoScanSetUp}
+     * @memberof PolicyRunResult
+     */
+    'repo': CustomRepoScanSetUp;
 }
 /**
  * 
@@ -1466,6 +1528,12 @@ export interface PolicyRunScan {
      * @memberof PolicyRunScan
      */
     'scan_frequency': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyRunScan
+     */
+    'cloud_provider_account_id': number;
 }
 /**
  * 
@@ -1496,7 +1564,7 @@ export interface ProviderService {
      * @type {string}
      * @memberof ProviderService
      */
-    'account_name'?: string | null;
+    'account_name': string;
     /**
      * 
      * @type {string}
@@ -1569,7 +1637,7 @@ export interface ProviderServiceInput {
      * @type {string}
      * @memberof ProviderServiceInput
      */
-    'account_name'?: string | null;
+    'account_name': string;
 }
 /**
  * 
@@ -1920,13 +1988,19 @@ export interface Rule {
      * @type {string}
      * @memberof Rule
      */
-    'code': string;
+    'code'?: string;
     /**
      * 
-     * @type {boolean}
+     * @type {string}
      * @memberof Rule
      */
-    'status'?: boolean;
+    'severity'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Rule
+     */
+    'cloud_provider'?: string | null;
     /**
      * 
      * @type {string}
@@ -1939,6 +2013,12 @@ export interface Rule {
      * @memberof Rule
      */
     'rule_type': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Rule
+     */
+    'tenant'?: string;
 }
 /**
  * 
@@ -2291,6 +2371,12 @@ export interface TenantAssetManagement {
      * @memberof TenantAssetManagement
      */
     'region': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof TenantAssetManagement
+     */
+    'cloud_account': number;
 }
 /**
  * 
@@ -5883,12 +5969,14 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
          * List Cloud Provider
          * @summary List Cloud Provider
          * @param {number} [tenant] Filter by Tenant
+         * @param {string} [cloudProviderName] Filter result by Cloud Provider Name e.g AWS, AZURE and GCP
+         * @param {string} [accountName] Filter by Account Name
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderCloudProviderList: async (tenant?: number, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderCloudProviderList: async (tenant?: number, cloudProviderName?: string, accountName?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/cloud_provider/cloud_provider/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5906,6 +5994,14 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
 
             if (tenant !== undefined) {
                 localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (cloudProviderName !== undefined) {
+                localVarQueryParameter['cloud_provider_name'] = cloudProviderName;
+            }
+
+            if (accountName !== undefined) {
+                localVarQueryParameter['account_name'] = accountName;
             }
 
             if (page !== undefined) {
@@ -6513,13 +6609,15 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
          * List Cloud Provider
          * @summary List Cloud Provider
          * @param {number} [tenant] Filter by Tenant
+         * @param {string} [cloudProviderName] Filter result by Cloud Provider Name e.g AWS, AZURE and GCP
+         * @param {string} [accountName] Filter by Account Name
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderCloudProviderList(tenant?: number, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderCloudProviderList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderList(tenant, page, pageSize, options);
+        async cloudProviderCloudProviderList(tenant?: number, cloudProviderName?: string, accountName?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderCloudProviderList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderCloudProviderList(tenant, cloudProviderName, accountName, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -6689,13 +6787,15 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
          * List Cloud Provider
          * @summary List Cloud Provider
          * @param {number} [tenant] Filter by Tenant
+         * @param {string} [cloudProviderName] Filter result by Cloud Provider Name e.g AWS, AZURE and GCP
+         * @param {string} [accountName] Filter by Account Name
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderCloudProviderList(tenant?: number, page?: number, pageSize?: number, options?: any): AxiosPromise<CloudProviderCloudProviderList200Response> {
-            return localVarFp.cloudProviderCloudProviderList(tenant, page, pageSize, options).then((request) => request(axios, basePath));
+        cloudProviderCloudProviderList(tenant?: number, cloudProviderName?: string, accountName?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<CloudProviderCloudProviderList200Response> {
+            return localVarFp.cloudProviderCloudProviderList(tenant, cloudProviderName, accountName, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -6851,6 +6951,20 @@ export interface CloudProviderApiCloudProviderCloudProviderListRequest {
      * @memberof CloudProviderApiCloudProviderCloudProviderList
      */
     readonly tenant?: number
+
+    /**
+     * Filter result by Cloud Provider Name e.g AWS, AZURE and GCP
+     * @type {string}
+     * @memberof CloudProviderApiCloudProviderCloudProviderList
+     */
+    readonly cloudProviderName?: string
+
+    /**
+     * Filter by Account Name
+     * @type {string}
+     * @memberof CloudProviderApiCloudProviderCloudProviderList
+     */
+    readonly accountName?: string
 
     /**
      * A page number within the paginated result set.
@@ -7149,7 +7263,7 @@ export class CloudProviderApi extends BaseAPI {
      * @memberof CloudProviderApi
      */
     public cloudProviderCloudProviderList(requestParameters: CloudProviderApiCloudProviderCloudProviderListRequest = {}, options?: AxiosRequestConfig) {
-        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderList(requestParameters.tenant, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return CloudProviderApiFp(this.configuration).cloudProviderCloudProviderList(requestParameters.tenant, requestParameters.cloudProviderName, requestParameters.accountName, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -7351,6 +7465,38 @@ export const CustomCspmApiApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        customCspmApiApiUtilsHealthcheckList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/custom_cspm_api/api/utils/healthcheck/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {HtmlData} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7522,6 +7668,15 @@ export const CustomCspmApiApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async customCspmApiApiUtilsHealthcheckList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.customCspmApiApiUtilsHealthcheckList(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {HtmlData} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7577,6 +7732,14 @@ export const CustomCspmApiApiFactory = function (configuration?: Configuration, 
          */
         customCspmApiApiUtilsAdminDashboardList(options?: any): AxiosPromise<void> {
             return localVarFp.customCspmApiApiUtilsAdminDashboardList(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        customCspmApiApiUtilsHealthcheckList(options?: any): AxiosPromise<void> {
+            return localVarFp.customCspmApiApiUtilsHealthcheckList(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -7692,6 +7855,16 @@ export class CustomCspmApiApi extends BaseAPI {
 
     /**
      * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CustomCspmApiApi
+     */
+    public customCspmApiApiUtilsHealthcheckList(options?: AxiosRequestConfig) {
+        return CustomCspmApiApiFp(this.configuration).customCspmApiApiUtilsHealthcheckList(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {CustomCspmApiApiCustomCspmApiApiUtilsHtmlToPdfCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7744,11 +7917,11 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @param {object} data 
+         * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyFetchAssetCreate: async (data: object, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyFetchAssetCreate: async (data: FetchAsset, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
             assertParamExists('policyFetchAssetCreate', 'data', data)
             const localVarPath = `/policy/fetch_asset/`;
@@ -8240,12 +8413,13 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
          * @param {string} [scanType] Filter by Scan Type
+         * @param {string} [scanFrequency] scan_frequency
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunResultsList: async (tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyRunResultsList: async (tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_run_results/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8279,6 +8453,10 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (scanType !== undefined) {
                 localVarQueryParameter['scan_type'] = scanType;
+            }
+
+            if (scanFrequency !== undefined) {
+                localVarQueryParameter['scan_frequency'] = scanFrequency;
             }
 
             if (page !== undefined) {
@@ -8386,10 +8564,11 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {any} [date] Filter by Date
          * @param {number} [repo] Filter by Repo ID
          * @param {string} [scanType] Filter by Scan Type
+         * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunScanHistoryList: async (page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyRunScanHistoryList: async (page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, cloudAccount?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_run_scan_history/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8439,6 +8618,10 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (scanType !== undefined) {
                 localVarQueryParameter['scan_type'] = scanType;
+            }
+
+            if (cloudAccount !== undefined) {
+                localVarQueryParameter['cloud_account'] = cloudAccount;
             }
 
 
@@ -8911,13 +9094,17 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {string} [name] Filter result by rule name
          * @param {string} [code] Filter by rule code
          * @param {boolean} [status] Filter by rule status
+         * @param {string} [ruleType] Filter by rule type
+         * @param {number} [tenant] Filter by tenant id
+         * @param {string} [severity] Filter by severity
+         * @param {string} [cloudProvider] cloud_provider
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {string} [ruleType] Filter by rule type
+         * @param {string} [cloudProovider] Filter by cloud_provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyRulesList: async (service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, ruleType?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyRulesList: async (service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, cloudProovider?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/rules/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8949,6 +9136,22 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['status'] = status;
             }
 
+            if (ruleType !== undefined) {
+                localVarQueryParameter['rule_type'] = ruleType;
+            }
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (severity !== undefined) {
+                localVarQueryParameter['severity'] = severity;
+            }
+
+            if (cloudProvider !== undefined) {
+                localVarQueryParameter['cloud_provider'] = cloudProvider;
+            }
+
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
             }
@@ -8957,8 +9160,8 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['page_size'] = pageSize;
             }
 
-            if (ruleType !== undefined) {
-                localVarQueryParameter['rule_type'] = ruleType;
+            if (cloudProovider !== undefined) {
+                localVarQueryParameter['cloud_proovider'] = cloudProovider;
             }
 
 
@@ -9143,11 +9346,11 @@ export const PolicyApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {object} data 
+         * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyFetchAssetCreate(data: object, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async policyFetchAssetCreate(data: FetchAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FetchAsset>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.policyFetchAssetCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -9279,13 +9482,14 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
          * @param {string} [scanType] Filter by Scan Type
+         * @param {string} [scanFrequency] scan_frequency
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunResultsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, page, pageSize, options);
+        async policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunResultsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, scanFrequency, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -9320,11 +9524,12 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {any} [date] Filter by Date
          * @param {number} [repo] Filter by Repo ID
          * @param {string} [scanType] Filter by Scan Type
+         * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunScanHistoryList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, repo, scanType, options);
+        async policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, cloudAccount?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunScanHistoryList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, repo, scanType, cloudAccount, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -9454,14 +9659,18 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {string} [name] Filter result by rule name
          * @param {string} [code] Filter by rule code
          * @param {boolean} [status] Filter by rule status
+         * @param {string} [ruleType] Filter by rule type
+         * @param {number} [tenant] Filter by tenant id
+         * @param {string} [severity] Filter by severity
+         * @param {string} [cloudProvider] cloud_provider
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {string} [ruleType] Filter by rule type
+         * @param {string} [cloudProovider] Filter by cloud_provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyRulesList(service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, ruleType?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRulesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRulesList(service, name, code, status, page, pageSize, ruleType, options);
+        async policyRulesList(service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, cloudProovider?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRulesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRulesList(service, name, code, status, ruleType, tenant, severity, cloudProvider, page, pageSize, cloudProovider, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -9519,11 +9728,11 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
-         * @param {object} data 
+         * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyFetchAssetCreate(data: object, options?: any): AxiosPromise<object> {
+        policyFetchAssetCreate(data: FetchAsset, options?: any): AxiosPromise<FetchAsset> {
             return localVarFp.policyFetchAssetCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
@@ -9643,13 +9852,14 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
          * @param {string} [scanType] Filter by Scan Type
+         * @param {string} [scanFrequency] scan_frequency
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyPolicyRunResultsList200Response> {
-            return localVarFp.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, page, pageSize, options).then((request) => request(axios, basePath));
+        policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyPolicyRunResultsList200Response> {
+            return localVarFp.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, scanFrequency, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9681,11 +9891,12 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {any} [date] Filter by Date
          * @param {number} [repo] Filter by Repo ID
          * @param {string} [scanType] Filter by Scan Type
+         * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, options?: any): AxiosPromise<PolicyPolicyRunScanHistoryList200Response> {
-            return localVarFp.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, repo, scanType, options).then((request) => request(axios, basePath));
+        policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, cloudAccount?: number, options?: any): AxiosPromise<PolicyPolicyRunScanHistoryList200Response> {
+            return localVarFp.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, repo, scanType, cloudAccount, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9803,14 +10014,18 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {string} [name] Filter result by rule name
          * @param {string} [code] Filter by rule code
          * @param {boolean} [status] Filter by rule status
+         * @param {string} [ruleType] Filter by rule type
+         * @param {number} [tenant] Filter by tenant id
+         * @param {string} [severity] Filter by severity
+         * @param {string} [cloudProvider] cloud_provider
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {string} [ruleType] Filter by rule type
+         * @param {string} [cloudProovider] Filter by cloud_provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyRulesList(service?: string, name?: string, code?: string, status?: boolean, page?: number, pageSize?: number, ruleType?: string, options?: any): AxiosPromise<PolicyRulesList200Response> {
-            return localVarFp.policyRulesList(service, name, code, status, page, pageSize, ruleType, options).then((request) => request(axios, basePath));
+        policyRulesList(service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, cloudProovider?: string, options?: any): AxiosPromise<PolicyRulesList200Response> {
+            return localVarFp.policyRulesList(service, name, code, status, ruleType, tenant, severity, cloudProvider, page, pageSize, cloudProovider, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9862,10 +10077,10 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
 export interface PolicyApiPolicyFetchAssetCreateRequest {
     /**
      * 
-     * @type {object}
+     * @type {FetchAsset}
      * @memberof PolicyApiPolicyFetchAssetCreate
      */
-    readonly data: object
+    readonly data: FetchAsset
 }
 
 /**
@@ -10120,6 +10335,13 @@ export interface PolicyApiPolicyPolicyRunResultsListRequest {
     readonly scanType?: string
 
     /**
+     * scan_frequency
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyRunResultsList
+     */
+    readonly scanFrequency?: string
+
+    /**
      * A page number within the paginated result set.
      * @type {number}
      * @memberof PolicyApiPolicyPolicyRunResultsList
@@ -10230,6 +10452,13 @@ export interface PolicyApiPolicyPolicyRunScanHistoryListRequest {
      * @memberof PolicyApiPolicyPolicyRunScanHistoryList
      */
     readonly scanType?: string
+
+    /**
+     * Filter by Cloud Account
+     * @type {number}
+     * @memberof PolicyApiPolicyPolicyRunScanHistoryList
+     */
+    readonly cloudAccount?: number
 }
 
 /**
@@ -10484,6 +10713,34 @@ export interface PolicyApiPolicyRulesListRequest {
     readonly status?: boolean
 
     /**
+     * Filter by rule type
+     * @type {string}
+     * @memberof PolicyApiPolicyRulesList
+     */
+    readonly ruleType?: string
+
+    /**
+     * Filter by tenant id
+     * @type {number}
+     * @memberof PolicyApiPolicyRulesList
+     */
+    readonly tenant?: number
+
+    /**
+     * Filter by severity
+     * @type {string}
+     * @memberof PolicyApiPolicyRulesList
+     */
+    readonly severity?: string
+
+    /**
+     * cloud_provider
+     * @type {string}
+     * @memberof PolicyApiPolicyRulesList
+     */
+    readonly cloudProvider?: string
+
+    /**
      * A page number within the paginated result set.
      * @type {number}
      * @memberof PolicyApiPolicyRulesList
@@ -10498,11 +10755,11 @@ export interface PolicyApiPolicyRulesListRequest {
     readonly pageSize?: number
 
     /**
-     * Filter by rule type
+     * Filter by cloud_provider
      * @type {string}
      * @memberof PolicyApiPolicyRulesList
      */
-    readonly ruleType?: string
+    readonly cloudProovider?: string
 }
 
 /**
@@ -10725,7 +10982,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyRunResultsList(requestParameters: PolicyApiPolicyPolicyRunResultsListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRunResultsList(requestParameters.tenant, requestParameters.id, requestParameters.policyRunId, requestParameters.severity, requestParameters.scanType, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyRunResultsList(requestParameters.tenant, requestParameters.id, requestParameters.policyRunId, requestParameters.severity, requestParameters.scanType, requestParameters.scanFrequency, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -10759,7 +11016,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyRunScanHistoryList(requestParameters: PolicyApiPolicyPolicyRunScanHistoryListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRunScanHistoryList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, requestParameters.scanFrequency, requestParameters.policy, requestParameters.cloudProvider, requestParameters.date, requestParameters.repo, requestParameters.scanType, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyRunScanHistoryList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, requestParameters.scanFrequency, requestParameters.policy, requestParameters.cloudProvider, requestParameters.date, requestParameters.repo, requestParameters.scanType, requestParameters.cloudAccount, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -10893,7 +11150,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyRulesList(requestParameters: PolicyApiPolicyRulesListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyRulesList(requestParameters.service, requestParameters.name, requestParameters.code, requestParameters.status, requestParameters.page, requestParameters.pageSize, requestParameters.ruleType, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyRulesList(requestParameters.service, requestParameters.name, requestParameters.code, requestParameters.status, requestParameters.ruleType, requestParameters.tenant, requestParameters.severity, requestParameters.cloudProvider, requestParameters.page, requestParameters.pageSize, requestParameters.cloudProovider, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -10995,10 +11252,11 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
          * @param {string} [ruleCode] Filter by Rule Code
+         * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsList: async (page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsList: async (page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, cloudAccount?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/system_settings/asset_managements/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11032,6 +11290,10 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
 
             if (ruleCode !== undefined) {
                 localVarQueryParameter['rule_code'] = ruleCode;
+            }
+
+            if (cloudAccount !== undefined) {
+                localVarQueryParameter['cloud_account'] = cloudAccount;
             }
 
 
@@ -12064,11 +12326,12 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
          * @param {string} [ruleCode] Filter by Rule Code
+         * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsAssetManagementsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, ruleCode, options);
+        async systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, cloudAccount?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsAssetManagementsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, ruleCode, cloudAccount, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -12359,11 +12622,12 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
          * @param {string} [ruleCode] Filter by Rule Code
+         * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, options?: any): AxiosPromise<SystemSettingsAssetManagementsList200Response> {
-            return localVarFp.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, ruleCode, options).then((request) => request(axios, basePath));
+        systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, cloudAccount?: number, options?: any): AxiosPromise<SystemSettingsAssetManagementsList200Response> {
+            return localVarFp.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, ruleCode, cloudAccount, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -12660,6 +12924,13 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsListRequest {
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsList
      */
     readonly ruleCode?: string
+
+    /**
+     * Filter by Cloud Account
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsAssetManagementsList
+     */
+    readonly cloudAccount?: number
 }
 
 /**
@@ -13207,7 +13478,7 @@ export class SystemSettingsApi extends BaseAPI {
      * @memberof SystemSettingsApi
      */
     public systemSettingsAssetManagementsList(requestParameters: SystemSettingsApiSystemSettingsAssetManagementsListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsAssetManagementsList(requestParameters.page, requestParameters.pageSize, requestParameters.cloudProvider, requestParameters.services, requestParameters.ruleCode, options).then((request) => request(this.axios, this.basePath));
+        return SystemSettingsApiFp(this.configuration).systemSettingsAssetManagementsList(requestParameters.page, requestParameters.pageSize, requestParameters.cloudProvider, requestParameters.services, requestParameters.ruleCode, requestParameters.cloudAccount, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
