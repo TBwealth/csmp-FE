@@ -74,7 +74,7 @@ const ProviderResources = () => {
 
   return (
     <div>
-      <div className="flex border-bottom pb-5 w-[90%] md:w-[70%] mx-auto items-center justify-between mt-10">
+      <div className="flex border-bottom pb-8 pb-md-[32px] w-[90%] md:w-[70%] mx-auto items-center justify-between mt-10">
         <p className="font-semibold text-[16px]">
           Total accounts {items.length}
         </p>
@@ -112,7 +112,7 @@ const ProviderResources = () => {
           {items.map((item) => (
             <div
               key={item.name}
-              className="flex mt-8 border-bottom pb-5 items-center justify-between w-full"
+              className="flex h-[89px] border-bottom py-8 py-md-[32px] items-center justify-between w-full"
             >
               <div className="flex items-center gap-3">
                 <svg
@@ -143,7 +143,7 @@ const ProviderResources = () => {
                     fill="#FF9900"
                   />
                 </svg>
-                <p className="text-[14px] md:text-[18px] font-semibold">{item.account_id}</p>
+                <p className="text-[14px] md:text-[18px] font-semibold">{item.account_name}</p>
                 <span className="p-2 w-16 text-center rounded-full text-primary bg-[#284CB31A] text-[8px] font-semibold">
                   {item.environment}
                 </span>

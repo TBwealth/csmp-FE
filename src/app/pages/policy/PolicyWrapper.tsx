@@ -210,7 +210,8 @@ const PolicyWrapper = () => {
       {
         data: {
           policy_id: id,
-          scan_frequency: frequency
+          scan_frequency: frequency,
+          cloud_provider_account_id: 0
         },
       },
       {
@@ -241,7 +242,7 @@ const PolicyWrapper = () => {
   }
 
   return (
-    <>
+    <div className="mt-[32px]">
       <ComponentsheaderComponent
         backbuttonClick={() => {}}
         pageName="Policy"
@@ -304,7 +305,7 @@ const PolicyWrapper = () => {
           }}
         />
       )}
-    </>
+    </div>
   );
 };
 

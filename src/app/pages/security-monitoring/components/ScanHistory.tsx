@@ -28,7 +28,7 @@ const ScanCard = ({
 }: any) => {
   return (
     <div
-      className={`grid grid-cols-7 p-4 rounded-md mb-3 shadow-sm w-full ${
+      className={`grid grid-cols-7 p-4 h-[52px] place-content-center border-bottom mb-3 w-full ${
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
@@ -289,10 +289,10 @@ const ScanHistory = () => {
   }, [page, pageSize]);
 
   return (
-    <div className="w-full p-10">
+    <div className="w-full px-10 mt-[32px]">
       <div className="grid md:grid-cols-4 gap-8">
         <div
-          className={`flex shadow-sm items-center justify-center rounded-xl p-6 gap-4 ${
+          className={`flex border border-[#EAEAEA] items-center justify-center rounded-xl p-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -358,7 +358,7 @@ const ScanHistory = () => {
           </h1>
         </div>
         <div
-          className={`flex items-center justify-center shadow-sm rounded-xl p-6 gap-4 ${
+          className={`flex items-center justify-center border border-[#EAEAEA] rounded-xl p-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -439,7 +439,7 @@ const ScanHistory = () => {
           </svg>
         </div>
         <div
-          className={`md:col-span-2 w-fit flex items-center justify-center shadow-sm rounded-xl p-6 gap-4 ${
+          className={`md:col-span-2 w-fit flex items-center justify-center border border-[#EAEAEA] rounded-xl p-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -530,7 +530,7 @@ const ScanHistory = () => {
           </div>
         </div>
       </div>
-      <div className="my-10 flex flex-col md:flex-row items-center w-full justify-between border-bottom">
+      <div className="mt-[48px] mb-[24px] flex flex-col md:flex-row items-center w-full justify-between border-bottom">
         <div className="">
           {["scan history", "reocurring", "threat", "incident"].map((d) => (
             <button
@@ -597,7 +597,7 @@ const ScanHistory = () => {
         <>
           <div className="mt-10 w-full overflow-auto">
             <div
-              className={`grid grid-cols-7 p-4 rounded-md mb-3 shadow-sm w-[180vw] md:w-full ${
+              className={`grid grid-cols-7 p-4 rounded-t-[1.5rem] mb-3 place-content-center border-bottom h-[52px] w-[180vw] md:w-full ${
                 mode === "dark" ? "bg-lightDark" : "bg-white"
               }`}
             >

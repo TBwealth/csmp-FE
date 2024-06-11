@@ -314,9 +314,8 @@ const TicketsTickets = () => {
     }
   }
 
-  console.log(items);
   return (
-    <div>
+    <div className="mt-[32px]">
       <ComponentsheaderComponent
         backbuttonClick={() => {}}
         pageName="Tasks"

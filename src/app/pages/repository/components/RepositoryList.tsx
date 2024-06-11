@@ -515,17 +515,20 @@ const RepositoryList = () => {
   }
 
   return (
-    <div className="p-4 md:p-12 w-full lg:p-36">
+    <div className="px-8 mt-[32px] w-full">
       {allRepos.length < 1 ? (
         <>
-          <DefaultContent
-            pageHeader="All Repository"
-            pageDescription="No record found"
-            loading={isLoading}
-            buttonValue=""
-            buttonClick={() => {}}
-          />
-          {!isLoading && <EmptyRepo showModal={() => setShowAdd(true)} />}
+          {isLoading ? (
+            <DefaultContent
+              pageHeader="All Repository"
+              pageDescription="No record found"
+              loading={isLoading}
+              buttonValue=""
+              buttonClick={() => {}}
+            />
+          ) : (
+            <EmptyRepo showModal={() => setShowAdd(true)} />
+          )}
         </>
       ) : (
         <div className="W-[90%] md:w-[70%] mx-auto">

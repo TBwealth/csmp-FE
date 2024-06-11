@@ -303,8 +303,8 @@ const RepositoryScanResult = () => {
                     key={d}
                     className={`uppercase p-4 ${
                       d === tab
-                        ? "font-bold text-[14px] border-bottom-3 border-primary"
-                        : `font-medium text-[14px] ${
+                        ? "font-bold text-[12px] md:text-[14px] border-bottom-3 border-primary"
+                        : `font-medium text-[10px] md:text-[14px] ${
                             mode === "dark"
                               ? "text-[#909BBC]"
                               : "text-[#6A6A6A]"
@@ -461,7 +461,7 @@ const RepositoryScanResult = () => {
                   buttonClick={() => {}}
                 />
               ) : (
-                <div className="">
+                <div className="w-[180vw] md:w-full">
                   {checks
                     .slice(offset, offset + pageCount)
                     .map((d: any) => (

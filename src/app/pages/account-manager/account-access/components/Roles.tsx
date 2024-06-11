@@ -164,7 +164,7 @@ const Roles = () => {
   };
 
   return (
-    <div>
+    <div className="mt-[32px]">
       <ComponentsheaderComponent
         backbuttonClick={() => {}}
         pageName="Roles And Permission"
@@ -214,7 +214,7 @@ const Roles = () => {
             </div>
 
             <button
-              className="w-full text-primary text-center underline rounded-md p-3 mt-4 text-lg"
+              className="w-full text-primary text-center font-medium underline rounded-md p-3 mt-4 text-lg"
               onClick={() => setShowModal(true)}
             >
               <i className="bi bi-plus text-[18px] font-semibold fs-2 text-primary"></i>
@@ -224,7 +224,7 @@ const Roles = () => {
           <div className="md:col-span-3 relative ">
             <div className="w-full flex items-end justify-end gap-4">
               <button
-                className="w-fit text-primary text-center underline rounded-md p-3 text-lg"
+                className="w-fit text-primary text-center font-medium underline rounded-md p-3 text-lg"
                 onClick={() => setShowPermModal(true)}
               >
                 <i className="bi bi-plus fs-2 text-primary"></i>&nbsp; Add

@@ -125,7 +125,7 @@ const ScanResult = () => {
 
   console.log(offset, checks.length);
   return (
-    <div className="">
+    <div className="mt-[32px]">
       {isLoading || scanLoading ? (
         <DefaultContent
           pageHeader="Scan Result"
@@ -135,7 +135,7 @@ const ScanResult = () => {
           buttonClick={() => refreshrecord()}
         />
       ) : (
-        <div className="mt-10 md:w-[95%] mx-auto p-4">
+        <div className="md:w-[95%] mx-auto px-4">
           <div className="w-full" ref={printableArea}>
             <div className="flex items-center justify-between flex-col md:flex-row gap-10">
               <div className="flex justify-between flex-col md:flex-row items-center w-full md:w-[60%] gap-2">
@@ -207,6 +207,7 @@ const ScanResult = () => {
                       data: {
                         policy_id: scanresult?.policy_run?.policy?.id,
                         scan_frequency: scanresult?.scan_frequency,
+                        cloud_provider_account_id: 0,
                       },
                     },
                     {
@@ -549,7 +550,7 @@ const ScanResult = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-16 flex items-center justify-between gap-10 border-bottom pb-8">
+            <div className="mt-16 mb-[24px] flex items-center justify-between gap-10 border-bottom pb-3">
               <h2 className="flex-1 font-lg md:font-xl font-bold">
                 Compliance Status{" "}
                 <span className="font-medium">
@@ -635,7 +636,7 @@ const ScanResult = () => {
           <div>
             <div className="w-full overflow-auto">
               <div
-                className={`grid font-medium grid-cols-6 p-4 rounded-md mb-3 shadow-sm w-[180vw] md:w-full ${
+                className={`grid font-medium grid-cols-6 p-4 rounded-t-[1.5rem] place-content-center mb-3 border-bottom h-[52px] w-[180vw] md:w-full ${
                   mode === "dark" ? "bg-lightDark" : "bg-white"
                 }`}
               >

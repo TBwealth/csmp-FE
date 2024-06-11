@@ -54,7 +54,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
     mutate(
       {
         data: {
-          account_id: payload.cloud_name,
+          account_id: null,
           account_name: payload.cloud_name,
           cloud_provider_name: "aws",
           environment: payload.environment,

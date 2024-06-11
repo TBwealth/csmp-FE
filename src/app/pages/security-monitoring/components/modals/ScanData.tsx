@@ -14,7 +14,7 @@ const ScanData = ({ data }: Props) => {
     <>
       {data ? (
         <div
-          className={`rounded-xl flex items-center gap-8 justify-center flex-col mb-10 border shadow-md py-6 ${
+          className={`rounded-xl flex items-center gap-8 justify-center flex-col mb-10 border py-6 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -183,7 +183,7 @@ const ScanData = ({ data }: Props) => {
         </div>
       ) : (
         <div
-          className={`rounded-md flex items-center gap-8 justify-center flex-col mb-10 border shadow-md p-12 ${
+          className={`rounded-md flex items-center gap-8 justify-center flex-col mb-10 border p-12 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >

@@ -60,7 +60,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
       {
         id: editItem?.id,
         data: {
-          cloud_provider: null,
+          cloud_provider: setupData?.cloud_provider,
           comments: setupData.comment,
           expiration: setupData.exp_date,
           region: setupData.region,
@@ -105,7 +105,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
     mutate(
       {
         data: {
-          cloud_provider: null,
+          cloud_provider: setupData?.cloud_provider,
           comments: setupData.comment,
           expiration: setupData.exp_date,
           region: setupData.region,

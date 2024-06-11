@@ -211,7 +211,7 @@ const ProviderServices = () => {
   }
 
   return (
-    <div>
+    <div className="mt-[32px]">
       <ComponentsheaderComponent
         backbuttonClick={() => navigate(-1)}
         showbackbutton={true}

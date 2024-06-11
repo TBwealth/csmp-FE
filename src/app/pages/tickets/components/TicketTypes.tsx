@@ -185,7 +185,7 @@ const TicketTypes = () => {
   }
 
   return (
-    <div>
+    <div className="mt-[32px]">
       <ComponentsheaderComponent
         backbuttonClick={() => {}}
         pageName="Tickets Types"

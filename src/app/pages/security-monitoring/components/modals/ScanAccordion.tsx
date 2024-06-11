@@ -33,7 +33,7 @@ const ScanAccordion = ({
   return (
     <div className="w-full">
       <button
-        className={`grid grid-cols-6 shadow-sm ${
+        className={`grid grid-cols-6 border-bottom h-[52px] place-content-center ${
           mode === "dark" ? "bg-lightDark" : "bg-white"
         } p-4 w-full mb-3`}
         onClick={() => {

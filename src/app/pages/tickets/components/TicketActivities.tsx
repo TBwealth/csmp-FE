@@ -53,7 +53,7 @@ const TicketsActivities = () => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative mt-[32px]">
       <ComponentsheaderComponent
         backbuttonClick={() => navigate(-1)}
         showbackbutton={true}
@@ -116,7 +116,7 @@ const TicketsActivities = () => {
                       update
                     </button>
                   </div>
-                  <p>By: {`${act?.user?.first_name} ${act?.user?.last_name}`}</p>
+                  <p className="font-medium">By: {`${act?.user?.first_name} ${act?.user?.last_name}`}</p>
                   </div>
                 </div>
               </div>

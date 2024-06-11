@@ -32,7 +32,7 @@ const LogsCard = ({
   return (
     <div className="w-[280vw] md:w-full">
       <button
-        className={`grid grid-cols-10 gap-2 p-4 rounded-md mb-3 shadow-sm w-full ${
+        className={`grid grid-cols-10 gap-2 p-4  mb-3 place-content-center  h-[52px] border-bottom w-full ${
           mode === "dark" ? "bg-lightDark" : "bg-white"
         }`}
         onClick={() => setIsOpen(!isOpen)}
@@ -93,7 +93,7 @@ const LogsCard = ({
       </button>
       {isOpen && (
         <div
-          className={`w-full md:pl-8 p-10 my-2 font-medium shadow-sm ${
+          className={`w-full md:pl-8 p-10 my-2 font-medium rounded-sm ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -268,7 +268,7 @@ const SuppressionLogs = () => {
     );
   }, [tenantstsr, datastsr]);
   return (
-    <div className="w-[90%] mx-auto pt-12">
+    <div className="w-[90%] mx-auto mt-[32px]">
       <div className="pb-4 mb-10 border-bottom flex items-center  justify-between w-full">
         <p className="text-[14px] font-semibold">Suppressions logs</p>
         <button
@@ -322,7 +322,7 @@ const SuppressionLogs = () => {
         ) : (
           <>
             <div
-              className={`grid grid-cols-10 p-4 gap-3 rounded-md mb-3 shadow-sm border w-[280vw] md:w-full ${
+              className={`grid grid-cols-10 p-4 gap-3 rounded-t-[1.5rem] mb-3 border-bottom h-[52px] w-[280vw] md:w-full ${
                 mode === "dark" ? "bg-lightDark" : "bg-white"
               }`}
             >

@@ -155,7 +155,7 @@ const RepositoryScan = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className="px-8 mt-[32px]">
       {loading ? (
         <ScanLoading
           name={loadingData.name}
@@ -736,7 +736,7 @@ const RepositoryScan = () => {
             <div className="w-full md:w-[45%]">
               {!scanData ? (
                 <div
-                  className={`rounded-md flex items-center gap-8 justify-center flex-col mb-10 border shadow-md p-12 ${
+                  className={`rounded-md flex items-center gap-8 justify-center flex-col mb-10 border p-12 ${
                     mode === "dark" ? "bg-lightDark" : "bg-white"
                   }`}
                 >
@@ -748,7 +748,7 @@ const RepositoryScan = () => {
               ) : (
                 <>
                   <div
-                    className={`rounded-xl font-medium flex items-center justify-between mb-10 border shadow-md p-6 ${
+                    className={`rounded-xl font-medium flex items-center justify-between mb-10 border p-6 ${
                       mode === "dark" ? "bg-lightDark" : "bg-white"
                     }`}
                   >
