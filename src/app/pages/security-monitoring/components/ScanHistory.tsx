@@ -290,9 +290,9 @@ const ScanHistory = () => {
 
   return (
     <div className="w-full px-10 mt-[32px]">
-      <div className="grid md:grid-cols-4 gap-8">
+      <div className="grid md:grid-cols-4 gap-4 gap-lg-8">
         <div
-          className={`flex border border-[#EAEAEA] items-center justify-center rounded-xl p-6 gap-4 ${
+          className={`flex border border-[#EAEAEA] items-center justify-center rounded-xl p-3 p-lg-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -358,7 +358,7 @@ const ScanHistory = () => {
           </h1>
         </div>
         <div
-          className={`flex items-center justify-center border border-[#EAEAEA] rounded-xl p-6 gap-4 ${
+          className={`flex items-center justify-center border border-[#EAEAEA] rounded-xl p-3 p-lg-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >

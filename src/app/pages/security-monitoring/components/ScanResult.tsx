@@ -123,7 +123,7 @@ const ScanResult = () => {
     refetch();
   }
 
-  console.log(offset, checks.length);
+  console.log(scanresult);
   return (
     <div className="mt-[32px]">
       {isLoading || scanLoading ? (
@@ -137,8 +137,8 @@ const ScanResult = () => {
       ) : (
         <div className="md:w-[95%] mx-auto px-4">
           <div className="w-full" ref={printableArea}>
-            <div className="flex items-center justify-between flex-col md:flex-row gap-10">
-              <div className="flex justify-between flex-col md:flex-row items-center w-full md:w-[60%] gap-2">
+            <div className="flex items-center justify-between flex-col md:flex-row gap-4 gap-lg-10">
+              <div className="flex justify-between flex-col md:flex-row items-center w-full md:w-[80%] lg:w-[60%] gap-2">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-2">
                     <button onClick={() => navigate(-1)}>
@@ -207,7 +207,7 @@ const ScanResult = () => {
                       data: {
                         policy_id: scanresult?.policy_run?.policy?.id,
                         scan_frequency: scanresult?.scan_frequency,
-                        cloud_provider_account_id: 0,
+                        cloud_provider_account_id: scanresult?.cloud_account?.id,
                       },
                     },
                     {
@@ -240,23 +240,23 @@ const ScanResult = () => {
                   <path
                     d="M13.5 13L15 14.5"
                     stroke="#FFFFFF"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   ></path>
                   <path
                     d="M9 11C9 12.3807 10.1193 13.5 11.5 13.5C12.1916 13.5 12.8175 13.2192 13.2701 12.7654C13.7211 12.3132 14 11.6892 14 11C14 9.61929 12.8807 8.5 11.5 8.5C10.1193 8.5 9 9.61929 9 11Z"
                     stroke="#FFFFFF"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   ></path>
                   <path
                     d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
                     stroke="#FFFFFF"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   ></path>
                 </svg>
               </button>
@@ -265,7 +265,7 @@ const ScanResult = () => {
               {scanresult?.policy_run?.policy?.name}
             </h3>
             <div className="mt-16 grid md:grid-cols-4 gap-6 mb-8">
-              <div className="flex items-center gap-10 border-end">
+              <div className="flex items-center gap-lg-10 border-end">
                 <div className="rounded-t-full h-[150px] w-[200px] bg-gradient-to-r from-[#00B712] from-[45%] to-[#DADADA] via-[#DADADA] via-[10%] t0-[20%]">
                   <div
                     className={`rounded-t-full mt-5 h-[120px] w-[165px] mx-auto pt-2 ${
@@ -284,7 +284,7 @@ const ScanResult = () => {
                     <svg
                       width="14px"
                       height="14px"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -293,22 +293,22 @@ const ScanResult = () => {
                       <path
                         d="M9 22L12.0005 19M15 16L12.0005 19M12.0005 19L9 16M12.0005 19L15 22"
                         stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       ></path>
                       <path
                         d="M20 17.6073C21.4937 17.0221 23 15.6889 23 13C23 9 19.6667 8 18 8C18 6 18 2 12 2C6 2 6 6 6 8C4.33333 8 1 9 1 13C1 15.6889 2.50628 17.0221 4 17.6073"
                         stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       ></path>
                     </svg>
                     <svg
                       width="14px"
                       height="14px"
-                      stroke-width="1.5"
+                      strokeWidth="1.5"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -317,16 +317,16 @@ const ScanResult = () => {
                       <path
                         d="M8 18L11 21L16 16"
                         stroke="#00B712"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       ></path>
                       <path
                         d="M20 17.6073C21.4937 17.0221 23 15.6889 23 13C23 9 19.6667 8 18 8C18 6 18 2 12 2C6 2 6 6 6 8C4.33333 8 1 9 1 13C1 15.6889 2.50628 17.0221 4 17.6073"
                         stroke="#00B712"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       ></path>
                     </svg>
                   </div>

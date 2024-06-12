@@ -193,7 +193,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
               >
                 <option value="">Select Tenant</option>
                 {listTenants?.map((item) => (
-                  <option key={item?.id} value={item?.id}>
+                  <option key={item?.id} value={item?.id} className="font-medium">
                     {item?.full_name}
                   </option>
                 ))}
@@ -249,7 +249,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
                     name: "gpc",
                   },
                 ]?.map((item) => (
-                  <option key={item?.id} value={item?.id}>
+                  <option key={item?.id} value={item?.id} className="font-medium">
                     {item?.name}
                   </option>
                 ))}
@@ -284,7 +284,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
               >
                 <option value="">Select a resource type</option>
                 {listResources?.map((item) => (
-                  <option key={item?.id} value={item?.id}>
+                  <option key={item?.id} value={item?.id} className="font-medium">
                     {item?.resource_type}
                   </option>
                 ))}
@@ -302,7 +302,7 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
               >
                 <option value="">Select a region</option>
                 {listRegions?.map((item) => (
-                  <option key={item?.id} value={item?.id}>
+                  <option key={item?.id} value={item?.id} className="font-medium">
                     {item?.region_name}
                   </option>
                 ))}

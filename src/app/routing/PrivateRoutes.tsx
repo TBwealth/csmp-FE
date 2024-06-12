@@ -28,7 +28,7 @@ const PrivateRoutes = () => {
   );
   const TicketPage = lazy(() => import("../pages/tickets/TicketsPage"));
 
-  const Policy = lazy(() => import("../pages/policy/PolicyWrapper"));
+  const Policy = lazy(() => import("../pages/policy/PolicyAccessPage"));
   const PolicyRule = lazy(() => import("../pages/policy/PolicyRule"));
   const AssetsPage = lazy(() => import("../pages/assets/AssetsPage"));
   const SettingsPage = lazy(() => import("../pages/settings/SettingsPage"));

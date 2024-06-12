@@ -80,7 +80,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
 
   return (
     <div
-      className={`w-[90%] font-medium rounded-lg border-2 mx-auto md:w-[68%] ${
+      className={`w-[90%] font-medium rounded-lg border-2 mx-auto md:w-[80%] lg:w-[68%] ${
         mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
       } ${inModal ? "h-[90vh] overflow-auto" : ""}`}
     >

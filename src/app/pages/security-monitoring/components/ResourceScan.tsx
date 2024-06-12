@@ -155,7 +155,7 @@ const ResourceScan = () => {
               ))}
             </select>
           )}
-          <div className="flex items-start justify-between flex-col md:flex-row gap-10">
+          <div className="flex items-start justify-between flex-col md:flex-row gap-5 gap-lg-10">
             <div
               className={`rounded-md border shadow-md p-4 md:p-8 w-full md:w-[50%] ${
                 mode === "dark" ? "bg-lightDark" : "bg-white"

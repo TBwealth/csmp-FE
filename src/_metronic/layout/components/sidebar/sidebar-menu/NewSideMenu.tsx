@@ -424,11 +424,19 @@ const NewSideMenu = () => {
       ),
       children: [
         {
+          title: "Regulatory Compliance",
+          href: "",
+        },
+        {
           title: "Policy Enforcement",
           href: "/policy/policies",
         },
         {
-          title: "Regulatory Compliance",
+          title: "Rules and Benchmarks",
+          href: "/policy/rule-list",
+        },
+        {
+          title: "Audit Logs",
           href: "",
         },
       ],
@@ -701,7 +709,7 @@ const NewSideMenu = () => {
 
   return (
     <div className="flex items-start md:h-screen max-w-[400px]">
-      <div className="border-end pt-8 w-fit">
+      <div className="border-end pt-8 w-fit h-full">
         <div className="md:w-[62px] md:h-[66px] flex items-center justify-center">
           {mode === "dark" ? (
             <Link
@@ -864,12 +872,12 @@ const NewSideMenu = () => {
             </Link>
           )}
         </div>
-        <div className="md:overflow-auto md:h-[90vh] relative">
-          <div className="">
+        <div className="md:overflow-auto h-[90vh] relative">
+          <div className="pr-2 pr-md-0">
             {routes.map((link) => (
               <div
                 role="button"
-                className="flex items-center gap-2 md:w-[62px] md:h-[66px]"
+                className="flex items-center gap-md-2 md:w-[62px] md:h-[66px]"
                 onClick={() => {
                   setPageTitle(link.children![0].title);
                   sessionStorage.setItem("top-title", link.title);
@@ -929,7 +937,7 @@ const NewSideMenu = () => {
               </div>
             ))}
           </div>
-          <div className="absolute bottom-8 left-5">
+          <div className="absolute bottom-0 lg:bottom-8 md:left-5">
             <button
               onClick={() => {
                 setPopOpen(!popOpen);

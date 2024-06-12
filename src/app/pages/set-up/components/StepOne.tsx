@@ -19,7 +19,7 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
   const [selectedProvider, setSelectedProvider] = useState("aws");
   return (
     <div
-      className={`w-[90%] rounded-lg border-2 mx-auto md:w-[68%] ${
+      className={`w-[90%] rounded-lg border-2 mx-auto md:w-[80%] lg:w-[68%] ${
         mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF]"
       }`}
     >
@@ -62,7 +62,7 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
           </svg>
         </button>
       </div>
-      <div className="w-full font-medium grid md:grid-cols-3 p-6 gap-5 mt-10">
+      <div className="w-full font-medium grid lg:grid-cols-3 p-6 gap-5 mt-10">
         <div className="flex flex-col items-start justify-center">
           <h4
             className={`mb-4 text-[16px] font-semibold ${
@@ -74,15 +74,15 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
           <p
             className={
               mode === "dark"
-                ? "text-[#EAEAEA] md:w-72 text-[14px]"
-                : "text-[#373737] md:w-72 text-[14px]"
+                ? "text-[#EAEAEA] lg:w-72 text-[14px]"
+                : "text-[#373737] lg:w-72 text-[14px]"
             }
           >
             We currently have provisions for AWS and other services would be
             available soon
           </p>
         </div>
-        <div className="grid font-medium md:grid-cols-3 md:col-span-2 w-full gap-16">
+        <div className="grid font-medium md:grid-cols-3 md:col-span-2 w-full gap-4 gap-lg-16">
           <label htmlFor="aws" className="hover:cursor-pointer w-full relative">
             <div
               className={`${

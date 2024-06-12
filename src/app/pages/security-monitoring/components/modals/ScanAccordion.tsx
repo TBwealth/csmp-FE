@@ -212,7 +212,7 @@ const ScanAccordion = ({
       {isModalOpen && (
         <div className="w-full font-medium flex items-center justify-center h-[100vh] fixed z-[9999999] top-0 left-0 bg-black/70">
           <div
-            className={`w-[40%] rounded-md ${
+            className={`w-[90%] md:w-[60%] lg:w-[40%] rounded-md ${
               mode === "dark" ? "bg-lightDark" : "bg-white"
             }`}
           >

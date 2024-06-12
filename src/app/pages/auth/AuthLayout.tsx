@@ -89,17 +89,17 @@ const AuthLayout = () => {
               </linearGradient>
             </defs>
           </svg>
-          <p className="font-extrabold text-[24px] text-[#F7F7F8]">
+          <p className="font-extrabold text-[18px] lg:text-[24px] text-[#F7F7F8]">
             Cloud<span className="font-normal">Accord</span>
           </p>
         </div>
-        <h1 className="text-[#F7F7F8] w-fit mx-auto font-semibold text-[24px] md:text-[48px] text-ceter">
+        <h1 className="text-[#F7F7F8] w-fit mx-auto font-semibold text-[24px] lg:text-[48px] text-ceter">
           Your Gateway to Digital
         </h1>
-        <h1 className="text-[#F7F7F8] w-fit mx-auto font-semibold text-[24px] md:text-[48px] text-ceter">
+        <h1 className="text-[#F7F7F8] w-fit mx-auto font-semibold text-[24px] lg:text-[48px] text-ceter">
           Transformation
         </h1>
-        <p className="text-[#BABECA] text-[12px] md:text-[18px] md:w-[85%] text-center mx-auto font-medium">
+        <p className="text-[#BABECA] text-[12px] lg:text-[18px] md:w-[85%] text-center mx-auto font-medium">
           In the modern business landscape, embracing the cloud is not just
           about staying current; it’s about unlocking potential and fostering
           innovation.

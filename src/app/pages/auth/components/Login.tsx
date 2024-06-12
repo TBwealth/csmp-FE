@@ -105,7 +105,7 @@ export function Login() {
   return (
     <div className="w-full md:h-screen pt-20 bg-white">
       <form
-      className="text-[#373737] w-[80%] md:w-[60%] mx-auto"
+      className="text-[#373737] w-[80%] lg:w-[60%] mx-auto"
         onSubmit={formik.handleSubmit}
         noValidate
         id="kt_login_signin_form"
