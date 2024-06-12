@@ -187,7 +187,7 @@ const ModalTicketActivities = ({
             >
               <option value="">Select user</option>
               {user?.map((item: any) => (
-                <option key={item?.id} value={item?.id}>
+                <option key={item?.id} value={item?.id} className="font-medium">
                   {`${item?.first_name} ${item?.last_name}`}
                 </option>
               ))}

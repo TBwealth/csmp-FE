@@ -22,7 +22,7 @@ export const ComponentsheaderComponent = ({
 }: PropTypes) => {
   return (
     <>
-      <div className="flex flex-row pt-4 justify-between">
+      <div className="flex flex-row justify-between">
         <div className="flex flex-col gap-2 mx-6">
           <div className="flex items-center pl-5 pt-2 -mb-2">
             <h1 className="font-bold mb-2 md:mb-0  text-2xl">{pageName}</h1>

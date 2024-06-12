@@ -7,7 +7,7 @@ import clsx from "clsx";
 import * as Yup from "yup";
 import { useFormik, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { FaGlobe } from "react-icons/fa";
+import { FaGlobe, FaFile } from "react-icons/fa";
 import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
 import { useGetRegions } from "../../../api/api-services/systemQuery";
 import {
@@ -19,6 +19,7 @@ import {
   SystemSettingsRegionsList200Response,
   PolicyPolicyListCreateList200Response,
   AccountsApiTenantsList200Response,
+  CloudProviderCloudProviderResourceTypesList200Response,
 } from "../../../api/axios-client";
 import { Link } from "react-router-dom";
 import ScanPolicyModal from "./modals/ScanModal";
@@ -29,6 +30,7 @@ import axios from "axios";
 const scanSchema = Yup.object().shape({
   provider: Yup.string(),
   policy_id: Yup.string().required("policy id is required"),
+  cloud_provider_account_id: Yup.string().required("account id is required"),
   region: Yup.string(),
   frequency: Yup.string().required("scan frequency is  required"),
 });
@@ -40,6 +42,7 @@ const ResourceScan = () => {
   const [allRegions, setAllRegions] = useState<any[]>([]);
   const [allPolicy, setAllPolicy] = useState<any[]>([]);
   const [allTenant, setAllTenant] = useState<any[]>([]);
+  const [allResource, setAllResource] = useState<any[]>([]);
   const [showScan, setShowScan] = useState(false);
   const [errorMess, setErrorMess] = useState<any>(null);
   const [errType, setErrType] = useState<any>(null);
@@ -57,6 +60,9 @@ const ResourceScan = () => {
   const regionstsr: SystemSettingsRegionsList200Response | any = region;
   const { data: policies } = useGetPolicies({ page: 1, pageSize: 10000 });
   const policystsr: PolicyPolicyListCreateList200Response | any = policies;
+  const { data:resourcetypes, } = useGetCloudProviderResourceTypes({ page: 1, pageSize: 10000 });
+  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
+  resourcetypes;
   // const { data: scan } = useGetAllScanResults();
   // const scanstsr: PolicyPolicyListCreateList200Response | any = scan;
 
@@ -104,12 +110,13 @@ const ResourceScan = () => {
     setAllRegions(regionstsr?.data?.data?.results || []);
     setAllPolicy(policystsr?.data?.data?.results || []);
     setAllTenant(tenantstsr?.data?.data?.results || []);
+    setAllResource(datastsr?.data?.data?.results || []);
     if (tenantstsr?.data?.data?.results && isAdmin) {
       fetchTenantLatestScan("1");
     } else {
       fetchTenantLatestScan(user?.tenant?.id);
     }
-  }, [regionstsr, policystsr, tenantstsr, user]);
+  }, [regionstsr, policystsr, tenantstsr, user, datastsr]);
 
   const getSelectedData = (pol_id: string, reg_id: string) => {
     const selectedPol = allPolicy.filter((pol) => pol.id === Number(pol_id))[0];
@@ -124,7 +131,7 @@ const ResourceScan = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className="px-8 mt-[32px]">
       {scanLoading ? (
         <ScanLoading
           name={loadingData.name}
@@ -148,7 +155,7 @@ const ResourceScan = () => {
               ))}
             </select>
           )}
-          <div className="flex items-start justify-between flex-col md:flex-row gap-10">
+          <div className="flex items-start justify-between flex-col md:flex-row gap-5 gap-lg-10">
             <div
               className={`rounded-md border shadow-md p-4 md:p-8 w-full md:w-[50%] ${
                 mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -167,6 +174,7 @@ const ResourceScan = () => {
                     policy_id: "",
                     region: "",
                     frequency: "",
+                    cloud_provider_account_id: ""
                   }}
                   validationSchema={scanSchema}
                   onSubmit={async (values) => {
@@ -182,6 +190,7 @@ const ResourceScan = () => {
                           regions: [values.region],
                           services: [values.provider],
                           scan_frequency: values.frequency,
+                          cloud_provider_account_id: +values.cloud_provider_account_id
                         },
                       },
                       {
@@ -353,6 +362,43 @@ const ResourceScan = () => {
                           ))}
                         </select>
                       </div>
+                      {/* Resource */}
+                      <div className="form-group mb-10">
+                        <label
+                          htmlFor="region"
+                          className="flex items-center gap-4"
+                        >
+                          <FaFile
+                            color={mode === "dark" ? "#EAEAEA" : "#000000"}
+                            size={16}
+                          />
+                          <p className="font-semibold text-[14px]">
+                            Select a Resource
+                          </p>
+                        </label>
+                        <select
+                          autoComplete="off"
+                          {...form.getFieldProps("cloud_provider_account_id")}
+                          className={clsx(
+                            "form-control bg-transparent w-full h-45px mt-2",
+                            {
+                              "is-invalid":
+                                form.touched.cloud_provider_account_id && form.errors.cloud_provider_account_id,
+                            },
+                            {
+                              "is-valid":
+                                form.touched.cloud_provider_account_id && !form.errors.cloud_provider_account_id,
+                            }
+                          )}
+                        >
+                          <option value="" className="font-medium">Select Resource</option>
+                          {allResource.map((region) => (
+                            <option key={region.account_name} value={region.id} className="font-medium">
+                              {region.account_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                       {/* Region */}
                       <div className="form-group mb-10">
                         <label
@@ -512,7 +558,7 @@ const ResourceScan = () => {
             </div>
             <div className="w-full md:w-[45%]">
               <div
-                className={`rounded-md font-medium flex items-center justify-between mb-10 border shadow-md p-4 md:p-8 ${
+                className={`rounded-md font-medium flex items-center justify-between mb-10 border p-4 md:p-8 ${
                   mode === "dark" ? "bg-lightDark" : "bg-white"
                 }`}
               >

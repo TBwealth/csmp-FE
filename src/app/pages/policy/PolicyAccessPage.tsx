@@ -4,6 +4,7 @@ import { PageLink, PageTitle } from "../../../_metronic/layout/core";
 import PolicyRule from "./PolicyRule";
 import ScanResult from "../security-monitoring/components/ScanResult";
 import PolicyWrapper from "./PolicyWrapper";
+import RuleAndBenchmarks from "./RuleAndBenchmarks";
 
 
 const policyBreadCrumbs: Array<PageLink> = [
@@ -49,6 +50,17 @@ const PolicyAccessPage: React.FC = () => {
                 Policy Rules
               </PageTitle>
               <PolicyRule />
+            </>
+          }
+        />
+        <Route
+          path="rule-list"
+          element={
+            <>
+              <PageTitle breadcrumbs={policyBreadCrumbs}>
+                Policy Rules
+              </PageTitle>
+              <RuleAndBenchmarks />
             </>
           }
         />

@@ -25,7 +25,7 @@ const Profile = () => {
   }, [data]);
 
   return (
-    <div className="w-[95%] mx-auto h-screen">
+    <div className="w-[95%] mx-auto mt-[32px]">
       <ComponentsheaderComponent
         showbackbutton={true}
         backbuttonClick={() => navigate(-1)}

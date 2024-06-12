@@ -28,7 +28,7 @@ const SetupCard = ({
 }: any) => {
   return (
     <div
-      className={`grid grid-cols-10 p-4 rounded-md mb-3 shadow-sm w-[280vw] md:w-full ${
+      className={`grid grid-cols-10 p-4  mb-3 place-content-center border-bottom h-[52px] w-[280vw] md:w-[180vw] lg:w-full ${
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
@@ -229,7 +229,7 @@ const SuppressionSetup = () => {
   // console.log(allSetups);
   return (
     <>
-      <div className="w-[90%] mx-auto pt-12">
+      <div className="w-[90%] mx-auto mt-[32px]">
         <div className="flex items-center flex-col gap-4 md:flex-row justify-between w-full">
           <div
             className={`rounded-xl p-4 border shadow-md flex items-center justify-between gap-3 w-full md:w-fit ${
@@ -366,7 +366,7 @@ const SuppressionSetup = () => {
           ) : (
             <>
               <div
-                className={`grid grid-cols-10 p-4 rounded-md mb-3 shadow-sm border w-[280vw] md:w-full ${
+                className={`grid grid-cols-10 p-4 rounded-t-[1.5rem] mb-3 border-bottom h-[52px] w-[280vw] md:w-[180vw] lg:w-full ${
                   mode === "dark" ? "bg-lightDark" : "bg-white"
                 }`}
               >

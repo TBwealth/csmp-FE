@@ -148,13 +148,13 @@ export function Registration() {
   }, [datastr]);
 
   return (
-    <div className="w-full md:h-screen pt-16 bg-white">
+    <div className="w-full md:h-screen overflow-auto pt-8 lg:pt-16 bg-white">
       <form
-        className="text-[#373737] w-[80%] md:w-[65%] mx-auto"
+        className="text-[#373737] w-[80%] lg:w-[65%] mx-auto"
         id="kt_login_signup_form"
         onSubmit={formik.handleSubmit}
       >
-        <h1 className="font-medium uppercase text-[14px] md:text-[18px] mb-8">
+        <h1 className="font-medium uppercase text-[14px] lg:text-[18px] mb-8">
           Try a <span className="font-semibold">free 30-day trial</span> with
           complete access to CloudAccoRD™.{" "}
           <span className="font-semibold">No credit card required</span>. Get up

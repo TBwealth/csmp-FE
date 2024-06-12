@@ -29,7 +29,8 @@ export class RulesWithStatus implements IStatus {
   code: string = "";
   service: string = "";
   description: string = "";
-  status: string = "";
+  severity: string = "";
+  cloud_provider: string = "";
   rule_type: string = "";
   isDefault: string = "";
 
@@ -37,8 +38,9 @@ export class RulesWithStatus implements IStatus {
     this.id = tenant.id;
     this.name = tenant.name;
     this.code = tenant.code;
-    this.status = tenant.status;
+    this.severity = tenant.severity;
     this.rule_type = tenant.rule_type;
+    this.cloud_provider = tenant.cloud_provider;
     this.service = tenant.service;
     this.description = tenant.description;
     this.isDefault = tenant.isDefault;
@@ -72,24 +74,29 @@ const PolicyRule = () => {
     page: 1,
     pageSize: 10,
     name: undefined,
-    status: undefined,
+    severity: undefined,
     ruleType: undefined,
     code: undefined,
   });
   const filterFields: TableColumn[] = [
     { name: "name", title: "Name", type: ColumnTypes.Text },
     { name: "code", title: "Code", type: ColumnTypes.Text },
+    // { name: "service", title: "Service", type: ColumnTypes.Text },
     {
-      name: "status",
-      title: "Status",
+      name: "severity",
+      title: "Severity",
       type: ColumnTypes.List,
       listValue: [
-        { id: false, name: "Inactive" },
-        { id: true, name: "Active" },
+        { name: "Critical" },
+        { name: "Low" },
+        { name: "Medium" },
+        { name: "High" },
       ],
-      listIdField: "id",
+      listIdField: "name",
       listTextField: "name",
     },
+    { name: "rule_type", title: "Type", type: ColumnTypes.Text },
+    // { name: "cloud_provider", title: "Cloud Provider", type: ColumnTypes.Text },
   ];
   const tableActions: TableAction[] = [
     {
@@ -107,7 +114,9 @@ const PolicyRule = () => {
       ],
     },
   ];
-  const { data, isLoading, error, refetch } = useGetRulesList({...filter.current });
+  const { data, isLoading, error, refetch } = useGetRulesList({
+    ...filter.current,
+  });
   const { data: policyRule } = useGetSinglePolicyRules(+id!);
   const datastsr: any = data;
   const policyrule: PolicyRulesList200Response | any = policyRule;
@@ -164,14 +173,10 @@ const PolicyRule = () => {
         };
       });
       setItems(() => trans.map((x: any) => new RulesWithStatus(x)));
+      // setItems(trans);
     }
   }, [data, error, policyrule]);
   const tableColumns: TableColumn[] = [
-    {
-      name: "id",
-      title: "Id",
-      type: ColumnTypes.Text,
-    },
     {
       name: "name",
       title: "Name",
@@ -185,6 +190,16 @@ const PolicyRule = () => {
     {
       name: "code",
       title: "Code",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "severity",
+      title: "Severity",
+      type: ColumnTypes.Text,
+    },
+    {
+      name: "cloud_provider",
+      title: "Cloud Provider",
       type: ColumnTypes.Text,
     },
     {
@@ -211,10 +226,10 @@ const PolicyRule = () => {
       page: 1,
       pageSize: 10,
       name: undefined,
-      status: undefined,
+      severity: undefined,
       ruleType: undefined,
       code: undefined,
-    }
+    };
 
     refetch();
   }
@@ -224,15 +239,14 @@ const PolicyRule = () => {
       page: data?.page ?? 1,
       pageSize: data?.pageSize ?? 10,
       name: data?.name,
-      status: data?.status,
+      severity: data?.severity,
       ruleType: data?.ruleType,
       code: data?.code,
-     }
+    };
 
-     refetch();
+    refetch();
   }
 
-  
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
       setEditItems(event.data);
@@ -254,7 +268,7 @@ const PolicyRule = () => {
   }
 
   return (
-    <div className="">
+    <div className="mt-[32px]">
       <ComponentsheaderComponent
         backbuttonClick={() => navigate(-1)}
         showbackbutton={true}

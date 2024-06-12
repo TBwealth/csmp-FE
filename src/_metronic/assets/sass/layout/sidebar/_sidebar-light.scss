@@ -93,8 +93,9 @@
     [data-kt-app-header-minimize=on] .app-header {
         transition: none;
         z-index: 100;
-        background-color: var(--bs-app-header-minimize-bg-color);
-        box-shadow: var(--bs-app-header-minimize-box-shadow);
+        border-bottom: 1px solid #EAEAEA;
+        // background-color: var(--bs-app-header-minimize-bg-color);
+        // box-shadow: var(--bs-app-header-minimize-box-shadow);
     } 
 
     .app-sidebar {

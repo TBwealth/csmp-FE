@@ -31,7 +31,7 @@ const ScanCard = ({
 
   return (
     <div
-      className={`grid grid-cols-7 p-4 rounded-md mb-3 shadow-sm w-[180vw] md:w-full ${
+      className={`grid grid-cols-7 p-4 border-bottom mb-3 place-content-center h-[52px] w-[180vw] md:w-full ${
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
@@ -199,7 +199,7 @@ const RepoScanHistory = () => {
     <div className="w-full p-10">
       <div className="grid md:grid-cols-4 gap-8">
         <div
-          className={`flex shadow-sm items-center justify-center rounded-xl p-6 gap-4 ${
+          className={`flex border items-center justify-center rounded-xl p-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -243,7 +243,7 @@ const RepoScanHistory = () => {
           </h1>
         </div>
         <div
-          className={`md:col-span-2 w-fit flex items-center justify-center shadow-sm rounded-xl p-6 gap-4 ${
+          className={`md:col-span-2 w-fit flex items-center justify-center border rounded-xl p-6 gap-4 ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -334,7 +334,7 @@ const RepoScanHistory = () => {
           </div>
         </div>
       </div>
-      <div className="my-10 flex items-center w-full justify-between border-bottom">
+      <div className="mt-[48px] mb-[24px] flex items-center w-full justify-between border-bottom">
         <div className="">
           {["scan history"].map((d) => (
             <button
@@ -393,7 +393,7 @@ const RepoScanHistory = () => {
       <div className="mt-10">
         <div className="w-full overflow-auto">
           <div
-            className={`grid grid-cols-7 p-4 rounded-t-xl mb-3 shadow-sm w-[180vw] md:w-full ${
+            className={`grid grid-cols-7 p-4 rounded-t-xl mb-3 border-bottom place-content-center h-[52px] w-[180vw] md:w-full ${
               mode === "dark" ? "bg-lightDark" : "bg-white"
             }`}
           >
