@@ -47,7 +47,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
 }
 
  const launchAutomation = ()=>{
-    window.open("https://eu-west-1.console.aws.amazon.com/console/home?nc2=h_ct&src=header-signin", "_blank");
+    window.open("https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fcloudconformity%2FCloudConformity.template&stackName=CloudConformity&param_AccountId=717210094962&param_ExternalId=84afd050-df26-11ee-b0a8-318c1be8fa0c", "_blank");
   }
 
   const handleCreateServiceProvider = () => {
