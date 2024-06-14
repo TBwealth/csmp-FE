@@ -476,6 +476,111 @@ export interface CloudProviderResourceTypesList200Response {
 /**
  * 
  * @export
+ * @interface CloudTrailLog
+ */
+export interface CloudTrailLog {
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailLog
+     */
+    'start_time': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailLog
+     */
+    'end_time': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailLog
+     */
+    'cloud_provider_account_id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailLog
+     */
+    'tenant_id'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface CloudTrailLogRead
+ */
+export interface CloudTrailLogRead {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailLogRead
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailLogRead
+     */
+    'start_time': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailLogRead
+     */
+    'end_time': string;
+    /**
+     * 
+     * @type {object}
+     * @memberof CloudTrailLogRead
+     */
+    'result_json'?: object | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailLogRead
+     */
+    'tenant': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailLogRead
+     */
+    'cloudtrail_period': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailLogRead
+     */
+    'fetch_status': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailLogRead
+     */
+    'created_on'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CloudTrailThreeWeeksLog
+ */
+export interface CloudTrailThreeWeeksLog {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailThreeWeeksLog
+     */
+    'cloud_provider_account_id': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailThreeWeeksLog
+     */
+    'tenant_id'?: number | null;
+}
+/**
+ * 
+ * @export
  * @interface Country
  */
 export interface Country {
@@ -1065,6 +1170,37 @@ export interface Policy {
 /**
  * 
  * @export
+ * @interface PolicyFetchCloudtrailLogResultsList200Response
+ */
+export interface PolicyFetchCloudtrailLogResultsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyFetchCloudtrailLogResultsList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyFetchCloudtrailLogResultsList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyFetchCloudtrailLogResultsList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<CloudTrailLogRead>}
+     * @memberof PolicyFetchCloudtrailLogResultsList200Response
+     */
+    'results': Array<CloudTrailLogRead>;
+}
+/**
+ * 
+ * @export
  * @interface PolicyPolicyListCreateList200Response
  */
 export interface PolicyPolicyListCreateList200Response {
@@ -1491,6 +1627,12 @@ export interface PolicyRunResult {
      * @memberof PolicyRunResult
      */
     'repo': CustomRepoScanSetUp;
+    /**
+     * 
+     * @type {CustomCloudAccount}
+     * @memberof PolicyRunResult
+     */
+    'cloud_account': CustomCloudAccount;
 }
 /**
  * 
@@ -2476,6 +2618,12 @@ export interface TenantUser {
      * @memberof TenantUser
      */
     'last_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TenantUser
+     */
+    'latest_cloud_provider_account__id'?: string;
     /**
      * 
      * @type {CustomLoginTenant}
@@ -7917,6 +8065,82 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
+         * @param {CloudTrailLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyCreateCloudtrailLogsCreate: async (data: CloudTrailLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyCreateCloudtrailLogsCreate', 'data', data)
+            const localVarPath = `/policy/create_cloudtrail_logs/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CloudTrailThreeWeeksLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyCreateLastThreeWeeksCloudtrailLogsCreate: async (data: CloudTrailThreeWeeksLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyCreateLastThreeWeeksCloudtrailLogsCreate', 'data', data)
+            const localVarPath = `/policy/create_last_three_weeks_cloudtrail_logs/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -7947,6 +8171,84 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List CloudTrail Log Results
+         * @summary List CloudTrail Log Results
+         * @param {string} [createdOn] created_on
+         * @param {number} [tenant] Filter by Tenant
+         * @param {string} [cloudtrailPeriod] Filter by cloudtrail period (Last Three Weeks or Custom Period)
+         * @param {string} [fetchStatus] Filter by Fetch Status (PROCESSING, COMPLETED or FAILED)
+         * @param {string} [eventName] Filter by Event Name
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {any} [createdOnBefore] Filter by Date Created
+         * @param {any} [createdOnAfter] Filter by Date Created
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyFetchCloudtrailLogResultsList: async (createdOn?: string, tenant?: number, cloudtrailPeriod?: string, fetchStatus?: string, eventName?: string, page?: number, pageSize?: number, createdOnBefore?: any, createdOnAfter?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/policy/fetch_cloudtrail_log_results/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (createdOn !== undefined) {
+                localVarQueryParameter['created_on'] = createdOn;
+            }
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (cloudtrailPeriod !== undefined) {
+                localVarQueryParameter['cloudtrail_period'] = cloudtrailPeriod;
+            }
+
+            if (fetchStatus !== undefined) {
+                localVarQueryParameter['fetch_status'] = fetchStatus;
+            }
+
+            if (eventName !== undefined) {
+                localVarQueryParameter['eventName'] = eventName;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+            if (createdOnBefore !== undefined) {
+                localVarQueryParameter['created_on_before'] = createdOnBefore;
+            }
+
+            if (createdOnAfter !== undefined) {
+                localVarQueryParameter['created_on_after'] = createdOnAfter;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -8413,13 +8715,14 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
          * @param {string} [scanType] Filter by Scan Type
-         * @param {string} [scanFrequency] scan_frequency
+         * @param {string} [scanFrequency] Filter result by scan frequency
+         * @param {number} [cloudAccount] Filter by Cloud Provider Account ID
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunResultsList: async (tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyRunResultsList: async (tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, cloudAccount?: number, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_run_results/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8457,6 +8760,10 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (scanFrequency !== undefined) {
                 localVarQueryParameter['scan_frequency'] = scanFrequency;
+            }
+
+            if (cloudAccount !== undefined) {
+                localVarQueryParameter['cloud_account'] = cloudAccount;
             }
 
             if (page !== undefined) {
@@ -9097,14 +9404,13 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {string} [ruleType] Filter by rule type
          * @param {number} [tenant] Filter by tenant id
          * @param {string} [severity] Filter by severity
-         * @param {string} [cloudProvider] cloud_provider
+         * @param {string} [cloudProvider] Filter by cloud_provider
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {string} [cloudProovider] Filter by cloud_provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyRulesList: async (service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, cloudProovider?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyRulesList: async (service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/rules/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9158,10 +9464,6 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (pageSize !== undefined) {
                 localVarQueryParameter['page_size'] = pageSize;
-            }
-
-            if (cloudProovider !== undefined) {
-                localVarQueryParameter['cloud_proovider'] = cloudProovider;
             }
 
 
@@ -9346,12 +9648,51 @@ export const PolicyApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {CloudTrailLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyCreateCloudtrailLogsCreate(data: CloudTrailLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyCreateCloudtrailLogsCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {CloudTrailThreeWeeksLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyCreateLastThreeWeeksCloudtrailLogsCreate(data: CloudTrailThreeWeeksLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailThreeWeeksLog>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyCreateLastThreeWeeksCloudtrailLogsCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async policyFetchAssetCreate(data: FetchAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FetchAsset>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.policyFetchAssetCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List CloudTrail Log Results
+         * @summary List CloudTrail Log Results
+         * @param {string} [createdOn] created_on
+         * @param {number} [tenant] Filter by Tenant
+         * @param {string} [cloudtrailPeriod] Filter by cloudtrail period (Last Three Weeks or Custom Period)
+         * @param {string} [fetchStatus] Filter by Fetch Status (PROCESSING, COMPLETED or FAILED)
+         * @param {string} [eventName] Filter by Event Name
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {any} [createdOnBefore] Filter by Date Created
+         * @param {any} [createdOnAfter] Filter by Date Created
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyFetchCloudtrailLogResultsList(createdOn?: string, tenant?: number, cloudtrailPeriod?: string, fetchStatus?: string, eventName?: string, page?: number, pageSize?: number, createdOnBefore?: any, createdOnAfter?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyFetchCloudtrailLogResultsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyFetchCloudtrailLogResultsList(createdOn, tenant, cloudtrailPeriod, fetchStatus, eventName, page, pageSize, createdOnBefore, createdOnAfter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -9482,14 +9823,15 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
          * @param {string} [scanType] Filter by Scan Type
-         * @param {string} [scanFrequency] scan_frequency
+         * @param {string} [scanFrequency] Filter result by scan frequency
+         * @param {number} [cloudAccount] Filter by Cloud Provider Account ID
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunResultsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, scanFrequency, page, pageSize, options);
+        async policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, cloudAccount?: number, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunResultsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, scanFrequency, cloudAccount, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -9662,15 +10004,14 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {string} [ruleType] Filter by rule type
          * @param {number} [tenant] Filter by tenant id
          * @param {string} [severity] Filter by severity
-         * @param {string} [cloudProvider] cloud_provider
+         * @param {string} [cloudProvider] Filter by cloud_provider
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {string} [cloudProovider] Filter by cloud_provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyRulesList(service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, cloudProovider?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRulesList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRulesList(service, name, code, status, ruleType, tenant, severity, cloudProvider, page, pageSize, cloudProovider, options);
+        async policyRulesList(service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRulesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyRulesList(service, name, code, status, ruleType, tenant, severity, cloudProvider, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -9728,12 +10069,48 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
+         * @param {CloudTrailLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyCreateCloudtrailLogsCreate(data: CloudTrailLog, options?: any): AxiosPromise<CloudTrailLog> {
+            return localVarFp.policyCreateCloudtrailLogsCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CloudTrailThreeWeeksLog} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyCreateLastThreeWeeksCloudtrailLogsCreate(data: CloudTrailThreeWeeksLog, options?: any): AxiosPromise<CloudTrailThreeWeeksLog> {
+            return localVarFp.policyCreateLastThreeWeeksCloudtrailLogsCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         policyFetchAssetCreate(data: FetchAsset, options?: any): AxiosPromise<FetchAsset> {
             return localVarFp.policyFetchAssetCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List CloudTrail Log Results
+         * @summary List CloudTrail Log Results
+         * @param {string} [createdOn] created_on
+         * @param {number} [tenant] Filter by Tenant
+         * @param {string} [cloudtrailPeriod] Filter by cloudtrail period (Last Three Weeks or Custom Period)
+         * @param {string} [fetchStatus] Filter by Fetch Status (PROCESSING, COMPLETED or FAILED)
+         * @param {string} [eventName] Filter by Event Name
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {any} [createdOnBefore] Filter by Date Created
+         * @param {any} [createdOnAfter] Filter by Date Created
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyFetchCloudtrailLogResultsList(createdOn?: string, tenant?: number, cloudtrailPeriod?: string, fetchStatus?: string, eventName?: string, page?: number, pageSize?: number, createdOnBefore?: any, createdOnAfter?: any, options?: any): AxiosPromise<PolicyFetchCloudtrailLogResultsList200Response> {
+            return localVarFp.policyFetchCloudtrailLogResultsList(createdOn, tenant, cloudtrailPeriod, fetchStatus, eventName, page, pageSize, createdOnBefore, createdOnAfter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -9852,14 +10229,15 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {number} [policyRunId] Filter by Policy Run ID
          * @param {string} [severity] Filter by Severity (High, Medium, Low)
          * @param {string} [scanType] Filter by Scan Type
-         * @param {string} [scanFrequency] scan_frequency
+         * @param {string} [scanFrequency] Filter result by scan frequency
+         * @param {number} [cloudAccount] Filter by Cloud Provider Account ID
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyPolicyRunResultsList200Response> {
-            return localVarFp.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, scanFrequency, page, pageSize, options).then((request) => request(axios, basePath));
+        policyPolicyRunResultsList(tenant?: number, id?: number, policyRunId?: number, severity?: string, scanType?: string, scanFrequency?: string, cloudAccount?: number, page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyPolicyRunResultsList200Response> {
+            return localVarFp.policyPolicyRunResultsList(tenant, id, policyRunId, severity, scanType, scanFrequency, cloudAccount, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -10017,15 +10395,14 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {string} [ruleType] Filter by rule type
          * @param {number} [tenant] Filter by tenant id
          * @param {string} [severity] Filter by severity
-         * @param {string} [cloudProvider] cloud_provider
+         * @param {string} [cloudProvider] Filter by cloud_provider
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
-         * @param {string} [cloudProovider] Filter by cloud_provider
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyRulesList(service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, cloudProovider?: string, options?: any): AxiosPromise<PolicyRulesList200Response> {
-            return localVarFp.policyRulesList(service, name, code, status, ruleType, tenant, severity, cloudProvider, page, pageSize, cloudProovider, options).then((request) => request(axios, basePath));
+        policyRulesList(service?: string, name?: string, code?: string, status?: boolean, ruleType?: string, tenant?: number, severity?: string, cloudProvider?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyRulesList200Response> {
+            return localVarFp.policyRulesList(service, name, code, status, ruleType, tenant, severity, cloudProvider, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -10070,6 +10447,34 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
 };
 
 /**
+ * Request parameters for policyCreateCloudtrailLogsCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyCreateCloudtrailLogsCreateRequest
+ */
+export interface PolicyApiPolicyCreateCloudtrailLogsCreateRequest {
+    /**
+     * 
+     * @type {CloudTrailLog}
+     * @memberof PolicyApiPolicyCreateCloudtrailLogsCreate
+     */
+    readonly data: CloudTrailLog
+}
+
+/**
+ * Request parameters for policyCreateLastThreeWeeksCloudtrailLogsCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreateRequest
+ */
+export interface PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreateRequest {
+    /**
+     * 
+     * @type {CloudTrailThreeWeeksLog}
+     * @memberof PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreate
+     */
+    readonly data: CloudTrailThreeWeeksLog
+}
+
+/**
  * Request parameters for policyFetchAssetCreate operation in PolicyApi.
  * @export
  * @interface PolicyApiPolicyFetchAssetCreateRequest
@@ -10081,6 +10486,76 @@ export interface PolicyApiPolicyFetchAssetCreateRequest {
      * @memberof PolicyApiPolicyFetchAssetCreate
      */
     readonly data: FetchAsset
+}
+
+/**
+ * Request parameters for policyFetchCloudtrailLogResultsList operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyFetchCloudtrailLogResultsListRequest
+ */
+export interface PolicyApiPolicyFetchCloudtrailLogResultsListRequest {
+    /**
+     * created_on
+     * @type {string}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly createdOn?: string
+
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly tenant?: number
+
+    /**
+     * Filter by cloudtrail period (Last Three Weeks or Custom Period)
+     * @type {string}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly cloudtrailPeriod?: string
+
+    /**
+     * Filter by Fetch Status (PROCESSING, COMPLETED or FAILED)
+     * @type {string}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly fetchStatus?: string
+
+    /**
+     * Filter by Event Name
+     * @type {string}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly eventName?: string
+
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly pageSize?: number
+
+    /**
+     * Filter by Date Created
+     * @type {any}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly createdOnBefore?: any
+
+    /**
+     * Filter by Date Created
+     * @type {any}
+     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
+     */
+    readonly createdOnAfter?: any
 }
 
 /**
@@ -10335,11 +10810,18 @@ export interface PolicyApiPolicyPolicyRunResultsListRequest {
     readonly scanType?: string
 
     /**
-     * scan_frequency
+     * Filter result by scan frequency
      * @type {string}
      * @memberof PolicyApiPolicyPolicyRunResultsList
      */
     readonly scanFrequency?: string
+
+    /**
+     * Filter by Cloud Provider Account ID
+     * @type {number}
+     * @memberof PolicyApiPolicyPolicyRunResultsList
+     */
+    readonly cloudAccount?: number
 
     /**
      * A page number within the paginated result set.
@@ -10734,7 +11216,7 @@ export interface PolicyApiPolicyRulesListRequest {
     readonly severity?: string
 
     /**
-     * cloud_provider
+     * Filter by cloud_provider
      * @type {string}
      * @memberof PolicyApiPolicyRulesList
      */
@@ -10753,13 +11235,6 @@ export interface PolicyApiPolicyRulesListRequest {
      * @memberof PolicyApiPolicyRulesList
      */
     readonly pageSize?: number
-
-    /**
-     * Filter by cloud_provider
-     * @type {string}
-     * @memberof PolicyApiPolicyRulesList
-     */
-    readonly cloudProovider?: string
 }
 
 /**
@@ -10841,6 +11316,28 @@ export interface PolicyApiPolicyUpdatePolicyRuleUpdateRequest {
 export class PolicyApi extends BaseAPI {
     /**
      * 
+     * @param {PolicyApiPolicyCreateCloudtrailLogsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyCreateCloudtrailLogsCreate(requestParameters: PolicyApiPolicyCreateCloudtrailLogsCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyCreateCloudtrailLogsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyCreateLastThreeWeeksCloudtrailLogsCreate(requestParameters: PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyCreateLastThreeWeeksCloudtrailLogsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {PolicyApiPolicyFetchAssetCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10848,6 +11345,18 @@ export class PolicyApi extends BaseAPI {
      */
     public policyFetchAssetCreate(requestParameters: PolicyApiPolicyFetchAssetCreateRequest, options?: AxiosRequestConfig) {
         return PolicyApiFp(this.configuration).policyFetchAssetCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List CloudTrail Log Results
+     * @summary List CloudTrail Log Results
+     * @param {PolicyApiPolicyFetchCloudtrailLogResultsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyFetchCloudtrailLogResultsList(requestParameters: PolicyApiPolicyFetchCloudtrailLogResultsListRequest = {}, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyFetchCloudtrailLogResultsList(requestParameters.createdOn, requestParameters.tenant, requestParameters.cloudtrailPeriod, requestParameters.fetchStatus, requestParameters.eventName, requestParameters.page, requestParameters.pageSize, requestParameters.createdOnBefore, requestParameters.createdOnAfter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -10982,7 +11491,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyRunResultsList(requestParameters: PolicyApiPolicyPolicyRunResultsListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRunResultsList(requestParameters.tenant, requestParameters.id, requestParameters.policyRunId, requestParameters.severity, requestParameters.scanType, requestParameters.scanFrequency, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyRunResultsList(requestParameters.tenant, requestParameters.id, requestParameters.policyRunId, requestParameters.severity, requestParameters.scanType, requestParameters.scanFrequency, requestParameters.cloudAccount, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -11150,7 +11659,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyRulesList(requestParameters: PolicyApiPolicyRulesListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyRulesList(requestParameters.service, requestParameters.name, requestParameters.code, requestParameters.status, requestParameters.ruleType, requestParameters.tenant, requestParameters.severity, requestParameters.cloudProvider, requestParameters.page, requestParameters.pageSize, requestParameters.cloudProovider, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyRulesList(requestParameters.service, requestParameters.name, requestParameters.code, requestParameters.status, requestParameters.ruleType, requestParameters.tenant, requestParameters.severity, requestParameters.cloudProvider, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
