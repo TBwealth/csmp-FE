@@ -259,8 +259,8 @@ const NewSideMenu = () => {
           href: "/monitoring/scan-history",
         },
         {
-          title: "Network Log",
-          href: "",
+          title: "CloudTrails",
+          href: "/monitoring/cloudtrail-setup",
         },
       ],
     },

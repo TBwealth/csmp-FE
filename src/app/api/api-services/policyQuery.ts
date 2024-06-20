@@ -1,5 +1,6 @@
 import {
   Policy,
+  PolicyApiPolicyCreateCloudtrailLogsCreateRequest,
   PolicyApiPolicyPolicyDetailUpdateRequest,
   PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest,
   PolicyApiPolicyPolicyRepoRunScanCreateRequest,
@@ -12,7 +13,12 @@ import {
   Rule,
 } from "../axios-client";
 import { policyApi } from "./index";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 
 // POLICY
 export const useGetPolicies = (data: any) => {
@@ -112,8 +118,7 @@ export const useRuleCreate = () => {
 export const useRuleUpdate = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation(
-    ({ id, data }: any) =>
-      policyApi.policyRulesUpdate({ id, data }),
+    ({ id, data }: any) => policyApi.policyRulesUpdate({ id, data }),
     {
       onSuccess: (res) => {
         console.log(res);
@@ -247,8 +252,8 @@ export const useRunRepoScan = () => {
 };
 export const useUpdateRepoScan = () => {
   const mutation = useMutation(
-    ({id, data}: PolicyApiPolicyRepoScanSetupUpdateRequest) =>
-      policyApi.policyRepoScanSetupUpdate({id, data})
+    ({ id, data }: PolicyApiPolicyRepoScanSetupUpdateRequest) =>
+      policyApi.policyRepoScanSetupUpdate({ id, data })
   );
 
   return mutation;
@@ -257,6 +262,31 @@ export const useRunRepoOnceScan = () => {
   const mutation = useMutation(
     (data: PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest) =>
       policyApi.policyPolicyOneTimeRepoScanCreate(data)
+  );
+
+  return mutation;
+};
+
+// CLOUDTRAILS
+
+export const useGetAllCloudTrails = (data: any) => {
+  const query = useQuery(["all-trails"], () =>
+    policyApi.policyFetchCloudtrailLogResultsList({ ...data })
+  );
+
+  return query;
+};
+
+export const useCreateCloudTrail = () => {
+  const queryClient = new QueryClient();
+  const mutation = useMutation(
+    (data: PolicyApiPolicyCreateCloudtrailLogsCreateRequest) =>
+      policyApi.policyCreateCloudtrailLogsCreate(data),
+    {
+      onSuccess: (res) => {
+        queryClient.invalidateQueries(["all-trails"])
+      }
+    }
   );
 
   return mutation;

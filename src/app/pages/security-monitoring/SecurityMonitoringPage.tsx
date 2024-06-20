@@ -4,6 +4,9 @@ import { PageLink, PageTitle } from '../../../_metronic/layout/core';
 import ScanResult from './components/ScanResult';
 import ResourceScan from './components/ResourceScan';
 import ScanHistory from './components/ScanHistory';
+import CloudTrail from './components/CloudTrail';
+import TrailHistory from './components/TrailHistory';
+import TrailHistoryDetails from './components/TrailHistoryDetails';
 const cloudProviderBreadCrumbs: Array<PageLink> = [
     {
       title: "Security Monitoring",
@@ -65,13 +68,35 @@ const SecurityMonitoringPage = () => {
           }
         />
         <Route
-          path=""
+          path="cloudtrail-setup"
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-                Incident Report
+                Cloud Trail Setup
               </PageTitle>
-              {/* <CloudRegion /> */}
+              <CloudTrail />
+            </>
+          }
+        />
+        <Route
+          path="cloudtrail-history/:name"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Cloud Trail History
+              </PageTitle>
+              <TrailHistory />
+            </>
+          }
+        />
+        <Route
+          path="cloudtrail-detail"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Cloud Trail Details
+              </PageTitle>
+              <TrailHistoryDetails />
             </>
           }
         />
