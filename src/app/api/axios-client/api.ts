@@ -476,108 +476,328 @@ export interface CloudProviderResourceTypesList200Response {
 /**
  * 
  * @export
- * @interface CloudTrailLog
+ * @interface CloudTrailAlarmLog
  */
-export interface CloudTrailLog {
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudTrailLog
-     */
-    'start_time': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CloudTrailLog
-     */
-    'end_time': string;
+export interface CloudTrailAlarmLog {
     /**
      * 
      * @type {number}
-     * @memberof CloudTrailLog
-     */
-    'cloud_provider_account_id': number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CloudTrailLog
-     */
-    'tenant_id'?: number | null;
-}
-/**
- * 
- * @export
- * @interface CloudTrailLogRead
- */
-export interface CloudTrailLogRead {
-    /**
-     * 
-     * @type {number}
-     * @memberof CloudTrailLogRead
+     * @memberof CloudTrailAlarmLog
      */
     'id'?: number;
     /**
      * 
      * @type {string}
-     * @memberof CloudTrailLogRead
+     * @memberof CloudTrailAlarmLog
      */
-    'start_time': string;
+    'event_time'?: string;
+    /**
+     * 
+     * @type {CustomProviderService}
+     * @memberof CloudTrailAlarmLog
+     */
+    'cloud_provider_account_id': CustomProviderService;
     /**
      * 
      * @type {string}
-     * @memberof CloudTrailLogRead
+     * @memberof CloudTrailAlarmLog
      */
-    'end_time': string;
-    /**
-     * 
-     * @type {object}
-     * @memberof CloudTrailLogRead
-     */
-    'result_json'?: object | null;
+    'scan_frequency': string;
     /**
      * 
      * @type {number}
-     * @memberof CloudTrailLogRead
+     * @memberof CloudTrailAlarmLog
      */
     'tenant': number;
     /**
      * 
      * @type {string}
-     * @memberof CloudTrailLogRead
+     * @memberof CloudTrailAlarmLog
      */
-    'cloudtrail_period': string;
+    'scan_log': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailAlarmLog
+     */
+    'active_alarms'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailAlarmLog
+     */
+    'triggered_alarms'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailAlarmLog
+     */
+    'resolved'?: number | null;
     /**
      * 
      * @type {string}
-     * @memberof CloudTrailLogRead
+     * @memberof CloudTrailAlarmLog
      */
-    'fetch_status': string;
+    'last_run'?: string;
     /**
      * 
      * @type {string}
-     * @memberof CloudTrailLogRead
+     * @memberof CloudTrailAlarmLog
      */
-    'created_on'?: string;
+    'fetch_status'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailAlarmLog
+     */
+    'created_on'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailAlarmLog
+     */
+    'period'?: string | null;
 }
 /**
  * 
  * @export
- * @interface CloudTrailThreeWeeksLog
+ * @interface CloudTrailEvent
  */
-export interface CloudTrailThreeWeeksLog {
+export interface CloudTrailEvent {
     /**
      * 
      * @type {number}
-     * @memberof CloudTrailThreeWeeksLog
+     * @memberof CloudTrailEvent
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {CustomCloudTrailAlarmLog}
+     * @memberof CloudTrailEvent
+     */
+    'log': CustomCloudTrailAlarmLog;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'event_id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'event_time': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'event_name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'event_source'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'aws_region'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'source_ip_address'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'user_agent'?: string | null;
+    /**
+     * 
+     * @type {object}
+     * @memberof CloudTrailEvent
+     */
+    'request_parameters'?: object | null;
+    /**
+     * 
+     * @type {object}
+     * @memberof CloudTrailEvent
+     */
+    'response_elements'?: object | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'event_type'?: string | null;
+    /**
+     * 
+     * @type {object}
+     * @memberof CloudTrailEvent
+     */
+    'user_identity'?: object | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'request_id'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'error_code'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'error_message'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'event_category'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailEvent
+     */
+    'status'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CloudTrailFilters
+ */
+export interface CloudTrailFilters {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailFilters
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailFilters
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailFilters
+     */
+    'description'?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof CloudTrailFilters
+     */
+    'filter_pattern'?: object | null;
+}
+/**
+ * 
+ * @export
+ * @interface CloudTrailSetUp
+ */
+export interface CloudTrailSetUp {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailSetUp
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailSetUp
      */
     'cloud_provider_account_id': number;
     /**
      * 
-     * @type {number}
-     * @memberof CloudTrailThreeWeeksLog
+     * @type {string}
+     * @memberof CloudTrailSetUp
      */
-    'tenant_id'?: number | null;
+    'scan_frequency': CloudTrailSetUpScanFrequencyEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailSetUp
+     */
+    'tenant'?: number;
+    /**
+     * 
+     * @type {Set<number>}
+     * @memberof CloudTrailSetUp
+     */
+    'filter_patterns': Set<number>;
 }
+
+export const CloudTrailSetUpScanFrequencyEnum = {
+    Hourly: 'hourly',
+    Daily: 'daily',
+    Weekly: 'weekly',
+    Monthly: 'monthly'
+} as const;
+
+export type CloudTrailSetUpScanFrequencyEnum = typeof CloudTrailSetUpScanFrequencyEnum[keyof typeof CloudTrailSetUpScanFrequencyEnum];
+
+/**
+ * 
+ * @export
+ * @interface CloudTrailSetUpList
+ */
+export interface CloudTrailSetUpList {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailSetUpList
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailSetUpList
+     */
+    'cloud_provider_account_id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailSetUpList
+     */
+    'scan_frequency': CloudTrailSetUpListScanFrequencyEnum;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailSetUpList
+     */
+    'tenant'?: number;
+    /**
+     * 
+     * @type {Array<CustomCloudTrailFilters>}
+     * @memberof CloudTrailSetUpList
+     */
+    'filter_patterns'?: Array<CustomCloudTrailFilters>;
+}
+
+export const CloudTrailSetUpListScanFrequencyEnum = {
+    Hourly: 'hourly',
+    Daily: 'daily',
+    Weekly: 'weekly',
+    Monthly: 'monthly'
+} as const;
+
+export type CloudTrailSetUpListScanFrequencyEnum = typeof CloudTrailSetUpListScanFrequencyEnum[keyof typeof CloudTrailSetUpListScanFrequencyEnum];
+
 /**
  * 
  * @export
@@ -711,6 +931,56 @@ export interface CustomCloudProvider {
 /**
  * 
  * @export
+ * @interface CustomCloudTrailAlarmLog
+ */
+export interface CustomCloudTrailAlarmLog {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomCloudTrailAlarmLog
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomCloudTrailAlarmLog
+     */
+    'triggered_alarms'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomCloudTrailAlarmLog
+     */
+    'resolved'?: number | null;
+}
+/**
+ * 
+ * @export
+ * @interface CustomCloudTrailFilters
+ */
+export interface CustomCloudTrailFilters {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomCloudTrailFilters
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomCloudTrailFilters
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomCloudTrailFilters
+     */
+    'description'?: string;
+}
+/**
+ * 
+ * @export
  * @interface CustomLoginTenant
  */
 export interface CustomLoginTenant {
@@ -789,6 +1059,31 @@ export interface CustomPolicyRun {
      * @memberof CustomPolicyRun
      */
     'policy': CustomPolicy;
+}
+/**
+ * 
+ * @export
+ * @interface CustomProviderService
+ */
+export interface CustomProviderService {
+    /**
+     * 
+     * @type {number}
+     * @memberof CustomProviderService
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomProviderService
+     */
+    'cloud_provider_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CustomProviderService
+     */
+    'account_name': string;
 }
 /**
  * 
@@ -1166,37 +1461,6 @@ export interface Policy {
      * @memberof Policy
      */
     'policy_type': string;
-}
-/**
- * 
- * @export
- * @interface PolicyFetchCloudtrailLogResultsList200Response
- */
-export interface PolicyFetchCloudtrailLogResultsList200Response {
-    /**
-     * 
-     * @type {number}
-     * @memberof PolicyFetchCloudtrailLogResultsList200Response
-     */
-    'count': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof PolicyFetchCloudtrailLogResultsList200Response
-     */
-    'next'?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof PolicyFetchCloudtrailLogResultsList200Response
-     */
-    'previous'?: string | null;
-    /**
-     * 
-     * @type {Array<CloudTrailLogRead>}
-     * @memberof PolicyFetchCloudtrailLogResultsList200Response
-     */
-    'results': Array<CloudTrailLogRead>;
 }
 /**
  * 
@@ -2289,6 +2553,130 @@ export interface SystemSettingsAssetManagementsList200Response {
 /**
  * 
  * @export
+ * @interface SystemSettingsCloudTrailFiltersList200Response
+ */
+export interface SystemSettingsCloudTrailFiltersList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemSettingsCloudTrailFiltersList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsCloudTrailFiltersList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsCloudTrailFiltersList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<CloudTrailFilters>}
+     * @memberof SystemSettingsCloudTrailFiltersList200Response
+     */
+    'results': Array<CloudTrailFilters>;
+}
+/**
+ * 
+ * @export
+ * @interface SystemSettingsCloudTrailSetupsList200Response
+ */
+export interface SystemSettingsCloudTrailSetupsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemSettingsCloudTrailSetupsList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsCloudTrailSetupsList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsCloudTrailSetupsList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<CloudTrailSetUpList>}
+     * @memberof SystemSettingsCloudTrailSetupsList200Response
+     */
+    'results': Array<CloudTrailSetUpList>;
+}
+/**
+ * 
+ * @export
+ * @interface SystemSettingsCloudtrailEventsList200Response
+ */
+export interface SystemSettingsCloudtrailEventsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemSettingsCloudtrailEventsList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsCloudtrailEventsList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsCloudtrailEventsList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<CloudTrailEvent>}
+     * @memberof SystemSettingsCloudtrailEventsList200Response
+     */
+    'results': Array<CloudTrailEvent>;
+}
+/**
+ * 
+ * @export
+ * @interface SystemSettingsCloudtrailLogsList200Response
+ */
+export interface SystemSettingsCloudtrailLogsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemSettingsCloudtrailLogsList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsCloudtrailLogsList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsCloudtrailLogsList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<CloudTrailAlarmLog>}
+     * @memberof SystemSettingsCloudtrailLogsList200Response
+     */
+    'results': Array<CloudTrailAlarmLog>;
+}
+/**
+ * 
+ * @export
  * @interface SystemSettingsRegionsList200Response
  */
 export interface SystemSettingsRegionsList200Response {
@@ -2977,6 +3365,33 @@ export interface TokenRefresh {
      */
     'access'?: string;
 }
+/**
+ * 
+ * @export
+ * @interface UpdateCloudEventStatus
+ */
+export interface UpdateCloudEventStatus {
+    /**
+     * List of Cloud Event IDs to update
+     * @type {Array<number>}
+     * @memberof UpdateCloudEventStatus
+     */
+    'event_ids': Array<number>;
+    /**
+     * New status to set for the Cloud Events
+     * @type {string}
+     * @memberof UpdateCloudEventStatus
+     */
+    'new_status': UpdateCloudEventStatusNewStatusEnum;
+}
+
+export const UpdateCloudEventStatusNewStatusEnum = {
+    Triggered: 'triggered',
+    Normal: 'normal'
+} as const;
+
+export type UpdateCloudEventStatusNewStatusEnum = typeof UpdateCloudEventStatusNewStatusEnum[keyof typeof UpdateCloudEventStatusNewStatusEnum];
+
 /**
  * 
  * @export
@@ -8065,82 +8480,6 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @param {CloudTrailLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyCreateCloudtrailLogsCreate: async (data: CloudTrailLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('policyCreateCloudtrailLogsCreate', 'data', data)
-            const localVarPath = `/policy/create_cloudtrail_logs/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {CloudTrailThreeWeeksLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyCreateLastThreeWeeksCloudtrailLogsCreate: async (data: CloudTrailThreeWeeksLog, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'data' is not null or undefined
-            assertParamExists('policyCreateLastThreeWeeksCloudtrailLogsCreate', 'data', data)
-            const localVarPath = `/policy/create_last_three_weeks_cloudtrail_logs/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -8171,84 +8510,6 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * List CloudTrail Log Results
-         * @summary List CloudTrail Log Results
-         * @param {string} [createdOn] created_on
-         * @param {number} [tenant] Filter by Tenant
-         * @param {string} [cloudtrailPeriod] Filter by cloudtrail period (Last Three Weeks or Custom Period)
-         * @param {string} [fetchStatus] Filter by Fetch Status (PROCESSING, COMPLETED or FAILED)
-         * @param {string} [eventName] Filter by Event Name
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {number} [pageSize] Number of results to return per page.
-         * @param {any} [createdOnBefore] Filter by Date Created
-         * @param {any} [createdOnAfter] Filter by Date Created
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyFetchCloudtrailLogResultsList: async (createdOn?: string, tenant?: number, cloudtrailPeriod?: string, fetchStatus?: string, eventName?: string, page?: number, pageSize?: number, createdOnBefore?: any, createdOnAfter?: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/policy/fetch_cloudtrail_log_results/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
-
-            if (createdOn !== undefined) {
-                localVarQueryParameter['created_on'] = createdOn;
-            }
-
-            if (tenant !== undefined) {
-                localVarQueryParameter['tenant'] = tenant;
-            }
-
-            if (cloudtrailPeriod !== undefined) {
-                localVarQueryParameter['cloudtrail_period'] = cloudtrailPeriod;
-            }
-
-            if (fetchStatus !== undefined) {
-                localVarQueryParameter['fetch_status'] = fetchStatus;
-            }
-
-            if (eventName !== undefined) {
-                localVarQueryParameter['eventName'] = eventName;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['page_size'] = pageSize;
-            }
-
-            if (createdOnBefore !== undefined) {
-                localVarQueryParameter['created_on_before'] = createdOnBefore;
-            }
-
-            if (createdOnAfter !== undefined) {
-                localVarQueryParameter['created_on_after'] = createdOnAfter;
-            }
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -9648,51 +9909,12 @@ export const PolicyApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {CloudTrailLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async policyCreateCloudtrailLogsCreate(data: CloudTrailLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailLog>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyCreateCloudtrailLogsCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {CloudTrailThreeWeeksLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async policyCreateLastThreeWeeksCloudtrailLogsCreate(data: CloudTrailThreeWeeksLog, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailThreeWeeksLog>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyCreateLastThreeWeeksCloudtrailLogsCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
          * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async policyFetchAssetCreate(data: FetchAsset, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FetchAsset>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.policyFetchAssetCreate(data, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * List CloudTrail Log Results
-         * @summary List CloudTrail Log Results
-         * @param {string} [createdOn] created_on
-         * @param {number} [tenant] Filter by Tenant
-         * @param {string} [cloudtrailPeriod] Filter by cloudtrail period (Last Three Weeks or Custom Period)
-         * @param {string} [fetchStatus] Filter by Fetch Status (PROCESSING, COMPLETED or FAILED)
-         * @param {string} [eventName] Filter by Event Name
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {number} [pageSize] Number of results to return per page.
-         * @param {any} [createdOnBefore] Filter by Date Created
-         * @param {any} [createdOnAfter] Filter by Date Created
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async policyFetchCloudtrailLogResultsList(createdOn?: string, tenant?: number, cloudtrailPeriod?: string, fetchStatus?: string, eventName?: string, page?: number, pageSize?: number, createdOnBefore?: any, createdOnAfter?: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyFetchCloudtrailLogResultsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyFetchCloudtrailLogResultsList(createdOn, tenant, cloudtrailPeriod, fetchStatus, eventName, page, pageSize, createdOnBefore, createdOnAfter, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -10069,48 +10291,12 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
-         * @param {CloudTrailLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyCreateCloudtrailLogsCreate(data: CloudTrailLog, options?: any): AxiosPromise<CloudTrailLog> {
-            return localVarFp.policyCreateCloudtrailLogsCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {CloudTrailThreeWeeksLog} data 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyCreateLastThreeWeeksCloudtrailLogsCreate(data: CloudTrailThreeWeeksLog, options?: any): AxiosPromise<CloudTrailThreeWeeksLog> {
-            return localVarFp.policyCreateLastThreeWeeksCloudtrailLogsCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @param {FetchAsset} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         policyFetchAssetCreate(data: FetchAsset, options?: any): AxiosPromise<FetchAsset> {
             return localVarFp.policyFetchAssetCreate(data, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * List CloudTrail Log Results
-         * @summary List CloudTrail Log Results
-         * @param {string} [createdOn] created_on
-         * @param {number} [tenant] Filter by Tenant
-         * @param {string} [cloudtrailPeriod] Filter by cloudtrail period (Last Three Weeks or Custom Period)
-         * @param {string} [fetchStatus] Filter by Fetch Status (PROCESSING, COMPLETED or FAILED)
-         * @param {string} [eventName] Filter by Event Name
-         * @param {number} [page] A page number within the paginated result set.
-         * @param {number} [pageSize] Number of results to return per page.
-         * @param {any} [createdOnBefore] Filter by Date Created
-         * @param {any} [createdOnAfter] Filter by Date Created
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        policyFetchCloudtrailLogResultsList(createdOn?: string, tenant?: number, cloudtrailPeriod?: string, fetchStatus?: string, eventName?: string, page?: number, pageSize?: number, createdOnBefore?: any, createdOnAfter?: any, options?: any): AxiosPromise<PolicyFetchCloudtrailLogResultsList200Response> {
-            return localVarFp.policyFetchCloudtrailLogResultsList(createdOn, tenant, cloudtrailPeriod, fetchStatus, eventName, page, pageSize, createdOnBefore, createdOnAfter, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -10447,34 +10633,6 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
 };
 
 /**
- * Request parameters for policyCreateCloudtrailLogsCreate operation in PolicyApi.
- * @export
- * @interface PolicyApiPolicyCreateCloudtrailLogsCreateRequest
- */
-export interface PolicyApiPolicyCreateCloudtrailLogsCreateRequest {
-    /**
-     * 
-     * @type {CloudTrailLog}
-     * @memberof PolicyApiPolicyCreateCloudtrailLogsCreate
-     */
-    readonly data: CloudTrailLog
-}
-
-/**
- * Request parameters for policyCreateLastThreeWeeksCloudtrailLogsCreate operation in PolicyApi.
- * @export
- * @interface PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreateRequest
- */
-export interface PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreateRequest {
-    /**
-     * 
-     * @type {CloudTrailThreeWeeksLog}
-     * @memberof PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreate
-     */
-    readonly data: CloudTrailThreeWeeksLog
-}
-
-/**
  * Request parameters for policyFetchAssetCreate operation in PolicyApi.
  * @export
  * @interface PolicyApiPolicyFetchAssetCreateRequest
@@ -10486,76 +10644,6 @@ export interface PolicyApiPolicyFetchAssetCreateRequest {
      * @memberof PolicyApiPolicyFetchAssetCreate
      */
     readonly data: FetchAsset
-}
-
-/**
- * Request parameters for policyFetchCloudtrailLogResultsList operation in PolicyApi.
- * @export
- * @interface PolicyApiPolicyFetchCloudtrailLogResultsListRequest
- */
-export interface PolicyApiPolicyFetchCloudtrailLogResultsListRequest {
-    /**
-     * created_on
-     * @type {string}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly createdOn?: string
-
-    /**
-     * Filter by Tenant
-     * @type {number}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly tenant?: number
-
-    /**
-     * Filter by cloudtrail period (Last Three Weeks or Custom Period)
-     * @type {string}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly cloudtrailPeriod?: string
-
-    /**
-     * Filter by Fetch Status (PROCESSING, COMPLETED or FAILED)
-     * @type {string}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly fetchStatus?: string
-
-    /**
-     * Filter by Event Name
-     * @type {string}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly eventName?: string
-
-    /**
-     * A page number within the paginated result set.
-     * @type {number}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly page?: number
-
-    /**
-     * Number of results to return per page.
-     * @type {number}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly pageSize?: number
-
-    /**
-     * Filter by Date Created
-     * @type {any}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly createdOnBefore?: any
-
-    /**
-     * Filter by Date Created
-     * @type {any}
-     * @memberof PolicyApiPolicyFetchCloudtrailLogResultsList
-     */
-    readonly createdOnAfter?: any
 }
 
 /**
@@ -11316,28 +11404,6 @@ export interface PolicyApiPolicyUpdatePolicyRuleUpdateRequest {
 export class PolicyApi extends BaseAPI {
     /**
      * 
-     * @param {PolicyApiPolicyCreateCloudtrailLogsCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PolicyApi
-     */
-    public policyCreateCloudtrailLogsCreate(requestParameters: PolicyApiPolicyCreateCloudtrailLogsCreateRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyCreateCloudtrailLogsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PolicyApi
-     */
-    public policyCreateLastThreeWeeksCloudtrailLogsCreate(requestParameters: PolicyApiPolicyCreateLastThreeWeeksCloudtrailLogsCreateRequest, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyCreateLastThreeWeeksCloudtrailLogsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
      * @param {PolicyApiPolicyFetchAssetCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11345,18 +11411,6 @@ export class PolicyApi extends BaseAPI {
      */
     public policyFetchAssetCreate(requestParameters: PolicyApiPolicyFetchAssetCreateRequest, options?: AxiosRequestConfig) {
         return PolicyApiFp(this.configuration).policyFetchAssetCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * List CloudTrail Log Results
-     * @summary List CloudTrail Log Results
-     * @param {PolicyApiPolicyFetchCloudtrailLogResultsListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof PolicyApi
-     */
-    public policyFetchCloudtrailLogResultsList(requestParameters: PolicyApiPolicyFetchCloudtrailLogResultsListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyFetchCloudtrailLogResultsList(requestParameters.createdOn, requestParameters.tenant, requestParameters.cloudtrailPeriod, requestParameters.fetchStatus, requestParameters.eventName, requestParameters.page, requestParameters.pageSize, requestParameters.createdOnBefore, requestParameters.createdOnAfter, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -11930,6 +11984,519 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersCreate: async (data: CloudTrailFilters, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsCloudTrailFiltersCreate', 'data', data)
+            const localVarPath = `/system_settings/cloud_trail_filters/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/cloud_trail_filters/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersPartialUpdate: async (id: number, data: CloudTrailFilters, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsCloudTrailFiltersPartialUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsCloudTrailFiltersPartialUpdate', 'data', data)
+            const localVarPath = `/system_settings/cloud_trail_filters/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsCloudTrailFiltersRead', 'id', id)
+            const localVarPath = `/system_settings/cloud_trail_filters/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersUpdate: async (id: number, data: CloudTrailFilters, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsCloudTrailFiltersUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsCloudTrailFiltersUpdate', 'data', data)
+            const localVarPath = `/system_settings/cloud_trail_filters/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CloudTrailSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailSetupsCreate: async (data: CloudTrailSetUp, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsCloudTrailSetupsCreate', 'data', data)
+            const localVarPath = `/system_settings/cloud_trail_setups/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List CloudTrail SetUps
+         * @summary List CloudTrail Setups
+         * @param {number} [cloudProviderAccountId] Filter by Cloud Provider Account ID
+         * @param {number} [tenant] Filter by Tenant
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailSetupsList: async (cloudProviderAccountId?: number, tenant?: number, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/cloud_trail_setups/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (cloudProviderAccountId !== undefined) {
+                localVarQueryParameter['cloud_provider_account_id'] = cloudProviderAccountId;
+            }
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailSetupsRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsCloudTrailSetupsRead', 'id', id)
+            const localVarPath = `/system_settings/cloud_trail_setups/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List CloudTrail Events with optional filters
+         * @summary List CloudTrail Events
+         * @param {number} [log] Filter by Log ID
+         * @param {any} [eventTime] Filter by Event Time
+         * @param {string} [eventName] Filter by Event Name
+         * @param {string} [eventSource] Filter by Event Source
+         * @param {string} [awsRegion] Filter by AWS Region
+         * @param {string} [sourceIpAddress] Filter by Source IP Address
+         * @param {string} [userAgent] Filter by User Agent
+         * @param {string} [eventType] Filter by Event Type
+         * @param {string} [eventCategory] Filter by Event Category
+         * @param {string} [status] Filter by Status
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudtrailEventsList: async (log?: number, eventTime?: any, eventName?: string, eventSource?: string, awsRegion?: string, sourceIpAddress?: string, userAgent?: string, eventType?: string, eventCategory?: string, status?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/cloudtrail_events/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (log !== undefined) {
+                localVarQueryParameter['log'] = log;
+            }
+
+            if (eventTime !== undefined) {
+                localVarQueryParameter['event_time'] = eventTime;
+            }
+
+            if (eventName !== undefined) {
+                localVarQueryParameter['event_name'] = eventName;
+            }
+
+            if (eventSource !== undefined) {
+                localVarQueryParameter['event_source'] = eventSource;
+            }
+
+            if (awsRegion !== undefined) {
+                localVarQueryParameter['aws_region'] = awsRegion;
+            }
+
+            if (sourceIpAddress !== undefined) {
+                localVarQueryParameter['source_ip_address'] = sourceIpAddress;
+            }
+
+            if (userAgent !== undefined) {
+                localVarQueryParameter['user_agent'] = userAgent;
+            }
+
+            if (eventType !== undefined) {
+                localVarQueryParameter['event_type'] = eventType;
+            }
+
+            if (eventCategory !== undefined) {
+                localVarQueryParameter['event_category'] = eventCategory;
+            }
+
+            if (status !== undefined) {
+                localVarQueryParameter['status'] = status;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List Cloud Trail Alarm Log history
+         * @summary List Cloud Trail Log
+         * @param {string} [scanFrequency] Filter result by scan frequency
+         * @param {number} [tenant] Filter by Tenant
+         * @param {number} [cloudProviderAccountId] Filter by Cloud Provider Account ID
+         * @param {number} [fetchStatus] Filter by Fectch Status (PROCESSING, FAILED, COMPLETED, NO DATA)
+         * @param {string} [scanLog] Filter By Scan Log
+         * @param {any} [createdOn] Filter by Created On Time
+         * @param {string} [period] Filter by Period
+         * @param {number} [triggeredAlarms] Filter by Triggered Alarms
+         * @param {number} [activeAlarms] Filter by Active Alarms
+         * @param {any} [eventTime] Filter by Event Time
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudtrailLogsList: async (scanFrequency?: string, tenant?: number, cloudProviderAccountId?: number, fetchStatus?: number, scanLog?: string, createdOn?: any, period?: string, triggeredAlarms?: number, activeAlarms?: number, eventTime?: any, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/cloudtrail_logs/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (scanFrequency !== undefined) {
+                localVarQueryParameter['scan_frequency'] = scanFrequency;
+            }
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (cloudProviderAccountId !== undefined) {
+                localVarQueryParameter['cloud_provider_account_id'] = cloudProviderAccountId;
+            }
+
+            if (fetchStatus !== undefined) {
+                localVarQueryParameter['fetch_status'] = fetchStatus;
+            }
+
+            if (scanLog !== undefined) {
+                localVarQueryParameter['scan_log'] = scanLog;
+            }
+
+            if (createdOn !== undefined) {
+                localVarQueryParameter['created_on'] = createdOn;
+            }
+
+            if (period !== undefined) {
+                localVarQueryParameter['period'] = period;
+            }
+
+            if (triggeredAlarms !== undefined) {
+                localVarQueryParameter['triggered_alarms'] = triggeredAlarms;
+            }
+
+            if (activeAlarms !== undefined) {
+                localVarQueryParameter['active_alarms'] = activeAlarms;
+            }
+
+            if (eventTime !== undefined) {
+                localVarQueryParameter['event_time'] = eventTime;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -12807,6 +13374,44 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {UpdateCloudEventStatus} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsUpdateCloudEventStatusCreate: async (data: UpdateCloudEventStatus, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsUpdateCloudEventStatusCreate', 'data', data)
+            const localVarPath = `/system_settings/update_cloud_event_status/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -12873,6 +13478,137 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          */
         async systemSettingsAssetManagementsUpdate(id: string, data: TenantAssetManagement, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TenantAssetManagement>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailFiltersCreate(data: CloudTrailFilters, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailFilters>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailFiltersList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsCloudTrailFiltersList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersList(page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailFiltersPartialUpdate(id: number, data: CloudTrailFilters, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailFilters>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersPartialUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailFiltersRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailFilters>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailFiltersUpdate(id: number, data: CloudTrailFilters, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailFilters>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {CloudTrailSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailSetupsCreate(data: CloudTrailSetUp, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailSetUp>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailSetupsCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List CloudTrail SetUps
+         * @summary List CloudTrail Setups
+         * @param {number} [cloudProviderAccountId] Filter by Cloud Provider Account ID
+         * @param {number} [tenant] Filter by Tenant
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailSetupsList(cloudProviderAccountId?: number, tenant?: number, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsCloudTrailSetupsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailSetupsList(cloudProviderAccountId, tenant, page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailSetupsRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailSetUpList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailSetupsRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List CloudTrail Events with optional filters
+         * @summary List CloudTrail Events
+         * @param {number} [log] Filter by Log ID
+         * @param {any} [eventTime] Filter by Event Time
+         * @param {string} [eventName] Filter by Event Name
+         * @param {string} [eventSource] Filter by Event Source
+         * @param {string} [awsRegion] Filter by AWS Region
+         * @param {string} [sourceIpAddress] Filter by Source IP Address
+         * @param {string} [userAgent] Filter by User Agent
+         * @param {string} [eventType] Filter by Event Type
+         * @param {string} [eventCategory] Filter by Event Category
+         * @param {string} [status] Filter by Status
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudtrailEventsList(log?: number, eventTime?: any, eventName?: string, eventSource?: string, awsRegion?: string, sourceIpAddress?: string, userAgent?: string, eventType?: string, eventCategory?: string, status?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsCloudtrailEventsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudtrailEventsList(log, eventTime, eventName, eventSource, awsRegion, sourceIpAddress, userAgent, eventType, eventCategory, status, page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List Cloud Trail Alarm Log history
+         * @summary List Cloud Trail Log
+         * @param {string} [scanFrequency] Filter result by scan frequency
+         * @param {number} [tenant] Filter by Tenant
+         * @param {number} [cloudProviderAccountId] Filter by Cloud Provider Account ID
+         * @param {number} [fetchStatus] Filter by Fectch Status (PROCESSING, FAILED, COMPLETED, NO DATA)
+         * @param {string} [scanLog] Filter By Scan Log
+         * @param {any} [createdOn] Filter by Created On Time
+         * @param {string} [period] Filter by Period
+         * @param {number} [triggeredAlarms] Filter by Triggered Alarms
+         * @param {number} [activeAlarms] Filter by Active Alarms
+         * @param {any} [eventTime] Filter by Event Time
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudtrailLogsList(scanFrequency?: string, tenant?: number, cloudProviderAccountId?: number, fetchStatus?: number, scanLog?: string, createdOn?: any, period?: string, triggeredAlarms?: number, activeAlarms?: number, eventTime?: any, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsCloudtrailLogsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudtrailLogsList(scanFrequency, tenant, cloudProviderAccountId, fetchStatus, scanLog, createdOn, period, triggeredAlarms, activeAlarms, eventTime, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -13104,6 +13840,16 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsSystemSettingsUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {UpdateCloudEventStatus} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsUpdateCloudEventStatusCreate(data: UpdateCloudEventStatus, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UpdateCloudEventStatus>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsUpdateCloudEventStatusCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -13166,6 +13912,127 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          */
         systemSettingsAssetManagementsUpdate(id: string, data: TenantAssetManagement, options?: any): AxiosPromise<TenantAssetManagement> {
             return localVarFp.systemSettingsAssetManagementsUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersCreate(data: CloudTrailFilters, options?: any): AxiosPromise<CloudTrailFilters> {
+            return localVarFp.systemSettingsCloudTrailFiltersCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsCloudTrailFiltersList200Response> {
+            return localVarFp.systemSettingsCloudTrailFiltersList(page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersPartialUpdate(id: number, data: CloudTrailFilters, options?: any): AxiosPromise<CloudTrailFilters> {
+            return localVarFp.systemSettingsCloudTrailFiltersPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersRead(id: number, options?: any): AxiosPromise<CloudTrailFilters> {
+            return localVarFp.systemSettingsCloudTrailFiltersRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail filters.
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersUpdate(id: number, data: CloudTrailFilters, options?: any): AxiosPromise<CloudTrailFilters> {
+            return localVarFp.systemSettingsCloudTrailFiltersUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CloudTrailSetUp} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailSetupsCreate(data: CloudTrailSetUp, options?: any): AxiosPromise<CloudTrailSetUp> {
+            return localVarFp.systemSettingsCloudTrailSetupsCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List CloudTrail SetUps
+         * @summary List CloudTrail Setups
+         * @param {number} [cloudProviderAccountId] Filter by Cloud Provider Account ID
+         * @param {number} [tenant] Filter by Tenant
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailSetupsList(cloudProviderAccountId?: number, tenant?: number, page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsCloudTrailSetupsList200Response> {
+            return localVarFp.systemSettingsCloudTrailSetupsList(cloudProviderAccountId, tenant, page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud trail set up.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailSetupsRead(id: number, options?: any): AxiosPromise<CloudTrailSetUpList> {
+            return localVarFp.systemSettingsCloudTrailSetupsRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List CloudTrail Events with optional filters
+         * @summary List CloudTrail Events
+         * @param {number} [log] Filter by Log ID
+         * @param {any} [eventTime] Filter by Event Time
+         * @param {string} [eventName] Filter by Event Name
+         * @param {string} [eventSource] Filter by Event Source
+         * @param {string} [awsRegion] Filter by AWS Region
+         * @param {string} [sourceIpAddress] Filter by Source IP Address
+         * @param {string} [userAgent] Filter by User Agent
+         * @param {string} [eventType] Filter by Event Type
+         * @param {string} [eventCategory] Filter by Event Category
+         * @param {string} [status] Filter by Status
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudtrailEventsList(log?: number, eventTime?: any, eventName?: string, eventSource?: string, awsRegion?: string, sourceIpAddress?: string, userAgent?: string, eventType?: string, eventCategory?: string, status?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsCloudtrailEventsList200Response> {
+            return localVarFp.systemSettingsCloudtrailEventsList(log, eventTime, eventName, eventSource, awsRegion, sourceIpAddress, userAgent, eventType, eventCategory, status, page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List Cloud Trail Alarm Log history
+         * @summary List Cloud Trail Log
+         * @param {string} [scanFrequency] Filter result by scan frequency
+         * @param {number} [tenant] Filter by Tenant
+         * @param {number} [cloudProviderAccountId] Filter by Cloud Provider Account ID
+         * @param {number} [fetchStatus] Filter by Fectch Status (PROCESSING, FAILED, COMPLETED, NO DATA)
+         * @param {string} [scanLog] Filter By Scan Log
+         * @param {any} [createdOn] Filter by Created On Time
+         * @param {string} [period] Filter by Period
+         * @param {number} [triggeredAlarms] Filter by Triggered Alarms
+         * @param {number} [activeAlarms] Filter by Active Alarms
+         * @param {any} [eventTime] Filter by Event Time
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudtrailLogsList(scanFrequency?: string, tenant?: number, cloudProviderAccountId?: number, fetchStatus?: number, scanLog?: string, createdOn?: any, period?: string, triggeredAlarms?: number, activeAlarms?: number, eventTime?: any, page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsCloudtrailLogsList200Response> {
+            return localVarFp.systemSettingsCloudtrailLogsList(scanFrequency, tenant, cloudProviderAccountId, fetchStatus, scanLog, createdOn, period, triggeredAlarms, activeAlarms, eventTime, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -13376,6 +14243,15 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
         systemSettingsSystemSettingsUpdate(id: number, data: SystemSetting, options?: any): AxiosPromise<SystemSetting> {
             return localVarFp.systemSettingsSystemSettingsUpdate(id, data, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {UpdateCloudEventStatus} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsUpdateCloudEventStatusCreate(data: UpdateCloudEventStatus, options?: any): AxiosPromise<UpdateCloudEventStatus> {
+            return localVarFp.systemSettingsUpdateCloudEventStatusCreate(data, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -13496,6 +14372,342 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest {
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsUpdate
      */
     readonly data: TenantAssetManagement
+}
+
+/**
+ * Request parameters for systemSettingsCloudTrailFiltersCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudTrailFiltersCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudTrailFiltersCreateRequest {
+    /**
+     * 
+     * @type {CloudTrailFilters}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersCreate
+     */
+    readonly data: CloudTrailFilters
+}
+
+/**
+ * Request parameters for systemSettingsCloudTrailFiltersList operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudTrailFiltersListRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudTrailFiltersListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersList
+     */
+    readonly pageSize?: number
+}
+
+/**
+ * Request parameters for systemSettingsCloudTrailFiltersPartialUpdate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudTrailFiltersPartialUpdateRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudTrailFiltersPartialUpdateRequest {
+    /**
+     * A unique integer value identifying this cloud trail filters.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersPartialUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {CloudTrailFilters}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersPartialUpdate
+     */
+    readonly data: CloudTrailFilters
+}
+
+/**
+ * Request parameters for systemSettingsCloudTrailFiltersRead operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudTrailFiltersReadRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudTrailFiltersReadRequest {
+    /**
+     * A unique integer value identifying this cloud trail filters.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersRead
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for systemSettingsCloudTrailFiltersUpdate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudTrailFiltersUpdateRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudTrailFiltersUpdateRequest {
+    /**
+     * A unique integer value identifying this cloud trail filters.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {CloudTrailFilters}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersUpdate
+     */
+    readonly data: CloudTrailFilters
+}
+
+/**
+ * Request parameters for systemSettingsCloudTrailSetupsCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudTrailSetupsCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudTrailSetupsCreateRequest {
+    /**
+     * 
+     * @type {CloudTrailSetUp}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailSetupsCreate
+     */
+    readonly data: CloudTrailSetUp
+}
+
+/**
+ * Request parameters for systemSettingsCloudTrailSetupsList operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudTrailSetupsListRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudTrailSetupsListRequest {
+    /**
+     * Filter by Cloud Provider Account ID
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailSetupsList
+     */
+    readonly cloudProviderAccountId?: number
+
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailSetupsList
+     */
+    readonly tenant?: number
+
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailSetupsList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailSetupsList
+     */
+    readonly pageSize?: number
+}
+
+/**
+ * Request parameters for systemSettingsCloudTrailSetupsRead operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudTrailSetupsReadRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudTrailSetupsReadRequest {
+    /**
+     * A unique integer value identifying this cloud trail set up.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailSetupsRead
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for systemSettingsCloudtrailEventsList operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudtrailEventsListRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudtrailEventsListRequest {
+    /**
+     * Filter by Log ID
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly log?: number
+
+    /**
+     * Filter by Event Time
+     * @type {any}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly eventTime?: any
+
+    /**
+     * Filter by Event Name
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly eventName?: string
+
+    /**
+     * Filter by Event Source
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly eventSource?: string
+
+    /**
+     * Filter by AWS Region
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly awsRegion?: string
+
+    /**
+     * Filter by Source IP Address
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly sourceIpAddress?: string
+
+    /**
+     * Filter by User Agent
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly userAgent?: string
+
+    /**
+     * Filter by Event Type
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly eventType?: string
+
+    /**
+     * Filter by Event Category
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly eventCategory?: string
+
+    /**
+     * Filter by Status
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly status?: string
+
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailEventsList
+     */
+    readonly pageSize?: number
+}
+
+/**
+ * Request parameters for systemSettingsCloudtrailLogsList operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsCloudtrailLogsListRequest
+ */
+export interface SystemSettingsApiSystemSettingsCloudtrailLogsListRequest {
+    /**
+     * Filter result by scan frequency
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly scanFrequency?: string
+
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly tenant?: number
+
+    /**
+     * Filter by Cloud Provider Account ID
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly cloudProviderAccountId?: number
+
+    /**
+     * Filter by Fectch Status (PROCESSING, FAILED, COMPLETED, NO DATA)
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly fetchStatus?: number
+
+    /**
+     * Filter By Scan Log
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly scanLog?: string
+
+    /**
+     * Filter by Created On Time
+     * @type {any}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly createdOn?: any
+
+    /**
+     * Filter by Period
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly period?: string
+
+    /**
+     * Filter by Triggered Alarms
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly triggeredAlarms?: number
+
+    /**
+     * Filter by Active Alarms
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly activeAlarms?: number
+
+    /**
+     * Filter by Event Time
+     * @type {any}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly eventTime?: any
+
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudtrailLogsList
+     */
+    readonly pageSize?: number
 }
 
 /**
@@ -13961,6 +15173,20 @@ export interface SystemSettingsApiSystemSettingsSystemSettingsUpdateRequest {
 }
 
 /**
+ * Request parameters for systemSettingsUpdateCloudEventStatusCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreateRequest {
+    /**
+     * 
+     * @type {UpdateCloudEventStatus}
+     * @memberof SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreate
+     */
+    readonly data: UpdateCloudEventStatus
+}
+
+/**
  * SystemSettingsApi - object-oriented interface
  * @export
  * @class SystemSettingsApi
@@ -14021,6 +15247,119 @@ export class SystemSettingsApi extends BaseAPI {
      */
     public systemSettingsAssetManagementsUpdate(requestParameters: SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest, options?: AxiosRequestConfig) {
         return SystemSettingsApiFp(this.configuration).systemSettingsAssetManagementsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsCloudTrailFiltersCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudTrailFiltersCreate(requestParameters: SystemSettingsApiSystemSettingsCloudTrailFiltersCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailFiltersCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsCloudTrailFiltersListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudTrailFiltersList(requestParameters: SystemSettingsApiSystemSettingsCloudTrailFiltersListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailFiltersList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsCloudTrailFiltersPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudTrailFiltersPartialUpdate(requestParameters: SystemSettingsApiSystemSettingsCloudTrailFiltersPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailFiltersPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsCloudTrailFiltersReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudTrailFiltersRead(requestParameters: SystemSettingsApiSystemSettingsCloudTrailFiltersReadRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailFiltersRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsCloudTrailFiltersUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudTrailFiltersUpdate(requestParameters: SystemSettingsApiSystemSettingsCloudTrailFiltersUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailFiltersUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsCloudTrailSetupsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudTrailSetupsCreate(requestParameters: SystemSettingsApiSystemSettingsCloudTrailSetupsCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailSetupsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List CloudTrail SetUps
+     * @summary List CloudTrail Setups
+     * @param {SystemSettingsApiSystemSettingsCloudTrailSetupsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudTrailSetupsList(requestParameters: SystemSettingsApiSystemSettingsCloudTrailSetupsListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailSetupsList(requestParameters.cloudProviderAccountId, requestParameters.tenant, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsCloudTrailSetupsReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudTrailSetupsRead(requestParameters: SystemSettingsApiSystemSettingsCloudTrailSetupsReadRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailSetupsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List CloudTrail Events with optional filters
+     * @summary List CloudTrail Events
+     * @param {SystemSettingsApiSystemSettingsCloudtrailEventsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudtrailEventsList(requestParameters: SystemSettingsApiSystemSettingsCloudtrailEventsListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudtrailEventsList(requestParameters.log, requestParameters.eventTime, requestParameters.eventName, requestParameters.eventSource, requestParameters.awsRegion, requestParameters.sourceIpAddress, requestParameters.userAgent, requestParameters.eventType, requestParameters.eventCategory, requestParameters.status, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List Cloud Trail Alarm Log history
+     * @summary List Cloud Trail Log
+     * @param {SystemSettingsApiSystemSettingsCloudtrailLogsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsCloudtrailLogsList(requestParameters: SystemSettingsApiSystemSettingsCloudtrailLogsListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudtrailLogsList(requestParameters.scanFrequency, requestParameters.tenant, requestParameters.cloudProviderAccountId, requestParameters.fetchStatus, requestParameters.scanLog, requestParameters.createdOn, requestParameters.period, requestParameters.triggeredAlarms, requestParameters.activeAlarms, requestParameters.eventTime, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -14244,6 +15583,17 @@ export class SystemSettingsApi extends BaseAPI {
      */
     public systemSettingsSystemSettingsUpdate(requestParameters: SystemSettingsApiSystemSettingsSystemSettingsUpdateRequest, options?: AxiosRequestConfig) {
         return SystemSettingsApiFp(this.configuration).systemSettingsSystemSettingsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsUpdateCloudEventStatusCreate(requestParameters: SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsUpdateCloudEventStatusCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
