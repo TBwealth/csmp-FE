@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Tooltip } from "flowbite-react";
 import { useRecoilValue } from "recoil";
@@ -7,23 +7,34 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import awsImg from "../../../../../public/media/logos/aws-logo.svg";
 import { Popover } from "react-tiny-popover";
 import { Modal } from "react-bootstrap";
+import axios from "axios";
+import { markAsResolved } from "../../../api/api-services/systemQuery";
+import DefaultContent from "../../../components/defaultContent/defaultContent";
 
-const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
+const Card = ({
+  data,
+  mode,
+  handleCheck,
+  setSelected,
+  setShowModal,
+  isDisabled,
+  markSingleResolve,
+}: any) => {
   const [openPopup, setOpenPop] = useState(false);
   return (
     <div
-      className={`grid grid-cols-10 gap-[8px] p-4 h-[52px] place-content-center border-bottom mb-[8px] w-[350vw] md:w-[180vw] lg:w-[120vw] ${
+      className={`grid grid-cols-9 gap-[8px] p-4 h-[52px] place-content-center border-bottom mb-[8px] w-[350vw] md:w-[180vw] lg:w-[120vw] ${
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
-      <div className="flex relative items-center gap-[8px]">
+      <div className="flex relative items-center pl-[12px] gap-[8px]">
         <Popover
           onClickOutside={() => setOpenPop(false)}
           isOpen={openPopup}
-          positions={["bottom", "right"]}
+          positions={["top", "right"]}
           content={
             <ul
-              className={`rounded-[12px] shadow-md ${
+              className={`rounded-[12px] z-[10000] shadow-md ${
                 mode === "dark" ? "bg-lightDark " : "bg-white"
               }`}
             >
@@ -63,6 +74,7 @@ const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
               <li className="border-start-0 p-0">
                 <button
                   onClick={() => {
+                    markSingleResolve();
                     setOpenPop(false);
                   }}
                   className="w-full flex items-center border-top border-bottom py-[16px] px-[30px] gap-[12px] font-medium"
@@ -144,7 +156,7 @@ const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
             </ul>
           }
         >
-          <button onClick={() => setOpenPop(true)}>
+          <button disabled={isDisabled} onClick={() => setOpenPop(true)}>
             <svg
               width="16"
               height="16"
@@ -187,6 +199,7 @@ const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
         </Popover>
         <input
           type="checkbox"
+          disabled={isDisabled}
           checked={data?.isChecked}
           onChange={handleCheck}
           className="w-[16px] h-[16px] border-light rounded border"
@@ -194,7 +207,7 @@ const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
       </div>
       <p
         className={`font-medium flex items-center text-[12px] ${
-          data?.status === "Triggered"
+          data?.status === "triggered"
             ? "text-[#FF161A]"
             : mode === "dark"
             ? "text-[#909BBC]"
@@ -208,7 +221,7 @@ const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
-        {data.event_name}
+        {data?.event_name}
       </p>
       <p
         className={`flex items-center font-medium text-[12px] ${
@@ -222,14 +235,14 @@ const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
-        {data?.ip_address}
+        {data?.source_ip_address}
       </p>
       <p
         className={`flex items-center font-medium text-[12px] ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
-        {data?.region}
+        {data?.aws_region}
       </p>
       <Tooltip
         className="shadow-md"
@@ -253,7 +266,7 @@ const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
         content={
           <div className="bg-primary border-0 w-72 p-[16px] text-white">
             <p className="font-medium mb-[3px]">Request parameters</p>
-            {JSON.stringify(data?.req_params, null, 2)}
+            {JSON.stringify(data?.request_parameters, null, 2)}
           </div>
         }
       >
@@ -262,16 +275,22 @@ const Card = ({ data, mode, handleCheck, setSelected, setShowModal }: any) => {
             mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
           }`}
         >
-          {`${data?.req_params?.policyArn.slice(0, 20)}...`}
+          {`${
+            data?.request_parameters?.vpcId
+              ? data?.request_parameters?.vpcId.slice(0, 20)
+              : data?.request_parameters?.groupId
+              ? data?.request_parameters?.groupId.slice(0, 20)
+              : ""
+          }...`}
         </p>
       </Tooltip>
-      <p
+      {/* <p
         className={`flex items-center font-medium text-[12px] ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
-        {`${data?.res_element.slice(0, 20)}...`}
-      </p>
+        {`${data?.event_category ? data?.event_category.slice(0, 20) : ""}...`}
+      </p> */}
       <p
         className={`flex items-center font-medium text-[12px] ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
@@ -288,58 +307,30 @@ const TrailHistoryDetails = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [search] = useSearchParams();
   const name = search.get("name");
+  const id = search.get("id");
+  const time = search.get("time");
+  const log = search.get("log");
   const [showModal, setShowModal] = useState(false);
   const [selected, setSelected] = useState<any>(null);
   const [numChecked, setNumChecked] = useState(0);
   const [checkall, setCheckAll] = useState(false);
-  const [data, setData] = useState<any[]>([
-    {
-      status: "Triggered",
-      id: 2,
-      event_name: "AttachUserPolicy",
-      event_source: "iam.amazonaws.com",
-      ip_address: "197.211.59.10",
-      region: "US-East-1",
-      isChecked: false,
-      user_identity: {
-        type: "Root",
-        principalId: "211125495289",
-        arn: "aws:iam::211125495289:root",
-        accountId: "211125495289",
-        userName: "CspmUser",
-      },
-      req_params: {
-        userName: "CspmUser",
-        policyArn:
-          "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
-      },
-      res_element: "{BucketArn: arn:aws:s3:::example-bucket}",
-      event_type: "AwsApiCall",
-    },
-    {
-      status: "Normal",
-      id: 1,
-      event_name: "CreateBucket",
-      event_source: "iam.amazonaws.com",
-      ip_address: "197.211.59.10",
-      region: "US-East-1",
-      isChecked: false,
-      user_identity: {
-        type: "Root",
-        principalId: "211125495289",
-        arn: "aws:iam::211125495289:root",
-        accountId: "211125495289",
-        userName: "CspmUser",
-      },
-      req_params: {
-        userName: "CspmUser",
-        policyArn:
-          "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
-      },
-      res_element: "{BucketArn: arn:aws:s3:::example-bucket}",
-      event_type: "AwsApiCall",
-    },
-  ]);
+  const [canNext, setCanNext] = useState(false);
+  const [canPrev, setCanPrev] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [curPage, setCurPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState<any[]>([]);
+  const [otherData, setOtherData] = useState<any[]>([]);
+  const [errMessage, setErrMessage] = useState("");
+  const [stats, setStats] = useState<any>({
+    triggered: 0,
+    resolved: 0
+  })
+  const [errType, setErrType] = useState("");
+  const [markData, setMarkData] = useState<any>({
+    event_ids: [],
+    new_status: "normal",
+  });
 
   const handleCheck = (val: boolean, id: string) => {
     if (id === "all") {
@@ -350,8 +341,13 @@ const TrailHistoryDetails = () => {
         };
       });
       setData(mapped);
-      const filtered = mapped.filter((m) => m.isChecked).length;
-      setNumChecked(filtered);
+      const filtered = mapped.filter((m) => m.isChecked);
+      setNumChecked(filtered.length);
+      const checked = filtered.map((fil) => fil.id);
+      setMarkData({
+        ...markData,
+        event_ids: checked,
+      });
     } else {
       const mapped = data?.map((d) => {
         if (Number(id) === d.id) {
@@ -364,8 +360,130 @@ const TrailHistoryDetails = () => {
         }
       });
       setData(mapped);
-      const filtered = mapped.filter((m) => m.isChecked).length;
-      setNumChecked(filtered);
+      const filtered = mapped.filter((m) => m.isChecked);
+      setNumChecked(filtered.length);
+      const checked = filtered.map((fil) => fil.id);
+      setMarkData({
+        ...markData,
+        event_ids: checked,
+      });
+    }
+  };
+
+  const { mutate, isLoading: markingAsResolved } = markAsResolved();
+
+  const handleGetAlarmLogs = async (page: number) => {
+    const token = localStorage.getItem("token");
+    setIsLoading(true);
+    try {
+      const resp = await axios.get(
+        `https://cspm-api.midrapps.com/system_settings/cloudtrail_events/?log=${id}&page=${page}&page_size=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (resp.status === 200) {
+        setIsLoading(false);
+        setStats({
+          triggered : resp?.data?.data?.results[0]?.log?.triggered_alarms,
+          resolved : resp?.data?.data?.results[0]?.log?.resolved,
+        });
+        const mapped = resp?.data?.data?.results.map((res: any) => {
+          return {
+            ...res,
+            isChecked: false,
+          };
+        });
+        setData(mapped);
+        setOtherData(mapped);
+        setCanNext(resp?.data?.data?.next ? true : false);
+        setCanPrev(resp?.data?.data?.previous ? true : false);
+        setTotalCount(resp?.data?.data?.count);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
+    }
+  };
+
+  const handleMarkAsResolved = () => {
+    mutate(
+      {
+        data: {
+          ...markData,
+        },
+      },
+      {
+        onSuccess: (res: any) => {
+          setErrType("success");
+          setNumChecked(0);
+          setErrMessage(res?.data?.message);
+          handleGetAlarmLogs(1);
+          setShowModal(true);
+        },
+        onError: (err) => {
+          console.log(err);
+          setErrType("failed");
+          setShowModal(true);
+          if (err instanceof Error) {
+            setErrMessage(err?.message || "An unknown error occurred");
+          }
+        },
+      }
+    );
+  };
+
+  const handleMarkAsResolvedSingle = (id: number) => {
+    mutate(
+      {
+        data: {
+          event_ids: [id],
+          new_status: "normal",
+        },
+      },
+      {
+        onSuccess: (res: any) => {
+          setErrType("success");
+          setNumChecked(0);
+          setErrMessage(res?.data?.message);
+          handleGetAlarmLogs(1);
+          setShowModal(true);
+        },
+        onError: (err) => {
+          console.log(err);
+          setErrType("failed");
+          setShowModal(true);
+          if (err instanceof Error) {
+            setErrMessage(err?.message || "An unknown error occurred");
+          }
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    handleGetAlarmLogs(1);
+  }, []);
+
+  const handleSearch = (val: string) => {
+    const keys = [
+      "event_name",
+      "status",
+      "aws_region",
+      "source_ip_address",
+      "event_source",
+    ];
+    if (val) {
+      const filterd = data.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(val.toLowerCase()))
+      );
+
+      setData(filterd);
+    } else {
+      setData(otherData);
     }
   };
 
@@ -373,25 +491,25 @@ const TrailHistoryDetails = () => {
     <div className="w-full px-10 mt-[32px]">
       <div className="flex flex-col md:flex-row items-center gap-[16px] mb-[32px]">
         <div className="flex items-center gap-[16px]">
-        <button onClick={() => navigate(-1)}>
-          <FaArrowLeft color={mode === "dark" ? "#EAEAEA" : "#373737"} />
-        </button>
-        <div className="flex items-center gap-[12px]">
-          <img src={awsImg} alt="aws logo" className="w-[24px] h-[24px]" />
-          <h1 className="font-semibold text-[14px] md:text-[18px]">{name}</h1>
-        </div>
+          <button onClick={() => navigate(-1)}>
+            <FaArrowLeft color={mode === "dark" ? "#EAEAEA" : "#373737"} />
+          </button>
+          <div className="flex items-center gap-[12px]">
+            <img src={awsImg} alt="aws logo" className="w-[24px] h-[24px]" />
+            <h1 className="font-semibold text-[14px] md:text-[18px]">{name}</h1>
+          </div>
         </div>
         <div className="flex items-center gap-[16px]">
-        <p className="px-[16px] border-start py-2 text-[12px] md:text-[14px] font-semibold">
-          Scan log SC5478AWS-00023
-        </p>
-        <p
-          className={`text-[10px] md:text-[12px] font-medium ${
-            mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
-          }`}
-        >
-          2024-05-10 09:35:26Z
-        </p>
+          <p className="px-[16px] border-start py-2 text-[12px] md:text-[14px] font-semibold">
+            {log}
+          </p>
+          <p
+            className={`text-[10px] md:text-[12px] font-medium ${
+              mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
+            }`}
+          >
+            {time?.slice(0, 19)}
+          </p>
         </div>
       </div>
       <div
@@ -430,7 +548,7 @@ const TrailHistoryDetails = () => {
             </svg>
           </div>
           <div className="flex items-center gap-[2px] md:gap-[8px]">
-            <h1 className="font-semibold text-[14px] md:text-[18px]">23</h1>
+            <h1 className="font-semibold text-[14px] md:text-[18px]">{stats?.triggered}</h1>
             <p
               className={`font-medium text-[12px] md:text-[14px] ${
                 mode === "dark" ? "#EAEAEA" : "#6A6A6A"
@@ -441,7 +559,7 @@ const TrailHistoryDetails = () => {
           </div>
         </div>
         <div className="flex items-center gap-[8px] py-[3px] border-start pl-[16px]">
-          <h1 className="font-semibold text-[14px] md:text-[18px]">14</h1>
+          <h1 className="font-semibold text-[14px] md:text-[18px]">{stats?.resolved}</h1>
           <p
             className={`font-medium text-[12px] md:text-[14px] ${
               mode === "dark" ? "#EAEAEA" : "#6A6A6A"
@@ -485,6 +603,7 @@ const TrailHistoryDetails = () => {
           <div className="relative">
             <input
               type="text"
+              onChange={(e) => handleSearch(e.target.value)}
               className={`${
                 mode === "dark"
                   ? "placeholder:text-[#EAEAEA]"
@@ -551,40 +670,46 @@ const TrailHistoryDetails = () => {
           </button>
         </div>
       </div>
-      {(numChecked > 1) && (
+      {numChecked > 0 && (
         <div className="flex items-center justify-end gap-[16px] w-full mt-[16px]">
           <button
-            onClick={() => console.log("hello world")}
+            onClick={handleMarkAsResolved}
             className="flex items-center gap-[8px] font-medium border-end pr-[16px] py-[3px]"
           >
-            <span> Mark as resolved</span>
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clipPath="url(#clip0_1307_17750)">
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M4.85234 8.97725C5.07201 8.75758 5.42816 8.75758 5.64783 8.97725L7.50008 10.8295L12.3523 5.97725C12.572 5.75758 12.9282 5.75758 13.1478 5.97725C13.3675 6.19692 13.3675 6.55308 13.1478 6.77275L7.89783 12.0227C7.67816 12.2424 7.32201 12.2424 7.10234 12.0227L4.85234 9.77275C4.63267 9.55308 4.63267 9.19692 4.85234 8.97725Z"
-                  fill={mode === "dark" ? "#EAEAEA" : "black"}
-                />
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M9 2.0625C5.16852 2.0625 2.0625 5.16852 2.0625 9C2.0625 12.8315 5.16852 15.9375 9 15.9375C12.8315 15.9375 15.9375 12.8315 15.9375 9C15.9375 5.16852 12.8315 2.0625 9 2.0625ZM0.9375 9C0.9375 4.5472 4.5472 0.9375 9 0.9375C13.4528 0.9375 17.0625 4.5472 17.0625 9C17.0625 13.4528 13.4528 17.0625 9 17.0625C4.5472 17.0625 0.9375 13.4528 0.9375 9Z"
-                  fill={mode === "dark" ? "#EAEAEA" : "black"}
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_1307_17750">
-                  <rect width="18" height="18" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
+            {markingAsResolved ? (
+              "processing..."
+            ) : (
+              <>
+                <span> Mark as resolved</span>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clipPath="url(#clip0_1307_17750)">
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M4.85234 8.97725C5.07201 8.75758 5.42816 8.75758 5.64783 8.97725L7.50008 10.8295L12.3523 5.97725C12.572 5.75758 12.9282 5.75758 13.1478 5.97725C13.3675 6.19692 13.3675 6.55308 13.1478 6.77275L7.89783 12.0227C7.67816 12.2424 7.32201 12.2424 7.10234 12.0227L4.85234 9.77275C4.63267 9.55308 4.63267 9.19692 4.85234 8.97725Z"
+                      fill={mode === "dark" ? "#EAEAEA" : "black"}
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M9 2.0625C5.16852 2.0625 2.0625 5.16852 2.0625 9C2.0625 12.8315 5.16852 15.9375 9 15.9375C12.8315 15.9375 15.9375 12.8315 15.9375 9C15.9375 5.16852 12.8315 2.0625 9 2.0625ZM0.9375 9C0.9375 4.5472 4.5472 0.9375 9 0.9375C13.4528 0.9375 17.0625 4.5472 17.0625 9C17.0625 13.4528 13.4528 17.0625 9 17.0625C4.5472 17.0625 0.9375 13.4528 0.9375 9Z"
+                      fill={mode === "dark" ? "#EAEAEA" : "black"}
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1307_17750">
+                      <rect width="18" height="18" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </>
+            )}
           </button>
           <button
             onClick={() => console.log("hello world")}
@@ -626,118 +751,242 @@ const TrailHistoryDetails = () => {
           </button>
         </div>
       )}
-      <div className="mt-[32px] w-full overflow-auto">
-        <div
-          className={`grid grid-cols-10 gap-[8px] p-4 rounded-t-[1.5rem] mb-3 place-content-center border-bottom h-[52px] w-[350vw] md:w-[180vw] lg:w-[120vw] ${
-            mode === "dark" ? "bg-lightDark" : "bg-white"
-          }`}
-        >
-          <div className="flex items-center gap-[12px]">
-            <p className="opacity-0">...</p>
-            <input
-              type="checkbox"
-              name="checkall"
-              checked={checkall}
-              id="checkall"
-              onChange={(e) => {
-                setCheckAll(!checkall);
-                handleCheck(e.target.checked, "all");
-            }}
-              className="w-[16px] h-[16px] border-light rounded border"
-            />
+      {isLoading || data.length < 1 ? (
+        <DefaultContent
+          pageHeader="All Alarm Events"
+          pageDescription="No record found"
+          loading={isLoading}
+          buttonValue=""
+          buttonClick={() => {
+            // setCurPage(1);
+            // handleGetAlarmLogs(1);
+          }}
+        />
+      ) : (
+        <>
+          <div className="mt-[32px] w-full overflow-auto">
+            <div
+              className={`grid grid-cols-9 gap-[8px] p-4 rounded-t-[1.5rem] mb-3 place-content-center border-bottom h-[52px] w-[350vw] md:w-[180vw] lg:w-[120vw] ${
+                mode === "dark" ? "bg-lightDark" : "bg-white"
+              }`}
+            >
+              <div className="flex items-center pl-[12px] gap-[12px]">
+                <p className="opacity-0">...</p>
+                <input
+                  type="checkbox"
+                  name="checkall"
+                  checked={checkall}
+                  disabled={markingAsResolved}
+                  id="checkall"
+                  onChange={(e) => {
+                    setCheckAll(!checkall);
+                    handleCheck(e.target.checked, "all");
+                  }}
+                  className="w-[16px] h-[16px] border-light rounded border"
+                />
+              </div>
+              <p className="font-semibold text-[12px]">Status</p>
+              <p className="font-semibold text-[12px]">Event Name</p>
+              <p className="font-semibold text-[12px]">Event Source</p>
+              <p className="font-semibold text-[12px]">IP address</p>
+              <p className="font-semibold text-[12px]">Region</p>
+              <p className="font-semibold text-[12px]">User Identity</p>
+              <p className="font-semibold text-[12px]">Request parameters</p>
+              {/* <p className="font-semibold text-[12px]">Response elements</p> */}
+              <p className="font-semibold text-[12px]">Event type</p>
+            </div>
+            {data.map((d) => (
+              <Card
+                data={d}
+                mode={mode}
+                handleCheck={() => {
+                  handleCheck(!d?.isChecked, d?.id);
+                  setCheckAll(false);
+                }}
+                setSelected={() => setSelected(d)}
+                setShowModal={() => setShowModal(true)}
+                isDisabled={markingAsResolved}
+                markSingleResolve={() => handleMarkAsResolvedSingle(d?.id)}
+              />
+            ))}
           </div>
-          <p className="font-semibold text-[12px]">Status</p>
-          <p className="font-semibold text-[12px]">Event Name</p>
-          <p className="font-semibold text-[12px]">Event Source</p>
-          <p className="font-semibold text-[12px]">IP address</p>
-          <p className="font-semibold text-[12px]">Region</p>
-          <p className="font-semibold text-[12px]">User Identity</p>
-          <p className="font-semibold text-[12px]">Request parameters</p>
-          <p className="font-semibold text-[12px]">Response elements</p>
-          <p className="font-semibold text-[12px]">Event type</p>
-        </div>
-        {data.map((d) => (
-          <Card
-            data={d}
-            mode={mode}
-            handleCheck={() => {
-                handleCheck(!d?.isChecked, d?.id);
-                setCheckAll(false);
-            }}
-            setSelected={() => setSelected(d)}
-            setShowModal={() => setShowModal(true)}
-          />
-        ))}
-      </div>
+          {totalCount > 10 && (
+            <div className="w-full mt-[24px] flex items-end justify-end gap-[12px]">
+              <button
+                disabled={!canPrev}
+                onClick={() => {
+                  setCurPage((cur) => cur - 1);
+                  handleGetAlarmLogs(curPage - 1);
+                }}
+                className="bg-primary font-medium text-center w-32 p-2 text-white rounded-md"
+              >
+                Prevous
+              </button>
+              <button
+                disabled={!canNext}
+                onClick={() => {
+                  setCurPage((cur) => cur + 1);
+                  handleGetAlarmLogs(curPage + 1);
+                }}
+                className="bg-primary font-medium text-center w-32 p-2 text-white rounded-md"
+              >
+                Next
+              </button>
+            </div>
+          )}
+        </>
+      )}
       <Modal
         show={showModal}
-        onHide={() => setShowModal(!showModal)}
+        onHide={() => {
+          setShowModal(!showModal);
+          setErrType("");
+        }}
         keyboard={false}
       >
         <Modal.Header closeButton className="border-bottom-0  items-start">
           <Modal.Title className="w-full pb-0 flex flex-col items-center justify-center">
-            <svg
-              width="42"
-              height="42"
-              viewBox="0 0 42 42"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                width="42"
-                height="42"
-                rx="21"
-                fill="#284CB3"
-                fillOpacity="0.05"
-              />
-              <g clip-path="url(#clip0_1311_504)">
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M21 14.0625C17.1685 14.0625 14.0625 17.1685 14.0625 21C14.0625 24.8315 17.1685 27.9375 21 27.9375C24.4773 27.9375 27.3579 25.3786 27.8599 22.0413C27.9062 21.7341 28.1927 21.5225 28.4999 21.5688C28.8071 21.615 29.0186 21.9015 28.9724 22.2087C28.3889 26.0883 25.0423 29.0625 21 29.0625C16.5472 29.0625 12.9375 25.4528 12.9375 21C12.9375 16.5472 16.5472 12.9375 21 12.9375C24.307 12.9375 27.1478 14.9284 28.3914 17.7748C28.5158 18.0595 28.3858 18.3911 28.1011 18.5154C27.8165 18.6398 27.4849 18.5099 27.3605 18.2252C26.2894 15.7738 23.8439 14.0625 21 14.0625Z"
-                  fill="#284CB3"
-                />
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M28.5 13.6875C28.8107 13.6875 29.0625 13.9393 29.0625 14.25V17.55C29.0625 18.1092 28.6092 18.5625 28.05 18.5625H24.75C24.4393 18.5625 24.1875 18.3107 24.1875 18C24.1875 17.6893 24.4393 17.4375 24.75 17.4375H27.9375V14.25C27.9375 13.9393 28.1893 13.6875 28.5 13.6875Z"
-                  fill="#284CB3"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_1311_504">
+            {errType === "success" ? (
+              <div className="flex-1 flex items-center justify-center">
+                <svg
+                  width="42"
+                  height="42"
+                  viewBox="0 0 42 42"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <rect
-                    width="18"
-                    height="18"
-                    fill="white"
-                    transform="translate(12 12)"
+                    width="42"
+                    height="42"
+                    rx="21"
+                    fill="#284CB3"
+                    fillOpacity="0.05"
                   />
-                </clipPath>
-              </defs>
-            </svg>
-            <div className="mt-[16px]">
-              <h1 className="font-semibold text-[14px] md:text-[18px] text-center">
-                Cloud Trail
-              </h1>
-              <p className="font-medium text-[14px] text-center">
-                {selected?.id}
-              </p>
-            </div>
+                  <g clipPath="url(#clip0_1149_5645)">
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M21 12.9375C16.5472 12.9375 12.9375 16.5472 12.9375 21C12.9375 25.4528 16.5472 29.0625 21 29.0625C25.4528 29.0625 29.0625 25.4528 29.0625 21C29.0625 16.5472 25.4528 12.9375 21 12.9375ZM17.6478 20.9773C17.4282 20.7576 17.072 20.7576 16.8523 20.9773C16.6327 21.1969 16.6327 21.5531 16.8523 21.7727L19.1023 24.0227C19.322 24.2424 19.6782 24.2424 19.8978 24.0227L25.1478 18.7727C25.3675 18.5531 25.3675 18.1969 25.1478 17.9773C24.9282 17.7576 24.572 17.7576 24.3523 17.9773L19.5001 22.8295L17.6478 20.9773Z"
+                      fill="#284CB3"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1149_5645">
+                      <rect
+                        width="18"
+                        height="18"
+                        fill="white"
+                        transform="translate(12 12)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            ) : errType === "failed" ? (
+              <div className="rounded-full w-fit p-[12px] bg-[#FF161A1A] flex items-center justify-center">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.1679 15.75H3.83205C2.29402 15.75 1.33158 14.0864 2.09824 12.7531L7.26619 3.76533C8.0352 2.42792 9.9648 2.42791 10.7338 3.76533L15.9018 12.7531C16.6684 14.0864 15.706 15.75 14.1679 15.75Z"
+                    stroke="#FF161A"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M9 6.75V9.75"
+                    stroke="#FF161A"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M9 12.7575L9.0075 12.7492"
+                    stroke="#FF161A"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            ) : (
+              <>
+                <svg
+                  width="42"
+                  height="42"
+                  viewBox="0 0 42 42"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    width="42"
+                    height="42"
+                    rx="21"
+                    fill="#284CB3"
+                    fillOpacity="0.05"
+                  />
+                  <g clip-path="url(#clip0_1311_504)">
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M21 14.0625C17.1685 14.0625 14.0625 17.1685 14.0625 21C14.0625 24.8315 17.1685 27.9375 21 27.9375C24.4773 27.9375 27.3579 25.3786 27.8599 22.0413C27.9062 21.7341 28.1927 21.5225 28.4999 21.5688C28.8071 21.615 29.0186 21.9015 28.9724 22.2087C28.3889 26.0883 25.0423 29.0625 21 29.0625C16.5472 29.0625 12.9375 25.4528 12.9375 21C12.9375 16.5472 16.5472 12.9375 21 12.9375C24.307 12.9375 27.1478 14.9284 28.3914 17.7748C28.5158 18.0595 28.3858 18.3911 28.1011 18.5154C27.8165 18.6398 27.4849 18.5099 27.3605 18.2252C26.2894 15.7738 23.8439 14.0625 21 14.0625Z"
+                      fill="#284CB3"
+                    />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M28.5 13.6875C28.8107 13.6875 29.0625 13.9393 29.0625 14.25V17.55C29.0625 18.1092 28.6092 18.5625 28.05 18.5625H24.75C24.4393 18.5625 24.1875 18.3107 24.1875 18C24.1875 17.6893 24.4393 17.4375 24.75 17.4375H27.9375V14.25C27.9375 13.9393 28.1893 13.6875 28.5 13.6875Z"
+                      fill="#284CB3"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_1311_504">
+                      <rect
+                        width="18"
+                        height="18"
+                        fill="white"
+                        transform="translate(12 12)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <div className="mt-[16px]">
+                  <h1 className="font-semibold text-[14px] md:text-[18px] text-center">
+                    Cloud Trail
+                  </h1>
+                  <p className="font-medium text-[14px] text-center">
+                    {selected?.event_id}
+                  </p>
+                </div>
+              </>
+            )}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="border-top">
-          <div className="grid font-medium text-[12px] grid-cols-3 w-full gap-[16px]">
-            <p className="font-semibold">Event Time</p>
-            <p className="col-span-2">2024-05-10 09:35:26Z</p>
-            <p className="font-semibold">Event Name</p>
-            <p className="col-span-2">{selected?.event_name}</p>
-            <p className="font-semibold">IP Address</p>
-            <p className="col-span-2">{selected?.ip_address}</p>
-            <p className="font-semibold">Region</p>
-            <p className="col-span-2">{selected?.region}</p>
-            <p className="font-semibold">User Identity</p>
-            <div className="grid grid-cols-3 col-span-2">
-              <p>Type:</p>
+          {errType ? (
+            <h1 className="font-medium text-center text-[14px] md:text-[18px]">
+              {errMessage}
+            </h1>
+          ) : (
+            <div className="grid font-medium text-[12px] grid-cols-3 w-full gap-[16px]">
+              <p className="font-semibold">Event Time</p>
+              <p className="col-span-2">{`${
+                selected?.event_time.split("T")[0]
+              } ${selected?.event_time.split("T")[1].slice(0, 6)}`}</p>
+              <p className="font-semibold">Event Name</p>
+              <p className="col-span-2">{selected?.event_name}</p>
+              <p className="font-semibold">IP Address</p>
+              <p className="col-span-2">{selected?.source_ip_address}</p>
+              <p className="font-semibold">Region</p>
+              <p className="col-span-2">{selected?.aws_region}</p>
+              <p className="font-semibold">User Identity</p>
+              {/* <div className="grid grid-cols-3 col-span-2"> */}
+              <div className="col-span-2">
+                {JSON.stringify(selected?.user_identity, null, 4)}
+                {/* <p>Type:</p>
               <p className="col-span-2">{selected?.user_identity?.type}</p>
               <p>PrincipalId:</p>
               <p className="col-span-2">
@@ -748,39 +997,67 @@ const TrailHistoryDetails = () => {
               <p>AccountID:</p>
               <p className="col-span-2">{selected?.user_identity?.accountId}</p>
               <p>UserName:</p>
-              <p className="col-span-2">{selected?.user_identity?.userName}</p>
-            </div>
-            <p className="font-semibold">Request parameters</p>
-            <div className="grid grid-cols-3 col-span-2">
-              <p>Policyarn:</p>
-              <p className="col-span-2">{selected?.req_params?.policyArn}</p>
+              <p className="col-span-2">{selected?.user_identity?.userName}</p> */}
+              </div>
+              <p className="font-semibold">Request parameters</p>
+              <div className="col-span-2">
+                {JSON.stringify(selected?.request_parameters, null, 4)}
+                {/* <p>Policyarn:</p>
+              <p className="col-span-2">{selected?.request_parameters?.policyArn}</p>
               <p>userName:</p>
-              <p className="col-span-2">{selected?.req_params?.userName}</p>
+              <p className="col-span-2">{selected?.request_parameters?.userName}</p> */}
+              </div>
+              <p className="font-semibold">Event Type {selected?.status}</p>
+              <p className="col-span-2">{selected?.event_type}</p>
+              <p className="font-semibold">Event Category</p>
+              <p className="col-span-2">{selected?.event_category}</p>
             </div>
-            <p className="font-semibold">Event Type</p>
-            <p className="col-span-2">{selected?.event_type}</p>
-            <p className="font-semibold">Response Element</p>
-            <p className="col-span-2">{selected?.res_element}</p>
-          </div>
+          )}
         </Modal.Body>
         <Modal.Footer className="border-0">
-          <div className="flex items-center justify-between w-full">
-            <label htmlFor="mark" className="flex items-center gap-[8px]">
-              <input
-                type="checkbox"
-                name="mark"
-                id="mark"
-                className="rounded-[12px] w-5 h-5"
-              />
-              <p className="font-medium text-[12px]">mark as Resloved</p>
-            </label>
-            <button
-              onClick={() => setShowModal(!showModal)}
-              className="bg-primary font-medium rounded-full text-white px-[24px] py-[12px]"
-            >
-              Resolve issue
-            </button>
-          </div>
+          {errType ? (
+            <div className="items-end justify-end ">
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  setErrType("");
+                }}
+                className="bg-primary font-medium w-36 rounded-full text-white px-[24px] py-[12px]"
+              >
+                Close
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between w-full">
+              <label
+                htmlFor="mark"
+                className="hover:cursor-pointer flex items-center gap-[8px]"
+              >
+                <input
+                  type="checkbox"
+                  name="mark"
+                  id="mark"
+                  disabled={selected?.status !== "triggered"}
+                  className="rounded-[12px] w-5 h-5"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      handleMarkAsResolvedSingle(selected?.id);
+                    }
+                  }}
+                />
+                <p className="font-medium text-[12px]">mark as Resloved</p>
+              </label>
+              <button
+                onClick={() => {
+                  setShowModal(!showModal);
+                  setErrType("");
+                }}
+                className="bg-primary font-medium rounded-full text-white px-[24px] py-[12px]"
+              >
+                Resolve issue
+              </button>
+            </div>
+          )}
         </Modal.Footer>
       </Modal>
     </div>
