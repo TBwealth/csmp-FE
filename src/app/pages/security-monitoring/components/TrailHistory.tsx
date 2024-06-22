@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { IoIosWarning } from "react-icons/io";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import awsImg from "../../../../../public/media/logos/aws-logo.svg";
+import axios from "axios";
+import DefaultContent from "../../../components/defaultContent/defaultContent";
 
 const Card = ({ data, mode, name }: any) => {
   return (
@@ -13,7 +20,12 @@ const Card = ({ data, mode, name }: any) => {
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
-      <p className="font-medium text-[12px]">{data?.event_time}</p>
+      <p className="font-bold text-[12px]">
+        {`${data?.event_time.split("T")[0]}`}{" "}
+        <span className="font-medium">{`${data?.event_time
+          .split("T")[1]
+          .slice(0, 5)}`}</span>
+      </p>
       <p
         className={`font-medium text-[12px] col-span-2 ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
@@ -26,11 +38,11 @@ const Card = ({ data, mode, name }: any) => {
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
-        {data.active}
+        {data.active_alarms}
       </p>
       <p className="font-semibold flex items-center gap-[8px] text-[#FF161A] text-[12px]">
-        <span>{data?.triggered ? data?.triggered : "--"}</span>
-        {data?.triggered && <IoIosWarning color="#FF161A" />}
+        <span>{data?.triggered_alarms ? data?.triggered_alarms : "--"}</span>
+        {data?.triggered_alarms && <IoIosWarning color="#FF161A" />}
       </p>
       <div className="font-medium text-[12px] flex items-center justify-between col-span-2">
         <p
@@ -38,7 +50,13 @@ const Card = ({ data, mode, name }: any) => {
         >
           {data?.resolved} %
         </p>
-        <Link to={`/monitoring/cloudtrail-detail?name=${name}&id=${data?.id}`}>
+        <Link
+          to={`/monitoring/cloudtrail-detail?name=${name}&id=${data?.id}&log=${
+            data?.scan_log
+          }&time=${`${data?.event_time.split("T")[0]} ${
+            data?.event_time.split("T")[1]
+          }`}`}
+        >
           <FaArrowRight color={mode === "dark" ? "#EAEAEA" : "#373737"} />
         </Link>
       </div>
@@ -50,57 +68,89 @@ const TrailHistory = () => {
   const navigate = useNavigate();
   const { mode } = useRecoilValue(modeAtomsAtom);
   const { name } = useParams();
+  const [search] = useSearchParams();
+  const serviceName = search.get("name");
+  const [canNext, setCanNext] = useState(false);
+  const [canPrev, setCanPrev] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [curPage, setCurPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [alarmLogs, setAlarmLogs] = useState<any[]>([]);
+  const [alarmLogsOther, setAlarmLogsOther] = useState<any[]>([]);
+  const [errMessage, setErrMessage] = useState("");
+  
 
-  const alarms = [
-    {
-      event_time: "2024-05-10 09:35:26Z",
-      scan_log: "SC5478AWS-00023",
-      active: "30",
-      triggered: "14",
-      resolved: "5",
-      id:1,
-    },
-    {
-      event_time: "2024-05-10 09:35:26Z",
-      scan_log: "SC5478AWS-00023",
-      active: "14",
-      triggered: "",
-      resolved: "5",
-      id:2,
-    },
-    {
-      event_time: "2024-05-10 09:35:26Z",
-      scan_log: "SC5478AWS-00023",
-      active: "213",
-      triggered: "3",
-      resolved: "5",
-      id:3,
-    },
-  ];
+  const handleGetAlarmLogs = async (page: number) => {
+    const token = localStorage.getItem("token");
+    setIsLoading(true);
+    try {
+      const resp = await axios.get(
+        `https://cspm-api.midrapps.com/system_settings/cloudtrail_logs/?cloud_provider_account_id=${name}&page=${page}&page_size=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (resp.status === 200) {
+        setIsLoading(false);
+        setAlarmLogs(resp?.data?.data?.results);
+        setAlarmLogsOther(resp?.data?.data?.results);
+        setCanNext(resp?.data?.data?.next ? true : false);
+        setCanPrev(resp?.data?.data?.previous ? true : false);
+        setTotalCount(resp?.data?.data?.count);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    handleGetAlarmLogs(1);
+  }, []);
+
+  const handleSearch = (val: string) => {
+    const keys = ["event_time", "scan_log"];
+    if (val) {
+      const filterd = alarmLogs.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(val.toLowerCase()))
+      );
+
+      setAlarmLogs(filterd);
+    } else {
+      setAlarmLogs(alarmLogsOther);
+    }
+  };
+
+ 
 
   return (
     <div className="w-full px-10 mt-[32px]">
       <div className="flex flex-col md:flex-row items-center gap-[16px]">
         <div className="flex items-center gap-[16px]">
-        <button onClick={() => navigate(-1)}>
-          <FaArrowLeft color={mode === "dark" ? "#EAEAEA" : "#373737"} />
-        </button>
-        <div className="flex items-center gap-[12px]">
-          <img src={awsImg} alt="aws logo" className="w-[24px] h-[24px]" />
-          <h1 className="font-semibold text-[14px] md:text-[18px]">{name}</h1>
-        </div>
+          <button onClick={() => navigate(-1)}>
+            <FaArrowLeft color={mode === "dark" ? "#EAEAEA" : "#373737"} />
+          </button>
+          <div className="flex items-center gap-[12px]">
+            <img src={awsImg} alt="aws logo" className="w-[24px] h-[24px]" />
+            <h1 className="font-semibold text-[14px] md:text-[18px]">
+              {serviceName}
+            </h1>
+          </div>
         </div>
         <div className="flex items-center gap-[16px]">
-        <p className="px-[16px] border-start border-end py-2 text-[12px] md:text-[14px] font-semibold">
-          Alarm History
-        </p>
-        <p
-          className={`text-[10px] md:text-[12px] font-medium ${
-            mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
-          }`}
-        >
-          Monthly scan
-        </p>
+          <p className="px-[16px] border-start border-end py-2 text-[12px] md:text-[14px] font-semibold">
+            Alarm History
+          </p>
+          <p
+            className={`text-[10px] md:text-[12px] capitalize font-medium ${
+              mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
+            }`}
+          >
+            {alarmLogs[0]?.scan_frequency} scan
+          </p>
         </div>
       </div>
       <div className="mt-[16px] py-[18px] border-bottom flex items-center justify-between">
@@ -111,7 +161,12 @@ const TrailHistory = () => {
           <div className="relative">
             <input
               type="text"
-              className={`${mode === "dark" ? "placeholder:text-[#EAEAEA]" : "placeholder:text-[#373737]"} w-32 bg-transparent focus:outline-none focus:border focus:w-full rounded-[8px] font-medium px-3 py-2 placeholder:font-medium `}
+              onChange={(e) => handleSearch(e.target.value)}
+              className={`${
+                mode === "dark"
+                  ? "placeholder:text-[#EAEAEA]"
+                  : "placeholder:text-[#373737]"
+              } w-32 bg-transparent focus:outline-none focus:border focus:w-full rounded-[8px] font-medium px-3 py-2 placeholder:font-medium `}
               placeholder="Search"
             />
             <svg
@@ -173,22 +228,59 @@ const TrailHistory = () => {
           </button>
         </div>
       </div>
-      <div className="mt-[32px] w-full overflow-auto">
-        <div
-          className={`grid grid-cols-7 gap-[8px] p-4 rounded-t-[1.5rem] mb-3 place-content-center border-bottom h-[52px] w-[180vw] md:w-full ${
-            mode === "dark" ? "bg-lightDark" : "bg-white"
-          }`}
-        >
-          <p className="font-semibold text-[12px]">Event time</p>
-          <p className="font-semibold text-[12px] col-span-2">Scan log</p>
-          <p className="font-semibold text-[12px]">Active alarms</p>
-          <p className="font-semibold text-[12px]">Triggered alarms</p>
-          <p className="font-semibold text-[12px] col-span-2">Resolved</p>
+      {alarmLogs.length < 1 || isLoading ? (
+        <DefaultContent
+          pageHeader="All Alarm Logs"
+          pageDescription="No record found"
+          loading={isLoading}
+          buttonValue=""
+          buttonClick={() => {
+            // setCurPage(1);
+            // handleGetAlarmLogs(1);
+          }}
+        />
+      ) : (
+        <div className="mt-[32px] w-full overflow-auto">
+          <div
+            className={`grid grid-cols-7 gap-[8px] p-4 rounded-t-[1.5rem] mb-3 place-content-center border-bottom h-[52px] w-[180vw] md:w-full ${
+              mode === "dark" ? "bg-lightDark" : "bg-white"
+            }`}
+          >
+            <p className="font-semibold text-[12px]">Event time</p>
+            <p className="font-semibold text-[12px] col-span-2">Scan log</p>
+            <p className="font-semibold text-[12px]">Active alarms</p>
+            <p className="font-semibold text-[12px]">Triggered alarms</p>
+            <p className="font-semibold text-[12px] col-span-2">Resolved</p>
+          </div>
+          {alarmLogs.map((alarm) => (
+            <Card data={alarm} mode={mode} name={serviceName} />
+          ))}
+          {totalCount > 10 && (
+            <div className="w-full mt-[24px] flex items-end justify-end gap-[12px]">
+              <button
+                disabled={!canPrev}
+                onClick={() => {
+                  setCurPage((cur) => cur - 1);
+                  handleGetAlarmLogs(curPage - 1);
+                }}
+                className="bg-primary font-medium text-center w-32 p-2 text-white rounded-md"
+              >
+                Prevous
+              </button>
+              <button
+                disabled={!canNext}
+                onClick={() => {
+                  setCurPage((cur) => cur + 1);
+                  handleGetAlarmLogs(curPage + 1);
+                }}
+                className="bg-primary font-medium text-center w-32 p-2 text-white rounded-md"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
-        {alarms.map((alarm) => (
-          <Card data={alarm} mode={mode} name={name} />
-        ))}
-      </div>
+      )}
     </div>
   );
 };

@@ -1,9 +1,11 @@
 import {
   SystemSettingsApiSystemSettingsAssetManagementsCreateRequest,
   SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest,
+  SystemSettingsApiSystemSettingsCloudTrailSetupsCreateRequest,
   SystemSettingsApiSystemSettingsRegionsCreateRequest,
   SystemSettingsApiSystemSettingsRuleSuppressionSetupCreateRequest,
   SystemSettingsApiSystemSettingsRuleSuppressionSetupPartialUpdateRequest,
+  SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreateRequest,
 } from "../axios-client";
 
 import { systemApi } from "./apiUrl";
@@ -157,7 +159,6 @@ export const useGetSuppressionLogs = (data: any) => {
   return query;
 };
 
-
 // export const usePostSuppressionLog = () => {
 //   const queryClient = useQueryClient();
 //   const mutation = useMutation(
@@ -171,3 +172,33 @@ export const useGetSuppressionLogs = (data: any) => {
 //   );
 //   return mutation;
 // };
+
+// CLOUD TRAILS
+
+export const getAllCloudFilters = (data: any) => {
+  const query = useQuery(["cloud-filters"], () =>
+    systemApi.systemSettingsCloudTrailFiltersList({ ...data })
+  );
+  return query;
+};
+
+export const setupFilters = () => {
+  // const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (data: SystemSettingsApiSystemSettingsCloudTrailSetupsCreateRequest) =>
+      systemApi.systemSettingsCloudTrailSetupsCreate(data)
+  );
+
+  return mutation;
+};
+
+export const markAsResolved = () => {
+  const mutation = useMutation(
+    (
+      data: SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreateRequest
+    ) => systemApi.systemSettingsUpdateCloudEventStatusCreate(data)
+  );
+
+
+  return mutation;
+};
