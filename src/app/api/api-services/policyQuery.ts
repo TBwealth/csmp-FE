@@ -1,6 +1,5 @@
 import {
   Policy,
-  PolicyApiPolicyCreateCloudtrailLogsCreateRequest,
   PolicyApiPolicyPolicyDetailUpdateRequest,
   PolicyApiPolicyPolicyOneTimeRepoScanCreateRequest,
   PolicyApiPolicyPolicyRepoRunScanCreateRequest,
@@ -269,25 +268,25 @@ export const useRunRepoOnceScan = () => {
 
 // CLOUDTRAILS
 
-export const useGetAllCloudTrails = (data: any) => {
-  const query = useQuery(["all-trails"], () =>
-    policyApi.policyFetchCloudtrailLogResultsList({ ...data })
-  );
+// export const useGetAllCloudTrails = (data: any) => {
+//   const query = useQuery(["all-trails"], () =>
+//     policyApi.policyFetchCloudtrailLogResultsList({ ...data })
+//   );
 
-  return query;
-};
+//   return query;
+// };
 
-export const useCreateCloudTrail = () => {
-  const queryClient = new QueryClient();
-  const mutation = useMutation(
-    (data: PolicyApiPolicyCreateCloudtrailLogsCreateRequest) =>
-      policyApi.policyCreateCloudtrailLogsCreate(data),
-    {
-      onSuccess: (res) => {
-        queryClient.invalidateQueries(["all-trails"])
-      }
-    }
-  );
+// export const useCreateCloudTrail = () => {
+//   const queryClient = new QueryClient();
+//   const mutation = useMutation(
+//     (data: PolicyApiPolicyCreateCloudtrailLogsCreateRequest) =>
+//       policyApi.policyCreateCloudtrailLogsCreate(data),
+//     {
+//       onSuccess: (res) => {
+//         queryClient.invalidateQueries(["all-trails"])
+//       }
+//     }
+//   );
 
-  return mutation;
-};
+//   return mutation;
+// };
