@@ -35,7 +35,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
     }
   }, []);
 
-  console.log(type);
+  // console.log(type);
   const downloadTemplate = () => {
     const link = document.createElement('a');
     link.setAttribute('type', 'hidden');
@@ -139,9 +139,9 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
               </p>
               <p>
                 2. Download and review our{" "}
-                <span onClick={downloadTemplate} className="text-primary underline cursor-pointer">
+                <a href="../../assets/CloudConformity.template" download="cloudformation template" className="text-primary underline cursor-pointer">
                   CloudFormation template
-                </span>
+                </a>
               </p>
               <p>
                 3. Click{" "}
