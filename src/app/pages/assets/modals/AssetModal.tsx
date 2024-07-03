@@ -37,11 +37,11 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
     region: editItem?.region ?? 0,
     cloud_identifier: editItem?.cloud_identifier ?? "",
     cloud_provider: editItem?.cloud_provider ?? "AWS",
-    code: editItem?.code ?? "",
-    description: editItem?.description ?? "",
+    service: editItem?.service ?? "",
     name: editItem?.name ?? "",
     resource_types: editItem?.resource_types ?? 0,
     rule_code: editItem?.rule_code ?? "",
+    cloud_account: editItem?.cloud_account ?? 0,
   });
 
   const [token, setToken] = useState("");
@@ -180,6 +180,9 @@ const AssetModal = ({ editItem, handleHide, isOpen, action }: any) => {
         </Modal.Header>
         <Modal.Body>
           <div className="grid md:grid-cols-2 gap-3">
+            {
+              JSON.stringify(editItem)
+            }
             <div className="">
               <label className="form-label fs-6 fw-bold">Tenant:</label>
               <select

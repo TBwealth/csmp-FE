@@ -904,7 +904,25 @@ export const MainTableComponent = ({
                   <span>Rows per page</span>
                 </span>
                 <div>
-                  <input
+                  <select 
+                  name="newPageSize" 
+                  id="newPageSize" 
+                  value={newPageSize}
+                  onChange={(e) => {
+                    filterChange({
+                      ...filter,
+                      pageSize: e.target.value,
+                    });
+                    setnewPageSize(+e.target.value);
+                  }}
+                  className="form-control w-24 rounded font-medium">
+                    <option value={10} className="font-medium">10</option>
+                    <option value={20} className="font-medium">20</option>
+                    <option value={50} className="font-medium">50</option>
+                    <option value={75} className="font-medium">75</option>
+                    <option value={100} className="font-medium">100</option>
+                  </select>
+                  {/* <input
                     value={newPageSize}
                     onKeyUp={(e: any) => {
                       filterChange({
@@ -925,7 +943,7 @@ export const MainTableComponent = ({
                     // max={totalItems}
                     className="form-control w-24 rounded"
                     name="newPageSize"
-                  />
+                  /> */}
                 </div>
               </div>
             </div>

@@ -844,6 +844,19 @@ const NewSideMenu = () => {
             </Link>
           </div>
           <div className="menu-item px-5 ">
+            <Link
+              to="/change-password"
+              className="menu-link font-medium"
+              onClick={() => {
+                setPopOpen(false);
+                setPageTitle("Change Password");
+                sessionStorage.setItem("top-title", "Change Password");
+              }}
+            >
+              Change Password
+            </Link>
+          </div>
+          <div className="menu-item px-5 ">
             <a
               onClick={() => {
                 logout();

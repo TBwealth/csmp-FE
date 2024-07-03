@@ -20,6 +20,7 @@ import {
   IStatus,
   MyColor,
 } from "../../../components/tableComponents/status/status";
+import axios from "axios";
 
 export class RegionWithStatus implements IStatus {
   id: string = "";
@@ -52,14 +53,15 @@ const CloudRegion = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState(false);
   const currentPage = 0;
+  const [isLoading, setIsLoading] = useState(false);
   const [totalItems, settotalItems] = useState<number>(0);
   const [editItems, setEditItems] = useState<any | undefined>();
   const filter = useRef<any>({
     page: 1,
     pageSize: 10,
-    code:undefined,
-    name: undefined
-  })
+    code: undefined,
+    RegionName: undefined,
+  });
   const filterFields: TableColumn[] = [
     { name: "name", title: "Name", type: ColumnTypes.Text },
   ];
@@ -94,26 +96,40 @@ const CloudRegion = () => {
       ],
     },
   ];
-  const { data, isLoading, error, refetch } = useGetRegions({...filter.current});
-  const datastsr: SystemSettingsRegionsList200Response | any = data;
-  useEffect(() => {
-    setItems(
-      datastsr?.data?.data?.results.map((x: any) => new RegionWithStatus(x))
-    );
-    setshowEmpty(
-      datastsr?.data?.data?.results
-        ? datastsr?.data?.data?.results?.length === 0
-        : true
-    );
-    settotalItems(Math.ceil(datastsr?.data?.data?.count));
-    hideAlert();
-    if (error) {
-      if (error instanceof Error) {
-        showAlert(error?.message || "An unknown error occurred", "danger");
-        // setErrorMess(error?.message);
+  // const { data, isLoading, error, refetch } = useGetRegions({...filter.current});
+  const handleFetchRegions = async () => {
+    const token = localStorage.getItem("token");
+    setIsLoading(true);
+    try {
+      const resp = await axios.get(
+        `https://cspm-api.midrapps.com/system_settings/regions/?region_name=${filter.current.regionName ? filter.current.regionName : ""}&page=${filter.current.page}&page_size=${filter.current.pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 200) {
+        setItems(
+          resp?.data?.data?.results.map((x: any) => new RegionWithStatus(x))
+        );
+        setshowEmpty(
+          resp?.data?.data?.results
+            ? resp?.data?.data?.results?.length === 0
+            : true
+        );
+        settotalItems(Math.ceil(resp?.data?.data?.count));
+        setIsLoading(false);
       }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
     }
-  }, [data, error]);
+  };
+
+  useEffect(() => {
+    handleFetchRegions();
+  }, []);
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add Region", icon: "plus", outline: false },
@@ -128,18 +144,19 @@ const CloudRegion = () => {
     filter.current = {
       page: 1,
       pageSize: 10,
-      code:undefined,
-      name: undefined
-    }
-   refetch();
+      code: undefined,
+      name: undefined,
+    };
+    handleFetchRegions();
   }
   function filterUpdated(data: any) {
+    console.log(data);
     filter.current = {
       page: data?.page ?? 1,
       pageSize: data?.pageSize ?? 10,
-      name: data?.name,
-    }
-    refetch();
+      regionName: data?.name,
+    };
+    handleFetchRegions();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
