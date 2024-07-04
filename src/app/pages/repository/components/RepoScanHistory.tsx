@@ -102,7 +102,7 @@ const RepoScanHistory = () => {
     pageSize: 10,
     policy: undefined,
     repo: undefined,
-    date: undefined,
+    endDate: undefined,
     scanType: "Repository",
   });
 
@@ -153,7 +153,7 @@ const RepoScanHistory = () => {
       pageSize: 10,
       policy: undefined,
       repo: undefined,
-      date: undefined,
+      endDate: undefined,
       scanType: "Repository",
     };
     refetch();
@@ -165,7 +165,7 @@ const RepoScanHistory = () => {
       pageSize: data?.pageSize ?? 10,
       policy: data?.policy,
       repo: data?.repo,
-      date: data?.date,
+      endDate: data?.date,
       scanType: "Repository",
     };
     refetch();

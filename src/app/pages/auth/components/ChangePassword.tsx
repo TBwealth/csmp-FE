@@ -5,7 +5,10 @@ import { useFormik } from "formik";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import * as Yup from "yup";
 import clsx from "clsx";
-import { useAccountPasswordChange } from "../../../api/api-services/accountQuery";
+import {
+  useAccountPasswordChange,
+  useAccountPasswordChangeWithId,
+} from "../../../api/api-services/accountQuery";
 import axios from "axios";
 
 const initialValues = {
@@ -34,25 +37,26 @@ const ChangePassword = () => {
   const id = search.get("id");
   const [isOpen, setIsOpen] = useState(false);
   const [active, setIsActive] = useState(false);
-  const { mutate, isLoading } = useAccountPasswordChange();
+  const { mutate } = useAccountPasswordChange();
+  const { mutate: passwordWithId } = useAccountPasswordChangeWithId();
   const [activeConfirm, setIsActiveConfirm] = useState(false);
 
-  const handleChangePassword = async (setStatus: any, payload: any) => {
-    try {
-      const resp = await axios.post(
-        "https://cspm-api.midrapps.com/accounts/api/forgot_password_change/",
-        payload
-      );
-      if (resp.status === 201) {
-        setLoading(false);
-        setStatus(null);
-        navigate("/login");
-      }
-    } catch (err: any) {
-      setStatus(err.response.data.message);
-      setLoading(false);
-    }
-  };
+  // const handleChangePassword = async (setStatus: any, payload: any) => {
+  //   try {
+  //     const resp = await axios.post(
+  //       "https://cspm-api.midrapps.com/accounts/api/forgot_password_change/",
+  //       payload
+  //     );
+  //     if (resp.status === 201) {
+  //       setLoading(false);
+  //       setStatus(null);
+  //       navigate("/login");
+  //     }
+  //   } catch (err: any) {
+  //     setStatus(err.response.data.message);
+  //     setLoading(false);
+  //   }
+  // };
 
   const formik = useFormik({
     initialValues,
@@ -60,12 +64,27 @@ const ChangePassword = () => {
     onSubmit: async (values, { setStatus, setSubmitting }) => {
       setLoading(true);
       if (id) {
-        const data = {
-          id,
-          password1: values.new_password1,
-          password2: values.new_password2,
-        };
-        handleChangePassword(setStatus, data);
+        passwordWithId(
+          {
+            data: {
+              id,
+              password1: values.new_password1,
+              password2: values.new_password2,
+            },
+          },
+          {
+            onSuccess: (res: any) => {
+              console.log(res);
+              setLoading(false);
+              setStatus(null);
+              navigate("/login");
+            },
+            onError: (res: any) => {
+              setStatus(res.response.data.message);
+              setLoading(false);
+            },
+          }
+        );
       } else {
         mutate(
           {

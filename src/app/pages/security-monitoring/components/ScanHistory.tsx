@@ -174,7 +174,7 @@ const ScanHistory = () => {
     pageSize: 10,
     policy: undefined,
     cloudProvider: undefined,
-    date: undefined,
+    endDate: undefined,
     scanType: "Cloud",
   });
 
@@ -279,7 +279,7 @@ const ScanHistory = () => {
       pageSize: data?.pageSize ?? 10,
       policy: data?.policy,
       cloudProvider: data?.cloudProvider,
-      date: data?.date,
+      endDate: data?.date,
       scanType: "Cloud",
     };
     refetch();

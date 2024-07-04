@@ -273,7 +273,7 @@ const RepositoryScan = () => {
                             color={mode === "dark" ? "#EAEAEA" : "#000000"}
                           />
                           <p className="font-semibold text-[14px]">
-                            Select Repo
+                            Select Repo <span className="text-red-500">*</span>
                           </p>
                         </label>
                         <Popover
@@ -573,7 +573,7 @@ const RepositoryScan = () => {
                             </svg>
                           </span>
                           <p className="font-semibold text-[14px]">
-                            Compliant Policy{" "}
+                            Compliant Policy <span className="text-red-500">*</span>
                           </p>
                         </label>
                         <select
@@ -620,7 +620,7 @@ const RepositoryScan = () => {
                                 color={mode === "dark" ? "#EAEAEA" : "#000000"}
                               />
                               <p className="font-semibold text-[14px]">
-                                Repo Url
+                                Repo Url <span className="text-red-500">*</span>
                               </p>
                             </label>
                             <input
@@ -650,7 +650,7 @@ const RepositoryScan = () => {
                                 color={mode === "dark" ? "#EAEAEA" : "#000000"}
                               />
                               <p className="font-semibold text-[14px]">
-                                Personal Access Token(PAT)
+                                Personal Access Token(PAT) <span className="text-red-500">*</span>
                               </p>
                             </label>
                             <input
@@ -866,7 +866,7 @@ const RepositoryScan = () => {
                           color={mode === "dark" ? "#EAEAEA" : "#373737"}
                         />
                         <a
-                          href={scanData?.repo?.repo_url ?? "/"}
+                          href={scanData?.repo?.repo_url ?? "https://github.com"}
                           target="_blank"
                           className="font-medium text-[10px] hover:text-primary"
                         >

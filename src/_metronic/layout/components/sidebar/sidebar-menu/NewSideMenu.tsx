@@ -712,7 +712,7 @@ const NewSideMenu = () => {
   return (
     <div className="flex items-start md:h-screen max-w-[400px]">
       <div className="border-end pt-8 w-fit h-full">
-        <div className="md:w-[62px] md:h-[66px] flex items-center justify-center">
+        <div className="w-[62px] h-[66px] flex items-center justify-center">
           <Link
             to={"/dashboard"}
             onClick={() => {
@@ -733,7 +733,7 @@ const NewSideMenu = () => {
             {routes.map((link) => (
               <div
                 role="button"
-                className="flex items-center gap-md-2 md:w-[62px] md:h-[66px]"
+                className="flex items-center gap-2 w-[62px] h-[66px]"
                 onClick={() => {
                   setPageTitle(link.children![0].title);
                   sessionStorage.setItem("top-title", link.title);
@@ -793,7 +793,7 @@ const NewSideMenu = () => {
               </div>
             ))}
           </div>
-          <div className="absolute bottom-0 lg:bottom-8 md:left-5">
+          <div className="absolute bottom-12 left-5">
             <button
               onClick={() => {
                 setPopOpen(!popOpen);
