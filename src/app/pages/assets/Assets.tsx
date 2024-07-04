@@ -55,12 +55,11 @@ const Assets = () => {
       title: "Resource Type",
       type: ColumnTypes.Text,
     },
-    {
-      name: "rule_code",
-      title: "Rule Code",
-      type: ColumnTypes.Text,
-    },
-
+    // {
+    //   name: "rule_code",
+    //   title: "Rule Code",
+    //   type: ColumnTypes.Text,
+    // },
     {
       name: "services",
       title: "Services",
@@ -213,6 +212,7 @@ const Assets = () => {
           editItem={editItems}
           handleHide={() => setShowModal(false)}
           action={action}
+          handleRefetch={handleGetAllAssets}
         />
       )}
     </div>

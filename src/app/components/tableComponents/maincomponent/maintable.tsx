@@ -916,6 +916,7 @@ export const MainTableComponent = ({
                     setnewPageSize(+e.target.value);
                   }}
                   className="form-control w-24 rounded font-medium">
+                    <option value={5} className="font-medium">5</option>
                     <option value={10} className="font-medium">10</option>
                     <option value={20} className="font-medium">20</option>
                     <option value={50} className="font-medium">50</option>

@@ -219,6 +219,7 @@ const CloudRegion = () => {
       {showModal && (
         <RegionModal
           isOpen={showModal}
+          handleRefetch={handleFetchRegions}
           editItem={editItems}
           handleHide={() => setShowModal(false)}
         />

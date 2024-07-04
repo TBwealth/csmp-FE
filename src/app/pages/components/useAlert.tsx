@@ -17,6 +17,7 @@ const useAlert = () => {
   const Alert = () => {
     return (
       <div
+        onClick={hideAlert}
         className={`mb-lg-15 alert mx-8 ${
           status ? `alert-${status}` : "d-none"
         }`}

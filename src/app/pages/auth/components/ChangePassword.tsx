@@ -1,11 +1,12 @@
 import React from "react";
-import { FaChevronCircleLeft, FaChevronLeft, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaChevronLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import * as Yup from "yup";
 import clsx from "clsx";
 import { useAccountPasswordChange } from "../../../api/api-services/accountQuery";
+import axios from "axios";
 
 const initialValues = {
   new_password1: "",
@@ -28,49 +29,93 @@ const changePasswordSchema = Yup.object().shape({
 });
 const ChangePassword = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [search] = useSearchParams();
+  const id = search.get("id");
   const [isOpen, setIsOpen] = useState(false);
   const [active, setIsActive] = useState(false);
   const { mutate, isLoading } = useAccountPasswordChange();
   const [activeConfirm, setIsActiveConfirm] = useState(false);
+
+  const handleChangePassword = async (setStatus: any, payload: any) => {
+    try {
+      const resp = await axios.post(
+        "https://cspm-api.midrapps.com/accounts/api/forgot_password_change/",
+        payload
+      );
+      if (resp.status === 201) {
+        setLoading(false);
+        setStatus(null);
+        navigate("/login");
+      }
+    } catch (err: any) {
+      setStatus(err.response.data.message);
+      setLoading(false);
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema: changePasswordSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
       setLoading(true);
-      mutate(
-        {
-          data: {
-            new_password1: values.new_password1,
-            new_password2: values.new_password2,
+      if (id) {
+        const data = {
+          id,
+          password1: values.new_password1,
+          password2: values.new_password2,
+        };
+        handleChangePassword(setStatus, data);
+      } else {
+        mutate(
+          {
+            data: {
+              new_password1: values.new_password1,
+              new_password2: values.new_password2,
+            },
           },
-        },
-        {
-          onSuccess: (res: any) => {
-            console.log(res.data, "Successss");
-            setLoading(false);
-            setStatus(null);
-            // sessionStorage.setItem("top-title", "Setup Account");
-          },
-          onError: (res: any) => {
-            setStatus(res.response.data.message);
-            setLoading(false);
-          },
-        }
-      );
+          {
+            onSuccess: (res: any) => {
+              console.log(res.data, "Successss");
+              setLoading(false);
+              setStatus(null);
+              // sessionStorage.setItem("top-title", "Setup Account");
+            },
+            onError: (res: any) => {
+              setStatus(res.response.data.message);
+              setLoading(false);
+            },
+          }
+        );
+      }
     },
   });
+
   return (
     <div className="mt-[32px]">
-      <div className="w-full md:w-[50%]">
+      <div
+        className={`w-full ${
+          id
+            ? "md:w-full flex items-center justify-center h-[90vh]"
+            : "md:w-[50%]"
+        }`}
+      >
         <form
           className="text-[#373737] w-[80%] lg:w-[65%] mx-auto"
           id="kt_login_signup_form"
           onSubmit={formik.handleSubmit}
         >
-          <button onClick={() => navigate(-1)} className="block w-fit mb-10">
-            <FaChevronLeft size={22} />
-          </button>
+          {id ? (
+            <div className="separator separator-content my-14">
+              <span className="w-full  text-[12px] md:text-[18px] font-medium">
+                Change Password
+              </span>
+            </div>
+          ) : (
+            <button onClick={() => navigate(-1)} className="block w-fit mb-10">
+              <FaChevronLeft size={22} />
+            </button>
+          )}
 
           {formik.status && (
             <div className="mb-lg-15 alert alert-danger">
@@ -108,7 +153,7 @@ const ChangePassword = () => {
                   {
                     <button
                       type="button"
-                      className="absolute right-4 top-5 bg-transparent cursor-pointer"
+                      className="absolute right-10 top-5 bg-transparent cursor-pointer"
                       onClick={() => setIsActive(!active)}
                     >
                       {active ? <FaEyeSlash /> : <FaEye />}
@@ -118,7 +163,7 @@ const ChangePassword = () => {
                     formik.errors.new_password1 && (
                       <div className="fv-plugins-message-container">
                         <div className="fv-help-block">
-                          <span role="alert">
+                          <span role="alert" className="font-medium text-xs">
                             {formik.errors.new_password1}
                           </span>
                         </div>
@@ -136,7 +181,7 @@ const ChangePassword = () => {
               {
                 <button
                   type="button"
-                  className="absolute right-4 top-12 bg-transparent cursor-pointer"
+                  className="absolute right-10 top-12 bg-transparent cursor-pointer"
                   onClick={() => setIsActiveConfirm(!activeConfirm)}
                 >
                   {activeConfirm ? <FaEyeSlash /> : <FaEye />}
@@ -173,7 +218,7 @@ const ChangePassword = () => {
             </div>
             {/* end::Form group */}
           </div>
-          <div className="row mb-4">
+          <div className="row mt-12">
             <button
               type="submit"
               id="kt_sign_up_submit"
@@ -212,7 +257,6 @@ const ChangePassword = () => {
           </div>
         </form>
       </div>
-
     </div>
   );
 };

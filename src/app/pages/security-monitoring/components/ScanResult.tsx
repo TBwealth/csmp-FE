@@ -15,9 +15,13 @@ import { ColumnTypes } from "../../../components/models";
 import FilterModal from "../../../components/FilterModal";
 import { PolicyPolicyListCreateList200Response } from "../../../api/axios-client";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
+import { Modal } from "react-bootstrap";
+import table from "../../../../../public/media/logos/table.svg";
+
 const ScanResult = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [showPopOver, setShowPopOver] = useState(false);
+  const [openExport, setShowOpenExport] = useState(false);
   const [activeBtn, setActiveBtn] = useState("Daily");
   const printableArea = useRef<HTMLDivElement>(null);
   const [showScan, setShowScan] = useState(false);
@@ -73,8 +77,9 @@ const ScanResult = () => {
   }, [scanResult]);
 
   const downloadform = () => {
-    const width = printableArea.current?.clientWidth!;
-    const height = printableArea.current?.clientHeight! + 40;
+    const printableArea: any = document.getElementById("areaToPrint");
+    const width = printableArea.clientWidth!;
+    const height = printableArea.clientHeight! + 40;
     let orientation: any = "";
     let imageUnit: any = "pt";
     if (width > height) {
@@ -83,7 +88,7 @@ const ScanResult = () => {
       orientation = "p";
     }
     domtoimage
-      .toPng(printableArea.current!, {
+      .toPng(printableArea!, {
         width: width,
         height: height,
       })
@@ -99,6 +104,7 @@ const ScanResult = () => {
         //  pdf.addImage(user?.company?.companyProfileImageUrl, 'PNG', 45, 30, 100, 30);
         pdf.addImage(result, "PNG", 0, 80, width, height);
         pdf.save(`scan result`);
+        setShowOpenExport(false);
       })
       .catch((error) => {});
   };
@@ -123,7 +129,7 @@ const ScanResult = () => {
     refetch();
   }
 
-  console.log(scanresult);
+  // console.log(scanresult);
   return (
     <div className="mt-[32px]">
       {isLoading || scanLoading ? (
@@ -207,7 +213,8 @@ const ScanResult = () => {
                       data: {
                         policy_id: scanresult?.policy_run?.policy?.id,
                         scan_frequency: scanresult?.scan_frequency,
-                        cloud_provider_account_id: scanresult?.cloud_account?.id,
+                        cloud_provider_account_id:
+                          scanresult?.cloud_account?.id,
                       },
                     },
                     {
@@ -598,7 +605,7 @@ const ScanResult = () => {
                   </svg>
                 </button>
                 <button
-                  onClick={downloadform}
+                  onClick={() => setShowOpenExport(true)}
                   className="flex items-center gap-3"
                 >
                   <p className="underline font-medium">Export PDF</p>
@@ -634,7 +641,7 @@ const ScanResult = () => {
           </div>
 
           <div>
-            <div className="w-full overflow-auto">
+            <div className="w-full overflow-auto" id="areaToPrint">
               <div
                 className={`grid font-medium grid-cols-6 p-4 rounded-t-[1.5rem] place-content-center mb-3 border-bottom h-[52px] w-[180vw] md:w-full ${
                   mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -750,14 +757,16 @@ const ScanResult = () => {
                   <select
                     name=""
                     id=""
-                    className="p-2"
+                    className="p-2 form-control w-24 rounded font-medium"
                     value={pageCount}
                     onChange={(e) => setPageCount(+e.target.value)}
                   >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
+                    <option value={5} className="font-medium">5</option>
+                    <option value={10} className="font-medium">10</option>
+                    <option value={20} className="font-medium">20</option>
+                    <option value={50} className="font-medium">50</option>
+                    <option value={75} className="font-medium">75</option>
+                    <option value={100} className="font-medium">100</option>
                   </select>
                 </div>
                 <div className="flex items-center gap-3">
@@ -775,7 +784,7 @@ const ScanResult = () => {
                     previous
                   </button>
                   <button
-                    disabled={pageCount >= checks.length}
+                    disabled={offset+pageCount >= checks.length}
                     onClick={() => setOffset((offset) => offset + pageCount)}
                     className="bg-primary font-medium w-24 rounded-md p-2 text-white"
                   >
@@ -805,6 +814,73 @@ const ScanResult = () => {
         setshowFilter={(e) => setShowPopOver(e)}
         showFilter={showPopOver}
       />
+
+      <Modal
+        show={openExport}
+        onHide={() => setShowOpenExport(false)}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton className="border-0">
+          <Modal.Title>
+            <div className="bg-[#284CB30D] h-12 w-12 rounded-full flex items-center justify-center">
+              <img src={table} alt="icon" />
+            </div>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="pt-0">
+          <h1 className="font-semibold text-[14px] md:text-[18px] mb-[12px]">
+            Export PDF
+          </h1>
+          <p
+            className={`font-medium text-[10px] md:text-[12px] ${
+              mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
+            }`}
+          >
+            Export compliance status report for this scan
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="flex items-center w-full gap-[16px] mb-[36px]">
+            <h2 className="font-semibold text-[12px] md:text-[14px]">
+              ISO EAC 27001 system check
+            </h2>
+            <div className="flex px-[16px] items-center gap-[12px] border-start border-end">
+              <FaGlobe
+                color={mode === "dark" ? "#EAEAEA" : "#000000"}
+                size={14}
+              />
+              <p className="font-semibold text-[12px] md:text-[14px]">{`${
+                checks.length > 0 ? checks.length : "No"
+              } Region`}</p>
+            </div>
+            <p
+              className={`text-[12px] font-medium ${
+                mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
+              }`}
+            >
+              {scanresult && `${scanresult.stop_time.split("T")[0]}`}
+            </p>
+          </div>
+          <div className="flex w-full items-center justify-between">
+            <label htmlFor="mail" className="flex items-center gap-[8px]">
+              <input
+                type="checkbox"
+                name="mail"
+                id="mail"
+                className="w-5 h-5 rounded"
+              />
+              <p className="font-medium text-[12px]">Send to account mail</p>
+            </label>
+            <button
+              onClick={downloadform}
+              className="bg-[#284CB3] py-[8px] px-[24px] font-medium text-[14px] rounded-full text-white"
+            >
+              Export Report
+            </button>
+          </div>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
