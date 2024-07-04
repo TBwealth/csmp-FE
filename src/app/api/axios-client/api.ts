@@ -468,10 +468,103 @@ export interface CloudProviderResourceTypesList200Response {
     'previous'?: string | null;
     /**
      * 
-     * @type {Array<ResourceTypes>}
+     * @type {Array<CloudResourceTypes>}
      * @memberof CloudProviderResourceTypesList200Response
      */
-    'results': Array<ResourceTypes>;
+    'results': Array<CloudResourceTypes>;
+}
+/**
+ * 
+ * @export
+ * @interface CloudProviderServiceResourceTypesList200Response
+ */
+export interface CloudProviderServiceResourceTypesList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudProviderServiceResourceTypesList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudProviderServiceResourceTypesList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudProviderServiceResourceTypesList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<CloudServiceTypes>}
+     * @memberof CloudProviderServiceResourceTypesList200Response
+     */
+    'results': Array<CloudServiceTypes>;
+}
+/**
+ * 
+ * @export
+ * @interface CloudResourceTypes
+ */
+export interface CloudResourceTypes {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudResourceTypes
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudResourceTypes
+     */
+    'resource_type': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CloudResourceTypes
+     */
+    'status'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudResourceTypes
+     */
+    'cloud_provider': string;
+}
+/**
+ * 
+ * @export
+ * @interface CloudServiceTypes
+ */
+export interface CloudServiceTypes {
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudServiceTypes
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudServiceTypes
+     */
+    'service_resource': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CloudServiceTypes
+     */
+    'status'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudServiceTypes
+     */
+    'cloud_provider': string;
 }
 /**
  * 
@@ -1152,7 +1245,7 @@ export interface CustomResourceType {
      * @type {string}
      * @memberof CustomResourceType
      */
-    'name'?: string;
+    'resource_type'?: string;
 }
 /**
  * 
@@ -1279,6 +1372,31 @@ export interface FetchAsset {
      * @memberof FetchAsset
      */
     'cloud_provider_account_id': number;
+}
+/**
+ * 
+ * @export
+ * @interface ForgetPasswordChange
+ */
+export interface ForgetPasswordChange {
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgetPasswordChange
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgetPasswordChange
+     */
+    'password1': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ForgetPasswordChange
+     */
+    'password2': string;
 }
 /**
  * 
@@ -2275,37 +2393,6 @@ export interface RepoScanSetUp {
 /**
  * 
  * @export
- * @interface ResourceTypes
- */
-export interface ResourceTypes {
-    /**
-     * 
-     * @type {number}
-     * @memberof ResourceTypes
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceTypes
-     */
-    'resource_type': string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ResourceTypes
-     */
-    'status'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof ResourceTypes
-     */
-    'cloud_provider': string;
-}
-/**
- * 
- * @export
  * @interface Role
  */
 export interface Role {
@@ -2871,12 +2958,6 @@ export interface TenantAssetManagement {
      * @memberof TenantAssetManagement
      */
     'name': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TenantAssetManagement
-     */
-    'rule_code': string;
     /**
      * 
      * @type {string}
@@ -3563,6 +3644,44 @@ export const AccountsApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'data' is not null or undefined
             assertParamExists('accountsApiCreateUsersCreate', 'data', data)
             const localVarPath = `/accounts/api/create_users/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ForgetPasswordChange} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiForgotPasswordChangeCreate: async (data: ForgetPasswordChange, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('accountsApiForgotPasswordChangeCreate', 'data', data)
+            const localVarPath = `/accounts/api/forgot_password_change/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -4842,6 +4961,16 @@ export const AccountsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * 
+         * @param {ForgetPasswordChange} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async accountsApiForgotPasswordChangeCreate(data: ForgetPasswordChange, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ForgetPasswordChange>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.accountsApiForgotPasswordChangeCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Check the credentials and return the REST Token if the credentials are valid and authenticated. Calls Django Auth login method to register User ID in Django session framework  Accept the following POST parameters: username, password Return the REST Framework Token Object\'s key.
          * @param {Login} data 
          * @param {*} [options] Override http request option.
@@ -5225,6 +5354,15 @@ export const AccountsApiFactory = function (configuration?: Configuration, baseP
             return localVarFp.accountsApiCreateUsersCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
+         * 
+         * @param {ForgetPasswordChange} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        accountsApiForgotPasswordChangeCreate(data: ForgetPasswordChange, options?: any): AxiosPromise<ForgetPasswordChange> {
+            return localVarFp.accountsApiForgotPasswordChangeCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Check the credentials and return the REST Token if the credentials are valid and authenticated. Calls Django Auth login method to register User ID in Django session framework  Accept the following POST parameters: username, password Return the REST Framework Token Object\'s key.
          * @param {Login} data 
          * @param {*} [options] Override http request option.
@@ -5599,6 +5737,20 @@ export interface AccountsApiAccountsApiCreateUsersCreateRequest {
      * @memberof AccountsApiAccountsApiCreateUsersCreate
      */
     readonly data: TenantRegister
+}
+
+/**
+ * Request parameters for accountsApiForgotPasswordChangeCreate operation in AccountsApi.
+ * @export
+ * @interface AccountsApiAccountsApiForgotPasswordChangeCreateRequest
+ */
+export interface AccountsApiAccountsApiForgotPasswordChangeCreateRequest {
+    /**
+     * 
+     * @type {ForgetPasswordChange}
+     * @memberof AccountsApiAccountsApiForgotPasswordChangeCreate
+     */
+    readonly data: ForgetPasswordChange
 }
 
 /**
@@ -6177,6 +6329,17 @@ export class AccountsApi extends BaseAPI {
      */
     public accountsApiCreateUsersCreate(requestParameters: AccountsApiAccountsApiCreateUsersCreateRequest, options?: AxiosRequestConfig) {
         return AccountsApiFp(this.configuration).accountsApiCreateUsersCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {AccountsApiAccountsApiForgotPasswordChangeCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AccountsApi
+     */
+    public accountsApiForgotPasswordChangeCreate(requestParameters: AccountsApiAccountsApiForgotPasswordChangeCreateRequest, options?: AxiosRequestConfig) {
+        return AccountsApiFp(this.configuration).accountsApiForgotPasswordChangeCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -6910,11 +7073,11 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @param {ResourceTypes} data 
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesCreate: async (data: ResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderResourceTypesCreate: async (data: CloudResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'data' is not null or undefined
             assertParamExists('cloudProviderResourceTypesCreate', 'data', data)
             const localVarPath = `/cloud_provider/resource_types/`;
@@ -6947,8 +7110,8 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
             };
         },
         /**
-         * List Resource Types
-         * @summary List Resource Types
+         * List Service Resource Types
+         * @summary List Service Resource Types
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
@@ -7001,12 +7164,12 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
-         * @param {ResourceTypes} data 
+         * @param {number} id A unique integer value identifying this cloud resource types.
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesPartialUpdate: async (id: number, data: ResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderResourceTypesPartialUpdate: async (id: number, data: CloudResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('cloudProviderResourceTypesPartialUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
@@ -7043,7 +7206,7 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
+         * @param {number} id A unique integer value identifying this cloud resource types.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -7079,17 +7242,228 @@ export const CloudProviderApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
-         * @param {ResourceTypes} data 
+         * @param {number} id A unique integer value identifying this cloud resource types.
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesUpdate: async (id: number, data: ResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        cloudProviderResourceTypesUpdate: async (id: number, data: CloudResourceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('cloudProviderResourceTypesUpdate', 'id', id)
             // verify required parameter 'data' is not null or undefined
             assertParamExists('cloudProviderResourceTypesUpdate', 'data', data)
             const localVarPath = `/cloud_provider/resource_types/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesCreate: async (data: CloudServiceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('cloudProviderServiceResourceTypesCreate', 'data', data)
+            const localVarPath = `/cloud_provider/service_resource_types/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List Resource Types
+         * @summary List Resource Types
+         * @param {string} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesList: async (cloudProvider?: string, search?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/cloud_provider/service_resource_types/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (cloudProvider !== undefined) {
+                localVarQueryParameter['cloud_provider'] = cloudProvider;
+            }
+
+            if (search !== undefined) {
+                localVarQueryParameter['search'] = search;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesPartialUpdate: async (id: number, data: CloudServiceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('cloudProviderServiceResourceTypesPartialUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('cloudProviderServiceResourceTypesPartialUpdate', 'data', data)
+            const localVarPath = `/cloud_provider/service_resource_types/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('cloudProviderServiceResourceTypesRead', 'id', id)
+            const localVarPath = `/cloud_provider/service_resource_types/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesUpdate: async (id: number, data: CloudServiceTypes, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('cloudProviderServiceResourceTypesUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('cloudProviderServiceResourceTypesUpdate', 'data', data)
+            const localVarPath = `/cloud_provider/service_resource_types/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -7271,17 +7645,17 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {ResourceTypes} data 
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderResourceTypesCreate(data: ResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResourceTypes>> {
+        async cloudProviderResourceTypesCreate(data: CloudResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudResourceTypes>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderResourceTypesCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
-         * List Resource Types
-         * @summary List Resource Types
+         * List Service Resource Types
+         * @summary List Service Resource Types
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
@@ -7295,34 +7669,90 @@ export const CloudProviderApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
-         * @param {ResourceTypes} data 
+         * @param {number} id A unique integer value identifying this cloud resource types.
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderResourceTypesPartialUpdate(id: number, data: ResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResourceTypes>> {
+        async cloudProviderResourceTypesPartialUpdate(id: number, data: CloudResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudResourceTypes>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderResourceTypesPartialUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
+         * @param {number} id A unique integer value identifying this cloud resource types.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderResourceTypesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResourceTypes>> {
+        async cloudProviderResourceTypesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudResourceTypes>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderResourceTypesRead(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
-         * @param {ResourceTypes} data 
+         * @param {number} id A unique integer value identifying this cloud resource types.
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async cloudProviderResourceTypesUpdate(id: number, data: ResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResourceTypes>> {
+        async cloudProviderResourceTypesUpdate(id: number, data: CloudResourceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudResourceTypes>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderResourceTypesUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderServiceResourceTypesCreate(data: CloudServiceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudServiceTypes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderServiceResourceTypesCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List Resource Types
+         * @summary List Resource Types
+         * @param {string} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderServiceResourceTypesList(cloudProvider?: string, search?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudProviderServiceResourceTypesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderServiceResourceTypesList(cloudProvider, search, page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderServiceResourceTypesPartialUpdate(id: number, data: CloudServiceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudServiceTypes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderServiceResourceTypesPartialUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderServiceResourceTypesRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudServiceTypes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderServiceResourceTypesRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async cloudProviderServiceResourceTypesUpdate(id: number, data: CloudServiceTypes, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudServiceTypes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.cloudProviderServiceResourceTypesUpdate(id, data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -7440,16 +7870,16 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
         },
         /**
          * 
-         * @param {ResourceTypes} data 
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesCreate(data: ResourceTypes, options?: any): AxiosPromise<ResourceTypes> {
+        cloudProviderResourceTypesCreate(data: CloudResourceTypes, options?: any): AxiosPromise<CloudResourceTypes> {
             return localVarFp.cloudProviderResourceTypesCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
-         * List Resource Types
-         * @summary List Resource Types
+         * List Service Resource Types
+         * @summary List Service Resource Types
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [search] A search term.
          * @param {number} [page] A page number within the paginated result set.
@@ -7462,32 +7892,83 @@ export const CloudProviderApiFactory = function (configuration?: Configuration, 
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
-         * @param {ResourceTypes} data 
+         * @param {number} id A unique integer value identifying this cloud resource types.
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesPartialUpdate(id: number, data: ResourceTypes, options?: any): AxiosPromise<ResourceTypes> {
+        cloudProviderResourceTypesPartialUpdate(id: number, data: CloudResourceTypes, options?: any): AxiosPromise<CloudResourceTypes> {
             return localVarFp.cloudProviderResourceTypesPartialUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
+         * @param {number} id A unique integer value identifying this cloud resource types.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesRead(id: number, options?: any): AxiosPromise<ResourceTypes> {
+        cloudProviderResourceTypesRead(id: number, options?: any): AxiosPromise<CloudResourceTypes> {
             return localVarFp.cloudProviderResourceTypesRead(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {number} id A unique integer value identifying this resource types.
-         * @param {ResourceTypes} data 
+         * @param {number} id A unique integer value identifying this cloud resource types.
+         * @param {CloudResourceTypes} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        cloudProviderResourceTypesUpdate(id: number, data: ResourceTypes, options?: any): AxiosPromise<ResourceTypes> {
+        cloudProviderResourceTypesUpdate(id: number, data: CloudResourceTypes, options?: any): AxiosPromise<CloudResourceTypes> {
             return localVarFp.cloudProviderResourceTypesUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesCreate(data: CloudServiceTypes, options?: any): AxiosPromise<CloudServiceTypes> {
+            return localVarFp.cloudProviderServiceResourceTypesCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List Resource Types
+         * @summary List Resource Types
+         * @param {string} [cloudProvider] Filter by Cloud Provider
+         * @param {string} [search] A search term.
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesList(cloudProvider?: string, search?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<CloudProviderServiceResourceTypesList200Response> {
+            return localVarFp.cloudProviderServiceResourceTypesList(cloudProvider, search, page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesPartialUpdate(id: number, data: CloudServiceTypes, options?: any): AxiosPromise<CloudServiceTypes> {
+            return localVarFp.cloudProviderServiceResourceTypesPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesRead(id: number, options?: any): AxiosPromise<CloudServiceTypes> {
+            return localVarFp.cloudProviderServiceResourceTypesRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this cloud service resource types.
+         * @param {CloudServiceTypes} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        cloudProviderServiceResourceTypesUpdate(id: number, data: CloudServiceTypes, options?: any): AxiosPromise<CloudServiceTypes> {
+            return localVarFp.cloudProviderServiceResourceTypesUpdate(id, data, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates Cloud Resources (Admin)
@@ -7699,10 +8180,10 @@ export interface CloudProviderApiCloudProviderProviderServiceOnboardingCreateReq
 export interface CloudProviderApiCloudProviderResourceTypesCreateRequest {
     /**
      * 
-     * @type {ResourceTypes}
+     * @type {CloudResourceTypes}
      * @memberof CloudProviderApiCloudProviderResourceTypesCreate
      */
-    readonly data: ResourceTypes
+    readonly data: CloudResourceTypes
 }
 
 /**
@@ -7747,7 +8228,7 @@ export interface CloudProviderApiCloudProviderResourceTypesListRequest {
  */
 export interface CloudProviderApiCloudProviderResourceTypesPartialUpdateRequest {
     /**
-     * A unique integer value identifying this resource types.
+     * A unique integer value identifying this cloud resource types.
      * @type {number}
      * @memberof CloudProviderApiCloudProviderResourceTypesPartialUpdate
      */
@@ -7755,10 +8236,10 @@ export interface CloudProviderApiCloudProviderResourceTypesPartialUpdateRequest 
 
     /**
      * 
-     * @type {ResourceTypes}
+     * @type {CloudResourceTypes}
      * @memberof CloudProviderApiCloudProviderResourceTypesPartialUpdate
      */
-    readonly data: ResourceTypes
+    readonly data: CloudResourceTypes
 }
 
 /**
@@ -7768,7 +8249,7 @@ export interface CloudProviderApiCloudProviderResourceTypesPartialUpdateRequest 
  */
 export interface CloudProviderApiCloudProviderResourceTypesReadRequest {
     /**
-     * A unique integer value identifying this resource types.
+     * A unique integer value identifying this cloud resource types.
      * @type {number}
      * @memberof CloudProviderApiCloudProviderResourceTypesRead
      */
@@ -7782,7 +8263,7 @@ export interface CloudProviderApiCloudProviderResourceTypesReadRequest {
  */
 export interface CloudProviderApiCloudProviderResourceTypesUpdateRequest {
     /**
-     * A unique integer value identifying this resource types.
+     * A unique integer value identifying this cloud resource types.
      * @type {number}
      * @memberof CloudProviderApiCloudProviderResourceTypesUpdate
      */
@@ -7790,10 +8271,115 @@ export interface CloudProviderApiCloudProviderResourceTypesUpdateRequest {
 
     /**
      * 
-     * @type {ResourceTypes}
+     * @type {CloudResourceTypes}
      * @memberof CloudProviderApiCloudProviderResourceTypesUpdate
      */
-    readonly data: ResourceTypes
+    readonly data: CloudResourceTypes
+}
+
+/**
+ * Request parameters for cloudProviderServiceResourceTypesCreate operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderServiceResourceTypesCreateRequest
+ */
+export interface CloudProviderApiCloudProviderServiceResourceTypesCreateRequest {
+    /**
+     * 
+     * @type {CloudServiceTypes}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesCreate
+     */
+    readonly data: CloudServiceTypes
+}
+
+/**
+ * Request parameters for cloudProviderServiceResourceTypesList operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderServiceResourceTypesListRequest
+ */
+export interface CloudProviderApiCloudProviderServiceResourceTypesListRequest {
+    /**
+     * Filter by Cloud Provider
+     * @type {string}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesList
+     */
+    readonly cloudProvider?: string
+
+    /**
+     * A search term.
+     * @type {string}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesList
+     */
+    readonly search?: string
+
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesList
+     */
+    readonly pageSize?: number
+}
+
+/**
+ * Request parameters for cloudProviderServiceResourceTypesPartialUpdate operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderServiceResourceTypesPartialUpdateRequest
+ */
+export interface CloudProviderApiCloudProviderServiceResourceTypesPartialUpdateRequest {
+    /**
+     * A unique integer value identifying this cloud service resource types.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesPartialUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {CloudServiceTypes}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesPartialUpdate
+     */
+    readonly data: CloudServiceTypes
+}
+
+/**
+ * Request parameters for cloudProviderServiceResourceTypesRead operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderServiceResourceTypesReadRequest
+ */
+export interface CloudProviderApiCloudProviderServiceResourceTypesReadRequest {
+    /**
+     * A unique integer value identifying this cloud service resource types.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesRead
+     */
+    readonly id: number
+}
+
+/**
+ * Request parameters for cloudProviderServiceResourceTypesUpdate operation in CloudProviderApi.
+ * @export
+ * @interface CloudProviderApiCloudProviderServiceResourceTypesUpdateRequest
+ */
+export interface CloudProviderApiCloudProviderServiceResourceTypesUpdateRequest {
+    /**
+     * A unique integer value identifying this cloud service resource types.
+     * @type {number}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesUpdate
+     */
+    readonly id: number
+
+    /**
+     * 
+     * @type {CloudServiceTypes}
+     * @memberof CloudProviderApiCloudProviderServiceResourceTypesUpdate
+     */
+    readonly data: CloudServiceTypes
 }
 
 /**
@@ -7930,8 +8516,8 @@ export class CloudProviderApi extends BaseAPI {
     }
 
     /**
-     * List Resource Types
-     * @summary List Resource Types
+     * List Service Resource Types
+     * @summary List Service Resource Types
      * @param {CloudProviderApiCloudProviderResourceTypesListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7972,6 +8558,62 @@ export class CloudProviderApi extends BaseAPI {
      */
     public cloudProviderResourceTypesUpdate(requestParameters: CloudProviderApiCloudProviderResourceTypesUpdateRequest, options?: AxiosRequestConfig) {
         return CloudProviderApiFp(this.configuration).cloudProviderResourceTypesUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CloudProviderApiCloudProviderServiceResourceTypesCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CloudProviderApi
+     */
+    public cloudProviderServiceResourceTypesCreate(requestParameters: CloudProviderApiCloudProviderServiceResourceTypesCreateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderServiceResourceTypesCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List Resource Types
+     * @summary List Resource Types
+     * @param {CloudProviderApiCloudProviderServiceResourceTypesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CloudProviderApi
+     */
+    public cloudProviderServiceResourceTypesList(requestParameters: CloudProviderApiCloudProviderServiceResourceTypesListRequest = {}, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderServiceResourceTypesList(requestParameters.cloudProvider, requestParameters.search, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CloudProviderApiCloudProviderServiceResourceTypesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CloudProviderApi
+     */
+    public cloudProviderServiceResourceTypesPartialUpdate(requestParameters: CloudProviderApiCloudProviderServiceResourceTypesPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderServiceResourceTypesPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CloudProviderApiCloudProviderServiceResourceTypesReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CloudProviderApi
+     */
+    public cloudProviderServiceResourceTypesRead(requestParameters: CloudProviderApiCloudProviderServiceResourceTypesReadRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderServiceResourceTypesRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CloudProviderApiCloudProviderServiceResourceTypesUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CloudProviderApi
+     */
+    public cloudProviderServiceResourceTypesUpdate(requestParameters: CloudProviderApiCloudProviderServiceResourceTypesUpdateRequest, options?: AxiosRequestConfig) {
+        return CloudProviderApiFp(this.configuration).cloudProviderServiceResourceTypesUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -9129,14 +9771,14 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {string} [scanFrequency] Filter result by scan frequency
          * @param {number} [policy] Filter by Policy
          * @param {string} [cloudProvider] Filter by Cloud Provider
-         * @param {any} [date] Filter by Date
+         * @param {any} [endDate] Filter by Date
          * @param {number} [repo] Filter by Repo ID
          * @param {string} [scanType] Filter by Scan Type
          * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunScanHistoryList: async (page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, cloudAccount?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        policyPolicyRunScanHistoryList: async (page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, endDate?: any, repo?: number, scanType?: string, cloudAccount?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/policy/policy_run_scan_history/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9176,8 +9818,8 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['cloud_provider'] = cloudProvider;
             }
 
-            if (date !== undefined) {
-                localVarQueryParameter['date'] = date;
+            if (endDate !== undefined) {
+                localVarQueryParameter['end_date'] = endDate;
             }
 
             if (repo !== undefined) {
@@ -10085,15 +10727,15 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          * @param {string} [scanFrequency] Filter result by scan frequency
          * @param {number} [policy] Filter by Policy
          * @param {string} [cloudProvider] Filter by Cloud Provider
-         * @param {any} [date] Filter by Date
+         * @param {any} [endDate] Filter by Date
          * @param {number} [repo] Filter by Repo ID
          * @param {string} [scanType] Filter by Scan Type
          * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, cloudAccount?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunScanHistoryList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, repo, scanType, cloudAccount, options);
+        async policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, endDate?: any, repo?: number, scanType?: string, cloudAccount?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyPolicyRunScanHistoryList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, endDate, repo, scanType, cloudAccount, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -10452,15 +11094,15 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          * @param {string} [scanFrequency] Filter result by scan frequency
          * @param {number} [policy] Filter by Policy
          * @param {string} [cloudProvider] Filter by Cloud Provider
-         * @param {any} [date] Filter by Date
+         * @param {any} [endDate] Filter by Date
          * @param {number} [repo] Filter by Repo ID
          * @param {string} [scanType] Filter by Scan Type
          * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, date?: any, repo?: number, scanType?: string, cloudAccount?: number, options?: any): AxiosPromise<PolicyPolicyRunScanHistoryList200Response> {
-            return localVarFp.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, date, repo, scanType, cloudAccount, options).then((request) => request(axios, basePath));
+        policyPolicyRunScanHistoryList(page?: number, pageSize?: number, tenant?: number, scanFrequency?: string, policy?: number, cloudProvider?: string, endDate?: any, repo?: number, scanType?: string, cloudAccount?: number, options?: any): AxiosPromise<PolicyPolicyRunScanHistoryList200Response> {
+            return localVarFp.policyPolicyRunScanHistoryList(page, pageSize, tenant, scanFrequency, policy, cloudProvider, endDate, repo, scanType, cloudAccount, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -11007,7 +11649,7 @@ export interface PolicyApiPolicyPolicyRunScanHistoryListRequest {
      * @type {any}
      * @memberof PolicyApiPolicyPolicyRunScanHistoryList
      */
-    readonly date?: any
+    readonly endDate?: any
 
     /**
      * Filter by Repo ID
@@ -11579,7 +12221,7 @@ export class PolicyApi extends BaseAPI {
      * @memberof PolicyApi
      */
     public policyPolicyRunScanHistoryList(requestParameters: PolicyApiPolicyPolicyRunScanHistoryListRequest = {}, options?: AxiosRequestConfig) {
-        return PolicyApiFp(this.configuration).policyPolicyRunScanHistoryList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, requestParameters.scanFrequency, requestParameters.policy, requestParameters.cloudProvider, requestParameters.date, requestParameters.repo, requestParameters.scanType, requestParameters.cloudAccount, options).then((request) => request(this.axios, this.basePath));
+        return PolicyApiFp(this.configuration).policyPolicyRunScanHistoryList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, requestParameters.scanFrequency, requestParameters.policy, requestParameters.cloudProvider, requestParameters.endDate, requestParameters.repo, requestParameters.scanType, requestParameters.cloudAccount, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -11814,12 +12456,11 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
          * @param {number} [pageSize] Number of results to return per page.
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
-         * @param {string} [ruleCode] Filter by Rule Code
          * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsList: async (page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, cloudAccount?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsList: async (page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/system_settings/asset_managements/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11849,10 +12490,6 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
 
             if (services !== undefined) {
                 localVarQueryParameter['services'] = services;
-            }
-
-            if (ruleCode !== undefined) {
-                localVarQueryParameter['rule_code'] = ruleCode;
             }
 
             if (cloudAccount !== undefined) {
@@ -13439,13 +14076,12 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          * @param {number} [pageSize] Number of results to return per page.
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
-         * @param {string} [ruleCode] Filter by Rule Code
          * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, cloudAccount?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsAssetManagementsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, ruleCode, cloudAccount, options);
+        async systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsAssetManagementsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, cloudAccount, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -13876,13 +14512,12 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          * @param {number} [pageSize] Number of results to return per page.
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
-         * @param {string} [ruleCode] Filter by Rule Code
          * @param {number} [cloudAccount] Filter by Cloud Account
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, ruleCode?: string, cloudAccount?: number, options?: any): AxiosPromise<SystemSettingsAssetManagementsList200Response> {
-            return localVarFp.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, ruleCode, cloudAccount, options).then((request) => request(axios, basePath));
+        systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, options?: any): AxiosPromise<SystemSettingsAssetManagementsList200Response> {
+            return localVarFp.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, cloudAccount, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -14302,13 +14937,6 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsListRequest {
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsList
      */
     readonly services?: string
-
-    /**
-     * Filter by Rule Code
-     * @type {string}
-     * @memberof SystemSettingsApiSystemSettingsAssetManagementsList
-     */
-    readonly ruleCode?: string
 
     /**
      * Filter by Cloud Account
@@ -15213,7 +15841,7 @@ export class SystemSettingsApi extends BaseAPI {
      * @memberof SystemSettingsApi
      */
     public systemSettingsAssetManagementsList(requestParameters: SystemSettingsApiSystemSettingsAssetManagementsListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsAssetManagementsList(requestParameters.page, requestParameters.pageSize, requestParameters.cloudProvider, requestParameters.services, requestParameters.ruleCode, requestParameters.cloudAccount, options).then((request) => request(this.axios, this.basePath));
+        return SystemSettingsApiFp(this.configuration).systemSettingsAssetManagementsList(requestParameters.page, requestParameters.pageSize, requestParameters.cloudProvider, requestParameters.services, requestParameters.cloudAccount, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
