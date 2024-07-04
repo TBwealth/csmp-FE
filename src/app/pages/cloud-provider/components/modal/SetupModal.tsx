@@ -117,7 +117,6 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
       },
       {
         onSuccess: (res: any) => {
-          // handleHide();
           showAlert(res?.data?.message, "success");
           setSetupData({
             cloud_provider: "AWS",
@@ -129,6 +128,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
             status: false,
             type: "",
           });
+          handleHide();
         },
 
         onError: (err) => {
@@ -250,7 +250,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
             <div className="">
               <label className="form-label fs-6 fw-bold flex items-center gap-2">
                 <FaServer color={mode === "dark" ? "#FFFFFF" : "#373737"} />
-                <span>Cloud Provider</span>
+                <p>Cloud Provider <span className="text-red-500">*</span></p>
               </label>
               <select
                 data-placeholder="Select option"
@@ -286,7 +286,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
             <div className="">
               <label className="form-label fs-6 fw-bold flex items-center gap-2">
                 <FaGlobe color={mode === "dark" ? "#FFFFFF" : "#373737"} />
-                <span>Suppress by Region</span>
+                <p>Suppress by Region <span className="text-red-500">*</span></p>
               </label>
               <select
                 data-placeholder="Select option"
@@ -308,7 +308,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
             <div className="">
               <label className="form-label fs-6 fw-bold flex items-center gap-2">
                 <FaBars color={mode === "dark" ? "#FFFFFF" : "#373737"} />
-                <span>Suppress by Resource Type</span>
+                <p>Suppress by Resource Type <span className="text-red-500">*</span></p>
               </label>
               <select
                 data-placeholder="Select option"
@@ -330,7 +330,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
             <div className="">
               <label className="form-label fs-6 fw-bold flex items-center gap-2">
                 <FaBars color={mode === "dark" ? "#FFFFFF" : "#373737"} />
-                <span>Suppress by Specific resource</span>
+                <p>Suppress by Specific resource <span className="text-red-500">*</span></p>
               </label>
               <select
                 data-placeholder="Select option"
@@ -354,7 +354,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
                 <FaCheckSquare
                   color={mode === "dark" ? "#FFFFFF" : "#373737"}
                 />
-                <span>Suppress by Rule</span>
+                <p>Suppress by Rule <span className="text-red-500">*</span></p>
               </label>
               <select
                 data-placeholder="Select option"
@@ -376,7 +376,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
             <div className="">
               <label className="form-label fs-6 fw-bold flex items-center gap-2">
                 <FaCalendar color={mode === "dark" ? "#FFFFFF" : "#373737"} />
-                <span>Expiration Date</span>
+                <p>Expiration Date <span className="text-red-500">*</span></p>
               </label>
               <input
                 placeholder="Enter Date"
@@ -397,7 +397,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
             <div className="md:col-span-2">
               <label className="form-label fs-6 fw-bold flex items-center gap-2">
                 <FaComment color={mode === "dark" ? "#FFFFFF" : "#373737"} />
-                <span>Comment </span>
+                <p>Comment <span className="text-red-500">*</span></p>
               </label>
               <textarea
                 placeholder="Enter Comment"

@@ -4,10 +4,9 @@ import { useRecoilValue } from "recoil";
 import useAlert from "../../components/useAlert";
 import { useCreateProviderServiceOnboarding } from "../../../api/api-services/cloudProviderQuery";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
-import { FaKey } from "react-icons/fa";
+import { FaCopy, FaKey } from "react-icons/fa";
 import awsImg from "../../../../../public/media/logos/awsfile.svg";
 import code from "../../../../../public/media/logos/code.svg";
-
 
 type Props = {
   goBack: Dispatch<void>;
@@ -20,6 +19,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [type, setType] = useState("");
   const [arn, setArn] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
   const [payload, setPayload] = useState<any>(null);
   const { showAlert, Alert } = useAlert();
 
@@ -35,20 +35,243 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
     }
   }, []);
 
-  console.log(type);
+  // console.log(type);
   const downloadTemplate = () => {
-    const link = document.createElement('a');
-    link.setAttribute('type', 'hidden');
-    link.href = "../../assets/CloudConformity.template";
+    const link = document.createElement("a");
+    link.setAttribute("type", "hidden");
+    link.href =
+      "../../../../../public/media/logos/02 Producing Data, Sampling.pdf";
     link.download = "CloudFormation template";
     document.body.appendChild(link);
     link.click();
     link.remove();
-}
+  };
 
- const launchAutomation = ()=>{
-    window.open("https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fcloudconformity%2FCloudConformity.template&stackName=CloudConformity&param_AccountId=717210094962&param_ExternalId=84afd050-df26-11ee-b0a8-318c1be8fa0c", "_blank");
-  }
+  const copyToClipBoard = () => {
+    navigator.clipboard.writeText(`
+    {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "acm:DescribeCertificate",
+                "acm:ListCertificates",
+                "acm:ListTagsForCertificate",
+                "apigateway:GET",
+                "autoscaling:DescribeAccountLimits",
+                "autoscaling:DescribeAutoScalingGroups",
+                "autoscaling:DescribeAutoScalingInstances",
+                "autoscaling:DescribeLaunchConfigurations",
+                "autoscaling:DescribeLoadBalancerTargetGroups",
+                "autoscaling:DescribeLoadBalancers",
+                "autoscaling:DescribeNotificationConfigurations",
+                "autoscaling:DescribeTags",
+                "cloudformation:DescribeAccountLimits",
+                "cloudformation:DescribeStackDriftDetectionStatus",
+                "cloudformation:DescribeStacks",
+                "cloudformation:DetectStackDrift",
+                "cloudformation:GetStackPolicy",
+                "cloudformation:ListStacks",
+                "cloudfront:GetDistribution",
+                "cloudfront:ListDistributions",
+                "cloudfront:ListTagsForResource",
+                "cloudtrail:DescribeTrails",
+                "cloudtrail:GetTrailStatus",
+                "cloudtrail:GetEventSelectors",
+                "cloudtrail:ListTags",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:DescribeAlarmsForMetric",
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:ListMetrics",
+                "config:DescribeComplianceByConfigRule",
+                "config:DescribeConfigRules",
+                "config:DescribeConfigurationRecorderStatus",
+                "config:DescribeConfigurationRecorders",
+                "config:DescribeDeliveryChannelStatus",
+                "config:DescribeDeliveryChannels",
+                "config:GetComplianceDetailsByConfigRule",
+                "config:GetResourceConfigHistory",
+                "config:SelectResourceConfig",
+                "dynamodb:DescribeContinuousBackups",
+                "dynamodb:DescribeLimits",
+                "dynamodb:DescribeTable",
+                "dynamodb:ListBackups",
+                "dynamodb:ListTables",
+                "dynamodb:ListTagsOfResource",
+                "ec2:DescribeAccountAttributes",
+                "ec2:DescribeAddresses",
+                "ec2:DescribeEgressOnlyInternetGateways",
+                "ec2:DescribeFlowLogs",
+                "ec2:DescribeImages",
+                "ec2:DescribeInstanceAttribute",
+                "ec2:DescribeInstanceStatus",
+                "ec2:DescribeInstances",
+                "ec2:DescribeInternetGateways",
+                "ec2:DescribeKeyPairs",
+                "ec2:DescribeNatGateways",
+                "ec2:DescribeNetworkAcls",
+                "ec2:DescribeNetworkInterfaces",
+                "ec2:DescribeReservedInstances",
+                "ec2:DescribeRouteTables",
+                "ec2:DescribeSecurityGroupReferences",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSnapshots",
+                "ec2:DescribeSnapshotAttribute",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeTags",
+                "ec2:DescribeVolumes",
+                "ec2:DescribeVpcAttribute",
+                "ec2:DescribeVpcEndpoints",
+                "ec2:DescribeVpcPeeringConnections",
+                "ec2:DescribeVpcs",
+                "ec2:DescribeVpnConnections",
+                "ec2:DescribeVpnGateways",
+                "ec2:GetEbsEncryptionByDefault",
+                "elasticfilesystem:DescribeFileSystems",
+                "elasticfilesystem:DescribeTags",
+                "elasticmapreduce:DescribeCluster",
+                "elasticmapreduce:ListClusters",
+                "elasticmapreduce:ListInstances",
+                "es:DescribeElasticsearchDomain",
+                "es:DescribeElasticsearchDomainConfig",
+                "es:DescribeElasticsearchDomains",
+                "es:DescribeElasticsearchInstanceTypeLimits",
+                "es:DescribeReservedElasticsearchInstanceOfferings",
+                "es:DescribeReservedElasticsearchInstances",
+                "es:ListDomainNames",
+                "es:ListElasticsearchInstanceTypes",
+                "es:ListElasticsearchVersions",
+                "es:ListTags",
+                "elasticache:DescribeCacheClusters",
+                "elasticache:DescribeReplicationGroups",
+                "elasticache:DescribeReservedCacheNodes",
+                "elasticache:ListTagsForResource",
+                "elasticloadbalancing:DescribeListeners",
+                "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                "elasticloadbalancing:DescribeLoadBalancerPolicies",
+                "elasticloadbalancing:DescribeLoadBalancers",
+                "elasticloadbalancing:DescribeTags",
+                "elasticloadbalancing:DescribeTargetGroups",
+                "elasticloadbalancing:DescribeTargetHealth",
+                "elasticloadbalancing:DescribeRules",
+                "iam:GenerateCredentialReport",
+                "iam:GetAccessKeyLastUsed",
+                "iam:GetAccountAuthorizationDetails",
+                "iam:GetAccountPasswordPolicy",
+                "iam:GetAccountSummary",
+                "iam:GetCredentialReport",
+                "iam:GetGroup",
+                "iam:GetGroupPolicy",
+                "iam:GetLoginProfile",
+                "iam:GetOpenIDConnectProvider",
+                "iam:GetPolicy",
+                "iam:GetPolicyVersion",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:GetSAMLProvider",
+                "iam:GetServerCertificate",
+                "iam:GetUser",
+                "iam:GetUserPolicy",
+                "iam:ListAccessKeys",
+                "iam:ListAccountAliases",
+                "iam:ListAttachedGroupPolicies",
+                "iam:ListAttachedRolePolicies",
+                "iam:ListAttachedUserPolicies",
+                "iam:ListEntitiesForPolicy",
+                "iam:ListGroupPolicies",
+                "iam:ListGroups",
+                "iam:ListInstanceProfiles",
+                "iam:ListInstanceProfilesForRole",
+                "iam:ListMFADevices",
+                "iam:ListOpenIDConnectProviders",
+                "iam:ListPolicies",
+                "iam:ListPolicyTags",
+                "iam:ListPolicyVersions",
+                "iam:ListRolePolicies",
+                "iam:ListRoleTags",
+                "iam:ListRoles",
+                "iam:ListSAMLProviders",
+                "iam:ListSSHPublicKeys",
+                "iam:ListServerCertificates",
+                "iam:ListUserPolicies",
+                "iam:ListUserTags",
+                "iam:ListUsers",
+                "iam:ListVirtualMFADevices",
+                "kms:DescribeKey",
+                "kms:GetKeyPolicy",
+                "kms:GetKeyRotationStatus",
+                "kms:ListAliases",
+                "kms:ListGrants",
+                "kms:ListKeyPolicies",
+                "kms:ListKeys",
+                "kms:ListResourceTags",
+                "lambda:GetAccountSettings",
+                "lambda:GetFunctionConfiguration",
+                "lambda:GetPolicy",
+                "lambda:ListEventSourceMappings",
+                "lambda:ListFunctions",
+                "lambda:ListTags",
+                "lambda:ListFunctionUrlConfigs",
+                "lambda:ListLayers",
+                "logs:DescribeLogGroups",
+                "logs:DescribeMetricFilters",
+                "rds:DescribeAccountAttributes",
+                "rds:DescribeDBClusters",
+                "rds:DescribeDBInstances",
+                "rds:DescribeDBSecurityGroups",
+                "rds:DescribeDBSnapshotAttributes",
+                "rds:DescribeDBSnapshots",
+                "rds:DescribeDBParameters",
+                "rds:DescribeDBParameterGroups",
+                "rds:DescribeEvents",
+                "rds:DescribeEventSubscriptions",
+                "rds:DescribeReservedDBInstances",
+                "rds:ListTagsForResource",
+                "redshift:DescribeClusterParameterGroups",
+                "redshift:DescribeClusterParameters",
+                "redshift:DescribeClusters",
+                "redshift:DescribeLoggingStatus",
+                "redshift:DescribeReservedNodes",
+                "redshift:DescribeTags",
+                "route53:GetDNSSEC",
+                "route53:GetGeoLocation",
+                "route53:ListHostedZones",
+                "route53:ListResourceRecordSets",
+                "route53:ListTagsForResource",
+                "route53domains:ListDomains",
+                "route53domains:ListTagsForDomain",
+                "ses:GetIdentityDkimAttributes",
+                "ses:GetIdentityPolicies",
+                "ses:GetIdentityVerificationAttributes",
+                "ses:ListIdentities",
+                "ses:ListIdentityPolicies",
+                "sns:GetTopicAttributes",
+                "sns:ListTopics",
+                "sns:ListSubscriptionsByTopic",
+                "sns:ListTagsForResource",
+                "sqs:GetQueueAttributes",
+                "sqs:ListQueues",
+                "sqs:ListQueueTags",
+                "tag:GetResources",
+                "tag:GetTagKeys",
+                "tag:GetTagValues"
+              ],
+              "Resource": [
+                "*"
+              ]
+            }
+          ]
+        }
+    `);
+  };
+
+  const launchAutomation = () => {
+    window.open(
+      "https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fcloudconformity%2FCloudConformity.template&stackName=CloudConformity&param_AccountId=717210094962&param_ExternalId=84afd050-df26-11ee-b0a8-318c1be8fa0c",
+      "_blank"
+    );
+  };
 
   const handleCreateServiceProvider = () => {
     mutate(
@@ -68,11 +291,14 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
           next();
         },
         onError: (err: any) => {
-            console.log(err);
-            showAlert(err?.response?.data?.message || "An unknown error occurred", "danger");
-        //   if (err instanceof Error) {
-        //     showAlert(err?.message || "An unknown error occurred", "danger");
-        //   }
+          console.log(err);
+          showAlert(
+            err?.response?.data?.message || "An unknown error occurred",
+            "danger"
+          );
+          //   if (err instanceof Error) {
+          //     showAlert(err?.message || "An unknown error occurred", "danger");
+          //   }
         },
       }
     );
@@ -139,13 +365,20 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
               </p>
               <p>
                 2. Download and review our{" "}
-                <span onClick={downloadTemplate} className="text-primary underline cursor-pointer">
+                <a
+                  href="../../../../../public/media/logos/AWSTemplateFormatVersion.pdf"
+                  download="cloudformation template"
+                  className="text-primary underline cursor-pointer"
+                >
                   CloudFormation template
-                </span>
+                </a>
               </p>
               <p>
                 3. Click{" "}
-                <span onClick={launchAutomation} className="bg-primary text-white rounded-md p-2 cursor-pointer">
+                <span
+                  onClick={launchAutomation}
+                  className="bg-primary text-white rounded-md p-2 cursor-pointer"
+                >
                   Launch Automation
                 </span>
               </p>
@@ -183,8 +416,30 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 <li className="list-disc border-start-0">
                   Copy the content of the following JSON policy document:
                 </li>
-                <li className="border-start-0">
-                  <img src={code} alt="aws response" />
+                <li className="border-start-0 relative">
+                  {isCopied && (
+                    <p className="text-xs font-medium w-full text-end text-red-500">
+                      content copied to clipboard
+                    </p>
+                  )}
+                  <img
+                    src={code}
+                    alt="aws response"
+                    role="button"
+                    className="hover:cursor-pointer "
+                    onClick={() => {
+                      setIsCopied(true);
+                      copyToClipBoard();
+                    }}
+                  />
+                  {/* <button 
+                  onClick={() => {
+                    setIsCopied(true);
+                    copyToClipBoard();
+                  }}
+                  className="absolute top-3 p-2 z-10 right-4 h-10 w-10  bg-primary/25 rounded-full flex items-center justify-center">
+                    <FaCopy color="white"  />
+                  </button> */}
                 </li>
                 <li className="list-disc border-start-0">
                   Replace the content with the copied JSON policy document
@@ -301,7 +556,10 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
               ? "How to add an AWS account with automated setup"
               : "How to add an AWS account manually"}
           </p>
-          <Link to="/" className="p-3 border-start text-[#6A6A6A] text-[12px] font-medium">
+          <Link
+            to="/"
+            className="p-3 border-start text-[#6A6A6A] text-[12px] font-medium"
+          >
             Need help? Contact support{" "}
           </Link>
         </div>

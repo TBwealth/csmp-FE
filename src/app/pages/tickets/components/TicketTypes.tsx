@@ -17,6 +17,7 @@ import {
   IStatus,
   MyColor,
 } from "../../../components/tableComponents/status/status";
+import axios from "axios";
 
 export class TicketWithStatus implements IStatus {
   id: string = "";
@@ -47,6 +48,7 @@ const TicketTypes = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [items, setItems] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -110,31 +112,50 @@ const TicketTypes = () => {
       ],
     },
   ];
-  const { data, isLoading, error, refetch } = useGetTicketsTypes({
-    ...filter.current,
-  });
-  console.log(data);
+  // const { data, isLoading, error, refetch } = useGetTicketsTypes({
+  //   ...filter.current,
+  // });
+  // console.log(data);
 
-  const datastsr: TicketsTicketTypesList200Response | any = data;
+  const handleFetchAllTicketTypes = async () => {
+    const token = localStorage.getItem("token");
+    setIsLoading(true);
+    try {
+      const resp = await axios.get(
+        `https://cspm-api.midrapps.com/tickets/ticket_types/?name=${
+          filter.current.name ? filter.current.name : ""
+        }&status=${
+          filter.current.status !== undefined ? filter.current.status : ""
+        }&page=${filter.current.page}&page_size=${filter.current.pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 200) {
+        setItems(
+          resp?.data?.data?.results.map((x: any) => new TicketWithStatus(x))
+        );
+        setshowEmpty(
+          resp?.data?.data?.results
+            ? resp?.data?.data?.results?.length === 0
+            : true
+        );
+        settotalItems(Math.ceil(resp?.data?.data?.count));
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
+    }
+  };
+
+  // const datastsr: TicketsTicketTypesList200Response | any = data;
 
   useEffect(() => {
-    setItems(
-      datastsr?.data?.data?.results.map((x: any) => new TicketWithStatus(x))
-    );
-    setshowEmpty(
-      datastsr?.data?.data?.results
-        ? datastsr?.data?.data?.results?.length === 0
-        : true
-    );
-    settotalItems(Math.ceil(datastsr?.data?.data?.count));
-    hideAlert();
-    if (error) {
-      if (error instanceof Error) {
-        setErrorMess(error?.message);
-        showAlert(error?.message || "An unknown error occurred", "danger");
-      }
-    }
-  }, [data, error]);
+    handleFetchAllTicketTypes();
+  }, []);
 
   const filteredItems = items?.filter((item) =>
     item?.name?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -161,7 +182,7 @@ const TicketTypes = () => {
       status: undefined,
       name: undefined,
     };
-    refetch();
+    handleFetchAllTicketTypes();
   }
   function filterUpdated(data: any) {
     console.log(data);
@@ -172,7 +193,7 @@ const TicketTypes = () => {
       status: data?.status,
     };
 
-    refetch();
+    handleFetchAllTicketTypes();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
@@ -194,7 +215,7 @@ const TicketTypes = () => {
           modal(e);
         }}
       />
-      {showEmpty ? (
+      {(showEmpty || isLoading) ? (
         <DefaultContent
           pageHeader="All Tickets Types"
           pageDescription="No record found"
@@ -261,6 +282,7 @@ const TicketTypes = () => {
         <ModalTicketTypes
           editItem={editItems}
           isOpen={showModal}
+          handleRefetch={handleFetchAllTicketTypes}
           handleHide={() => {
             setShowModal(false);
             setEditItems(false);

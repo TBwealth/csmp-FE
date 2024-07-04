@@ -14,6 +14,7 @@ import { SystemSettingsAssetManagementsList200Response } from "../../api/axios-c
 import useAlert from "../components/useAlert";
 import AssetModal from "./modals/AssetModal";
 import { ComponentsheaderComponent } from "../../components/componentsheader/componentsheader.component";
+import axios from "axios";
 
 const Assets = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -22,6 +23,7 @@ const Assets = () => {
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [action, setAction] = useState("");
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
@@ -53,12 +55,11 @@ const Assets = () => {
       title: "Resource Type",
       type: ColumnTypes.Text,
     },
-    {
-      name: "rule_code",
-      title: "Rule Code",
-      type: ColumnTypes.Text,
-    },
-
+    // {
+    //   name: "rule_code",
+    //   title: "Rule Code",
+    //   type: ColumnTypes.Text,
+    // },
     {
       name: "services",
       title: "Services",
@@ -81,24 +82,42 @@ const Assets = () => {
     },
   ];
 
-  const { data, isLoading, error, refetch } = useGetAssets({ ...filterFields });
-  const datastsr: SystemSettingsAssetManagementsList200Response | any = data;
-  useEffect(() => {
-    setItems(datastsr?.data?.data?.results);
-    setshowEmpty(
-      datastsr?.data?.data?.results
-        ? datastsr?.data?.data?.results?.length === 0
-        : true
-    );
-    settotalItems(Math.ceil(datastsr?.data?.data?.count));
-    hideAlert();
-    if (error) {
-      if (error instanceof Error) {
-        showAlert(error?.message || "An unknown error occurred", "danger");
-        // setErrorMess(error?.message);
+  const handleGetAllAssets = async () => {
+    const token = localStorage.getItem("token");
+    setIsLoading(true);
+    try {
+      const resp = await axios.get(
+        `https://cspm-api.midrapps.com/system_settings/asset_managements/?page=${
+          filter.current.page
+        }&page_size=${filter.current.pageSize}&services=${
+          filter.current.services ? filter.current.services : ""
+        }&rule_code=${filter.current.ruleCode ? filter.current.ruleCode : ""}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 200) {
+        setItems(resp?.data?.data?.results);
+        setshowEmpty(
+          resp?.data?.data?.results
+            ? resp?.data?.data?.results?.length === 0
+            : true
+        );
+        settotalItems(Math.ceil(resp?.data?.data?.count));
+        setIsLoading(false);
       }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
     }
-  }, [data, error]);
+  };
+  // const { data, isLoading, error, refetch } = useGetAssets({ ...filterFields });
+  // const datastsr: SystemSettingsAssetManagementsList200Response | any = data;
+  useEffect(() => {
+    handleGetAllAssets();
+  }, []);
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add Asset", icon: "plus", outline: false },
@@ -117,7 +136,7 @@ const Assets = () => {
       services: undefined,
       ruleCode: undefined,
     };
-    refetch();
+    handleGetAllAssets();
   }
   function filterUpdated(data: any) {
     filter.current = {
@@ -126,7 +145,7 @@ const Assets = () => {
       services: data?.services,
       ruleCode: data?.ruleCode,
     };
-    refetch();
+    handleGetAllAssets();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
@@ -193,6 +212,7 @@ const Assets = () => {
           editItem={editItems}
           handleHide={() => setShowModal(false)}
           action={action}
+          handleRefetch={handleGetAllAssets}
         />
       )}
     </div>

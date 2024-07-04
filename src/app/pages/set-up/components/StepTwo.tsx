@@ -81,7 +81,7 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
           <div className="form-group mb-10">
             <label htmlFor="provider" className="flex items-center gap-4">
               <HiServer size={18} />
-              <p className="font-semibold text-[14px]">Cloud Name</p>
+              <p className="font-semibold text-[14px]">Cloud Name<span className="text-red-500">*</span></p>
             </label>
             <input
               type="text"
@@ -95,7 +95,7 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
           <div className="form-group">
             <label htmlFor="provider" className="flex items-center gap-4">
               <FaCode size={18} />
-              <p className="font-semibold text-[14px]">Enviroment</p>
+              <p className="font-semibold text-[14px]">Enviroment<span className="text-red-500">*</span></p>
             </label>
             <input
               type="text"

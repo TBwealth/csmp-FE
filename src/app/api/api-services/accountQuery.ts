@@ -12,6 +12,7 @@ import {
   TokenRefresh,
   AccountsApiAccountsApiTenantSelfOnboardRegisterCreateRequest,
   AccountsApiAccountsApiCreateUsersCreateRequest,
+  AccountsApiAccountsApiPasswordChangeCreateRequest,
 } from "../axios-client";
 import { accountApi } from "./index";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -45,6 +46,12 @@ export const useAccountRegister = () => {
 export const useAccountPasswordReset = () => {
   const mutation = useMutation((data: CustomPasswordReset) =>
     accountApi.accountsApiPasswordResetCreate({ data })
+  );
+  return mutation;
+};
+export const useAccountPasswordChange = () => {
+  const mutation = useMutation((data: AccountsApiAccountsApiPasswordChangeCreateRequest) =>
+    accountApi.accountsApiPasswordChangeCreate({ ...data })
   );
   return mutation;
 };

@@ -222,6 +222,7 @@ const RepositoryScan = () => {
                             navigate("/repository/scan-history");
                           },
                           onError: (err: any) => {
+                            console.log(err);
                             setShowScan(true);
                             setLoading(false);
                             setErrorMess(err.response.data);

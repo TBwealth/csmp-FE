@@ -13,7 +13,7 @@ type Region = {
   status: boolean;
 };
 
-const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
+const RegionModal = ({ editItem, handleHide, isOpen, handleRefetch }: any) => {
   const [pageSize, setPageSize] = useState(100);
   const [page, setPage] = useState(1);
   const [user, setUser] = useState<any>(null);
@@ -71,6 +71,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
             region_name: "",
             status: true
           });
+          handleRefetch()
           showAlert(res?.data?.message, "success");
           console.log(res);
           // handleHide();
@@ -96,6 +97,7 @@ const RegionModal = ({ editItem, handleHide, isOpen }: any) => {
             region_name: "",
             status: true,
           });
+          handleRefetch()
           showAlert(res?.data?.message, "success");
           console.log(res);
           // handleHide();

@@ -52,16 +52,8 @@ const AssetDetails = () => {
                 <p className={`col-span-2  shadow-md font-medium text-[14px]  p-2 rounded-md ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>{asset.name}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
-                <p className="col-span-1 font-semibold text-[14px]">Code:</p>
-                <p className={`col-span-2  shadow-md font-medium text-[14px]  p-2 rounded-md ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>{asset.code}</p>
-            </div>
-            <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
-                <p className="col-span-1 font-semibold text-[14px]">Public IP:</p>
-                <p className={`col-span-2  shadow-md font-medium text-[14px]  p-2 rounded-md ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>{asset.public_ip}</p>
-            </div>
-            <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
-                <p className="col-span-1 font-semibold text-[14px]">Tenant:</p>
-                <p className={`col-span-2  shadow-md font-medium text-[14px]  p-2 rounded-md ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>{asset.tenant}</p>
+                <p className="col-span-1 font-semibold text-[14px]">Services:</p>
+                <p className={`col-span-2  shadow-md font-medium text-[14px]  p-2 rounded-md ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>{asset.services}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
                 <p className="col-span-1 font-semibold text-[14px]">Resource Type:</p>
@@ -80,8 +72,8 @@ const AssetDetails = () => {
                 <p className={`col-span-2  shadow-md font-medium text-[14px]  p-2 rounded-md ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>{asset.region}</p>
             </div>
             <div className="mt-6 grid md:grid-cols-3 gap-4 mb-4">
-                <p className="col-span-1 font-semibold text-[14px]">Description:</p>
-                <p className={`col-span-2  shadow-md font-medium text-[14px]  p-2 rounded-md ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>{asset.description}</p>
+                <p className="col-span-1 font-semibold text-[14px]">Cloud Account:</p>
+                <p className={`col-span-2  shadow-md font-medium text-[14px]  p-2 rounded-md ${mode.mode === "dark" ? "bg-bgDark text-[#7E8299]" : ""}`}>{asset.cloud_account}</p>
             </div>
         </div>
       )}

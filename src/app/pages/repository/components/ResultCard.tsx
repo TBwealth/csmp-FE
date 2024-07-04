@@ -37,7 +37,7 @@ const ResultCard = ({ data }: any) => {
           {data?.rule_code}
         </p>
         <div className="flex items-center justify-between">
-          {data?.status_code.toLowerCase() === "fail" ? (
+          {data?.status_code.toLowerCase() === "failed" ? (
             <p className="text-[#FF161A] font-medium text-start">{`${data?.status_code.slice(
               0,
               1

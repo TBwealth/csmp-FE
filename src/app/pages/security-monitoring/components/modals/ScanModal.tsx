@@ -6,7 +6,7 @@ const ScanPolicyModal = ({ isOpen, handleHide, err, errType }: any) => {
   const { showAlert, Alert } = useAlert();
 
   useEffect(() => {
-    showAlert(errType === "success" ? err?.data?.data.detail: err?.response?.message || "An unknow error occured", errType);
+    showAlert(errType === "success" ? err?.data?.data.detail: err?.message || "An unknow error occured", errType);
   }, []);
   return (
     <>
