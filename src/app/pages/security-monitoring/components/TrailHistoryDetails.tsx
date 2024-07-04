@@ -258,7 +258,7 @@ const Card = ({
             mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
           }`}
         >
-          {`${data?.user_identity?.userName.slice(0, 20)}...`}
+          {data?.user_identity?.userName ? `${data?.user_identity?.userName.slice(0, 20)}...` : `${data?.user_identity?.arn.slice(0, 20)}...`}
         </p>
       </Tooltip>
       <Tooltip

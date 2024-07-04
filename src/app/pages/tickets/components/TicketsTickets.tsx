@@ -29,6 +29,7 @@ import {
   MyColor,
 } from "../../../components/tableComponents/status/status";
 import { useGetAccountTenant } from "../../../api/api-services/accountQuery";
+import axios from "axios";
 
 export class TicketWithStatus implements IStatus {
   id: string = "";
@@ -88,13 +89,14 @@ const TicketsTickets = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [items, setItems] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [editItems, setEditItems] = useState<any | undefined>();
   const [totalPages, setTotalPages] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const { showAlert, hideAlert } = useAlert();
   const [errorMess, setErrorMess] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [showEmpty, setshowEmpty] = useState<boolean>(false);
+  const [showEmpty, setshowEmpty] = useState<boolean>(true);
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
   const navigate = useNavigate();
@@ -182,48 +184,80 @@ const TicketsTickets = () => {
 
   // const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
   // const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
+  const handleFetchAssets = async () => {
+    const token = localStorage.getItem("token");
+    setIsLoading(true);
+    try {
+      const resp = await axios.get(
+        `https://cspm-api.midrapps.com/tickets/tickets/?page=${
+          filter.current.page
+        }&page_size=${filter.current.pageSize}&asset=${
+          filter.current.asset ? filter.current.asset : ""
+        }&assigned_to=${
+          filter.current.assignedTo ? filter.current.assignedTo : ""
+        }&ticket_type=${
+          filter.current.ticketType ? filter.current.ticketType : ""
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 200) {
+        const mapped = resp?.data?.data?.results.map((res: any) => {
+          return {
+            id: res?.id,
+            ticket_type_id: res?.ticket_type?.id,
+            ticket_type_name: res?.ticket_type?.name,
+            ticket_type_code: res?.ticket_type?.code,
+            ticket_type_status: res?.ticket_type?.status,
+            subject: res?.subject,
+            description: res?.description,
+            code: res?.code,
+            asset_id: res?.asset?.id,
+            asset_code: res?.asset?.code,
+            asset_name: res?.asset?.name,
+            asset_description: res?.asset?.description,
+            status: res?.status,
+            createdBy: res?.createdBy,
+            tenant: res?.tenant,
+            assigned_to_id: res?.assigned_to?.id,
+            assigned_to_first_name: res?.assigned_to?.first_name,
+            assigned_to_last_name: res?.assigned_to?.last_name,
+            assigned_to_email: res?.assigned_to?.email,
+          };
+        });
+        if (mapped) {
+          setItems(mapped.map((x: any) => new TicketWithStatus(x)));
+        }
+        setshowEmpty(
+          resp?.data?.data?.results
+            ? resp?.data?.data?.results?.length === 0
+            : true
+        );
+        settotalItems(Math.ceil(resp?.data?.data?.count));
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
+    }
+  };
+
   const { data: ticketTypes } = useGetTicketsTypes({ page: 1, pageSize: 100 });
   const ticketstsr: TicketsTicketTypesList200Response | any = ticketTypes;
-  const { data, isLoading, error, refetch } = useGetTickets({
-    ...filter.current,
-  });
-  const datastsr: TicketsTicketTypesList200Response | any = data;
+  // const { data, isLoading, error, refetch } = useGetTickets({
+  //   ...filter.current,
+  // });
+  // const datastsr: TicketsTicketTypesList200Response | any = data;
   // const { data: assets } = useGetAssets({ page: 1, pageSize: 1000 });
   // const assetstsr: SystemSettingsAssetManagementsList200Response | any = assets;
 
   useEffect(() => {
-    const mapped = datastsr?.data?.data?.results.map((res: any) => {
-      return {
-        id: res?.id,
-        ticket_type_id: res?.ticket_type?.id,
-        ticket_type_name: res?.ticket_type?.name,
-        ticket_type_code: res?.ticket_type?.code,
-        ticket_type_status: res?.ticket_type?.status,
-        subject: res?.subject,
-        description: res?.description,
-        code: res?.code,
-        asset_id: res?.asset?.id,
-        asset_code: res?.asset?.code,
-        asset_name: res?.asset?.name,
-        asset_description: res?.asset?.description,
-        status: res?.status,
-        createdBy: res?.createdBy,
-        tenant: res?.tenant,
-        assigned_to_id: res?.assigned_to?.id,
-        assigned_to_first_name: res?.assigned_to?.first_name,
-        assigned_to_last_name: res?.assigned_to?.last_name,
-        assigned_to_email: res?.assigned_to?.email,
-      };
-    });
-    if (mapped) {
-      setItems(mapped.map((x: any) => new TicketWithStatus(x)));
-    }
-    setshowEmpty(
-      datastsr?.data?.data?.results
-        ? datastsr?.data?.data?.results.length === 0
-        : true
-    );
-    settotalItems(Math.ceil(datastsr?.data?.data?.count));
+    handleFetchAssets();
+  }, []);
+  useEffect(() => {
     // if (assetstsr?.data?.data?.results) {
     //   const trans: TableColumn[] = filterFields.map((res: any) => {
     //     if (res.name === "asset") {
@@ -265,14 +299,7 @@ const TicketsTickets = () => {
         })
       );
     }
-    hideAlert();
-    if (error) {
-      if (error instanceof Error) {
-        setErrorMess(error?.message);
-        showAlert(error?.message || "An unknown error occurred", "danger");
-      }
-    }
-  }, [data, error, ticketstsr]);
+  }, [ticketstsr]);
 
   const topActionButtons = [
     { name: "add_new_user", label: "Add Ticket", icon: "plus", outline: false },
@@ -291,7 +318,7 @@ const TicketsTickets = () => {
       assignedTo: undefined,
       ticketType: undefined,
     };
-    refetch();
+    handleFetchAssets();
   }
   function filterUpdated(data: any) {
     filter.current = {
@@ -301,7 +328,7 @@ const TicketsTickets = () => {
       assignedTo: data?.assignedTo,
       ticketType: data?.ticketType,
     };
-    refetch();
+    handleFetchAssets();
   }
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
@@ -324,7 +351,7 @@ const TicketsTickets = () => {
           modal(e);
         }}
       />
-      {showEmpty ? (
+      {(showEmpty || isLoading) ? (
         <DefaultContent
           pageHeader="All Tasks"
           pageDescription="No record found"
@@ -363,6 +390,7 @@ const TicketsTickets = () => {
       {showModal && (
         <ModalTicketsList
           editItem={editItems}
+          handleRefetch={handleFetchAssets}
           isOpen={showModal}
           handleHide={() => {
             setShowModal(false);

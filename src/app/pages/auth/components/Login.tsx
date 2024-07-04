@@ -10,6 +10,7 @@ import { toAbsoluteUrl } from "../../../../_metronic/helpers";
 import "./styles/loginstyles.css";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -159,10 +160,10 @@ export function Login() {
         {/* end::Form group */}
 
         {/* begin::Form group */}
-        <div className="fv-row mb-3">
+        <div className="fv-row mb-3 relative">
           <label className="text-[12px] md:text-[14px] font-medium">Password</label>
           <input
-            type="password"
+            type={active ? "text" : "password"}
             autoComplete="off"
             {...formik.getFieldProps("password")}
             className={clsx(
@@ -175,6 +176,21 @@ export function Login() {
               }
             )}
           />
+          {
+            <button 
+            type="button" 
+            className="absolute right-12 top-[2.8rem] bg-transparent cursor-pointer"
+              onClick={() => setIsActive(!active)}
+            >
+              {
+                active ? (
+                  <FaEyeSlash />
+                ) : (
+                  <FaEye />
+                )
+              }
+            </button>
+          }
           {formik.touched.password && formik.errors.password && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">

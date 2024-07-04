@@ -28,6 +28,7 @@ const RepositoryScanResult = () => {
   const [errType, setErrType] = useState<any>(null);
   const [scanresult, setScanResult] = useState<any>(null);
   const [checks, setAllChecks] = useState<any[]>([]);
+  const [checksReserve, setAllChecksReserves] = useState<any[]>([]);
   const [time, setTime] = useState("");
   const [width, setWidth] = useState(0);
   const [pageCount, setPageCount] = useState(5);
@@ -38,19 +39,19 @@ const RepositoryScanResult = () => {
   const filter = useRef<any>({
     page: 1,
     pageSize: 10,
-    severity: undefined,
+    status: undefined,
     policyRunId: id!,
   });
 
   const filterFields = [
     {
-      name: "severity",
-      title: "Severity",
+      name: "status",
+      title: "Status",
       type: ColumnTypes.List,
       listValue: [
-        { id: "High", name: "High" },
-        { id: "Medium", name: "Medium" },
-        { id: "Low", name: "Low" },
+        { id: "FAILED", name: "Failed" },
+        { id: "PASSED", name: "Passed" },
+        // { id: "Low", name: "Low" },
       ],
       listIdField: "id",
       listTextField: "name",
@@ -69,6 +70,9 @@ const RepositoryScanResult = () => {
     setScanResult(scanstsr?.data?.data?.results[0]);
     if (scanstsr?.data?.data?.results[0]) {
       setAllChecks(scanstsr?.data?.data?.results[0]?.result_json?.checks ?? []);
+      setAllChecksReserves(
+        scanstsr?.data?.data?.results[0]?.result_json?.checks ?? []
+      );
       setWidth(() =>
         Math.floor(
           scanstsr?.data?.data?.results[0]?.result_json?.Compliance ?? 0
@@ -83,8 +87,11 @@ const RepositoryScanResult = () => {
   }, [scanResult]);
 
   const downloadform = () => {
-    const width = printableArea.current?.clientWidth!;
-    const height = printableArea.current?.clientHeight! + 40;
+    // const width = printableArea.current?.clientWidth!;
+    // const height = printableArea.current?.clientHeight! + 40;
+    const printableArea: HTMLElement | any = document.getElementById("printableArea")
+    const width = printableArea.clientWidth!;
+    const height = printableArea.clientHeight! + 40;
     let orientation: any = "";
     let imageUnit: any = "pt";
     if (width > height) {
@@ -93,7 +100,8 @@ const RepositoryScanResult = () => {
       orientation = "p";
     }
     domtoimage
-      .toPng(printableArea.current!, {
+      // .toPng(printableArea.current!, {
+      .toPng(printableArea, {
         width: width,
         height: height,
       })
@@ -117,20 +125,31 @@ const RepositoryScanResult = () => {
     filter.current = {
       page: 1,
       pageSize: 10,
-      severity: undefined,
+      status: undefined,
       policyRunId: id!,
     };
     refetch();
   }
 
   function filterUpdated(data: any) {
-    filter.current = {
-      page: data?.page ?? 1,
-      pageSize: data?.pageSize ?? 10,
-      severity: data?.severity,
-      policyRunId: id!,
-    };
-    refetch();
+    if (data?.status && data?.status === "FAILED") {
+      const filtered = checks.filter(
+        (check) => check.status_code.toLowerCase() === data?.status.toLowerCase()
+      );
+      setAllChecks(filtered);
+    } else {
+      // filter.current = {
+      //   page: data?.page ?? 1,
+      //   pageSize: data?.pageSize ?? 10,
+      //   status: data?.status,
+      //   policyRunId: id!,
+      // };
+      const filtered = checksReserve.filter(
+        (check) => check.status_code.toLowerCase() !== "failed"
+      );
+      setAllChecks(filtered);
+      // refetch();
+    }
   }
 
   return (
@@ -145,7 +164,7 @@ const RepositoryScanResult = () => {
         />
       ) : (
         <div className="mt-10 md:w-[95%] mx-auto p-4">
-          <div className="w-full" ref={printableArea}>
+          <div className="w-full">
             <div className="flex items-center justify-between flex-col md:flex-row gap-10">
               <div className="flex justify-between items-center w-full md:w-[60%] gap-2">
                 <button onClick={() => navigate(-1)}>
@@ -387,7 +406,7 @@ const RepositoryScanResult = () => {
               </div>
             </div>
           </div>
-          <div className="w-full">
+          <div className="w-full" ref={printableArea}>
             <div className="w-full overflow-auto">
               <div
                 className={`grid font-medium grid-cols-5 p-4 rounded-md mb-3 shadow-sm w-[180vw] md:w-full ${
@@ -462,14 +481,13 @@ const RepositoryScanResult = () => {
                 />
               ) : (
                 <div className="w-[180vw] md:w-full">
-                  {checks
-                    .slice(offset, offset + pageCount)
-                    .map((d: any) => (
-                      <ResultCard data={d} key={d?.id} />
-                    ))}
+                  {checks.slice(offset, offset + pageCount).map((d: any) => (
+                    <ResultCard data={d} key={d?.id} />
+                  ))}
                 </div>
               )}
             </div>
+            <div className="w-full">
             {checks.length > 1 && (
               <div className="mt-10 flex items-center justify-between">
                 <div className="flex items-center gap-3 font-medium">
@@ -511,6 +529,7 @@ const RepositoryScanResult = () => {
                 </div>
               </div>
             )}
+            </div>
           </div>
         </div>
       )}

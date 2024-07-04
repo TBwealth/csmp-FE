@@ -75,13 +75,13 @@ export function ForgotPassword() {
         {/* begin::Title */}
         {hasErrors === true && (
           <div className="mb-lg-15 alert alert-danger">
-            <div className="alert-text font-weight-bold">{formik.status}</div>
+            <div className="alert-text font-medium">{formik.status}</div>
           </div>
         )}
 
         {hasErrors === false && (
           <div className="mb-10 bg-light-info p-8 rounded">
-            <div className="text-info">{formik.status}</div>
+            <div className="text-info font-medium">{formik.status}</div>
           </div>
         )}
         {/* end::Title */}
@@ -107,7 +107,7 @@ export function ForgotPassword() {
           {formik.touched.email && formik.errors.email && (
             <div className="fv-plugins-message-container">
               <div className="fv-help-block">
-                <span role="alert">{formik.errors.email}</span>
+                <span role="alert" className="font-medium">{formik.errors.email}</span>
               </div>
             </div>
           )}

@@ -250,7 +250,7 @@ const RepoCard = ({ data, setDelete, mode, showDetails }: any) => {
                           fill={mode === "dark" ? "#EAEAEA" : "#373737"}
                         />
                       </svg>
-                      <p className="text-[12px] font-medium">view Repo</p>
+                      <p className="text-[12px] font-medium">View Repo</p>
                     </button>
                   </li>
                   <li className="border-start-0">
@@ -356,6 +356,7 @@ const RepositoryList = () => {
   const [selectedId, setSelectedId] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedRepo, setSelectedRepo] = useState<any>({});
+  const [repoError, setRepoError] = useState("");
   const [repoData, setRepoData] = useState<any>({
     pat: "",
     username: "",
@@ -417,6 +418,12 @@ const RepositoryList = () => {
         onSuccess: (res) => {
           console.log(res);
           setShowAdd(false);
+          setSelectedProvider("");
+          setRepoData({
+            pat: "",
+            username: "",
+            url: "",
+          });
         },
         onError: (err) => {
           if (err instanceof Error) {
@@ -687,10 +694,13 @@ const RepositoryList = () => {
         show={showAdd}
         onHide={() => {
           setShowAdd(!showAdd);
+          setRepoError("");
+          setStep(1)
           setSelectedProvider("");
           setRepoData({
             pat: "",
             username: "",
+            url: "",
           });
         }}
         keyboard={false}
@@ -777,6 +787,7 @@ const RepositoryList = () => {
         </Modal.Header>
         <Modal.Body className="p-3">
           {step === 1 ? (
+            <>
             <div className="grid grid-cols-2 p-6 gap-4">
               {repos.map((repo) => (
                 <label
@@ -821,12 +832,17 @@ const RepositoryList = () => {
                     name="provider"
                     id={repo}
                     value={repo}
-                    onChange={(e) => setSelectedProvider(e.target.value)}
+                    onChange={(e) => {
+                      setSelectedProvider(e.target.value);
+                      setRepoError("");
+                    }}
                     className="opacity-0"
                   />
                 </label>
               ))}
             </div>
+            {repoError && <p className="font-medium text-[14px] text-red-500 italic">{repoError}</p>}
+            </>
           ) : (
             <div className="w-full p-6" role="role">
               {/* username */}
@@ -836,7 +852,7 @@ const RepositoryList = () => {
                     size={12}
                     color={mode === "dark" ? "#EAEAEA" : "#000000"}
                   />
-                  <p className="font-semibold text-[14px]">Username</p>
+                  <p className="font-semibold text-[14px]">Repo Name</p>
                 </label>
                 <input
                   autoComplete="off"
@@ -857,7 +873,7 @@ const RepositoryList = () => {
                     size={12}
                     color={mode === "dark" ? "#EAEAEA" : "#000000"}
                   />
-                  <p className="font-semibold text-[14px]">Repo Url</p>
+                  <p className="font-semibold text-[14px]">Repo Url<span className="text-red-500 pl-1">*</span></p>
                 </label>
                 <input
                   autoComplete="off"
@@ -879,7 +895,7 @@ const RepositoryList = () => {
                     color={mode === "dark" ? "#EAEAEA" : "#000000"}
                   />
                   <p className="font-semibold text-[14px]">
-                    Personal Access Token(PAT)
+                    Personal Access Token(PAT)<span className="text-red-500 pl-1">*</span>
                   </p>
                 </label>
                 <input
@@ -902,12 +918,16 @@ const RepositoryList = () => {
           <div className="flex w-full items-end justify-end">
             <button
               disabled={
-                !selectedProvider ||
-                (step === 2 && (!repoData?.pat || !repoData?.username))
+                (step === 2 && (!repoData?.pat || !repoData?.url))
               }
               onClick={() => {
                 if (step === 1) {
-                  setStep(2);
+                  if(!selectedProvider) {
+                    setRepoError("Please select a repo");
+                  } else {
+                    setRepoError("");
+                    setStep(2);
+                  }
                 } else {
                   handleCreateRepo();
                 }

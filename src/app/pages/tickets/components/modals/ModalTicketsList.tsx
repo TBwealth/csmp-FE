@@ -24,6 +24,7 @@ const ModalTicketsList = ({
   onClearEdit,
   isOpen,
   handleHide,
+  handleRefetch
 }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   // console.log(editItem);
@@ -161,6 +162,7 @@ const ModalTicketsList = ({
       {
         onSuccess: (res: any) => {
           // handleHide();
+          handleRefetch()
           console.log(res);
           showAlert(res?.data?.message, "success");
           setAssignedToValue(null);
@@ -197,6 +199,7 @@ const ModalTicketsList = ({
       {
         onSuccess: (res: any) => {
           // handleHide();
+          handleRefetch();
           console.log(res);
           showAlert(res?.data?.message, "success");
           setAssignedToValue(null);

@@ -12,7 +12,14 @@ import {
   useAccountRegister,
 } from "../../../api/api-services/accountQuery";
 import { useGetCloudCountries } from "../../../api/api-services/cloudProviderQuery";
-import { FaEnvelope, FaGlobe, FaLock, FaUser } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaEye,
+  FaEyeSlash,
+  FaGlobe,
+  FaLock,
+  FaUser,
+} from "react-icons/fa";
 import { CloudProviderCountriesList200Response } from "../../../api/axios-client";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import modeAtoms from "../../../atoms/modeAtoms.atom";
@@ -63,7 +70,8 @@ const registrationSchema = Yup.object().shape({
 
 export function Registration() {
   const [loading, setLoading] = useState(false);
-  const [active, setIsActive] = useState(true);
+  const [active, setIsActive] = useState(false);
+  const [activeConfirm, setIsActiveConfirm] = useState(false);
   const { mode } = useRecoilValue(modeAtoms);
   const setModeState = useSetRecoilState(modeAtoms);
   const { data } = useGetCloudCountries();
@@ -163,7 +171,7 @@ export function Registration() {
 
         {formik.status && (
           <div className="mb-lg-15 alert alert-danger">
-            <div className="alert-text font-weight-bold">{formik.status}</div>
+            <div className="alert-text font-medium">{formik.status}</div>
           </div>
         )}
 
@@ -293,7 +301,7 @@ export function Registration() {
               </label>
               <div className="position-relative mb-3">
                 <input
-                  type="password"
+                  type={active ? "text" : "password"}
                   placeholder=""
                   autoComplete="off"
                   {...formik.getFieldProps("password")}
@@ -309,6 +317,15 @@ export function Registration() {
                     }
                   )}
                 />
+                {
+                  <button
+                    type="button"
+                    className="absolute right-4 top-5 bg-transparent cursor-pointer"
+                    onClick={() => setIsActive(!active)}
+                  >
+                    {active ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                }
                 {formik.touched.password && formik.errors.password && (
                   <div className="fv-plugins-message-container">
                     <div className="fv-help-block">
@@ -321,13 +338,22 @@ export function Registration() {
           </div>
           {/* end::Form group */}
           {/* begin::Form group Confirm password */}
-          <div className="fv-row mb-4 col-sm">
+          <div className="fv-row mb-4 col-sm relative">
             <label className="flex font-medium text-[14px] items-center gap-3">
               <FaUser />
               <span>Confirm Password</span>
             </label>
+            {
+              <button
+                type="button"
+                className="absolute right-4 top-12 bg-transparent cursor-pointer"
+                onClick={() => setIsActiveConfirm(!activeConfirm)}
+              >
+                {activeConfirm ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            }
             <input
-              type="password"
+              type={activeConfirm ? "text" : "password"}
               placeholder=""
               autoComplete="off"
               {...formik.getFieldProps("confirmpassword")}
@@ -349,7 +375,7 @@ export function Registration() {
               formik.errors.confirmpassword && (
                 <div className="fv-plugins-message-container">
                   <div className="fv-help-block">
-                    <span role="alert">{formik.errors.confirmpassword}</span>
+                    <span role="alert" className="font-medium text-xs">{formik.errors.confirmpassword}</span>
                   </div>
                 </div>
               )}
@@ -360,7 +386,7 @@ export function Registration() {
           <input
             type="checkbox"
             name=""
-            checked
+            // checked
             id=""
             className="h-5 w-5 rounded-md"
           />
@@ -422,15 +448,15 @@ export function Registration() {
           </Link>
         </div>
 
-        <Alert
+        {/* <Alert
           show={showAlert}
           variant="danger"
           onClose={() => setShowAlert(false)}
           dismissible
         >
           <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
-          <p>{errMessage}</p>
-        </Alert>
+          <p className="font-medium">{errMessage}</p>
+        </Alert> */}
         {/* end::Form group */}
       </form>
     </div>

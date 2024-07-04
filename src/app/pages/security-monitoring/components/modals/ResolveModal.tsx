@@ -59,8 +59,9 @@ const ResolveModal = ({ isOpen, handleHide }: any) => {
   // console.log(datastsr);
   const handleFetchTenantUsers = (val: string) => {
     const filtered = userstsr?.data?.data?.results.filter(
-      (user: any) => user?.tenant === val
+      (user: any) => user?.tenant?.full_name === val
     );
+    // console.log(filtered, val)
     setUsers(filtered);
   };
 
@@ -194,8 +195,8 @@ const ResolveModal = ({ isOpen, handleHide }: any) => {
                 >
                   <option value="">Select Tenant</option>
                   {listTenants?.map((data: any) => (
-                    <option key={data?.id} value={data?.tenant_name}>
-                      {data?.tenant_name}
+                    <option key={data?.id} value={data?.full_name}>
+                      {data?.full_name}
                     </option>
                   ))}
                 </select>

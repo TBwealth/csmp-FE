@@ -10,7 +10,7 @@ import { Modal } from "react-bootstrap";
 import { TicketsTicketTypesList200Response  } from "../../../../api/axios-client";
 
 
-const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
+const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide, handleRefetch }: any) => {
   // const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
 
@@ -71,6 +71,7 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
       {
         onSuccess: (res: any) => {
           // handleClose();
+          handleRefetch()
           console.log(res);
           showAlert(res?.data?.message, "success");
           setNameValue("");
@@ -101,6 +102,7 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
       {
         onSuccess: (res: any) => {
           // handleClose();
+          handleRefetch()
           console.log(res);
           showAlert(res?.data?.message, "success");
           setNameValue("");
@@ -186,8 +188,7 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
                 {editItem ? "Edit" : "Continue"}
               </span>
             )}
-            {isLoading ||
-              (editLoading && (
+            {(isLoading || editLoading) && (
                 <span
                   className="indicator-progress"
                   style={{ display: "block" }}
@@ -195,7 +196,7 @@ const ModalTicketTypes = ({ editItem, onClearEdit, isOpen, handleHide }: any) =>
                   Please wait...{" "}
                   <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
-              ))}
+              )}
           </button>
         </Modal.Footer>
       </Modal>

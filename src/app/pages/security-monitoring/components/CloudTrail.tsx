@@ -9,6 +9,7 @@ import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { FaStopwatch } from "react-icons/fa";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
+import useAlert from "../../components/useAlert";
 
 const CloudTrail = () => {
   const [allServices, setAllServices] = useState<any[]>([]);
@@ -27,7 +28,7 @@ const CloudTrail = () => {
   const [endOffset, setEndOffset] = useState(offset + 10);
   const [showModal, setShowModal] = useState(false);
   const { mode } = useRecoilValue(modeAtomsAtom);
-
+  const { Alert, showAlert, hideAlert } = useAlert();
   const [setup, setSetup] = useState<any>({
     cloud_provider_account_id: 0,
     scan_frequency: "",
@@ -112,7 +113,7 @@ const CloudTrail = () => {
     setAllServices(datastsr?.data?.data?.results ?? []);
     if (datastsr?.data?.data?.results) {
       setSelectedServ(datastsr?.data?.data?.results[0]?.id);
-            setSelectedServName(datastsr?.data?.data?.results[0]?.account_name);
+      setSelectedServName(datastsr?.data?.data?.results[0]?.account_name);
       setSetup({
         ...setup,
         cloud_provider_account_id: datastsr?.data?.data?.results[0]?.id,
@@ -152,10 +153,7 @@ const CloudTrail = () => {
   };
 
   const handleSearch = (val: string) => {
-    const keys = [
-      "name",
-      "description",
-    ];
+    const keys = ["name", "description"];
     if (val) {
       const filterd = allAlarms.filter((item) =>
         keys.some((key) => item[key].toLowerCase().includes(val.toLowerCase()))
@@ -182,7 +180,9 @@ const CloudTrail = () => {
             });
             setSelectedServ(e.target.value);
             handleGetAllFilters();
-            const filtered = allServices.find((serv) => serv.id === Number(e.target.value))?.account_name;
+            const filtered = allServices.find(
+              (serv) => serv.id === Number(e.target.value)
+            )?.account_name;
             setSelectedServName(filtered);
           }}
         >
@@ -341,7 +341,7 @@ const CloudTrail = () => {
           </button>
         </div>
       </div>
-      <div className="flex items-center justify-between flex-row">
+      <div className="flex items-center justify-between flex-row mb-[2px]">
         <div className="w-[60%] md:w-[40%] lg:w-[24%]">
           <label
             htmlFor="frequency"
@@ -353,8 +353,10 @@ const CloudTrail = () => {
           <select
             id="frequency"
             name="frequency"
-            onChange={(e) =>
+            onChange={(e) =>{
               setSetup({ ...setup, scan_frequency: e.target.value })
+              hideAlert();
+            }
             }
             className={`w-full rounded-[8px] border py-[12px] px-[16px] font-medium ${
               mode === "dark" ? "bg-lightDark" : "bg-[#FFF]"
@@ -378,17 +380,31 @@ const CloudTrail = () => {
           </select>
         </div>
         <button
-          disabled={
-            activeAlarms < 1 ||
-            !setup.scan_frequency ||
-            !setup.cloud_provider_account_id
-          }
-          onClick={handleSetSetup}
+          // disabled={
+          //   activeAlarms < 1 ||
+          //   !setup.scan_frequency ||
+          //   !setup.cloud_provider_account_id
+          // }
+          onClick={() => {
+            if (
+              activeAlarms < 1 ||
+              !setup.scan_frequency ||
+              !setup.cloud_provider_account_id
+            ) {
+              showAlert(
+                "please set scanfrequency, service and set atleast one active alarm",
+                "danger"
+              );
+            } else {
+              handleSetSetup();
+            }
+          }}
           className="bg-[#284CB3] py-[12px] px-[24px] rounded-full text-white font-medium text-center"
         >
           {settingup ? "processing..." : "Save Setup"}
         </button>
       </div>
+      <Alert />
       <div
         className={`rounded-[12px] my-[16px] flex items-center justify-between border px-[24px] py-[16px] ${
           mode === "dark" ? "bg-lightDark" : "bg-[#FFF]"
@@ -418,7 +434,7 @@ const CloudTrail = () => {
           </label>
         </div>
       </div>
-      {(isLoading || allAlarms.length < 1) ? (
+      {isLoading || allAlarms.length < 1 ? (
         <DefaultContent
           pageHeader="All Alarm Filters"
           pageDescription="No record found"
@@ -615,17 +631,19 @@ const CloudTrail = () => {
             )}
           </Modal.Title>
         </Modal.Header>
-          <Modal.Body className="px-[25px]">
-            <h1 className="font-medium text-center text-[14px] md:text-[18px]">{errMessage}</h1>
-          </Modal.Body>
-          <Modal.Footer className="border-0 items-end justify-end ">
-            <button
-              onClick={() => setShowModal(false)}
-              className="bg-primary font-medium w-36 rounded-full text-white px-[24px] py-[12px]"
-            >
-              Close
-            </button>
-          </Modal.Footer>
+        <Modal.Body className="px-[25px]">
+          <h1 className="font-medium text-center text-[14px] md:text-[18px]">
+            {errMessage}
+          </h1>
+        </Modal.Body>
+        <Modal.Footer className="border-0 items-end justify-end ">
+          <button
+            onClick={() => setShowModal(false)}
+            className="bg-primary font-medium w-36 rounded-full text-white px-[24px] py-[12px]"
+          >
+            Close
+          </button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
