@@ -54,7 +54,7 @@ export const DefaultConfig: ILayout = {
             'data-kt-drawer-name': 'app-sidebar',
             'data-kt-drawer-activate': '{default: true, lg: false}',
             'data-kt-drawer-overlay': 'true',
-            'data-kt-drawer-width': '225px',
+            'data-kt-drawer-width': '350px', //225
             'data-kt-drawer-direction': 'start',
             'data-kt-drawer-toggle': '#kt_app_sidebar_mobile_toggle',
           },
