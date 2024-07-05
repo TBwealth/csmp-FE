@@ -24,7 +24,7 @@ import {
 
 type Props = {};
 
-const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
+const SetupModal = ({ editItem, handleHide, isOpen, mode, regions, handleRefetch }: any) => {
   const [setupData, setSetupData] = useState({
     region: editItem ? editItem.region : "",
     resource_id: editItem ? editItem.resource_type?.id : "",
@@ -72,7 +72,8 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
       },
       {
         onSuccess: (res: any) => {
-          // handleHide();
+          handleHide();
+          handleRefetch();
           showAlert(res?.data?.message, "success");
           setSetupData({
             cloud_provider: "AWS",
@@ -117,6 +118,7 @@ const SetupModal = ({ editItem, handleHide, isOpen, mode, regions }: any) => {
       },
       {
         onSuccess: (res: any) => {
+          handleRefetch();
           showAlert(res?.data?.message, "success");
           setSetupData({
             cloud_provider: "AWS",

@@ -177,9 +177,11 @@ const RuleAndBenchmarks = () => {
   const [showEmpty, setshowEmpty] = useState<boolean>(true);
   const [showPopOver, setShowPopOver] = useState(false);
   const [allRules, setAllRules] = useState<any[]>([]);
+  const [allRulesOther, setAllRulesOther] = useState<any[]>([]);
   const [allservice, setAllService] = useState<any[]>([]);
   const [showResModal, setShowResModal] = useState(false);
   const [resMessage, setResMessage] = useState("");
+  const [errorRule, setErrorRule] = useState("");
   const [rulePayload, setRulePayload] = useState<any>({
     cloud_provider: "",
     description: "",
@@ -218,6 +220,7 @@ const RuleAndBenchmarks = () => {
         setCanPrev(res?.data?.data?.previous ? true : false);
         setTotalCount(res?.data?.data?.count);
         setAllRules(res?.data?.data?.results);
+        setAllRulesOther(res?.data?.data?.results);
       }
     } catch (err) {
       setIsLoading(false);
@@ -284,6 +287,19 @@ const RuleAndBenchmarks = () => {
       undefined
     );
   }
+
+  const handleSearch = (val: string) => {
+    const keys = ["name", "description", "severity"];
+    if (val) {
+      const filterd = allRules.filter((item) =>
+        keys.some((key) => item[key].toLowerCase().includes(val.toLowerCase()))
+      );
+
+      setAllRules(filterd);
+    } else {
+      setAllRules(allRulesOther);
+    }
+  };
 
   async function getServices(service: string) {
     try {
@@ -433,7 +449,7 @@ const RuleAndBenchmarks = () => {
             </span>
           </div>
         </div>
-        <div className="flex items-start md:items-center  md:justify-center gap-[12px] border-end md:px-[10px] lg:px-[24px]">
+        <div className="flex items-start md:items-center  md:justify-center gap-[12px] md:px-[10px] lg:px-[24px]">
           <div className="h-[42px] w-[42px] p-[12px] rounded-full bg-[#284CB31A] flex items-center justify-center">
             <svg
               width="18"
@@ -481,27 +497,6 @@ const RuleAndBenchmarks = () => {
             </span>
           </div>
         </div>
-        <button
-          onClick={() => setShowModal(true)}
-          className="font-medium flex items-center md:justify-center md:pl-[10px] lg:pl-[24px] gap-[8px]"
-        >
-          <p className="text-[14px]">Create new</p>
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3.5 7H7M10.5 7H7M7 7V3.5M7 7V10.5"
-              stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
       </div>
       <div className="mb-[24px] flex flex-col md:flex-row items-center w-full justify-between border-bottom">
         <div className="flex items-center gap-[16px]">
@@ -531,12 +526,45 @@ const RuleAndBenchmarks = () => {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-5 -order-1 md:order-1">
+        <div className="flex items-center gap-[16px] -order-1 md:order-1">
+          <div className="relative">
+            <input
+              type="text"
+              onChange={(e) => handleSearch(e.target.value)}
+              className={`${
+                mode === "dark"
+                  ? "placeholder:text-[#EAEAEA]"
+                  : "placeholder:text-[#373737]"
+              } w-32 bg-transparent focus:outline-none focus:border focus:w-full rounded-[8px] font-medium px-3 py-2 placeholder:font-medium `}
+              placeholder="Search"
+            />
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="absolute top-2 right-2"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M12.3523 12.3523C12.5719 12.1326 12.9281 12.1326 13.1477 12.3523L16.1477 15.3523C16.3674 15.5719 16.3674 15.9281 16.1477 16.1477C15.9281 16.3674 15.5719 16.3674 15.3523 16.1477L12.3523 13.1477C12.1326 12.9281 12.1326 12.5719 12.3523 12.3523Z"
+                fill={mode === "dark" ? "#EAEAEA" : "black"}
+              />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M8.25 2.8125C5.24695 2.8125 2.8125 5.24695 2.8125 8.25C2.8125 11.253 5.24695 13.6875 8.25 13.6875C9.75428 13.6875 11.115 13.0774 12.1 12.0898C13.0816 11.1056 13.6875 9.74908 13.6875 8.25C13.6875 5.24695 11.253 2.8125 8.25 2.8125ZM1.6875 8.25C1.6875 4.62563 4.62563 1.6875 8.25 1.6875C11.8744 1.6875 14.8125 4.62563 14.8125 8.25C14.8125 10.0589 14.0799 11.6977 12.8966 12.8842C11.7091 14.0748 10.0652 14.8125 8.25 14.8125C4.62563 14.8125 1.6875 11.8744 1.6875 8.25Z"
+                fill={mode === "dark" ? "#EAEAEA" : "black"}
+              />
+            </svg>
+          </div>
           <button
-            onClick={() => setShowPopOver(!showPopOver)}
-            className="flex border-end pr-[16px] text-[10px] md:text-[12px] font-medium items-center gap-3"
+            onClick={() => setShowModal(true)}
+            className="font-medium flex items-center border-start border-end py-2 md:justify-center px-[16px] gap-[8px]"
           >
-            <p>Show All</p>
+            <p className="text-[14px]">Create new</p>
             <svg
               width="14"
               height="14"
@@ -545,7 +573,7 @@ const RuleAndBenchmarks = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M3.5 5.25L7 8.75L10.5 5.25"
+                d="M3.5 7H7M10.5 7H7M7 7V3.5M7 7V10.5"
                 stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
                 strokeWidth="1.5"
                 strokeLinecap="round"
@@ -555,7 +583,7 @@ const RuleAndBenchmarks = () => {
           </button>
           <button
             onClick={() => setShowPopOver(!showPopOver)}
-            className="flex pl-[16px] text-[10px] md:text-[12px] font-medium items-center gap-3"
+            className="flex text-[10px] md:text-[12px] font-medium items-center gap-3"
           >
             <p>Filter</p>
             <svg
@@ -742,7 +770,7 @@ const RuleAndBenchmarks = () => {
             </div>
           )}
         </div>
-        {showEmpty && isLoading ? (
+        {(showEmpty && isLoading || allRules.length < 1) ? (
           <DefaultContent
             pageHeader="Rules"
             pageDescription="No record found"
@@ -821,6 +849,8 @@ const RuleAndBenchmarks = () => {
             service: "",
             severity: "",
           });
+          setErrorRule("");
+          setStep(1);
         }}
         keyboard={false}
       >
@@ -946,13 +976,14 @@ const RuleAndBenchmarks = () => {
             <>
               <div className="flex items-center flex-col justify-center gap-[24px]">
                 <button
-                  onClick={() =>
+                  onClick={() => {
                     setRulePayload({
                       ...rulePayload,
                       rule_type: "Cloud",
                       cloud_provider: "",
-                    })
-                  }
+                    });
+                    setErrorRule("");
+                  }}
                   className="relative w-full flex items-center border gap-[12px] rounded-[12px] px-[24px] py-[16px]"
                 >
                   {rulePayload.rule_type === "Cloud" && (
@@ -998,6 +1029,7 @@ const RuleAndBenchmarks = () => {
                       cloud_provider: "Repository",
                     });
                     getServices("Repository");
+                    setErrorRule("");
                   }}
                   className=" relative w-full flex items-center border gap-[12px] rounded-[12px] px-[24px] py-[16px]"
                 >
@@ -1047,6 +1079,11 @@ const RuleAndBenchmarks = () => {
                   </h1>
                 </button>
               </div>
+              {errorRule && (
+                <p className="text-red-500 italic mt-4 font-medium text-sm">
+                  {errorRule}
+                </p>
+              )}
             </>
           ) : showResModal ? (
             <h1 className="font-semibold text-[18px] text-center">
@@ -1057,7 +1094,9 @@ const RuleAndBenchmarks = () => {
               <div className="">
                 <label className="form-label flex items-center gap-[8px] mb-[8px]">
                   <FaCheckDouble />
-                  <p className="font-medium">Rule Name</p>
+                  <p className="font-medium">
+                    Rule Name <span className="text-red-500">*</span>
+                  </p>
                 </label>
                 <input
                   placeholder="Enter Name"
@@ -1074,7 +1113,9 @@ const RuleAndBenchmarks = () => {
               <div className="">
                 <label className="form-label flex items-center gap-[8px] mb-[8px]">
                   <IoIosWarning />
-                  <p className="font-medium">Severity</p>
+                  <p className="font-medium">
+                    Severity <span className="text-red-500">*</span>
+                  </p>
                 </label>
                 <select
                   className="form-control bg-transparent"
@@ -1107,7 +1148,9 @@ const RuleAndBenchmarks = () => {
                   <div className="">
                     <label className="form-label flex items-center gap-[8px] mb-[8px]">
                       <FaCloud />
-                      <p className="font-medium">Cloud Provider</p>
+                      <p className="font-medium">
+                        Cloud Provider <span className="text-red-500">*</span>
+                      </p>
                     </label>
                     <select
                       className="form-control bg-transparent"
@@ -1144,7 +1187,9 @@ const RuleAndBenchmarks = () => {
               <div className="">
                 <label className="form-label flex items-center gap-[8px] mb-[8px]">
                   <GiHamburgerMenu />
-                  <p className="font-medium">Services</p>
+                  <p className="font-medium">
+                    Services <span className="text-red-500">*</span>
+                  </p>
                 </label>
                 <select
                   className="form-control bg-transparent"
@@ -1175,7 +1220,9 @@ const RuleAndBenchmarks = () => {
               <div className="">
                 <label className="form-label flex items-center gap-[8px] mb-[8px]">
                   <GiHamburgerMenu />
-                  <p className="font-medium">Rule Type</p>
+                  <p className="font-medium">
+                    Rule Type <span className="text-red-500">*</span>
+                  </p>
                 </label>
                 <select
                   disabled
@@ -1204,7 +1251,9 @@ const RuleAndBenchmarks = () => {
               <div className="">
                 <label className="form-label flex items-center gap-[8px] mb-[8px]">
                   <FaComment />
-                  <p className="font-medium">Description</p>
+                  <p className="font-medium">
+                    Description <span className="text-red-500">*</span>
+                  </p>
                 </label>
                 <textarea
                   name="description"
@@ -1230,12 +1279,16 @@ const RuleAndBenchmarks = () => {
             <button
               onClick={() => {
                 if (step === 1) {
-                  setStep((step) => step + 1);
+                  if (!rulePayload.rule_type) {
+                    setErrorRule("Please select a rule type");
+                  } else {
+                    setStep((step) => step + 1);
+                  }
                 } else {
                   handleSubmit();
                 }
               }}
-              disabled={!rulePayload.rule_type}
+              // disabled={!rulePayload.rule_type}
               className="bg-primary font-medium w-52 rounded-full text-white px-[24px] py-[12px]"
             >
               Create New Rule

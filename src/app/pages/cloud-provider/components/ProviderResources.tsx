@@ -315,6 +315,7 @@ const ProviderResources = () => {
                   setSteps(1);
                 }}
                 inModal={true}
+                showCancel={true}
               />
             )}
             {steps === 2 && (

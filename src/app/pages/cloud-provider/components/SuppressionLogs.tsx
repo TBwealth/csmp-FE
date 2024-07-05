@@ -12,6 +12,7 @@ import { TableColumn } from "../../../components/tableComponents/models";
 import { ColumnTypes } from "../../../components/models";
 import FilterModal from "../../../components/FilterModal";
 import DefaultContent from "../../../components/defaultContent/defaultContent";
+import axios from "axios";
 
 const LogsCard = ({
   date,
@@ -74,9 +75,9 @@ const LogsCard = ({
           <span className="w-44 text-start">{date}</span>{" "}
         </p>
         <p className="col-span-2 font-semibold text-[12px] text-start">
-          {rule}
+          {rule ? rule : "N/A"}
         </p>
-        <p className="font-semibold text-[12px]">{resource_id}</p>
+        <p className="font-semibold text-[12px]">{resource_id ? resource_id : "N/A"}</p>
         <p
           className={`font-semibold text-[12px] ${
             severity.toLowerCase() === "high"
@@ -84,11 +85,11 @@ const LogsCard = ({
               : "text-[#FF161A]"
           }`}
         >
-          {severity}
+          {severity ? severity : "N/A"}
         </p>
-        <p className="font-semibold text-[12px] text-start">{exp_date}</p>
+        <p className="font-semibold text-[12px] text-start">{exp_date ? exp_date : "N/A"}</p>
         <p className="col-span-2 font-medium flex items-center justify-between w-full">
-          {comment}
+          {comment ? comment : "N/A"}
         </p>
       </button>
       {isOpen && (
@@ -109,21 +110,21 @@ const LogsCard = ({
               {status.toUpperCase()}
             </p>
             <p className="font-semibold">Resource Id:</p>
-            <p className="text-left col-span-2">{resource_id}</p>
+            <p className="text-left col-span-2">{resource_id ? resource_id : "N/A"}</p>
             <p className="font-semibold">Resource:</p>
-            <p className="text-left col-span-2">{resource}</p>
+            <p className="text-left col-span-2">{resource ? resource : "N/A"}</p>
             <p className="font-semibold">Region:</p>
-            <p className="text-left col-span-2">{region}</p>
+            <p className="text-left col-span-2">{region ? region : "N/A"}</p>
             <p className="font-semibold">Message:</p>
-            <p className="text-left col-span-2">{message}</p>
+            <p className="text-left col-span-2">{message ? message : "N/A"}</p>
             <p className="font-semibold">Description:</p>
-            <p className="text-left col-span-2">{description}</p>
+            <p className="text-left col-span-2">{description ? description : "N/A"}</p>
             <p className="font-semibold">Comment:</p>
-            <p className="text-left col-span-2">{comment}</p>
+            <p className="text-left col-span-2">{comment ? comment : "N/A"}</p>
             <p className="font-semibold">Exp Date:</p>
-            <p className="text-left col-span-2">Suppressed until {exp_date}</p>
+            <p className="text-left col-span-2">Suppressed until {exp_date ? exp_date : "N/A"}</p>
             <p className="font-semibold">Suppressed by:</p>
-            <p className="text-left col-span-2">{suppressed_by}</p>
+            <p className="text-left col-span-2">{suppressed_by ? suppressed_by : "N/A"}</p>
           </div>
         </div>
       )}
@@ -138,10 +139,14 @@ type Filter = {
 
 const SuppressionLogs = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [loading, setLoading] = useState(false);
   const [allLogs, setAllLogs] = useState<any[]>([]);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const [listTenants, setListTenants] = useState<any[]>([]);
   const [showPopOver, setShowPopOver] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+  const [canPrev, setCanPrev] = useState(false);
+  const [page, setPage] = useState(1);
   const [checks, setChecks] = useState<any[]>([]);
   const [filterValue, setFilterValue] = useState<Filter>({
     severity: "",
@@ -173,62 +178,47 @@ const SuppressionLogs = () => {
       type: ColumnTypes.Date,
     },
   ];
+  const handleGetAllLogs = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `https://cspm-api.midrapps.com/system_settings/rule_suppression_log/?expiration=${
+          filter.current.expiration ? filter.current.expiration : ""
+        }&severity=${
+          filter.current.severity ? filter.current.severity : ""
+        }&page=${filter.current.page}&page_size=${filter.current.pageSize}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-  const { data, isLoading, refetch } = useGetSuppressionLogs({
-    ...filter.current,
-  });
+      if (res.status === 200) {
+        setLoading(false);
+        setAllLogs(res?.data?.data?.results ?? []);
+        setCanNext(res?.data?.data.next ? true : false);
+        setCanPrev(res?.data?.data.previous ? true : false);
+        setshowEmpty(
+          res?.data?.data?.results
+            ? res?.data?.data?.results.length === 0
+            : true
+        );
+      }
+    } catch (err: any) {
+      setLoading(false);
+      console.log(err);
+    }
+  };
 
-  const datastsr: SystemSettingsRuleSuppressionLogList200Response | any = data;
-  const [user, setUser] = useState<any>(null);
+  // const { data, isLoading, refetch } = useGetSuppressionLogs({
+  //   ...filter.current,
+  // });
+
+  // const datastsr: SystemSettingsRuleSuppressionLogList200Response | any = data;
+  // const [user, setUser] = useState<any>(null);
   const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
   const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
-  const logs = [
-    {
-      date: "2/3/2024 ",
-      rule: "AWS Config Enabled",
-      resource_id: "sg-04cc9e5ccd9. . ",
-      severity: "HIGH",
-      exp_date: "2/3/2024 ",
-      comment: "We will not run rule RL001 on EC2-00. . .",
-      status: "Failed",
-      resource: "launch-wizard-7",
-      region: "US-EAST-1",
-      message:
-        "Security group launch-wizard-1 allows ingress from 0.0.0.0/0 or ::/0 to ports 11211, 11211",
-      description: "launch-wizard-1 created 2023-11-23T14:35:09.092Z",
-      suppressed_by: "Joseph Kelvin",
-    },
-    {
-      date: "2/3/2024 ",
-      rule: "AWS Config Enabled",
-      resource_id: "--",
-      severity: "CRITICAL",
-      exp_date: "2/3/2024 ",
-      comment: "WE WILL NOT RUN  AWS-RDS  FOREVER UNTIL UPDATED",
-      status: "Failed",
-      resource: "launch-wizard-7",
-      region: "US-EAST-1",
-      message:
-        "Security group launch-wizard-1 allows ingress from 0.0.0.0/0 or ::/0 to ports 11211, 11211",
-      description: "launch-wizard-1 created 2023-11-23T14:35:09.092Z",
-      suppressed_by: "Joseph Kelvin",
-    },
-    {
-      date: "2/3/2024 ",
-      rule: "	Unrestricted Security Group Ingress on Port",
-      resource_id: "EC2-04cc9e5eeu. . .",
-      severity: "HIGH",
-      exp_date: "2/3/2024 ",
-      comment: "WE WILL NOT RUN  AWS-RDS  FOREVER UNTIL UPDATED",
-      status: "Failed",
-      resource: "launch-wizard-7",
-      region: "US-EAST-1",
-      message:
-        "Security group launch-wizard-1 allows ingress from 0.0.0.0/0 or ::/0 to ports 11211, 11211",
-      description: "launch-wizard-1 created 2023-11-23T14:35:09.092Z",
-      suppressed_by: "Joseph Kelvin",
-    },
-  ];
 
   function filterUpdated(data: any) {
     filter.current = {
@@ -237,7 +227,7 @@ const SuppressionLogs = () => {
       expiration: data?.expiration,
       severity: data?.severity,
     };
-    refetch();
+    handleGetAllLogs();
   }
 
   function refreshrecord() {
@@ -247,26 +237,22 @@ const SuppressionLogs = () => {
       severity: undefined,
       expiration: undefined,
     };
-    refetch();
+    handleGetAllLogs();
   }
 
   useEffect(() => {
-    const localUser = localStorage.getItem("user");
-    if (localUser) {
-      const parsedUser = JSON.parse(localUser);
-      setUser(parsedUser);
-    }
+    // const localUser = localStorage.getItem("user");
+    // if (localUser) {
+    //   const parsedUser = JSON.parse(localUser);
+    //   setUser(parsedUser);
+    // }
+    handleGetAllLogs();
   }, []);
 
   useEffect(() => {
     setListTenants(tenantstsr?.data?.data?.results);
-    setAllLogs(datastsr?.data?.data?.results ?? []);
-    setshowEmpty(
-      datastsr?.data?.data?.results
-        ? datastsr?.data?.data?.results.length === 0
-        : true
-    );
-  }, [tenantstsr, datastsr]);
+  }, [tenantstsr]);
+
   return (
     <div className="w-[90%] mx-auto mt-[32px]">
       <div className="pb-4 mb-10 border-bottom flex items-center  justify-between w-full">
@@ -311,11 +297,11 @@ const SuppressionLogs = () => {
         Instances or logs where suppression setups were applied or utilized
       </p>
       <div className="w-full overflow-auto p-2">
-        {showEmpty ? (
+        {(showEmpty || loading) ? (
           <DefaultContent
             pageHeader="All Suppression logs"
             pageDescription="No record found"
-            loading={isLoading}
+            loading={loading}
             buttonValue="Refresh"
             buttonClick={() => refreshrecord()}
           />
@@ -370,13 +356,21 @@ const SuppressionLogs = () => {
               <LogsCard
                 key={log.comment + idx}
                 region={log?.result_json?.checks[0].region ?? ""}
-                comment={log?.comments ? `${log?.comments.slice(0, 20)}...` : ""}
+                comment={
+                  log?.comments ? `${log?.comments.slice(0, 20)}...` : ""
+                }
                 date={log?.created_on.split("T")[0] ?? ""}
-                description={log?.result_json?.checks[0]?.remediation_desc ?? ""}
+                description={
+                  log?.result_json?.checks[0]?.remediation_desc ?? ""
+                }
                 exp_date={log?.expiration ?? ""}
                 message={log?.result_json?.checks[0].finding_desc ?? ""}
                 resource_id={log?.result_json?.checks[0]?.resource_id ?? ""}
-                rule={log?.result_json ? `${log?.result_json?.checks[0].rule_code.slice(0, 25)}...` : ""}
+                rule={
+                  log?.result_json
+                    ? `${log?.result_json?.checks[0].rule_code.slice(0, 25)}...`
+                    : ""
+                }
                 severity={log?.result_json?.checks[0]?.severity ?? ""}
                 suppressed_by={log?.suppressed_by?.full_name ?? ""}
                 status={log?.result_json?.checks[0].status_code ?? ""}
@@ -384,6 +378,60 @@ const SuppressionLogs = () => {
                 mode={mode}
               />
             ))}
+            <div className="w-full mt-10">
+              {allLogs.length > 0 && (
+                <div className="flex items-center font-medium justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <p>page size:</p>
+                    <select
+                      value={String(filter.current.pageSize)}
+                      onChange={(e) => {
+                        filterUpdated({
+                          ...filter.current,
+                          pageSize: e.target.value,
+                        });
+                      }}
+                      className="w-24 border-2 rounded-md p-2 bg-none"
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                  <div className="flex font-medium items-center gap-3">
+                    <button
+                      disabled={!canPrev}
+                      onClick={() => {
+                        if (page <= 1) {
+                          setPage(1);
+                          // useGetAllScanHistory(1, 5);
+                        } else {
+                          // useGetAllScanHistory(page - 1, 5);
+                          setPage((page) => page - 1);
+                          filterUpdated({ ...filter.current, page: page - 1 });
+                        }
+                      }}
+                      className="p-2 rounded-md font-medium w-24 bg-primary text-white hover:bg-transparent hover:text-primary hover:border-primary"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      disabled={!canNext}
+                      onClick={() => {
+                        // useGetAllScanHistory(page + 1, 5)
+                        setPage((page) => page + 1);
+                        filterUpdated({ ...filter.current, page: page + 1 });
+                      }}
+                      className="p-2 bg-primary font-medium text-white rounded-md w-24 hover:bg-transparent hover:text-primary hover:border-primary"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

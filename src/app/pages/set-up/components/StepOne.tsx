@@ -1,8 +1,6 @@
 import { Dispatch, useState } from "react";
 import { useRecoilValue } from "recoil";
-import {
-  FaCheckSquare
-} from "react-icons/fa"
+import { FaCheckSquare } from "react-icons/fa";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import awsLogo from "../../../../../public/media/logos/aws-logo.svg";
 import azureLogo from "../../../../../public/media/logos/azure-logo.svg";
@@ -12,9 +10,10 @@ type Props = {
   next: Dispatch<void>;
   handleHide: Dispatch<void>;
   inModal: boolean;
+  showCancel: boolean;
 };
 
-const StepOne = ({ next, handleHide, inModal }: Props) => {
+const StepOne = ({ next, handleHide, inModal, showCancel }: Props) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [selectedProvider, setSelectedProvider] = useState("aws");
   return (
@@ -45,22 +44,24 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
             Add New Cloud Account
           </p>
         </div>
-        <button onClick={() => handleHide()}>
-          <svg
-            width="10"
-            height="10"
-            viewBox="0 0 10 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M0.670548 0.670272C0.890218 0.450602 1.24637 0.450602 1.46604 0.670272L5.00028 4.2045L8.53451 0.670272C8.75418 0.450602 9.11033 0.450602 9.33 0.670272C9.54967 0.889942 9.54967 1.2461 9.33 1.46577L5.79577 5L9.33 8.53423C9.54967 8.7539 9.54967 9.11006 9.33 9.32973C9.11033 9.5494 8.75418 9.5494 8.53451 9.32973L5.00028 5.7955L1.46604 9.32973C1.24637 9.5494 0.890218 9.5494 0.670548 9.32973C0.450878 9.11006 0.450879 8.7539 0.670548 8.53423L4.20478 5L0.670548 1.46577C0.450879 1.2461 0.450878 0.889942 0.670548 0.670272Z"
-              fill="#373737"
-            />
-          </svg>
-        </button>
+        {showCancel && (
+          <button onClick={() => handleHide()}>
+            <svg
+              width="10"
+              height="10"
+              viewBox="0 0 10 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M0.670548 0.670272C0.890218 0.450602 1.24637 0.450602 1.46604 0.670272L5.00028 4.2045L8.53451 0.670272C8.75418 0.450602 9.11033 0.450602 9.33 0.670272C9.54967 0.889942 9.54967 1.2461 9.33 1.46577L5.79577 5L9.33 8.53423C9.54967 8.7539 9.54967 9.11006 9.33 9.32973C9.11033 9.5494 8.75418 9.5494 8.53451 9.32973L5.00028 5.7955L1.46604 9.32973C1.24637 9.5494 0.890218 9.5494 0.670548 9.32973C0.450878 9.11006 0.450879 8.7539 0.670548 8.53423L4.20478 5L0.670548 1.46577C0.450879 1.2461 0.450878 0.889942 0.670548 0.670272Z"
+                fill="#373737"
+              />
+            </svg>
+          </button>
+        )}
       </div>
       <div className="w-full font-medium grid lg:grid-cols-3 p-6 gap-5 mt-10">
         <div className="flex flex-col items-start justify-center">
@@ -98,9 +99,13 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
                 AWS Account
               </p>
             </div>
-            {
-              selectedProvider === "aws" && (<FaCheckSquare color="#284CB3" size={14} className="absolute top-2 right-3"/>)
-            }
+            {selectedProvider === "aws" && (
+              <FaCheckSquare
+                color="#284CB3"
+                size={14}
+                className="absolute top-2 right-3"
+              />
+            )}
             <input
               type="radio"
               name="provider"
@@ -117,9 +122,13 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
             <small className="text-primary bg-[#E9EDF7] w-fit rounded-full py-1 px-4 absolute -top-2 -right-2">
               <b>SOON</b>
             </small>
-            {
-              selectedProvider === "azure" && (<FaCheckSquare color="#284CB3" size={14} className="absolute top-2 right-3"/>)
-            }
+            {selectedProvider === "azure" && (
+              <FaCheckSquare
+                color="#284CB3"
+                size={14}
+                className="absolute top-2 right-3"
+              />
+            )}
             <div
               className={`${
                 selectedProvider === "azure" ? "bg-white" : "bg-[#EAEAEA]/20"
@@ -147,9 +156,13 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
             <small className="text-primary bg-[#E9EDF7] w-fit rounded-full py-1 px-4 absolute -top-2 -right-2">
               <b>SOON</b>
             </small>
-            {
-              selectedProvider === "gcp" && (<FaCheckSquare color="#284CB3" size={14} className="absolute top-2 right-3"/>)
-            }
+            {selectedProvider === "gcp" && (
+              <FaCheckSquare
+                color="#284CB3"
+                size={14}
+                className="absolute top-2 right-3"
+              />
+            )}
             <div
               className={`${
                 selectedProvider === "gcp" ? "bg-white" : "bg-[#EAEAEA]/20"
@@ -176,9 +189,10 @@ const StepOne = ({ next, handleHide, inModal }: Props) => {
         </div>
       </div>
       <div className="mt-8 border-top-2 w-full flex p-5 items-end justify-end gap-6">
-        <button 
-        onClick={inModal ? () => handleHide() : () => {}}
-        className="bg-[#284CB3]/40 w-32 font-medium rounded-full p-2 text-white text-center">
+        <button
+          onClick={inModal ? () => handleHide() : () => {}}
+          className="bg-[#284CB3]/40 w-32 font-medium rounded-full p-2 text-white text-center"
+        >
           Cancel
         </button>
         <button
