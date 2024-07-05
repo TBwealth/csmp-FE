@@ -910,7 +910,7 @@ const NewSideMenu = () => {
                 className={`menu-link without-sub w-full ${
                   pathname === child.href!
                     ? "text-primary bg-[#284CB31A] font-semibold text-[14px] px-[12px] py-[10px] rounded-xl w-full"
-                    : "py-[10px] w-full font-semibold"
+                    : "py-[10px] w-full font-semibold hover:text-primary hover:bg-[#284CB31A] hover:px-2 hover:rounded-xl hover:font-medium"
                 }`}
                 onClick={() => setPageTitle(child.title)}
               >
