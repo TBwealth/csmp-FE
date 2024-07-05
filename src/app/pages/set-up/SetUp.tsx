@@ -80,6 +80,7 @@ const SetUp = () => {
               navigate("/dashboard");
             }}
             inModal={false}
+            showCancel={false}
           />
         )}
         {steps === 2 && (
