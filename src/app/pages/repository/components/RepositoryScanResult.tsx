@@ -406,10 +406,10 @@ const RepositoryScanResult = () => {
               </div>
             </div>
           </div>
-          <div className="w-full" ref={printableArea}>
+          <div className="w-full mt-[32px]" ref={printableArea}>
             <div className="w-full overflow-auto">
               <div
-                className={`grid font-medium grid-cols-5 p-4 rounded-md mb-3 shadow-sm w-[180vw] md:w-full ${
+                className={`grid font-medium grid-cols-5 p-4 place-content-center rounded-t-[12px] mb-3  w-[180vw] md:w-full ${
                   mode === "dark" ? "bg-lightDark" : "bg-white"
                 }`}
               >
