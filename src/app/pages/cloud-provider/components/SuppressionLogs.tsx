@@ -75,9 +75,9 @@ const LogsCard = ({
           <span className="w-44 text-start">{date}</span>{" "}
         </p>
         <p className="col-span-2 font-semibold text-[12px] text-start">
-          {rule}
+          {rule ? rule : "N/A"}
         </p>
-        <p className="font-semibold text-[12px]">{resource_id}</p>
+        <p className="font-semibold text-[12px]">{resource_id ? resource_id : "N/A"}</p>
         <p
           className={`font-semibold text-[12px] ${
             severity.toLowerCase() === "high"
@@ -85,11 +85,11 @@ const LogsCard = ({
               : "text-[#FF161A]"
           }`}
         >
-          {severity}
+          {severity ? severity : "N/A"}
         </p>
-        <p className="font-semibold text-[12px] text-start">{exp_date}</p>
+        <p className="font-semibold text-[12px] text-start">{exp_date ? exp_date : "N/A"}</p>
         <p className="col-span-2 font-medium flex items-center justify-between w-full">
-          {comment}
+          {comment ? comment : "N/A"}
         </p>
       </button>
       {isOpen && (
@@ -110,21 +110,21 @@ const LogsCard = ({
               {status.toUpperCase()}
             </p>
             <p className="font-semibold">Resource Id:</p>
-            <p className="text-left col-span-2">{resource_id}</p>
+            <p className="text-left col-span-2">{resource_id ? resource_id : "N/A"}</p>
             <p className="font-semibold">Resource:</p>
-            <p className="text-left col-span-2">{resource}</p>
+            <p className="text-left col-span-2">{resource ? resource : "N/A"}</p>
             <p className="font-semibold">Region:</p>
-            <p className="text-left col-span-2">{region}</p>
+            <p className="text-left col-span-2">{region ? region : "N/A"}</p>
             <p className="font-semibold">Message:</p>
-            <p className="text-left col-span-2">{message}</p>
+            <p className="text-left col-span-2">{message ? message : "N/A"}</p>
             <p className="font-semibold">Description:</p>
-            <p className="text-left col-span-2">{description}</p>
+            <p className="text-left col-span-2">{description ? description : "N/A"}</p>
             <p className="font-semibold">Comment:</p>
-            <p className="text-left col-span-2">{comment}</p>
+            <p className="text-left col-span-2">{comment ? comment : "N/A"}</p>
             <p className="font-semibold">Exp Date:</p>
-            <p className="text-left col-span-2">Suppressed until {exp_date}</p>
+            <p className="text-left col-span-2">Suppressed until {exp_date ? exp_date : "N/A"}</p>
             <p className="font-semibold">Suppressed by:</p>
-            <p className="text-left col-span-2">{suppressed_by}</p>
+            <p className="text-left col-span-2">{suppressed_by ? suppressed_by : "N/A"}</p>
           </div>
         </div>
       )}
@@ -216,7 +216,7 @@ const SuppressionLogs = () => {
   // });
 
   // const datastsr: SystemSettingsRuleSuppressionLogList200Response | any = data;
-  const [user, setUser] = useState<any>(null);
+  // const [user, setUser] = useState<any>(null);
   const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
   const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
 
@@ -252,7 +252,7 @@ const SuppressionLogs = () => {
   useEffect(() => {
     setListTenants(tenantstsr?.data?.data?.results);
   }, [tenantstsr]);
-  
+
   return (
     <div className="w-[90%] mx-auto mt-[32px]">
       <div className="pb-4 mb-10 border-bottom flex items-center  justify-between w-full">

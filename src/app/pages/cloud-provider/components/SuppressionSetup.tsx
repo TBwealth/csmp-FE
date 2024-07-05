@@ -12,6 +12,7 @@ import { AccountsApiTenantsList200Response, SystemSettingsRuleSuppressionSetupLi
 import DefaultContent from "../../../components/defaultContent/defaultContent";
 import { TableColumn } from "../../../components/tableComponents/models";
 import { ColumnTypes } from "../../../components/models";
+import axios from "axios";
 
 const SetupCard = ({
   provider,
@@ -110,12 +111,16 @@ const SetupCard = ({
 };
 const SuppressionSetup = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [loading, setLoading] = useState(false);
   const [listTenants, setListTenants] = useState<any[]>([]);
   const [showEmpty, setshowEmpty] = useState<boolean>(false);
   const [allSetups, setAllsetups] = useState<any[]>([]);
   const [showPopOver, setShowPopOver] = useState(false);
   const [editItem, setEditItems] = useState<any>(null);
   const [showModal, setShowModal] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+  const [canPrev, setCanPrev] = useState(false);
+  const [page, setPage] = useState(1);
   const filter = useRef<any>({
     page: 1,
     pageSize: 10,
@@ -163,27 +168,52 @@ const SuppressionSetup = () => {
       listTextField: "name",
     },
   ]);
-  // const [pageSize, setPageSize] = useState(100);
-  // const [page, setPage] = useState(1);
+  const handleGetAllSetupList = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `https://cspm-api.midrapps.com/system_settings/rule_suppression_setup/?status=${
+          filter.current.status !== undefined ? filter.current.status  : ""
+        }&cloud_provider=${filter.current.cloudProvider ? filter.current.cloudProvider : ""}&page=${filter.current.page}&page_size=${filter.current.pageSize}&region=${filter.current.region ? filter.current.region : ""}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-  const { data, isLoading, refetch } = useGetSuppressionSetups({
-    ...filter.current,
-  });
-  const datastsr: SystemSettingsRuleSuppressionSetupList200Response | any = data;
+      if (res.status === 200) {
+        setLoading(false);
+        setAllsetups(res?.data?.data?.results ?? []);
+        setCanNext(res?.data?.data.next ? true : false);
+        setCanPrev(res?.data?.data.previous ? true : false);
+        setshowEmpty(
+          res?.data?.data?.results
+            ? res?.data?.data?.results.length === 0
+            : true
+        );
+      }
+    } catch (err: any) {
+      setLoading(false);
+      console.log(err);
+    }
+  }
+
+  // const { data, isLoading, refetch } = useGetSuppressionSetups({
+  //   ...filter.current,
+  // });
+  // const datastsr: SystemSettingsRuleSuppressionSetupList200Response | any = data;
   const { data: tenantData } = useGetAccountTenant({ page: 1, pageSize: 100 });
   const tenantstsr: AccountsApiTenantsList200Response | any = tenantData;
   const { data: region } = useGetRegions({ page: 1, pageSize: 1000 });
   const regionstsr: AccountsApiTenantsList200Response | any = region;
 
   useEffect(() => {
-    setListTenants(tenantstsr?.data?.data?.results);
-    setAllsetups(datastsr?.data?.data?.results ?? []);
-    setshowEmpty(
-      datastsr?.data?.data?.results
-        ? datastsr?.data?.data?.results.length === 0
-        : true
-    );
+    handleGetAllSetupList();
+  }, [])
 
+  useEffect(() => {
+    setListTenants(tenantstsr?.data?.data?.results);
     if (regionstsr?.data?.data?.results) {
       setFilterFields(() =>
         filterFields.map((fi: TableColumn) => {
@@ -202,7 +232,7 @@ const SuppressionSetup = () => {
         })
       );
     }
-  }, [tenantstsr, datastsr, regionstsr]);
+  }, [tenantstsr, regionstsr]);
 
   function filterUpdated(data: any) {
     filter.current = {
@@ -212,7 +242,7 @@ const SuppressionSetup = () => {
       cloudProvider: data?.cloudProvider,
       region: data?.region,
     };
-    refetch();
+    handleGetAllSetupList();
   }
 
   function refreshrecord() {
@@ -223,7 +253,7 @@ const SuppressionSetup = () => {
       cloudProvider: undefined,
       region: undefined,
     };
-    refetch();
+    handleGetAllSetupList();
   }
 
   // console.log(allSetups);
@@ -355,11 +385,11 @@ const SuppressionSetup = () => {
           </button>
         </div>
         <div className="w-full overflow-auto p-2">
-          {showEmpty ? (
+          {(showEmpty || loading) ? (
             <DefaultContent
               pageHeader="All Suppression setups"
               pageDescription="No record found"
-              loading={isLoading}
+              loading={loading}
               buttonValue="Refresh"
               buttonClick={() => refreshrecord()}
             />
@@ -484,6 +514,60 @@ const SuppressionSetup = () => {
                   }}
                 />
               ))}
+              <div className="w-full mt-10">
+              {allSetups.length > 0 && (
+                <div className="flex items-center font-medium justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <p>page size:</p>
+                    <select
+                      value={String(filter.current.pageSize)}
+                      onChange={(e) => {
+                        filterUpdated({
+                          ...filter.current,
+                          pageSize: e.target.value,
+                        });
+                      }}
+                      className="w-24 border-2 rounded-md p-2 bg-none"
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                  <div className="flex font-medium items-center gap-3">
+                    <button
+                      disabled={!canPrev}
+                      onClick={() => {
+                        if (page <= 1) {
+                          setPage(1);
+                          // useGetAllScanHistory(1, 5);
+                        } else {
+                          // useGetAllScanHistory(page - 1, 5);
+                          setPage((page) => page - 1);
+                          filterUpdated({ ...filter.current, page: page - 1 });
+                        }
+                      }}
+                      className="p-2 rounded-md font-medium w-24 bg-primary text-white hover:bg-transparent hover:text-primary hover:border-primary"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      disabled={!canNext}
+                      onClick={() => {
+                        // useGetAllScanHistory(page + 1, 5)
+                        setPage((page) => page + 1);
+                        filterUpdated({ ...filter.current, page: page + 1 });
+                      }}
+                      className="p-2 bg-primary font-medium text-white rounded-md w-24 hover:bg-transparent hover:text-primary hover:border-primary"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
             </>
           )}
         </div>
@@ -498,6 +582,7 @@ const SuppressionSetup = () => {
             setEditItems(null);
             setShowModal(false);
           }}
+          handleRefetch={handleGetAllSetupList}
         />
       )}
 
