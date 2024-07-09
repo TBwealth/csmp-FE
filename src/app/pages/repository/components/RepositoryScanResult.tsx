@@ -17,11 +17,15 @@ import DefaultContent from "../../../components/defaultContent/defaultContent";
 // import ScanAccordion from "../../security-monitoring/components/modals/ScanAccordion";
 import ScanPolicyModal from "../../security-monitoring/components/modals/ScanModal";
 import ResultCard from "./ResultCard";
+import axios from "axios";
+import ScanAccordion from "../../security-monitoring/components/modals/ScanAccordion";
+import ScanAccordionRule from "../../security-monitoring/components/modals/ScanAccordionRule";
 
 const RepositoryScanResult = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [showPopOver, setShowPopOver] = useState(false);
   const [activeBtn, setActiveBtn] = useState("Daily");
+  const [loading, setLoading] = useState(false);
   const printableArea = useRef<HTMLDivElement>(null);
   const [showScan, setShowScan] = useState(false);
   const [errorMess, setErrorMess] = useState<any>(null);
@@ -33,7 +37,7 @@ const RepositoryScanResult = () => {
   const [width, setWidth] = useState(0);
   const [pageCount, setPageCount] = useState(5);
   const [offset, setOffset] = useState(0);
-  const [tab, setTab] = useState("View by Resource");
+  const [tab, setTab] = useState("Group by Rule");
   const { id } = useParams();
   const navigate = useNavigate();
   const filter = useRef<any>({
@@ -43,14 +47,69 @@ const RepositoryScanResult = () => {
     policyRunId: id!,
   });
 
+  const handleFetchByRule = async () => {
+    setLoading(true);
+    setOffset(0);
+    setPageCount(5);
+    try {
+      const res = await axios.post(
+        "https://cspm-api.midrapps.com/policy/policy_run_result_group_by_rule/",
+        {
+          policy_run_id: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setLoading(false);
+        setAllChecks(res?.data.data);
+        setAllChecksReserves(res?.data.data);
+      }
+    } catch (err: any) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
+  const handleFetchByGroup = async () => {
+    setLoading(true);
+    setOffset(0);
+    setPageCount(5);
+    try {
+      const res = await axios.post(
+        "https://cspm-api.midrapps.com/policy/policy_run_result_by_resource/",
+        {
+          policy_run_id: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setLoading(false);
+        setAllChecks(res?.data.data ?? []);
+        setAllChecksReserves(res?.data.data ?? []);
+      }
+    } catch (err: any) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
+
   const filterFields = [
     {
       name: "status",
       title: "Status",
       type: ColumnTypes.List,
       listValue: [
-        { id: "FAILED", name: "Failed" },
-        { id: "PASSED", name: "Passed" },
+        { id: "FAIL", name: "Failed" },
+        { id: "PASS", name: "Passed" },
         // { id: "Low", name: "Low" },
       ],
       listIdField: "id",
@@ -69,10 +128,9 @@ const RepositoryScanResult = () => {
   useEffect(() => {
     setScanResult(scanstsr?.data?.data?.results[0]);
     if (scanstsr?.data?.data?.results[0]) {
-      setAllChecks(scanstsr?.data?.data?.results[0]?.result_json?.checks ?? []);
-      setAllChecksReserves(
-        scanstsr?.data?.data?.results[0]?.result_json?.checks ?? []
-      );
+      // setAllChecksReserves(
+      //   scanstsr?.data?.data?.results[0]?.result_json?.checks ?? []
+      // );
       setWidth(() =>
         Math.floor(
           scanstsr?.data?.data?.results[0]?.result_json?.Compliance ?? 0
@@ -86,10 +144,19 @@ const RepositoryScanResult = () => {
     }
   }, [scanResult]);
 
+  useEffect(() => {
+    if (tab === "Group by Rule") {
+      handleFetchByRule();
+    } else {
+      handleFetchByGroup();
+    }
+  }, [tab]);
+
   const downloadform = () => {
     // const width = printableArea.current?.clientWidth!;
     // const height = printableArea.current?.clientHeight! + 40;
-    const printableArea: HTMLElement | any = document.getElementById("printableArea")
+    const printableArea: HTMLElement | any =
+      document.getElementById("printableArea");
     const width = printableArea.clientWidth!;
     const height = printableArea.clientHeight! + 40;
     let orientation: any = "";
@@ -129,12 +196,18 @@ const RepositoryScanResult = () => {
       policyRunId: id!,
     };
     refetch();
+    if (tab === "Group by Rule") {
+      handleFetchByRule();
+    } else {
+      handleFetchByGroup();
+    }
   }
 
   function filterUpdated(data: any) {
-    if (data?.status && data?.status === "FAILED") {
+    if (data?.status && data?.status === "FAIL") {
       const filtered = checks.filter(
-        (check) => check.status_code.toLowerCase() === data?.status.toLowerCase()
+        (check) =>
+          check.status_code.toLowerCase() === data?.status.toLowerCase()
       );
       setAllChecks(filtered);
     } else {
@@ -145,7 +218,7 @@ const RepositoryScanResult = () => {
       //   policyRunId: id!,
       // };
       const filtered = checksReserve.filter(
-        (check) => check.status_code.toLowerCase() !== "failed"
+        (check) => check.status_code.toLowerCase() !== "fail"
       );
       setAllChecks(filtered);
       // refetch();
@@ -154,11 +227,11 @@ const RepositoryScanResult = () => {
 
   return (
     <div className="">
-      {isLoading || scanLoading ? (
+      {isLoading || scanLoading || loading ? (
         <DefaultContent
           pageHeader="Scan Result"
           pageDescription="No record found"
-          loading={isLoading || scanLoading}
+          loading={isLoading || scanLoading || loading}
           buttonValue="Refresh"
           buttonClick={() => refreshrecord()}
         />
@@ -409,126 +482,219 @@ const RepositoryScanResult = () => {
           <div className="w-full mt-[32px]" ref={printableArea}>
             <div className="w-full overflow-auto">
               <div
-                className={`grid font-medium grid-cols-5 p-4 place-content-center rounded-t-[12px] mb-3  w-[180vw] md:w-full ${
+                className={`grid font-medium grid-cols-7 gap-[8px] p-4 rounded-t-[12px] place-content-center mb-3 border-bottom h-[52px] w-[180vw] md:w-full ${
                   mode === "dark" ? "bg-lightDark" : "bg-white"
                 }`}
               >
-                <div className="flex items-center col-span-2 gap-6">
-                  <svg
-                    width="18px"
-                    height="18px"
-                    stroke-width="1.5"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    color={mode === "dark" ? "#EAEAEA" : "#000000"}
-                  >
-                    <path
-                      d="M8 9C8 9 9 8 12 8C15 8 16 9 16 9"
-                      stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                    <path
-                      d="M12 14C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12C11.4477 12 11 12.4477 11 13C11 13.5523 11.4477 14 12 14Z"
-                      fill={mode === "dark" ? "#EAEAEA" : "#000000"}
-                      stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                    <path
-                      d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
-                      stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                  </svg>
-                  <button className="flex items-center justify-center gap-2 font-semibold">
-                    <span>Resource</span>{" "}
-                    <svg
-                      width="10"
-                      height="5"
-                      viewBox="0 0 10 5"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M1.5 0.75L5 4.25L8.5 0.75"
-                        stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <p className="font-semibold text-[14px] col-span-2">
-                  Compliant Rule
-                </p>
-                <p className="font-semibold">Status</p>
-                <p className=""></p>
+                {tab === "Group by Rule" ? (
+                  <>
+                    <p className="font-semibold col-span-3 flex items-center gap-2">
+                      <svg
+                        width="18px"
+                        height="18px"
+                        stroke-width="1.5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        color={mode === "dark" ? "#EAEAEA" : "#000000"}
+                      >
+                        <path
+                          d="M8 9C8 9 9 8 12 8C15 8 16 9 16 9"
+                          stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M12 14C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12C11.4477 12 11 12.4477 11 13C11 13.5523 11.4477 14 12 14Z"
+                          fill={mode === "dark" ? "#EAEAEA" : "#000000"}
+                          stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
+                          stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                      <span>Compliant Rule</span>
+                    </p>
+                    <button className="flex items-center justify-center gap-2 font-semibold">
+                      <span>Service</span>{" "}
+                      <svg
+                        width="10"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.5 0.75L5 4.25L8.5 0.75"
+                          stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                    <button className="flex items-center justify-center gap-2 font-semibold">
+                      <span>Severity</span>{" "}
+                      <svg
+                        width="10"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.5 0.75L5 4.25L8.5 0.75"
+                          stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                    <p className="font-semibold text-center w-full">Count</p>
+                    <p className="font-semibold text-center w-full">Status</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="font-semibold col-span-3 flex items-center gap-2">
+                      <svg
+                        width="18px"
+                        height="18px"
+                        stroke-width="1.5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        color={mode === "dark" ? "#EAEAEA" : "#000000"}
+                      >
+                        <path
+                          d="M8 9C8 9 9 8 12 8C15 8 16 9 16 9"
+                          stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M12 14C12.5523 14 13 13.5523 13 13C13 12.4477 12.5523 12 12 12C11.4477 12 11 12.4477 11 13C11 13.5523 11.4477 14 12 14Z"
+                          fill={mode === "dark" ? "#EAEAEA" : "#000000"}
+                          stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                        <path
+                          d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
+                          stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                      <span>Resource</span>
+                    </p>
+                    <button className="flex items-center justify-center gap-2 font-semibold">
+                      <span>Type</span>{" "}
+                      <svg
+                        width="10"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M1.5 0.75L5 4.25L8.5 0.75"
+                          stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
+                    <p className="font-semibold text-center">Status</p>
+                    <p className="font-semibold col-span-2 text-center">
+                      Compliant Rule
+                    </p>
+                  </>
+                )}
               </div>
               {checks.length < 1 ? (
                 <DefaultContent
                   pageHeader="All Checks"
                   pageDescription="No record found"
-                  loading={isLoading}
+                  loading={loading}
                   buttonValue=""
                   buttonClick={() => {}}
                 />
+              ) : tab !== "Group by Rule" ? (
+                <div className="w-[180vw] md:w-full">
+                  {checks
+                    .slice(offset, offset + pageCount)
+                    .map((d: any, idx: number) => (
+                      <ScanAccordion data={d} key={`${d.resource + idx}`} />
+                    ))}
+                </div>
               ) : (
                 <div className="w-[180vw] md:w-full">
-                  {checks.slice(offset, offset + pageCount).map((d: any) => (
-                    <ResultCard data={d} key={d?.id} />
-                  ))}
+                  {checks
+                    .slice(offset, offset + pageCount)
+                    .map((d: any, idx: number) => (
+                      <ScanAccordionRule
+                        key={`${d?.finding_desc} ${idx}`}
+                        data={d}
+                      />
+                    ))}
                 </div>
               )}
             </div>
             <div className="w-full">
-            {checks.length > 1 && (
-              <div className="mt-10 flex items-center justify-between">
-                <div className="flex items-center gap-3 font-medium">
-                  <p>Num on row:</p>
-                  <select
-                    name=""
-                    id=""
-                    className="p-2"
-                    value={pageCount}
-                    onChange={(e) => setPageCount(+e.target.value)}
-                  >
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
-                  </select>
+              {checks.length > 1 && (
+                <div className="mt-10 flex items-center justify-between">
+                  <div className="flex items-center gap-3 font-medium">
+                    <p>Num on row:</p>
+                    <select
+                      name=""
+                      id=""
+                      className="p-2"
+                      value={pageCount}
+                      onChange={(e) => setPageCount(+e.target.value)}
+                    >
+                      <option value={5}>5</option>
+                      <option value={10}>10</option>
+                      <option value={20}>20</option>
+                      <option value={50}>50</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      disabled={offset === 0}
+                      onClick={() => {
+                        if (offset <= 0) {
+                          setOffset(0);
+                        } else {
+                          setOffset((offset) => offset - pageCount);
+                        }
+                      }}
+                      className="bg-primary font-medium w-24 rounded-md p-2 text-white"
+                    >
+                      previous
+                    </button>
+                    <button
+                      disabled={offset + pageCount >= checks.length}
+                      onClick={() => setOffset((offset) => offset + pageCount)}
+                      className="bg-primary font-medium w-24 rounded-md p-2 text-white"
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <button
-                    disabled={offset === 0}
-                    onClick={() => {
-                      if (offset <= 0) {
-                        setOffset(0);
-                      } else {
-                        setOffset((offset) => offset - pageCount);
-                      }
-                    }}
-                    className="bg-primary font-medium w-24 rounded-md p-2 text-white"
-                  >
-                    previous
-                  </button>
-                  <button
-                    disabled={pageCount >= checks.length}
-                    onClick={() => setOffset((offset) => offset + pageCount)}
-                    className="bg-primary font-medium w-24 rounded-md p-2 text-white"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
+              )}
             </div>
           </div>
         </div>

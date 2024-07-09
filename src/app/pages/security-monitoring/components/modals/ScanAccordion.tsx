@@ -14,17 +14,7 @@ type Props = {
   provider: string;
 };
 
-const ScanAccordion = ({
-  name,
-  service,
-  status,
-  severity,
-  description,
-  remediation,
-  message,
-  provider,
-  region,
-}: Props) => {
+const ScanAccordion = ({data}: any) => {
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,11 +23,11 @@ const ScanAccordion = ({
   return (
     <div className="w-full">
       <button
-        className={`grid grid-cols-6 border-bottom h-[52px] place-content-center ${
+        className={`grid grid-cols-7 border-bottom h-[52px] place-content-center ${
           mode === "dark" ? "bg-lightDark" : "bg-white"
         } p-4 w-full mb-3`}
         onClick={() => {
-          setIsOpen(!isOpen);
+          // setIsOpen(!isOpen);
           setIsChecked(!isChecked);
         }}
       >
@@ -76,72 +66,17 @@ const ScanAccordion = ({
               strokeLinejoin="round"
             />
           </svg>
-          <p className="font-semibold text-[14px]">{name.slice(0, 70)}...</p>
+          <p className="font-semibold text-[14px]">{data?.resource ? data?.resource : "N/A"}</p>
         </div>
-        <p className={`font-medium text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"}`}>{service}</p>
-        <p className={severity?.toUpperCase() === "HIGH" ? "text-[#FF7D30] text-[12px] font-semibold uppercase" : "text-[#2AB849] text-[12px] font-semibold uppercase"}>
-          {severity}
+        <p className={`font-medium text-[14px] ${mode === "dark" ? "text-[#909BBC]": "text-[#373737]"}`}>{data?.service ? data?.service : "N/A"}</p>
+        <p className={data?.status_code ? `${data?.status_code.toLowerCase().includes("fail") ? "text-[#FF161A]" : "text-[#2AB849]"} font-medium text-center` : "N/A"}>
+          {data?.status_code}
         </p>
-        <p>
-          {status.toLowerCase() === "fail" ? (
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <g clipPath="url(#clip0_182_164)">
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M5.76058 5.76083C5.95584 5.56557 6.27242 5.56557 6.46769 5.76083L7.99975 7.29289L9.53182 5.76083C9.72708 5.56557 10.0437 5.56557 10.2389 5.76083C10.4342 5.95609 10.4342 6.27267 10.2389 6.46794L8.70686 8L10.2389 9.53206C10.4342 9.72733 10.4342 10.0439 10.2389 10.2392C10.0437 10.4344 9.72708 10.4344 9.53182 10.2392L7.99975 8.70711L6.46769 10.2392C6.27242 10.4344 5.95584 10.4344 5.76058 10.2392C5.56532 10.0439 5.56532 9.72733 5.76058 9.53206L7.29264 8L5.76058 6.46794C5.56532 6.27267 5.56532 5.95609 5.76058 5.76083Z"
-                  fill="#FF161A"
-                />
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M8 1.8335C4.59424 1.8335 1.83333 4.59441 1.83333 8.00016C1.83333 11.4059 4.59424 14.1668 8 14.1668C11.4058 14.1668 14.1667 11.4059 14.1667 8.00016C14.1667 4.59441 11.4058 1.8335 8 1.8335ZM0.833328 8.00016C0.833328 4.04212 4.04195 0.833496 8 0.833496C11.958 0.833496 15.1667 4.04212 15.1667 8.00016C15.1667 11.9582 11.958 15.1668 8 15.1668C4.04195 15.1668 0.833328 11.9582 0.833328 8.00016Z"
-                  fill="#FF161A"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_182_164">
-                  <rect width="16" height="16" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-          ) : (
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0.646447 7.97994C0.841709 7.78468 1.15829 7.78468 1.35355 7.97994L4 10.6264L5.64645 8.97994C5.84171 8.78468 6.15829 8.78468 6.35355 8.97994C6.54882 9.1752 6.54882 9.49179 6.35355 9.68705L4.6364 11.4042C4.28492 11.7557 3.71508 11.7557 3.3636 11.4042L0.646447 8.68705C0.451184 8.49179 0.451184 8.1752 0.646447 7.97994Z"
-                fill="#2AB849"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M11.0202 4.31295C11.2155 4.50821 11.2155 4.8248 11.0202 5.02006L8.35355 7.68672C8.15829 7.88199 7.84171 7.88199 7.64645 7.68672C7.45118 7.49146 7.45118 7.17488 7.64645 6.97962L10.3131 4.31295C10.5084 4.11769 10.825 4.11769 11.0202 4.31295Z"
-                fill="#2AB849"
-              />
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M15.0202 4.31295C15.2154 4.50821 15.2154 4.8248 15.0202 5.02006L8.63636 11.4039C8.28488 11.7554 7.71504 11.7554 7.36356 11.4039L4.31307 8.35339C4.11781 8.15813 4.11781 7.84155 4.31307 7.64628C4.50833 7.45102 4.82492 7.45102 5.02018 7.64628L7.99996 10.6261L14.3131 4.31295C14.5083 4.11769 14.8249 4.11769 15.0202 4.31295Z"
-                fill="#2AB849"
-              />
-            </svg>
-          )}
+        <p className="font-medium col-span-2 text-center">
+          {data?.finding_desc ? data?.finding_desc : "N/A"}
         </p>
       </button>
-      {isOpen && (
+      {/* {isOpen && (
         <div
           className={`w-full font-medium md:pl-8 p-10 my-2 shadow-sm ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -208,8 +143,8 @@ const ScanAccordion = ({
             </svg>
           </button>
         </div>
-      )}
-      {isModalOpen && (
+      )} */}
+      {/* {isModalOpen && (
         <div className="w-full font-medium flex items-center justify-center h-[100vh] fixed z-[9999999] top-0 left-0 bg-black/70">
           <div
             className={`w-[90%] md:w-[60%] lg:w-[40%] rounded-md ${
@@ -284,19 +219,11 @@ const ScanAccordion = ({
                 <p className="font-bold text-xl">
                   {name}
                 </p>
-                {/* <p
-                  className={`${
-                    mode === "dark" ? "text-[#484848]" : "text-[#6A6A6A]"
-                  }`}
-                >
-                  ID: 32749748347282
-                </p> */}
               </div>
               <div className="mt-4 font-medium grid md:grid-cols-3 gap-3 pb-2 border-bottom px-4">
                 <p className="font-semibold">Status:</p>
                 <p className="text-[#FF161A] md:col-span-2">{status}</p>
-                {/* <p>Resource Id:</p>
-                <p className="md:col-span-2">sg-04cc9e5ccd9ca7f80</p> */}
+               
                 <p className="font-semibold">Resource:</p>
                 <p className="md:col-span-2">{provider}</p>
                 <p className="font-semibold">Message:</p>
@@ -361,7 +288,7 @@ const ScanAccordion = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
       {ticketOpen && (
         <ResolveModal
           isOpen={ticketOpen}

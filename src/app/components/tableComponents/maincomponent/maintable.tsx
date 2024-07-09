@@ -303,6 +303,7 @@ export const MainTableComponent = ({
   useEffect(() => {
     settotalNoOfPages(Math.ceil(totalItems / pageSize));
   }, [totalNoOfPages, totalItems, pageSize]);
+
   useEffect(() => {
     set_currentPage(currentTablePage);
     setcurrentPage(currentTablePage);
@@ -311,6 +312,9 @@ export const MainTableComponent = ({
     setusersTableData(userData);
     settableData(userData);
   }, [userData]);
+
+  // console.log(currentPage, pageSize)
+
   function getCleanText(rawText: any) {
     let html = rawText;
     let div = document.createElement("div");
@@ -431,9 +435,13 @@ export const MainTableComponent = ({
     pageChange(currentPage! + 1);
     setfilter({
       ...filter,
-      ...{ page: currentPage! + 1, pageSize: newPageSize },
+      ...{ page: currentPage! - 1, pageSize: newPageSize },
     });
-    filterChange(filter);
+    filterChange({
+      ...filter,
+      page: currentPage! - 1,
+      pageSize: newPageSize
+    });
   }
   function pageClicked() {
     setcurrentPage(currentPage! + 1);
@@ -957,9 +965,9 @@ export const MainTableComponent = ({
                   fontWeight: 500,
                 }}
               >
-                {currentPage! * pageSize + 1} -
-                {pageSize * (currentPage! - 1) < totalItems
-                  ? pageSize * (currentPage! - 1)
+                {(currentPage! * pageSize + 1) - pageSize} -
+                {pageSize * (currentPage!) < totalItems
+                  ? pageSize * (currentPage!)
                   : totalItems}{" "}
                 of
                 {totalItems}
@@ -974,7 +982,7 @@ export const MainTableComponent = ({
                 className="page_btn"
               >
                 <button
-                  disabled={currentPage! < 1}
+                  disabled={currentPage! === 1}
                   onClick={() => reducePagesize()}
                   style={{
                     background: "none !important",
@@ -993,7 +1001,7 @@ export const MainTableComponent = ({
                 className="page_btn"
               >
                 <button
-                  disabled={currentPage! + 1 >= totalNoOfPages!}
+                  disabled={currentPage! + 1 > totalNoOfPages!}
                   onClick={() => pageClicked()}
                   style={{
                     background: "none !important",

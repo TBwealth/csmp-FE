@@ -147,7 +147,7 @@ const PolicyRule = () => {
           ? datastsr?.data?.data?.results.length === 0
           : true
       );
-      setTotalPages(Math.ceil(datastsr?.data?.data?.count / 30));
+      setTotalPages(Math.ceil(datastsr?.data?.data?.count));
     }
     hideAlert();
     if (error) {
@@ -204,7 +204,7 @@ const PolicyRule = () => {
     },
     {
       name: "status",
-      title: "Status",
+      title: "Statuss",
       type: ColumnTypes.Status,
       statusEnum: [
         { key: true, value: "Active" },
@@ -298,7 +298,7 @@ const PolicyRule = () => {
             userData={items}
             tableColum={tableColumns}
             totalItems={totalPages}
-            currentTablePage={currentPage}
+            currentTablePage={filter.current.page}
             loading={isLoading}
             InputFileName="All Rules"
             filterFields={filterFields}
