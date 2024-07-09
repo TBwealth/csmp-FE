@@ -20,6 +20,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
   const [type, setType] = useState("");
   const [arn, setArn] = useState("");
   const [isCopied, setIsCopied] = useState(false);
+  const [isCopiedII, setIsCopiedII] = useState(false);
   const [payload, setPayload] = useState<any>(null);
   const { showAlert, Alert } = useAlert();
 
@@ -48,6 +49,225 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
   };
 
   const copyToClipBoard = () => {
+    navigator.clipboard.writeText(`
+    {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "acm:DescribeCertificate",
+        "acm:ListCertificates",
+        "acm:ListTagsForCertificate",
+        "apigateway:GET",
+        "autoscaling:DescribeAccountLimits",
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeAutoScalingInstances",
+        "autoscaling:DescribeLaunchConfigurations",
+        "autoscaling:DescribeLoadBalancerTargetGroups",
+        "autoscaling:DescribeLoadBalancers",
+        "autoscaling:DescribeNotificationConfigurations",
+        "autoscaling:DescribeTags",
+        "cloudformation:DescribeAccountLimits",
+        "cloudformation:DescribeStackDriftDetectionStatus",
+        "cloudformation:DescribeStacks",
+        "cloudformation:DetectStackDrift",
+        "cloudformation:GetStackPolicy",
+        "cloudformation:ListStacks",
+        "cloudfront:GetDistribution",
+        "cloudfront:ListDistributions",
+        "cloudfront:ListTagsForResource",
+        "cloudtrail:DescribeTrails",
+        "cloudtrail:GetTrailStatus",
+        "cloudtrail:GetEventSelectors",
+        "cloudtrail:ListTags",
+        "cloudwatch:DescribeAlarms",
+        "cloudwatch:DescribeAlarmsForMetric",
+        "cloudwatch:GetMetricStatistics",
+        "cloudwatch:ListMetrics",
+        "config:DescribeComplianceByConfigRule",
+        "config:DescribeConfigRules",
+        "config:DescribeConfigurationRecorderStatus",
+        "config:DescribeConfigurationRecorders",
+        "config:DescribeDeliveryChannelStatus",
+        "config:DescribeDeliveryChannels",
+        "config:GetComplianceDetailsByConfigRule",
+        "config:GetResourceConfigHistory",
+        "config:SelectResourceConfig",
+        "dynamodb:DescribeContinuousBackups",
+        "dynamodb:DescribeLimits",
+        "dynamodb:DescribeTable",
+        "dynamodb:ListBackups",
+        "dynamodb:ListTables",
+        "dynamodb:ListTagsOfResource",
+        "ec2:DescribeAccountAttributes",
+        "ec2:DescribeAddresses",
+        "ec2:DescribeEgressOnlyInternetGateways",
+        "ec2:DescribeFlowLogs",
+        "ec2:DescribeImages",
+        "ec2:DescribeInstanceAttribute",
+        "ec2:DescribeInstanceStatus",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInternetGateways",
+        "ec2:DescribeKeyPairs",
+        "ec2:DescribeNatGateways",
+        "ec2:DescribeNetworkAcls",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DescribeReservedInstances",
+        "ec2:DescribeRouteTables",
+        "ec2:DescribeSecurityGroupReferences",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSnapshots",
+        "ec2:DescribeSnapshotAttribute",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeTags",
+        "ec2:DescribeVolumes",
+        "ec2:DescribeVpcAttribute",
+        "ec2:DescribeVpcEndpoints",
+        "ec2:DescribeVpcPeeringConnections",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeVpnConnections",
+        "ec2:DescribeVpnGateways",
+        "ec2:GetEbsEncryptionByDefault",
+        "elasticfilesystem:DescribeFileSystems",
+        "elasticfilesystem:DescribeTags",
+        "elasticmapreduce:DescribeCluster",
+        "elasticmapreduce:ListClusters",
+        "elasticmapreduce:ListInstances",
+        "es:DescribeElasticsearchDomain",
+        "es:DescribeElasticsearchDomainConfig",
+        "es:DescribeElasticsearchDomains",
+        "es:DescribeElasticsearchInstanceTypeLimits",
+        "es:DescribeReservedElasticsearchInstanceOfferings",
+        "es:DescribeReservedElasticsearchInstances",
+        "es:ListDomainNames",
+        "es:ListElasticsearchInstanceTypes",
+        "es:ListElasticsearchVersions",
+        "es:ListTags",
+        "elasticache:DescribeCacheClusters",
+        "elasticache:DescribeReplicationGroups",
+        "elasticache:DescribeReservedCacheNodes",
+        "elasticache:ListTagsForResource",
+        "elasticloadbalancing:DescribeListeners",
+        "elasticloadbalancing:DescribeLoadBalancerAttributes",
+        "elasticloadbalancing:DescribeLoadBalancerPolicies",
+        "elasticloadbalancing:DescribeLoadBalancers",
+        "elasticloadbalancing:DescribeTags",
+        "elasticloadbalancing:DescribeTargetGroups",
+        "elasticloadbalancing:DescribeTargetHealth",
+        "elasticloadbalancing:DescribeRules",
+        "iam:GenerateCredentialReport",
+        "iam:GetAccessKeyLastUsed",
+        "iam:GetAccountAuthorizationDetails",
+        "iam:GetAccountPasswordPolicy",
+        "iam:GetAccountSummary",
+        "iam:GetCredentialReport",
+        "iam:GetGroup",
+        "iam:GetGroupPolicy",
+        "iam:GetLoginProfile",
+        "iam:GetOpenIDConnectProvider",
+        "iam:GetPolicy",
+        "iam:GetPolicyVersion",
+        "iam:GetRole",
+        "iam:GetRolePolicy",
+        "iam:GetSAMLProvider",
+        "iam:GetServerCertificate",
+        "iam:GetUser",
+        "iam:GetUserPolicy",
+        "iam:ListAccessKeys",
+        "iam:ListAccountAliases",
+        "iam:ListAttachedGroupPolicies",
+        "iam:ListAttachedRolePolicies",
+        "iam:ListAttachedUserPolicies",
+        "iam:ListEntitiesForPolicy",
+        "iam:ListGroupPolicies",
+        "iam:ListGroups",
+        "iam:ListInstanceProfiles",
+        "iam:ListInstanceProfilesForRole",
+        "iam:ListMFADevices",
+        "iam:ListOpenIDConnectProviders",
+        "iam:ListPolicies",
+        "iam:ListPolicyTags",
+        "iam:ListPolicyVersions",
+        "iam:ListRolePolicies",
+        "iam:ListRoleTags",
+        "iam:ListRoles",
+        "iam:ListSAMLProviders",
+        "iam:ListSSHPublicKeys",
+        "iam:ListServerCertificates",
+        "iam:ListUserPolicies",
+        "iam:ListUserTags",
+        "iam:ListUsers",
+        "iam:ListVirtualMFADevices",
+        "kms:DescribeKey",
+        "kms:GetKeyPolicy",
+        "kms:GetKeyRotationStatus",
+        "kms:ListAliases",
+        "kms:ListGrants",
+        "kms:ListKeyPolicies",
+        "kms:ListKeys",
+        "kms:ListResourceTags",
+        "lambda:GetAccountSettings",
+        "lambda:GetFunctionConfiguration",
+        "lambda:GetPolicy",
+        "lambda:ListEventSourceMappings",
+        "lambda:ListFunctions",
+        "lambda:ListTags",
+        "lambda:ListFunctionUrlConfigs",
+        "lambda:ListLayers",
+        "logs:DescribeLogGroups",
+        "logs:DescribeMetricFilters",
+        "rds:DescribeAccountAttributes",
+        "rds:DescribeDBClusters",
+        "rds:DescribeDBInstances",
+        "rds:DescribeDBSecurityGroups",
+        "rds:DescribeDBSnapshotAttributes",
+        "rds:DescribeDBSnapshots",
+        "rds:DescribeDBParameters",
+        "rds:DescribeDBParameterGroups",
+        "rds:DescribeEvents",
+        "rds:DescribeEventSubscriptions",
+        "rds:DescribeReservedDBInstances",
+        "rds:ListTagsForResource",
+        "redshift:DescribeClusterParameterGroups",
+        "redshift:DescribeClusterParameters",
+        "redshift:DescribeClusters",
+        "redshift:DescribeLoggingStatus",
+        "redshift:DescribeReservedNodes",
+        "redshift:DescribeTags",
+        "route53:GetDNSSEC",
+        "route53:GetGeoLocation",
+        "route53:ListHostedZones",
+        "route53:ListResourceRecordSets",
+        "route53:ListTagsForResource",
+        "route53domains:ListDomains",
+        "route53domains:ListTagsForDomain",
+        "ses:GetIdentityDkimAttributes",
+        "ses:GetIdentityPolicies",
+        "ses:GetIdentityVerificationAttributes",
+        "ses:ListIdentities",
+        "ses:ListIdentityPolicies",
+        "sns:GetTopicAttributes",
+        "sns:ListTopics",
+        "sns:ListSubscriptionsByTopic",
+        "sns:ListTagsForResource",
+        "sqs:GetQueueAttributes",
+        "sqs:ListQueues",
+        "sqs:ListQueueTags",
+        "tag:GetResources",
+        "tag:GetTagKeys",
+        "tag:GetTagValues"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+  ]
+}
+
+    `);
+  };
+  const copyToClipBoardII = () => {
     navigator.clipboard.writeText(`
     {
   "Version": "2012-10-17",
@@ -240,10 +460,10 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
         "s3:List*"
       ],
       "Resource": "arn:aws:s3:::elasticbeanstalk*"
-    }
-  ]
+    }
+  ]
 }
-    `);
+`);
   };
 
   const launchAutomation = () => {
@@ -383,6 +603,9 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
               <p>
                 1. Sign in to your target AWS account in another browser tab
               </p>
+              <p>
+                2. Create <b>IAM Policy:</b> CloudConformityPart1
+              </p>
               <div className="pl-6">
                 <li className="list-disc border-start-0">
                   Navigate to IAM Policies section
@@ -412,14 +635,6 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                       copyToClipBoard();
                     }}
                   />
-                  {/* <button 
-                  onClick={() => {
-                    setIsCopied(true);
-                    copyToClipBoard();
-                  }}
-                  className="absolute top-3 p-2 z-10 right-4 h-10 w-10  bg-primary/25 rounded-full flex items-center justify-center">
-                    <FaCopy color="white"  />
-                  </button> */}
                 </li>
                 <li className="list-disc border-start-0">
                   Replace the content with the copied JSON policy document
@@ -436,14 +651,96 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 </li>
               </div>
               <p>
-                2. Create <b>IAM Policy:</b> CloudConformityPart1
-              </p>
-              <p>
                 3. Create <b>IAM Policy:</b> CloudConformityPart2
               </p>
+              <div className="pl-6">
+                <li className="list-disc border-start-0">
+                  Navigate to IAM Policies section
+                </li>
+                <li className="list-disc border-start-0">
+                  Click Create policy
+                </li>
+                <li className="list-disc border-start-0">
+                  Select the JSON tab
+                </li>
+                <li className="list-disc border-start-0">
+                  Copy the content of the following JSON policy document:
+                </li>
+                <li className="border-start-0 relative">
+                  {isCopiedII && (
+                    <p className="text-xs font-medium w-full text-end text-red-500">
+                      content copied to clipboard
+                    </p>
+                  )}
+                  <img
+                    src={code}
+                    alt="aws response"
+                    role="button"
+                    className="hover:cursor-pointer "
+                    onClick={() => {
+                      setIsCopiedII(true);
+                      copyToClipBoardII();
+                    }}
+                  />
+                </li>
+                <li className="list-disc border-start-0">
+                  Replace the content with the copied JSON policy document
+                </li>
+                <li className="list-disc border-start-0">
+                  Click Review policy
+                </li>
+                <li className="list-disc border-start-0">
+                  Type CloudConformityPart2 as the Name and choose a Description
+                  (optional) for the policy that you are creating
+                </li>
+                <li className="list-disc border-start-0">
+                  Click Create policy
+                </li>
+              </div>
               <p>
                 4. Create <b>IAM Policy:</b>
               </p>
+              <div className="pl-6">
+                <li className="list-disc border-start-0">
+                Navigate to IAM Roles section
+                </li>
+                <li className="list-disc border-start-0">
+                Click Create role
+                </li>
+                <li className="list-disc border-start-0">
+                For Select type of trusted entity, choose Another AWS account
+                </li>
+                <li className="list-disc border-start-0">
+                For Account ID, type: 717210094962
+                </li>
+                <li className="list-disc border-start-0">
+                Check Require external ID and for External ID type: 84afd050-df26-11ee-b0a8-318c1be8fa0c
+                </li>
+                <li className="list-disc border-start-0">
+                Do not check the Require MFA option
+                </li>
+                <li className="list-disc border-start-0">
+                Click Next: Permissions
+                </li>
+                <li className="list-disc border-start-0">
+                Search for name of the policies you created on the initial steps (i.e. CloudConformityPart1, CloudConformityPart2, ), check those and click Next: Tags
+                </li>
+                <li className="list-disc border-start-0">
+                Click Next: Review
+                </li>
+                <li className="list-disc border-start-0">
+                Type CloudConformity as the Name and choose a Description (optional) for the role that you are creating
+                </li>
+                <li className="list-disc border-start-0">
+                Click Create role
+                </li>
+                <li className="list-disc border-start-0">
+                Search for the newly created role (i.e. CloudConformity) and click on it
+                </li>
+                <li className="list-disc border-start-0">
+                Copy the Role ARN value and paste it below:
+                </li>
+              </div>
             </div>
           </div>
         )}
