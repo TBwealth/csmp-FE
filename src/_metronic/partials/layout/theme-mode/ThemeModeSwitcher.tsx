@@ -28,7 +28,7 @@ const ThemeModeSwitcher = ({
   };
   const [modeatom, setModeState] = useRecoilState(modeAtom);
 
-  console.log(modeatom);
+  // console.log(modeatom);
 
   return (
     <>

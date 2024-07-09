@@ -52,7 +52,7 @@ const CloudRegion = () => {
   const { showAlert, hideAlert } = useAlert();
   const [showModal, setShowModal] = useState(false);
   const [showEmpty, setshowEmpty] = useState(false);
-  const currentPage = 0;
+  // const [currentPage, setcurrentPage] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [totalItems, settotalItems] = useState<number>(0);
   const [editItems, setEditItems] = useState<any | undefined>();
@@ -198,7 +198,7 @@ const CloudRegion = () => {
           userData={items}
           tableColum={tableColumns}
           totalItems={totalItems}
-          currentTablePage={currentPage}
+          currentTablePage={filter.current.page}
           loading={isLoading}
           InputFileName="All Region"
           filterFields={filterFields}

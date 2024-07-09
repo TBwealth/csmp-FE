@@ -424,11 +424,13 @@ const CloudTrail = () => {
                 handleChecked("all", !checkAll);
               }}
             />
+            {/* ? "bg-[#4470EF] peer-checked:after:translate-x-full"
+                  : "bg-[#D1D1D6] rtl:peer-checked:after:-translate-x-full" */}
             <div
-              className={`relative w-11 h-6 rounded-full peer after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all ${
+              className={`relative w-11 h-6 rounded-full peer after:content-[''] after:absolute after:top-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all ${
                 checkAll
-                  ? "bg-[#4470EF] peer-checked:after:translate-x-full"
-                  : "bg-[#D1D1D6] rtl:peer-checked:after:-translate-x-full"
+                  ? "bg-[#4470EF] after:end-[2px]"
+                  : "bg-[#D1D1D6] after:start-[2px]"
               }`}
             ></div>
           </label>

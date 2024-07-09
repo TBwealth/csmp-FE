@@ -196,7 +196,7 @@ const Tenant = () => {
           userData={items}
           tableColum={tableColumns}
           totalItems={totalItems}
-          currentTablePage={currentPage}
+          currentTablePage={filter.current.page}
           loading={isLoading}
           InputFileName="All Tenants"
           filterFields={filterFields}

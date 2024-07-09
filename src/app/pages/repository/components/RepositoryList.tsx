@@ -425,10 +425,11 @@ const RepositoryList = () => {
             url: "",
           });
         },
-        onError: (err) => {
-          if (err instanceof Error) {
-            showAlert(err?.message || "An unknown error occurred", "danger");
-          }
+        onError: (err: any) => {
+          showAlert(err?.response?.data.message || "An unknown error occurred", "danger");
+          // console.log(err)
+          // if (err instanceof Error) {
+          // }
         },
       }
     );
