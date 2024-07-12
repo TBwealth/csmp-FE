@@ -49,8 +49,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
   };
 
   const copyToClipBoard = () => {
-    navigator.clipboard.writeText(`
-    {
+    navigator.clipboard.writeText(`{
   "Version": "2012-10-17",
   "Statement": [
     {
@@ -263,13 +262,10 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
       ]
     }
   ]
-}
-
-    `);
+}`);
   };
   const copyToClipBoardII = () => {
-    navigator.clipboard.writeText(`
-    {
+    navigator.clipboard.writeText(`{
   "Version": "2012-10-17",
   "Statement": [
     {
@@ -462,13 +458,12 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
       "Resource": "arn:aws:s3:::elasticbeanstalk*"
     }
   ]
-}
-`);
+}`);
   };
 
   const launchAutomation = () => {
     window.open(
-      "https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fcloudconformity%2FCloudConformity.template&stackName=CloudConformity&param_AccountId=717210094962&param_ExternalId=84afd050-df26-11ee-b0a8-318c1be8fa0c",
+      "https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2FCloudAccord%2FCloudAccord.template&stackName=CloudAccord&param_AccountId=717210094962&param_ExternalId=84afd050-df26-11ee-b0a8-318c1be8fa0c",
       "_blank"
     );
   };
@@ -503,6 +498,19 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
       }
     );
   };
+
+  useEffect(() => {
+    if(isCopied) {
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 1200);
+    }
+    if(isCopiedII) {
+      setTimeout(() => {
+        setIsCopiedII(false);
+      }, 1200);
+    }
+  }, [isCopied, isCopiedII]);
 
   return (
     <div
@@ -588,7 +596,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
               </p>
               <p>
                 5. When Stack Creation is finished, go to the Outputs and
-                copy CloudConformityRoleArn and paste it below.
+                copy CloudAccordRoleArn and paste it below.
               </p>
             </div>
             <p className="my-6 italic text-[14px]">
@@ -604,7 +612,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 1. Sign in to your target AWS account in another browser tab
               </p>
               <p>
-                2. Create <b>IAM Policy:</b> CloudConformityPart1
+                2. Create <b>IAM Policy:</b> CloudAccordPart1
               </p>
               <div className="pl-6">
                 <li className="list-disc border-start-0">
@@ -621,7 +629,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 </li>
                 <li className="border-start-0 relative">
                   {isCopied && (
-                    <p className="text-xs font-medium w-full text-end text-red-500">
+                    <p className="text-xs font-medium w-full md:pr-24 text-end text-red-500">
                       content copied to clipboard
                     </p>
                   )}
@@ -639,11 +647,11 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 <li className="list-disc border-start-0">
                   Replace the content with the copied JSON policy document
                 </li>
-                <li className="list-disc border-start-0">
+                {/* <li className="list-disc border-start-0">
                   Click Review policy
-                </li>
+                </li> */}
                 <li className="list-disc border-start-0">
-                  Type CloudConformityPart1 as the Name and choose a Description
+                  Type CloudAccordPart1 as the Name and choose a Description
                   (optional) for the policy that you are creating
                 </li>
                 <li className="list-disc border-start-0">
@@ -651,7 +659,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 </li>
               </div>
               <p>
-                3. Create <b>IAM Policy:</b> CloudConformityPart2
+                3. Create <b>IAM Policy:</b> CloudAccordPart2
               </p>
               <div className="pl-6">
                 <li className="list-disc border-start-0">
@@ -668,7 +676,7 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 </li>
                 <li className="border-start-0 relative">
                   {isCopiedII && (
-                    <p className="text-xs font-medium w-full text-end text-red-500">
+                    <p className="text-xs font-medium w-full text-end md:pr-24 text-red-500">
                       content copied to clipboard
                     </p>
                   )}
@@ -686,11 +694,11 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 <li className="list-disc border-start-0">
                   Replace the content with the copied JSON policy document
                 </li>
-                <li className="list-disc border-start-0">
+                {/* <li className="list-disc border-start-0">
                   Click Review policy
-                </li>
+                </li> */}
                 <li className="list-disc border-start-0">
-                  Type CloudConformityPart2 as the Name and choose a Description
+                  Type CloudAccordPart2 as the Name and choose a Description
                   (optional) for the policy that you are creating
                 </li>
                 <li className="list-disc border-start-0">
@@ -708,13 +716,13 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 Click Create role
                 </li>
                 <li className="list-disc border-start-0">
-                For Select type of trusted entity, choose Another AWS account
+                For Select type of trusted entity, choose <b>Another AWS account</b>
                 </li>
                 <li className="list-disc border-start-0">
-                For Account ID, type: 717210094962
+                For Account ID, Enter: <code>YOUR PERSONAL ACCOUNT ID</code>
                 </li>
                 <li className="list-disc border-start-0">
-                Check Require external ID and for External ID type: 84afd050-df26-11ee-b0a8-318c1be8fa0c
+                Check Require external ID and for External ID Enter: <code>YOUR PERSONAL EXTERNAL ID</code> <small className="text-red-500 italic"> - Note: this step is optional</small>
                 </li>
                 <li className="list-disc border-start-0">
                 Do not check the Require MFA option
@@ -723,22 +731,22 @@ const StepFour = ({ goBack, handleHide, inModal, next }: Props) => {
                 Click Next: Permissions
                 </li>
                 <li className="list-disc border-start-0">
-                Search for name of the policies you created on the initial steps (i.e. CloudConformityPart1, CloudConformityPart2, ), check those and click Next: Tags
+                Search for name of the policies you created on the initial steps (i.e. CloudAccordPart1, CloudAccordPart2, ), check those and click Next: Tags
                 </li>
                 <li className="list-disc border-start-0">
                 Click Next: Review
                 </li>
                 <li className="list-disc border-start-0">
-                Type CloudConformity as the Name and choose a Description (optional) for the role that you are creating
+                Type CloudAccord as the Name and choose a Description (optional) for the role that you are creating
                 </li>
                 <li className="list-disc border-start-0">
                 Click Create role
                 </li>
                 <li className="list-disc border-start-0">
-                Search for the newly created role (i.e. CloudConformity) and click on it
+                Search for the newly created role (i.e. CloudAccord) and click on it
                 </li>
                 <li className="list-disc border-start-0">
-                Copy the Role ARN value and paste it below:
+                Copy the Role ARN value and paste it below:
                 </li>
               </div>
             </div>
