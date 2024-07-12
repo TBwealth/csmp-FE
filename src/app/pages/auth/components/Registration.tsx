@@ -17,12 +17,12 @@ import {
   FaEye,
   FaEyeSlash,
   FaGlobe,
-  FaLock,
+  // FaLock,
   FaUser,
 } from "react-icons/fa";
 import { CloudProviderCountriesList200Response } from "../../../api/axios-client";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import modeAtoms from "../../../atoms/modeAtoms.atom";
+// import { useRecoilValue, useSetRecoilState } from "recoil";
+// import modeAtoms from "../../../atoms/modeAtoms.atom";
 
 const initialValues = {
   businessEmail: "",
@@ -32,6 +32,7 @@ const initialValues = {
   confirmpassword: "",
   role: 2,
   tenant: "",
+  isAccept: false,
 };
 
 const registrationSchema = Yup.object().shape({
@@ -66,14 +67,15 @@ const registrationSchema = Yup.object().shape({
     .max(50, "Maximum 50 symbols")
     .required("Password confirmation is required")
     .oneOf([Yup.ref("password")], "Password and Confirm Password didn't match"),
+  isAccept: Yup.boolean().oneOf([true], "check the box to continue"),
 });
 
 export function Registration() {
   const [loading, setLoading] = useState(false);
   const [active, setIsActive] = useState(false);
   const [activeConfirm, setIsActiveConfirm] = useState(false);
-  const { mode } = useRecoilValue(modeAtoms);
-  const setModeState = useSetRecoilState(modeAtoms);
+  // const { mode } = useRecoilValue(modeAtoms);
+  // const setModeState = useSetRecoilState(modeAtoms);
   const { data } = useGetCloudCountries();
   const datastr: CloudProviderCountriesList200Response | any = data;
   const [countries, setCountries] = useState<any[]>([]);
@@ -180,7 +182,9 @@ export function Registration() {
           <div className="fv-row mb-4 col-sm">
             <label className="flex text-[14px] font-medium items-center gap-3">
               <FaEnvelope />
-              <span>Business Email</span>
+              <span>
+                Business Email <sup className="text-red-500">*</sup>
+              </span>
             </label>
             <input
               placeholder=""
@@ -203,7 +207,9 @@ export function Registration() {
             {formik.touched.businessEmail && formik.errors.businessEmail && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.businessEmail}</span>
+                  <span role="alert" className="font-medium text-xs">
+                    {formik.errors.businessEmail}
+                  </span>
                 </div>
               </div>
             )}
@@ -212,7 +218,9 @@ export function Registration() {
           <div className="fv-row mb-4 col-sm">
             <label className="flex text-[14px] font-medium items-center gap-3">
               <FaUser />
-              <span>Full Name</span>
+              <span>
+                Full Name <sup className="text-red-500">*</sup>
+              </span>
             </label>
             <input
               placeholder=""
@@ -234,7 +242,9 @@ export function Registration() {
             {formik.touched.fullName && formik.errors.fullName && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.fullName}</span>
+                  <span role="alert" className="font-medium text-xs">
+                    {formik.errors.fullName}
+                  </span>
                 </div>
               </div>
             )}
@@ -244,7 +254,9 @@ export function Registration() {
           <div className="fv-row mb-4 col-sm">
             <label className="flex text-[14px] font-medium items-center gap-3">
               <FaGlobe />
-              <span>Country</span>
+              <span>
+                Country <sup className="text-red-500">*</sup>
+              </span>
             </label>
             <select
               {...formik.getFieldProps("country")}
@@ -283,7 +295,9 @@ export function Registration() {
             {formik.touched.country && formik.errors.country && (
               <div className="fv-plugins-message-container">
                 <div className="fv-help-block">
-                  <span role="alert">{formik.errors.country}</span>
+                  <span role="alert" className="font-medium text-xs">
+                    {formik.errors.country}
+                  </span>
                 </div>
               </div>
             )}
@@ -297,7 +311,9 @@ export function Registration() {
             <div className="mb-1">
               <label className="flex text-[14px] font-medium items-center gap-3">
                 <FaUser />
-                <span>Password</span>
+                <span>
+                  Password <sup className="text-red-500">*</sup>
+                </span>
               </label>
               <div className="position-relative mb-3">
                 <input
@@ -329,7 +345,9 @@ export function Registration() {
                 {formik.touched.password && formik.errors.password && (
                   <div className="fv-plugins-message-container">
                     <div className="fv-help-block">
-                      <span role="alert">{formik.errors.password}</span>
+                      <span role="alert" className="font-medium text-xs">
+                        {formik.errors.password}
+                      </span>
                     </div>
                   </div>
                 )}
@@ -341,7 +359,9 @@ export function Registration() {
           <div className="fv-row mb-4 col-sm relative">
             <label className="flex font-medium text-[14px] items-center gap-3">
               <FaUser />
-              <span>Confirm Password</span>
+              <span>
+                Confirm Password <sup className="text-red-500">*</sup>
+              </span>
             </label>
             {
               <button
@@ -375,7 +395,9 @@ export function Registration() {
               formik.errors.confirmpassword && (
                 <div className="fv-plugins-message-container">
                   <div className="fv-help-block">
-                    <span role="alert" className="font-medium text-xs">{formik.errors.confirmpassword}</span>
+                    <span role="alert" className="font-medium text-xs">
+                      {formik.errors.confirmpassword}
+                    </span>
                   </div>
                 </div>
               )}
@@ -385,10 +407,18 @@ export function Registration() {
         <div className="flex items-center mb-4 gap-3">
           <input
             type="checkbox"
-            name=""
             // checked
             id=""
-            className="h-5 w-5 rounded-md"
+            {...formik.getFieldProps("isAccept")}
+            className={clsx(
+              "bg-transparent h-5 w-5 rounded-md",
+              {
+                "is-invalid": formik.touched.isAccept && formik.errors.isAccept,
+              },
+              {
+                "is-valid": formik.touched.isAccept && !formik.errors.isAccept,
+              }
+            )}
           />
           <p className="text-[12px] font-medium">
             I agree to{" "}
@@ -405,6 +435,15 @@ export function Registration() {
             </Link>
           </p>
         </div>
+        {formik.touched.isAccept && formik.errors.isAccept && (
+          <div className="fv-plugins-message-container">
+            <div className="fv-help-block">
+              <span role="alert" className="font-medium text-xs">
+                {formik.errors.isAccept}
+              </span>
+            </div>
+          </div>
+        )}
         <div className="row mb-4">
           <button
             type="submit"

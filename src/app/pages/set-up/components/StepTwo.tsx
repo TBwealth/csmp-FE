@@ -21,13 +21,12 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
 
   useEffect(() => {
     const localData = sessionStorage.getItem("data");
-    if(localData) {
-        const parsedData = JSON.parse(localData);
-        setData(parsedData);
+    if (localData) {
+      const parsedData = JSON.parse(localData);
+      setData(parsedData);
     }
   }, []);
 
-  
   return (
     <div
       className={`w-[90%] font-medium rounded-lg border-2 mx-auto md:w-[80%] lg:w-[68%] ${
@@ -55,7 +54,10 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
           <p className="text-[18px] font-semibold text-[#373737]">
             Add a new AWS account
           </p>
-          <Link to="/" className="p-3 font-medium border-start text-[#6A6A6A] text-[12px]">
+          <Link
+            to="/"
+            className="p-3 font-medium border-start text-[#6A6A6A] text-[12px]"
+          >
             Need help? Click here{" "}
           </Link>
         </div>
@@ -81,7 +83,9 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
           <div className="form-group mb-10">
             <label htmlFor="provider" className="flex items-center gap-4">
               <HiServer size={18} />
-              <p className="font-semibold text-[14px]">Cloud Name<span className="text-red-500">*</span></p>
+              <p className="font-semibold text-[14px]">
+                Cloud Name<span className="text-red-500"> *</span>
+              </p>
             </label>
             <input
               type="text"
@@ -95,18 +99,31 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
           <div className="form-group">
             <label htmlFor="provider" className="flex items-center gap-4">
               <FaCode size={18} />
-              <p className="font-semibold text-[14px]">Enviroment<span className="text-red-500">*</span></p>
+              <p className="font-semibold text-[14px]">
+                Enviroment<span className="text-red-500"> *</span>
+              </p>
             </label>
-            <input
-              type="text"
-              placeholder="Eg: Staging, Prod. . ."
+            <select
               autoComplete="off"
               value={data?.environment}
               onChange={(e) =>
                 setData({ ...data, environment: e.target.value })
               }
-              className="w-full p-3 mt-2 rounded-md border-2 border-light"
-            />
+              className="w-full p-3 mt-2 font-medium rounded-md border-2 border-light"
+            >
+              <option value="" className="font-medium">
+                select environment
+              </option>
+              <option value="production" className="font-medium">
+                Production
+              </option>
+              <option value="staging" className="font-medium">
+                Staging
+              </option>
+              <option value="development" className="font-medium">
+                Development
+              </option>
+            </select>
           </div>
         </div>
         <div className="md:col-span-2">
@@ -131,9 +148,9 @@ const StepTwo = ({ goBack, next, handleHide }: Props) => {
         </button>
         <button
           onClick={() => {
-            sessionStorage.setItem("data", JSON.stringify(data))
+            sessionStorage.setItem("data", JSON.stringify(data));
             next();
-        }}
+          }}
           disabled={!data?.cloud_name || !data?.environment}
           className="bg-[#284CB3] w-32 font-medium rounded-full p-2 text-white text-center"
         >
