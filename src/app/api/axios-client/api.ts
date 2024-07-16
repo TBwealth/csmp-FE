@@ -24,6 +24,25 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 /**
  * 
  * @export
+ * @interface AWSCloudTrailAttributeValue
+ */
+export interface AWSCloudTrailAttributeValue {
+    /**
+     * 
+     * @type {number}
+     * @memberof AWSCloudTrailAttributeValue
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof AWSCloudTrailAttributeValue
+     */
+    'name': string;
+}
+/**
+ * 
+ * @export
  * @interface AccountsApiActivityLogsList200Response
  */
 export interface AccountsApiActivityLogsList200Response {
@@ -284,6 +303,19 @@ export type ActivityLogStatusEnum = typeof ActivityLogStatusEnum[keyof typeof Ac
 /**
  * 
  * @export
+ * @interface AssetCountByRegion
+ */
+export interface AssetCountByRegion {
+    /**
+     * 
+     * @type {number}
+     * @memberof AssetCountByRegion
+     */
+    'cloud_account_id': number;
+}
+/**
+ * 
+ * @export
  * @interface ByteArray
  */
 export interface ByteArray {
@@ -305,6 +337,25 @@ export interface ByteArray {
      * @memberof ByteArray
      */
     'file_extension'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CFTFTemplate
+ */
+export interface CFTFTemplate {
+    /**
+     * 
+     * @type {number}
+     * @memberof CFTFTemplate
+     */
+    'tenant'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CFTFTemplate
+     */
+    'file'?: string;
 }
 /**
  * 
@@ -795,7 +846,25 @@ export interface CloudTrailFilters {
      * @type {object}
      * @memberof CloudTrailFilters
      */
-    'filter_pattern'?: object | null;
+    'filter_pattern'?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof CloudTrailFilters
+     */
+    'filter_pattern_type'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CloudTrailFilters
+     */
+    'tenant'?: number;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof CloudTrailFilters
+     */
+    'pattern': Array<number>;
 }
 /**
  * 
@@ -1934,6 +2003,19 @@ export interface PolicyRun {
 /**
  * 
  * @export
+ * @interface PolicyRunId
+ */
+export interface PolicyRunId {
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyRunId
+     */
+    'policy_run_id': number;
+}
+/**
+ * 
+ * @export
  * @interface PolicyRunResult
  */
 export interface PolicyRunResult {
@@ -2058,6 +2140,37 @@ export interface PolicyRunScan {
      * @memberof PolicyRunScan
      */
     'cloud_provider_account_id': number;
+}
+/**
+ * 
+ * @export
+ * @interface PolicyTemplatesList200Response
+ */
+export interface PolicyTemplatesList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof PolicyTemplatesList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyTemplatesList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PolicyTemplatesList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<CFTFTemplate>}
+     * @memberof PolicyTemplatesList200Response
+     */
+    'results': Array<CFTFTemplate>;
 }
 /**
  * 
@@ -2640,6 +2753,37 @@ export interface SystemSettingsAssetManagementsList200Response {
 /**
  * 
  * @export
+ * @interface SystemSettingsAwsCloudtrailAttributeValueList200Response
+ */
+export interface SystemSettingsAwsCloudtrailAttributeValueList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemSettingsAwsCloudtrailAttributeValueList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsAwsCloudtrailAttributeValueList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsAwsCloudtrailAttributeValueList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<AWSCloudTrailAttributeValue>}
+     * @memberof SystemSettingsAwsCloudtrailAttributeValueList200Response
+     */
+    'results': Array<AWSCloudTrailAttributeValue>;
+}
+/**
+ * 
+ * @export
  * @interface SystemSettingsCloudTrailFiltersList200Response
  */
 export interface SystemSettingsCloudTrailFiltersList200Response {
@@ -2888,6 +3032,62 @@ export interface SystemSettingsSystemSettingsList200Response {
 /**
  * 
  * @export
+ * @interface SystemSettingsTagsList200Response
+ */
+export interface SystemSettingsTagsList200Response {
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemSettingsTagsList200Response
+     */
+    'count': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsTagsList200Response
+     */
+    'next'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsTagsList200Response
+     */
+    'previous'?: string | null;
+    /**
+     * 
+     * @type {Array<Tag>}
+     * @memberof SystemSettingsTagsList200Response
+     */
+    'results': Array<Tag>;
+}
+/**
+ * 
+ * @export
+ * @interface Tag
+ */
+export interface Tag {
+    /**
+     * 
+     * @type {number}
+     * @memberof Tag
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Tag
+     */
+    'name': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tag
+     */
+    'tenant'?: number;
+}
+/**
+ * 
+ * @export
  * @interface Tenant
  */
 export interface Tenant {
@@ -2988,6 +3188,18 @@ export interface TenantAssetManagement {
      * @memberof TenantAssetManagement
      */
     'cloud_account': number;
+    /**
+     * 
+     * @type {Array<Tag>}
+     * @memberof TenantAssetManagement
+     */
+    'tags'?: Array<Tag>;
+    /**
+     * 
+     * @type {Set<number>}
+     * @memberof TenantAssetManagement
+     */
+    'tag_ids'?: Set<number>;
 }
 /**
  * 
@@ -9611,6 +9823,94 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
+         * Aggregate Policy Result Group By Resource
+         * @summary Aggregate Policy Result Group By Resource
+         * @param {PolicyRunId} data 
+         * @param {string} [resource] Filter by Resource
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunResultByResourceCreate: async (data: PolicyRunId, resource?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyPolicyRunResultByResourceCreate', 'data', data)
+            const localVarPath = `/policy/policy_run_result_by_resource/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (resource !== undefined) {
+                localVarQueryParameter['resource'] = resource;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Aggregate Policy Result Group By Rules
+         * @summary Aggregate Policy Result Group By Rules
+         * @param {PolicyRunId} data 
+         * @param {string} [findingDesc] Filter by Compliance Rule
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunResultGroupByRuleCreate: async (data: PolicyRunId, findingDesc?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('policyPolicyRunResultGroupByRuleCreate', 'data', data)
+            const localVarPath = `/policy/policy_run_result_group_by_rule/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (findingDesc !== undefined) {
+                localVarQueryParameter['finding_desc'] = findingDesc;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * List Policy Run Results
          * @summary List Policy Run Results
          * @param {number} [tenant] Filter by Tenant
@@ -10501,6 +10801,91 @@ export const PolicyApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyTemplatesList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/policy/templates/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {any} file 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyTfCfFileScanCreate: async (file: any, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('policyTfCfFileScanCreate', 'file', file)
+            const localVarPath = `/policy/tf_cf_file_scan/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+            if (file !== undefined) { 
+                localVarFormParams.append('file', file as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Updates Policy Rule (Admin)
          * @summary Updates Policy Rules. You can pass an Array as payload
          * @param {PolicyRule} data 
@@ -10677,6 +11062,30 @@ export const PolicyApiFp = function(configuration?: Configuration) {
          */
         async policyPolicyRuleRead(policyId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRule>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRuleRead(policyId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Aggregate Policy Result Group By Resource
+         * @summary Aggregate Policy Result Group By Resource
+         * @param {PolicyRunId} data 
+         * @param {string} [resource] Filter by Resource
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyRunResultByResourceCreate(data: PolicyRunId, resource?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRunId>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultByResourceCreate(data, resource, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Aggregate Policy Result Group By Rules
+         * @summary Aggregate Policy Result Group By Rules
+         * @param {PolicyRunId} data 
+         * @param {string} [findingDesc] Filter by Compliance Rule
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyPolicyRunResultGroupByRuleCreate(data: PolicyRunId, findingDesc?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyRunId>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyPolicyRunResultGroupByRuleCreate(data, findingDesc, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -10911,6 +11320,27 @@ export const PolicyApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyTemplatesList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PolicyTemplatesList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyTemplatesList(page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {any} file 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async policyTfCfFileScanCreate(file: any, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CFTFTemplate>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.policyTfCfFileScanCreate(file, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Updates Policy Rule (Admin)
          * @summary Updates Policy Rules. You can pass an Array as payload
          * @param {PolicyRule} data 
@@ -11048,6 +11478,28 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          */
         policyPolicyRuleRead(policyId: string, options?: any): AxiosPromise<PolicyRule> {
             return localVarFp.policyPolicyRuleRead(policyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Aggregate Policy Result Group By Resource
+         * @summary Aggregate Policy Result Group By Resource
+         * @param {PolicyRunId} data 
+         * @param {string} [resource] Filter by Resource
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunResultByResourceCreate(data: PolicyRunId, resource?: string, options?: any): AxiosPromise<PolicyRunId> {
+            return localVarFp.policyPolicyRunResultByResourceCreate(data, resource, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Aggregate Policy Result Group By Rules
+         * @summary Aggregate Policy Result Group By Rules
+         * @param {PolicyRunId} data 
+         * @param {string} [findingDesc] Filter by Compliance Rule
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyPolicyRunResultGroupByRuleCreate(data: PolicyRunId, findingDesc?: string, options?: any): AxiosPromise<PolicyRunId> {
+            return localVarFp.policyPolicyRunResultGroupByRuleCreate(data, findingDesc, options).then((request) => request(axios, basePath));
         },
         /**
          * List Policy Run Results
@@ -11260,6 +11712,25 @@ export const PolicyApiFactory = function (configuration?: Configuration, basePat
          */
         policyRulesUpdate(id: number, data: Rule, options?: any): AxiosPromise<Rule> {
             return localVarFp.policyRulesUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyTemplatesList(page?: number, pageSize?: number, options?: any): AxiosPromise<PolicyTemplatesList200Response> {
+            return localVarFp.policyTemplatesList(page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {any} file 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        policyTfCfFileScanCreate(file: any, options?: any): AxiosPromise<CFTFTemplate> {
+            return localVarFp.policyTfCfFileScanCreate(file, options).then((request) => request(axios, basePath));
         },
         /**
          * Updates Policy Rule (Admin)
@@ -11496,6 +11967,48 @@ export interface PolicyApiPolicyPolicyRuleReadRequest {
      * @memberof PolicyApiPolicyPolicyRuleRead
      */
     readonly policyId: string
+}
+
+/**
+ * Request parameters for policyPolicyRunResultByResourceCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyRunResultByResourceCreateRequest
+ */
+export interface PolicyApiPolicyPolicyRunResultByResourceCreateRequest {
+    /**
+     * 
+     * @type {PolicyRunId}
+     * @memberof PolicyApiPolicyPolicyRunResultByResourceCreate
+     */
+    readonly data: PolicyRunId
+
+    /**
+     * Filter by Resource
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyRunResultByResourceCreate
+     */
+    readonly resource?: string
+}
+
+/**
+ * Request parameters for policyPolicyRunResultGroupByRuleCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyPolicyRunResultGroupByRuleCreateRequest
+ */
+export interface PolicyApiPolicyPolicyRunResultGroupByRuleCreateRequest {
+    /**
+     * 
+     * @type {PolicyRunId}
+     * @memberof PolicyApiPolicyPolicyRunResultGroupByRuleCreate
+     */
+    readonly data: PolicyRunId
+
+    /**
+     * Filter by Compliance Rule
+     * @type {string}
+     * @memberof PolicyApiPolicyPolicyRunResultGroupByRuleCreate
+     */
+    readonly findingDesc?: string
 }
 
 /**
@@ -12024,6 +12537,41 @@ export interface PolicyApiPolicyRulesUpdateRequest {
 }
 
 /**
+ * Request parameters for policyTemplatesList operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyTemplatesListRequest
+ */
+export interface PolicyApiPolicyTemplatesListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof PolicyApiPolicyTemplatesList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof PolicyApiPolicyTemplatesList
+     */
+    readonly pageSize?: number
+}
+
+/**
+ * Request parameters for policyTfCfFileScanCreate operation in PolicyApi.
+ * @export
+ * @interface PolicyApiPolicyTfCfFileScanCreateRequest
+ */
+export interface PolicyApiPolicyTfCfFileScanCreateRequest {
+    /**
+     * 
+     * @type {any}
+     * @memberof PolicyApiPolicyTfCfFileScanCreate
+     */
+    readonly file: any
+}
+
+/**
  * Request parameters for policyUpdatePolicyRuleUpdate operation in PolicyApi.
  * @export
  * @interface PolicyApiPolicyUpdatePolicyRuleUpdateRequest
@@ -12176,6 +12724,30 @@ export class PolicyApi extends BaseAPI {
      */
     public policyPolicyRuleRead(requestParameters: PolicyApiPolicyPolicyRuleReadRequest, options?: AxiosRequestConfig) {
         return PolicyApiFp(this.configuration).policyPolicyRuleRead(requestParameters.policyId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Aggregate Policy Result Group By Resource
+     * @summary Aggregate Policy Result Group By Resource
+     * @param {PolicyApiPolicyPolicyRunResultByResourceCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyPolicyRunResultByResourceCreate(requestParameters: PolicyApiPolicyPolicyRunResultByResourceCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRunResultByResourceCreate(requestParameters.data, requestParameters.resource, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Aggregate Policy Result Group By Rules
+     * @summary Aggregate Policy Result Group By Rules
+     * @param {PolicyApiPolicyPolicyRunResultGroupByRuleCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyPolicyRunResultGroupByRuleCreate(requestParameters: PolicyApiPolicyPolicyRunResultGroupByRuleCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyPolicyRunResultGroupByRuleCreate(requestParameters.data, requestParameters.findingDesc, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -12392,6 +12964,28 @@ export class PolicyApi extends BaseAPI {
     }
 
     /**
+     * 
+     * @param {PolicyApiPolicyTemplatesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyTemplatesList(requestParameters: PolicyApiPolicyTemplatesListRequest = {}, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyTemplatesList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PolicyApiPolicyTfCfFileScanCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PolicyApi
+     */
+    public policyTfCfFileScanCreate(requestParameters: PolicyApiPolicyTfCfFileScanCreateRequest, options?: AxiosRequestConfig) {
+        return PolicyApiFp(this.configuration).policyTfCfFileScanCreate(requestParameters.file, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * Updates Policy Rule (Admin)
      * @summary Updates Policy Rules. You can pass an Array as payload
      * @param {PolicyApiPolicyUpdatePolicyRuleUpdateRequest} requestParameters Request parameters.
@@ -12411,6 +13005,84 @@ export class PolicyApi extends BaseAPI {
  */
 export const SystemSettingsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * Aggregates and returns Inventory Count By Region
+         * @summary Aggregates and returns Inventory Count By Region
+         * @param {AssetCountByRegion} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAssetInventoryCountByRegionCreate: async (data: AssetCountByRegion, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsAssetInventoryCountByRegionCreate', 'data', data)
+            const localVarPath = `/system_settings/asset_inventory_count_by_region/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Aggregates and returns Inventory By Count Service
+         * @summary Aggregates and returns Inventory Count By Service
+         * @param {AssetCountByRegion} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAssetInventoryCountByServiceCreate: async (data: AssetCountByRegion, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsAssetInventoryCountByServiceCreate', 'data', data)
+            const localVarPath = `/system_settings/asset_inventory_count_by_service/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {TenantAssetManagement} data 
@@ -12450,6 +13122,42 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAssetManagementsDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsAssetManagementsDelete', 'id', id)
+            const localVarPath = `/system_settings/asset_managements/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * List Tenant Assets
          * @summary List Tenant Assets
          * @param {number} [page] A page number within the paginated result set.
@@ -12457,10 +13165,12 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
          * @param {number} [cloudAccount] Filter by Cloud Account
+         * @param {string} [tags] Filter by Asset Tag (comma-separated list of tag IDs, e.g., \&quot;1,2,3\&quot;)
+         * @param {number} [tenant] Filter by Tenant
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsList: async (page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsAssetManagementsList: async (page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, tags?: string, tenant?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/system_settings/asset_managements/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12494,6 +13204,14 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
 
             if (cloudAccount !== undefined) {
                 localVarQueryParameter['cloud_account'] = cloudAccount;
+            }
+
+            if (tags !== undefined) {
+                localVarQueryParameter['tags'] = tags;
+            }
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
             }
 
 
@@ -12629,6 +13347,122 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
+         * @param {AWSCloudTrailAttributeValue} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAwsCloudtrailAttributeValueCreate: async (data: AWSCloudTrailAttributeValue, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsAwsCloudtrailAttributeValueCreate', 'data', data)
+            const localVarPath = `/system_settings/aws_cloudtrail_attribute_value/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAwsCloudtrailAttributeValueList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/aws_cloudtrail_attribute_value/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this aws cloud trail attribute value.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAwsCloudtrailAttributeValueRead: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsAwsCloudtrailAttributeValueRead', 'id', id)
+            const localVarPath = `/system_settings/aws_cloudtrail_attribute_value/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {CloudTrailFilters} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -12666,13 +13500,16 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
             };
         },
         /**
-         * 
+         * List CloudTrail Alarms
+         * @summary List CloudTrail Alarms
+         * @param {number} [tenant] Filter by Tenant
+         * @param {string} [filterPatternType] Filter by Filter Pattern Type (Default or Custom)
          * @param {number} [page] A page number within the paginated result set.
          * @param {number} [pageSize] Number of results to return per page.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsCloudTrailFiltersList: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        systemSettingsCloudTrailFiltersList: async (tenant?: number, filterPatternType?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/system_settings/cloud_trail_filters/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12687,6 +13524,14 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
 
             // authentication Bearer required
             await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+            if (filterPatternType !== undefined) {
+                localVarQueryParameter['filter_pattern_type'] = filterPatternType;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['page'] = page;
@@ -14013,6 +14858,248 @@ export const SystemSettingsApiAxiosParamCreator = function (configuration?: Conf
         },
         /**
          * 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsCreate: async (data: Tag, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsTagsCreate', 'data', data)
+            const localVarPath = `/system_settings/tags/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsDelete: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsTagsDelete', 'id', id)
+            const localVarPath = `/system_settings/tags/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * List Tenant Tags
+         * @summary List Tenant Tags
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by Tenant
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsList: async (page?: number, pageSize?: number, tenant?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/system_settings/tags/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['page_size'] = pageSize;
+            }
+
+            if (tenant !== undefined) {
+                localVarQueryParameter['tenant'] = tenant;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsPartialUpdate: async (id: string, data: Tag, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsTagsPartialUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsTagsPartialUpdate', 'data', data)
+            const localVarPath = `/system_settings/tags/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsRead: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsTagsRead', 'id', id)
+            const localVarPath = `/system_settings/tags/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsUpdate: async (id: string, data: Tag, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('systemSettingsTagsUpdate', 'id', id)
+            // verify required parameter 'data' is not null or undefined
+            assertParamExists('systemSettingsTagsUpdate', 'data', data)
+            const localVarPath = `/system_settings/tags/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            await setApiKeyToObject(localVarHeaderParameter, "Authorization", configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(data, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {UpdateCloudEventStatus} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -14060,6 +15147,28 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = SystemSettingsApiAxiosParamCreator(configuration)
     return {
         /**
+         * Aggregates and returns Inventory Count By Region
+         * @summary Aggregates and returns Inventory Count By Region
+         * @param {AssetCountByRegion} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsAssetInventoryCountByRegionCreate(data: AssetCountByRegion, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetCountByRegion>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetInventoryCountByRegionCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Aggregates and returns Inventory By Count Service
+         * @summary Aggregates and returns Inventory Count By Service
+         * @param {AssetCountByRegion} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsAssetInventoryCountByServiceCreate(data: AssetCountByRegion, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AssetCountByRegion>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetInventoryCountByServiceCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * 
          * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
@@ -14070,6 +15179,16 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsAssetManagementsDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * List Tenant Assets
          * @summary List Tenant Assets
          * @param {number} [page] A page number within the paginated result set.
@@ -14077,11 +15196,13 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
          * @param {number} [cloudAccount] Filter by Cloud Account
+         * @param {string} [tags] Filter by Asset Tag (comma-separated list of tag IDs, e.g., \&quot;1,2,3\&quot;)
+         * @param {number} [tenant] Filter by Tenant
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsAssetManagementsList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, cloudAccount, options);
+        async systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, tags?: string, tenant?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsAssetManagementsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, cloudAccount, tags, tenant, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -14118,12 +15239,12 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {CloudTrailFilters} data 
+         * @param {AWSCloudTrailAttributeValue} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsCloudTrailFiltersCreate(data: CloudTrailFilters, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailFilters>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersCreate(data, options);
+        async systemSettingsAwsCloudtrailAttributeValueCreate(data: AWSCloudTrailAttributeValue, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AWSCloudTrailAttributeValue>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAwsCloudtrailAttributeValueCreate(data, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -14133,8 +15254,42 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async systemSettingsCloudTrailFiltersList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsCloudTrailFiltersList200Response>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersList(page, pageSize, options);
+        async systemSettingsAwsCloudtrailAttributeValueList(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsAwsCloudtrailAttributeValueList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAwsCloudtrailAttributeValueList(page, pageSize, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this aws cloud trail attribute value.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsAwsCloudtrailAttributeValueRead(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AWSCloudTrailAttributeValue>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsAwsCloudtrailAttributeValueRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailFiltersCreate(data: CloudTrailFilters, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CloudTrailFilters>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List CloudTrail Alarms
+         * @summary List CloudTrail Alarms
+         * @param {number} [tenant] Filter by Tenant
+         * @param {string} [filterPatternType] Filter by Filter Pattern Type (Default or Custom)
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsCloudTrailFiltersList(tenant?: number, filterPatternType?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsCloudTrailFiltersList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsCloudTrailFiltersList(tenant, filterPatternType, page, pageSize, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -14478,6 +15633,71 @@ export const SystemSettingsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsTagsCreate(data: Tag, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tag>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsTagsCreate(data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsTagsDelete(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsTagsDelete(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * List Tenant Tags
+         * @summary List Tenant Tags
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by Tenant
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsTagsList(page?: number, pageSize?: number, tenant?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SystemSettingsTagsList200Response>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsTagsList(page, pageSize, tenant, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsTagsPartialUpdate(id: string, data: Tag, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tag>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsTagsPartialUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsTagsRead(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tag>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsTagsRead(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async systemSettingsTagsUpdate(id: string, data: Tag, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tag>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.systemSettingsTagsUpdate(id, data, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {UpdateCloudEventStatus} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -14497,6 +15717,26 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
     const localVarFp = SystemSettingsApiFp(configuration)
     return {
         /**
+         * Aggregates and returns Inventory Count By Region
+         * @summary Aggregates and returns Inventory Count By Region
+         * @param {AssetCountByRegion} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAssetInventoryCountByRegionCreate(data: AssetCountByRegion, options?: any): AxiosPromise<AssetCountByRegion> {
+            return localVarFp.systemSettingsAssetInventoryCountByRegionCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Aggregates and returns Inventory By Count Service
+         * @summary Aggregates and returns Inventory Count By Service
+         * @param {AssetCountByRegion} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAssetInventoryCountByServiceCreate(data: AssetCountByRegion, options?: any): AxiosPromise<AssetCountByRegion> {
+            return localVarFp.systemSettingsAssetInventoryCountByServiceCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @param {TenantAssetManagement} data 
          * @param {*} [options] Override http request option.
@@ -14506,6 +15746,15 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
             return localVarFp.systemSettingsAssetManagementsCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAssetManagementsDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.systemSettingsAssetManagementsDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
          * List Tenant Assets
          * @summary List Tenant Assets
          * @param {number} [page] A page number within the paginated result set.
@@ -14513,11 +15762,13 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          * @param {string} [cloudProvider] Filter by Cloud Provider
          * @param {string} [services] Filter by Services
          * @param {number} [cloudAccount] Filter by Cloud Account
+         * @param {string} [tags] Filter by Asset Tag (comma-separated list of tag IDs, e.g., \&quot;1,2,3\&quot;)
+         * @param {number} [tenant] Filter by Tenant
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, options?: any): AxiosPromise<SystemSettingsAssetManagementsList200Response> {
-            return localVarFp.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, cloudAccount, options).then((request) => request(axios, basePath));
+        systemSettingsAssetManagementsList(page?: number, pageSize?: number, cloudProvider?: string, services?: string, cloudAccount?: number, tags?: string, tenant?: number, options?: any): AxiosPromise<SystemSettingsAssetManagementsList200Response> {
+            return localVarFp.systemSettingsAssetManagementsList(page, pageSize, cloudProvider, services, cloudAccount, tags, tenant, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -14550,12 +15801,12 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
-         * @param {CloudTrailFilters} data 
+         * @param {AWSCloudTrailAttributeValue} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsCloudTrailFiltersCreate(data: CloudTrailFilters, options?: any): AxiosPromise<CloudTrailFilters> {
-            return localVarFp.systemSettingsCloudTrailFiltersCreate(data, options).then((request) => request(axios, basePath));
+        systemSettingsAwsCloudtrailAttributeValueCreate(data: AWSCloudTrailAttributeValue, options?: any): AxiosPromise<AWSCloudTrailAttributeValue> {
+            return localVarFp.systemSettingsAwsCloudtrailAttributeValueCreate(data, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -14564,8 +15815,39 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        systemSettingsCloudTrailFiltersList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsCloudTrailFiltersList200Response> {
-            return localVarFp.systemSettingsCloudTrailFiltersList(page, pageSize, options).then((request) => request(axios, basePath));
+        systemSettingsAwsCloudtrailAttributeValueList(page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsAwsCloudtrailAttributeValueList200Response> {
+            return localVarFp.systemSettingsAwsCloudtrailAttributeValueList(page, pageSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id A unique integer value identifying this aws cloud trail attribute value.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsAwsCloudtrailAttributeValueRead(id: number, options?: any): AxiosPromise<AWSCloudTrailAttributeValue> {
+            return localVarFp.systemSettingsAwsCloudtrailAttributeValueRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CloudTrailFilters} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersCreate(data: CloudTrailFilters, options?: any): AxiosPromise<CloudTrailFilters> {
+            return localVarFp.systemSettingsCloudTrailFiltersCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List CloudTrail Alarms
+         * @summary List CloudTrail Alarms
+         * @param {number} [tenant] Filter by Tenant
+         * @param {string} [filterPatternType] Filter by Filter Pattern Type (Default or Custom)
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsCloudTrailFiltersList(tenant?: number, filterPatternType?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<SystemSettingsCloudTrailFiltersList200Response> {
+            return localVarFp.systemSettingsCloudTrailFiltersList(tenant, filterPatternType, page, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -14880,6 +16162,65 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
         },
         /**
          * 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsCreate(data: Tag, options?: any): AxiosPromise<Tag> {
+            return localVarFp.systemSettingsTagsCreate(data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsDelete(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.systemSettingsTagsDelete(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * List Tenant Tags
+         * @summary List Tenant Tags
+         * @param {number} [page] A page number within the paginated result set.
+         * @param {number} [pageSize] Number of results to return per page.
+         * @param {number} [tenant] Filter by Tenant
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsList(page?: number, pageSize?: number, tenant?: number, options?: any): AxiosPromise<SystemSettingsTagsList200Response> {
+            return localVarFp.systemSettingsTagsList(page, pageSize, tenant, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsPartialUpdate(id: string, data: Tag, options?: any): AxiosPromise<Tag> {
+            return localVarFp.systemSettingsTagsPartialUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsRead(id: string, options?: any): AxiosPromise<Tag> {
+            return localVarFp.systemSettingsTagsRead(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {Tag} data 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        systemSettingsTagsUpdate(id: string, data: Tag, options?: any): AxiosPromise<Tag> {
+            return localVarFp.systemSettingsTagsUpdate(id, data, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {UpdateCloudEventStatus} data 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -14889,6 +16230,34 @@ export const SystemSettingsApiFactory = function (configuration?: Configuration,
         },
     };
 };
+
+/**
+ * Request parameters for systemSettingsAssetInventoryCountByRegionCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsAssetInventoryCountByRegionCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsAssetInventoryCountByRegionCreateRequest {
+    /**
+     * 
+     * @type {AssetCountByRegion}
+     * @memberof SystemSettingsApiSystemSettingsAssetInventoryCountByRegionCreate
+     */
+    readonly data: AssetCountByRegion
+}
+
+/**
+ * Request parameters for systemSettingsAssetInventoryCountByServiceCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsAssetInventoryCountByServiceCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsAssetInventoryCountByServiceCreateRequest {
+    /**
+     * 
+     * @type {AssetCountByRegion}
+     * @memberof SystemSettingsApiSystemSettingsAssetInventoryCountByServiceCreate
+     */
+    readonly data: AssetCountByRegion
+}
 
 /**
  * Request parameters for systemSettingsAssetManagementsCreate operation in SystemSettingsApi.
@@ -14902,6 +16271,20 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsCreateRequest {
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsCreate
      */
     readonly data: TenantAssetManagement
+}
+
+/**
+ * Request parameters for systemSettingsAssetManagementsDelete operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsAssetManagementsDeleteRequest
+ */
+export interface SystemSettingsApiSystemSettingsAssetManagementsDeleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsAssetManagementsDelete
+     */
+    readonly id: string
 }
 
 /**
@@ -14944,6 +16327,20 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsListRequest {
      * @memberof SystemSettingsApiSystemSettingsAssetManagementsList
      */
     readonly cloudAccount?: number
+
+    /**
+     * Filter by Asset Tag (comma-separated list of tag IDs, e.g., \&quot;1,2,3\&quot;)
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsAssetManagementsList
+     */
+    readonly tags?: string
+
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsAssetManagementsList
+     */
+    readonly tenant?: number
 }
 
 /**
@@ -15003,6 +16400,55 @@ export interface SystemSettingsApiSystemSettingsAssetManagementsUpdateRequest {
 }
 
 /**
+ * Request parameters for systemSettingsAwsCloudtrailAttributeValueCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueCreateRequest {
+    /**
+     * 
+     * @type {AWSCloudTrailAttributeValue}
+     * @memberof SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueCreate
+     */
+    readonly data: AWSCloudTrailAttributeValue
+}
+
+/**
+ * Request parameters for systemSettingsAwsCloudtrailAttributeValueList operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueListRequest
+ */
+export interface SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueList
+     */
+    readonly pageSize?: number
+}
+
+/**
+ * Request parameters for systemSettingsAwsCloudtrailAttributeValueRead operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueReadRequest
+ */
+export interface SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueReadRequest {
+    /**
+     * A unique integer value identifying this aws cloud trail attribute value.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueRead
+     */
+    readonly id: number
+}
+
+/**
  * Request parameters for systemSettingsCloudTrailFiltersCreate operation in SystemSettingsApi.
  * @export
  * @interface SystemSettingsApiSystemSettingsCloudTrailFiltersCreateRequest
@@ -15022,6 +16468,20 @@ export interface SystemSettingsApiSystemSettingsCloudTrailFiltersCreateRequest {
  * @interface SystemSettingsApiSystemSettingsCloudTrailFiltersListRequest
  */
 export interface SystemSettingsApiSystemSettingsCloudTrailFiltersListRequest {
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersList
+     */
+    readonly tenant?: number
+
+    /**
+     * Filter by Filter Pattern Type (Default or Custom)
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsCloudTrailFiltersList
+     */
+    readonly filterPatternType?: string
+
     /**
      * A page number within the paginated result set.
      * @type {number}
@@ -15801,6 +17261,118 @@ export interface SystemSettingsApiSystemSettingsSystemSettingsUpdateRequest {
 }
 
 /**
+ * Request parameters for systemSettingsTagsCreate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsTagsCreateRequest
+ */
+export interface SystemSettingsApiSystemSettingsTagsCreateRequest {
+    /**
+     * 
+     * @type {Tag}
+     * @memberof SystemSettingsApiSystemSettingsTagsCreate
+     */
+    readonly data: Tag
+}
+
+/**
+ * Request parameters for systemSettingsTagsDelete operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsTagsDeleteRequest
+ */
+export interface SystemSettingsApiSystemSettingsTagsDeleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsTagsDelete
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for systemSettingsTagsList operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsTagsListRequest
+ */
+export interface SystemSettingsApiSystemSettingsTagsListRequest {
+    /**
+     * A page number within the paginated result set.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsTagsList
+     */
+    readonly page?: number
+
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsTagsList
+     */
+    readonly pageSize?: number
+
+    /**
+     * Filter by Tenant
+     * @type {number}
+     * @memberof SystemSettingsApiSystemSettingsTagsList
+     */
+    readonly tenant?: number
+}
+
+/**
+ * Request parameters for systemSettingsTagsPartialUpdate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsTagsPartialUpdateRequest
+ */
+export interface SystemSettingsApiSystemSettingsTagsPartialUpdateRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsTagsPartialUpdate
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {Tag}
+     * @memberof SystemSettingsApiSystemSettingsTagsPartialUpdate
+     */
+    readonly data: Tag
+}
+
+/**
+ * Request parameters for systemSettingsTagsRead operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsTagsReadRequest
+ */
+export interface SystemSettingsApiSystemSettingsTagsReadRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsTagsRead
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for systemSettingsTagsUpdate operation in SystemSettingsApi.
+ * @export
+ * @interface SystemSettingsApiSystemSettingsTagsUpdateRequest
+ */
+export interface SystemSettingsApiSystemSettingsTagsUpdateRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SystemSettingsApiSystemSettingsTagsUpdate
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {Tag}
+     * @memberof SystemSettingsApiSystemSettingsTagsUpdate
+     */
+    readonly data: Tag
+}
+
+/**
  * Request parameters for systemSettingsUpdateCloudEventStatusCreate operation in SystemSettingsApi.
  * @export
  * @interface SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreateRequest
@@ -15822,6 +17394,30 @@ export interface SystemSettingsApiSystemSettingsUpdateCloudEventStatusCreateRequ
  */
 export class SystemSettingsApi extends BaseAPI {
     /**
+     * Aggregates and returns Inventory Count By Region
+     * @summary Aggregates and returns Inventory Count By Region
+     * @param {SystemSettingsApiSystemSettingsAssetInventoryCountByRegionCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsAssetInventoryCountByRegionCreate(requestParameters: SystemSettingsApiSystemSettingsAssetInventoryCountByRegionCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsAssetInventoryCountByRegionCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Aggregates and returns Inventory By Count Service
+     * @summary Aggregates and returns Inventory Count By Service
+     * @param {SystemSettingsApiSystemSettingsAssetInventoryCountByServiceCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsAssetInventoryCountByServiceCreate(requestParameters: SystemSettingsApiSystemSettingsAssetInventoryCountByServiceCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsAssetInventoryCountByServiceCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * 
      * @param {SystemSettingsApiSystemSettingsAssetManagementsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -15833,6 +17429,17 @@ export class SystemSettingsApi extends BaseAPI {
     }
 
     /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsAssetManagementsDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsAssetManagementsDelete(requestParameters: SystemSettingsApiSystemSettingsAssetManagementsDeleteRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsAssetManagementsDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * List Tenant Assets
      * @summary List Tenant Assets
      * @param {SystemSettingsApiSystemSettingsAssetManagementsListRequest} requestParameters Request parameters.
@@ -15841,7 +17448,7 @@ export class SystemSettingsApi extends BaseAPI {
      * @memberof SystemSettingsApi
      */
     public systemSettingsAssetManagementsList(requestParameters: SystemSettingsApiSystemSettingsAssetManagementsListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsAssetManagementsList(requestParameters.page, requestParameters.pageSize, requestParameters.cloudProvider, requestParameters.services, requestParameters.cloudAccount, options).then((request) => request(this.axios, this.basePath));
+        return SystemSettingsApiFp(this.configuration).systemSettingsAssetManagementsList(requestParameters.page, requestParameters.pageSize, requestParameters.cloudProvider, requestParameters.services, requestParameters.cloudAccount, requestParameters.tags, requestParameters.tenant, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -15879,6 +17486,39 @@ export class SystemSettingsApi extends BaseAPI {
 
     /**
      * 
+     * @param {SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsAwsCloudtrailAttributeValueCreate(requestParameters: SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsAwsCloudtrailAttributeValueCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsAwsCloudtrailAttributeValueList(requestParameters: SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsAwsCloudtrailAttributeValueList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsAwsCloudtrailAttributeValueRead(requestParameters: SystemSettingsApiSystemSettingsAwsCloudtrailAttributeValueReadRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsAwsCloudtrailAttributeValueRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {SystemSettingsApiSystemSettingsCloudTrailFiltersCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -15889,14 +17529,15 @@ export class SystemSettingsApi extends BaseAPI {
     }
 
     /**
-     * 
+     * List CloudTrail Alarms
+     * @summary List CloudTrail Alarms
      * @param {SystemSettingsApiSystemSettingsCloudTrailFiltersListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SystemSettingsApi
      */
     public systemSettingsCloudTrailFiltersList(requestParameters: SystemSettingsApiSystemSettingsCloudTrailFiltersListRequest = {}, options?: AxiosRequestConfig) {
-        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailFiltersList(requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
+        return SystemSettingsApiFp(this.configuration).systemSettingsCloudTrailFiltersList(requestParameters.tenant, requestParameters.filterPatternType, requestParameters.page, requestParameters.pageSize, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -16211,6 +17852,73 @@ export class SystemSettingsApi extends BaseAPI {
      */
     public systemSettingsSystemSettingsUpdate(requestParameters: SystemSettingsApiSystemSettingsSystemSettingsUpdateRequest, options?: AxiosRequestConfig) {
         return SystemSettingsApiFp(this.configuration).systemSettingsSystemSettingsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsTagsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsTagsCreate(requestParameters: SystemSettingsApiSystemSettingsTagsCreateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsTagsCreate(requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsTagsDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsTagsDelete(requestParameters: SystemSettingsApiSystemSettingsTagsDeleteRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsTagsDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * List Tenant Tags
+     * @summary List Tenant Tags
+     * @param {SystemSettingsApiSystemSettingsTagsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsTagsList(requestParameters: SystemSettingsApiSystemSettingsTagsListRequest = {}, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsTagsList(requestParameters.page, requestParameters.pageSize, requestParameters.tenant, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsTagsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsTagsPartialUpdate(requestParameters: SystemSettingsApiSystemSettingsTagsPartialUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsTagsPartialUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsTagsReadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsTagsRead(requestParameters: SystemSettingsApiSystemSettingsTagsReadRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsTagsRead(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SystemSettingsApiSystemSettingsTagsUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SystemSettingsApi
+     */
+    public systemSettingsTagsUpdate(requestParameters: SystemSettingsApiSystemSettingsTagsUpdateRequest, options?: AxiosRequestConfig) {
+        return SystemSettingsApiFp(this.configuration).systemSettingsTagsUpdate(requestParameters.id, requestParameters.data, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
