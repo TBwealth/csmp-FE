@@ -2,17 +2,59 @@ import { Dispatch, useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { BsTrash3 } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
+import axios from "axios";
 
 type Props = {
   name: string;
   mode: string;
   id: any;
-  handleDete: Dispatch<void>
+  refetch: Dispatch<void>
 };
 
-const TagCard = ({ name, id, mode, handleDete }: Props) => {
+const TagCard = ({ name, id, mode, refetch }: Props) => {
   const [isEdit, setIsEdit] = useState(false);
   const [newName, setNewName] = useState(name);
+
+  const deleteTag = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const resp = await axios.delete(
+        `https://cspm-api.midrapps.com/system_settings/tags/${id}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 204) {
+        refetch();
+      }
+    } catch(err: any) {
+      console.log(err)
+    }
+  }
+
+  const editTag = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const resp = await axios.patch(
+        `https://cspm-api.midrapps.com/system_settings/tags/${id}/`,
+        {
+          "name": newName
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 200) {
+        refetch();
+      }
+    } catch(err: any) {
+      console.log(err)
+    }
+  }
 
   return (
     <div
@@ -43,10 +85,11 @@ const TagCard = ({ name, id, mode, handleDete }: Props) => {
         className="flex items-center justify-center"
         onClick={() => {
             if(!isEdit) {
-                handleDete()
+              deleteTag()
             } else {
-                setNewName(name) 
-                setIsEdit(!isEdit);
+              editTag(); 
+              // setNewName(newName)
+              setIsEdit(!isEdit);
             }
         }}
       >

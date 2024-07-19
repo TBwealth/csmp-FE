@@ -3,10 +3,8 @@ import { Content } from "../../../../../_metronic/layout/components/content";
 import {
   useGetAccountUsers,
 } from "../../../../api/api-services/accountQuery";
-import { KTCardBody, KTIcon } from "../../../../../_metronic/helpers";
 import { UsersListLoading } from "../../../../modules/apps/user-management/users-list/components/loading/UsersListLoading";
 import useAlert from "../../../components/useAlert";
-import { Dropdown, DropdownButton } from "react-bootstrap";
 import { AccountsApiUsersList200Response } from "../../../../api/axios-client";
 import { ModalAllUser } from "./modals/ModalAllUser";
 import {

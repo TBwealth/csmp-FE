@@ -51,7 +51,7 @@ const AssetModal = ({
     name: editItem?.name ?? "",
     resource_types: editItem?.resource_types ?? "",
     cloud_account: editItem?.cloud_account ?? 0,
-    tags: editItem?.tags ?? [],
+    tag_ids: editItem?.tags ?? [],
   });
 
   const [token, setToken] = useState("");
@@ -99,6 +99,7 @@ const AssetModal = ({
       {
         data: {
           ...asset,
+          tag_ids: Array.from(new Set(asset.tag_ids))
         },
       },
       {
@@ -510,9 +511,9 @@ const AssetModal = ({
                   othersClick={(e) => console.log(e)}
                   placeholder="Select Option"
                   valueChange={(e) => {
-                    setAsset({
-                      ...asset, tags: [...asset.tags, e]
-                    })
+                      setAsset({
+                        ...asset, tag_ids: [...asset.tag_ids, e]
+                      })
                   }}
                   idField="id"
                   textField="name"
@@ -544,9 +545,7 @@ const AssetModal = ({
         <Modal.Footer className="border-top-0">
           <button
             type="button"
-            className={` ${
-              isLoading ? "w-fit" : "w-32"
-            } bg-[#284CB3] font-medium rounded-full p-2 text-white text-center`}
+            className={`bg-[#284CB3] font-medium rounded-full px-[24px] py-[12px] text-white text-center`}
             disabled={!asset}
             onClick={action === "edit" ? editHandleSubmit : handleSubmit}
           >

@@ -308,7 +308,7 @@ const SuppressionLogs = () => {
         ) : (
           <>
             <div
-              className={`grid grid-cols-10 p-4 gap-3 rounded-t-[1.5rem] mb-3 border-bottom h-[52px] w-[280vw] md:w-[180vw] lg:w-full ${
+              className={`grid grid-cols-10 p-4 gap-[8px] rounded-t-[1.5rem] mb-3 border-bottom h-[52px] w-[280vw] md:w-[180vw] lg:w-full ${
                 mode === "dark" ? "bg-lightDark" : "bg-white"
               }`}
             >

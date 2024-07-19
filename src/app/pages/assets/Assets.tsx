@@ -1,52 +1,45 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
-import clsx from "clsx";
-import { MainTableComponent } from "../../components/tableComponents/maincomponent/maintable";
-import { useGetAssets } from "../../api/api-services/systemQuery";
-import {
-  ACTIONS,
-  ColumnTypes,
-  TableAction,
-  TableActionEvent,
-  TableColumn,
-} from "../../components/models";
 import DefaultContent from "../../components/defaultContent/defaultContent";
-import {
-  CloudProviderCloudProviderResourceTypesList200Response,
-  SystemSettingsAssetManagementsList200Response,
-} from "../../api/axios-client";
 import useAlert from "../components/useAlert";
 import AssetModal from "./modals/AssetModal";
-import { ComponentsheaderComponent } from "../../components/componentsheader/componentsheader.component";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../atoms/modeAtoms.atom";
-import { useGetCloudProviderResourceTypes } from "../../api/api-services/cloudProviderQuery";
-import { FaCloud, FaCube, FaGlobe, FaPlus } from "react-icons/fa";
+import { FaChevronLeft, FaGlobe, FaPlus, FaTimes } from "react-icons/fa";
 import assetachi from "../../../../public/media/logos/assetachi.png";
 import { Modal } from "react-bootstrap";
 import TagCard from "./TagCard";
-import { MultiSelectComponent } from "../../components/multiSelect/multiselect";
-import { dropDownSetting } from "../../components/tableComponents/models";
 import Inventory from "./Inventory";
+import AssetDetails from "./AssetDetails";
+import awsLogo from "../../../../public/media/logos/aws-light.svg";
 
 const Assets = () => {
   const [items, setItems] = useState<any[]>([]);
+  const [itemsCopy, setItemsCopy] = useState<any[]>([]);
   const [allServices, setAllServices] = useState<any[]>([]);
   const [selectedServ, setSelectedServ] = useState("");
-  const [selectedServName, setSelectedServName] = useState("");
   const [allNewTags, setAllNewTag] = useState<string[]>([]);
+  const [allAssetRegion, setAllAssetRegion] = useState<any[]>([]);
+  const [allTags, setAllTags] = useState<any[]>([]);
   const [currentNewTage, setCurrNewTag] = useState("");
+  const [panels, setPanel] = useState("");
+  const [showInvDetail, setShowInvDetail] = useState(false);
+  const [tagLoading, setTagLoading] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [selAsset, setSelAsset] = useState<any>(null);
+  const [selectedInv, setSelectedInv] = useState<any>(null);
+  const [addingTag, setAddingTag] = useState(false);
   const [page, setPage] = useState(1);
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [pageSize, setPageSize] = useState(10);
-  const { showAlert, hideAlert } = useAlert();
+  const { showAlert, Alert, hideAlert } = useAlert();
   const [showModalType, setShowModalType] = useState("");
-  const [allInstances, setAllInstances] = useState<any[]>([])
+  const [allInstances, setAllInstances] = useState<any[]>([]);
+  const [allInstancesCopy, setAllInstancesCopy] = useState<any[]>([]);
   const [showEmpty, setshowEmpty] = useState(false);
   const [newTag, setNewTag] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(false);
   const [action, setAction] = useState("");
   const currentPage = 0;
   const [totalItems, settotalItems] = useState<number>(0);
@@ -58,63 +51,17 @@ const Assets = () => {
     services: undefined,
     ruleCode: undefined,
   });
-  const filterFields: TableColumn[] = [
-    { name: "services", title: "Service", type: ColumnTypes.Text },
-    { name: "ruleCode", title: "Rule Code", type: ColumnTypes.Text },
-  ];
-  const tableActions: TableAction[] = [
-    { name: ACTIONS.EDIT, label: "Edit" },
-    { name: ACTIONS.VIEW, label: "View" },
-  ];
 
-  const tableColumns: TableColumn[] = [
-    {
-      name: "id",
-      title: "Id",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "resource_types",
-      title: "Resource Type",
-      type: ColumnTypes.Text,
-    },
-    // {
-    //   name: "rule_code",
-    //   title: "Rule Code",
-    //   type: ColumnTypes.Text,
-    // },
-    {
-      name: "services",
-      title: "Services",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "cloud_identifier",
-      title: "Cloud Identifier",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "cloud_provider",
-      title: "Cloud Provider",
-      type: ColumnTypes.Text,
-    },
-    {
-      name: "region",
-      title: "Region",
-      type: ColumnTypes.Text,
-    },
-  ];
-
-  const handleGetAllAssets = async () => {
+  // get all assets under inventory
+  const handleGetAllAssets = async (
+    service: string,
+    cloud_id: string | number
+  ) => {
     const token = localStorage.getItem("token");
-    // setIsLoading(true);
+    setIsLoading(true);
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/asset_managements/?page=${
-          filter.current.page
-        }&page_size=${filter.current.pageSize}&services=${
-          filter.current.services ? filter.current.services : ""
-        }&rule_code=${filter.current.ruleCode ? filter.current.ruleCode : ""}`,
+        `https://cspm-api.midrapps.com/system_settings/asset_managements/?page=${filter.current.page}&page_size=${filter.current.pageSize}&services=${service}&cloud_account=${cloud_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -123,14 +70,40 @@ const Assets = () => {
       );
       if (resp.status === 200) {
         setItems(resp?.data?.data?.results ?? []);
+        setItemsCopy(resp?.data?.data?.results ?? []);
         settotalItems(Math.ceil(resp?.data?.data?.count));
-        // setIsLoading(false);
+        setIsLoading(false);
       }
     } catch (err) {
       setIsLoading(false);
       // console.log(err);
     }
   };
+
+  // all asset region
+  const handleGetAssetsRegion = async (id: string | number) => {
+    const token = localStorage.getItem("token");
+    try {
+      const resp = await axios.post(
+        `https://cspm-api.midrapps.com/system_settings/asset_inventory_count_by_region/`,
+        { cloud_account_id: id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 200) {
+        setAllAssetRegion(resp?.data?.data ?? []);
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
+    }
+  };
+
+  // get all inventory
   const handleGetAllAssetsInventory = async (id: number) => {
     const token = localStorage.getItem("token");
     setIsLoading(true);
@@ -148,11 +121,8 @@ const Assets = () => {
       );
       if (resp.status === 200) {
         setAllInstances(resp?.data?.data);
-        setshowEmpty(
-          resp?.data?.data
-            ? resp?.data?.data.length === 0
-            : true
-        );
+        setAllInstancesCopy(resp?.data?.data);
+        setshowEmpty(resp?.data?.data ? resp?.data?.data.length === 0 : true);
         // settotalItems(Math.ceil(resp?.data?.data?.count));
         setIsLoading(false);
       }
@@ -162,121 +132,176 @@ const Assets = () => {
     }
   };
 
-  const { data } = useGetCloudProviderResourceTypes({
-    page: 1,
-    pageSize: 1000,
-  });
-  const datastsr: CloudProviderCloudProviderResourceTypesList200Response | any =
-    data;
-  useEffect(() => {
-    setAllServices(datastsr?.data?.data?.results ?? []);
-    setSelectedServ(datastsr?.data?.data?.results[0]?.id);
-    if (datastsr?.data?.data?.results) {
-      handleGetAllAssetsInventory(datastsr?.data?.data?.results[0]?.id);
+  
+  // get cloud accounts
+  const handleGetAllCloudAccount = async () => {
+    setIsLoading(true);
+    const token = localStorage.getItem("token");
+    try {
+      const resp = await axios.get(
+        `https://cspm-api.midrapps.com/cloud_provider/cloud_provider/?page=1&page_size=1000`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 200) {
+        setAllServices(resp?.data?.data?.results ?? []);
+        setSelectedServ(resp?.data?.data?.results[0]?.id);
+        if (resp?.data?.data?.results) {
+          handleGetAllAssetsInventory(resp?.data?.data?.results[0]?.id);
+          handleGetAssetsRegion(resp?.data?.data?.results[0]?.id);
+        }
+        // setSelectedServName(resp?.data?.data?.results[0]?.account_name);
+        // setIsLoading(false);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err);
     }
-    setSelectedServName(datastsr?.data?.data?.results[0]?.account_name);
-  }, [datastsr]);
-  // const { data, isLoading, error, refetch } = useGetAssets({ ...filterFields });
-  // const datastsr: SystemSettingsAssetManagementsList200Response | any = data;
+  };
+  // get tags
+  const handleGetAllTags = async () => {
+    setTagLoading(true);
+    const token = localStorage.getItem("token");
+    try {
+      const resp = await axios.get(
+        `https://cspm-api.midrapps.com/system_settings/tags/?page=1&page_size=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 200) {
+        setAllTags(resp?.data?.data?.results ?? []);
+        hideAlert();
+        setTagLoading(false);
+      }
+    } catch (err) {
+      setTagLoading(false);
+      console.log(err);
+    }
+  };
+  // add tags
+  const handleAddTags = async () => {
+    setAddingTag(true);
+    const token = localStorage.getItem("token");
+    try {
+      const resp = await axios.post(
+        `https://cspm-api.midrapps.com/system_settings/tags/?page=1&page_size=10`,
+        {
+          names: allNewTags,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (resp.status === 201) {
+        handleGetAllTags();
+        setAllNewTag([]);
+        setNewTag(false);
+        setAddingTag(false);
+      }
+    } catch (err: any) {
+      showAlert(err?.response?.data?.message, "danger");
+      setAddingTag(false);
+      console.log(err);
+    }
+  };
+
+  const handleRemoveFromAllNewTags = (val: string) => {
+    const filtered = allNewTags.filter((all) => all !== val);
+    setAllNewTag(filtered);
+  };
+
   useEffect(() => {
-    handleGetAllAssets();
+    if (selectedInv) {
+      handleGetAllAssets(selectedInv.services, selectedServ);
+    }
+  }, [selectedInv?.id]);
+
+  useEffect(() => {
+    handleGetAllCloudAccount();
+    handleGetAllTags();
   }, []);
 
-  const topActionButtons = [
-    { name: "add_new_user", label: "Add Asset", icon: "plus", outline: false },
-  ];
-  function modal(buttion: any) {
-    if (buttion === "add_new_user") {
-      // setShowModal(true);
-      setAction("create");
-      setEditItems(null);
-    }
-  }
   function refreshrecord() {
-    handleGetAllAssetsInventory(+selectedServ);
-  }
-  function filterUpdated(data: any) {
-    filter.current = {
-      page: data?.page ?? 1,
-      pageSize: data?.pageSize ?? 10,
-      services: data?.services,
-      ruleCode: data?.ruleCode,
-    };
-    // handleGetAllAssets();
-  }
-  function tableActionClicked(event: TableActionEvent) {
-    if (event.name === "1") {
-      setEditItems(event.data);
-      setAction("edit");
-      // setShowModal(true);
-    }
-    if (event.name === "3") {
-      navigate(`/assets/assets-list/${event.data.id}`);
-      // handleDelete(event.data.id);
+    if (showInvDetail) {
+      handleGetAllAssets(selectedInv.services, selectedServ);
+    } else {
+      handleGetAllAssetsInventory(+selectedServ);
     }
   }
 
-  const tags = [
-    {
-      name: "Manag |",
-      id: 1,
-    },
-    {
-      name: "Display",
-      id: 2,
-    },
-    {
-      name: "Free tags",
-      id: 3,
-    },
-    {
-      name: "Dev",
-      id: 4,
-    },
-    {
-      name: "Prod",
-      id: 5,
-    },
-    {
-      name: "Fillers",
-      id: 6,
-    },
-    {
-      name: "Contz",
-      id: 7,
-    },
-  ];
+  const handleSearch = (val: string) => {
+    const keys = showInvDetail
+      ? ["name", "resource_types", "services", "cloud_identifier", "region"]
+      : ["services"];
+    if (showInvDetail) {
+      if (val) {
+        const filterd = items.filter((item) =>
+          keys.some((key) =>
+            item[key].toLowerCase().includes(val.toLowerCase())
+          )
+        );
+        setItems(filterd);
+      } else {
+        setItems(itemsCopy);
+      }
+    } else {
+      if (val) {
+        const filterd = allInstances.filter((item) =>
+          keys.some((key) =>
+            item[key].toLowerCase().includes(val.toLowerCase())
+          )
+        );
+        setAllInstances(filterd);
+      } else {
+        setAllInstances(allInstancesCopy);
+      }
+    }
+  };
 
   return (
     <div className="w-full px-10 mt-[32px]">
       <div className="flex items-center justify-between w-full md:w-fit flex-row gap-[24px] mb-[36px]">
-        <select
-          name="service"
-          id="services"
-          value={selectedServ}
-          className="bg-transparent font-semibold w-64 p-4"
-          onChange={(e) => {
-            setSelectedServ(e.target.value);
-            const filtered = allServices.find(
-              (serv) => serv.id === Number(e.target.value)
-            )?.account_name;
-            setSelectedServName(filtered);
-            handleGetAllAssetsInventory(Number(e.target.value));
-          }}
-        >
-          <option className="font-medium">select service</option>
-          {allServices.map((serv) => (
-            <option
-              key={serv.account_name}
-              value={serv.id}
-              className="font-medium"
-            >
-              {serv.account_name}
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center gap-[8px]">
+          <img src={awsLogo} alt="aws logo" />
+          <select
+            name="service"
+            id="services"
+            value={selectedServ}
+            className="bg-transparent font-semibold w-64 p-4"
+            onChange={(e) => {
+              setSelectedServ(e.target.value);
+              // const filtered = allServices.find(
+              //   (serv) => serv.id === Number(e.target.value)
+              // )?.account_name;
+              // setSelectedServName(filtered);
+              handleGetAssetsRegion(e.target.value);
+              handleGetAllAssetsInventory(Number(e.target.value));
+              setShowInvDetail(false);
+              setSelectedInv(null);
+            }}
+          >
+            <option className="font-medium">select service</option>
+            {allServices.map((serv) => (
+              <option
+                key={serv.account_name}
+                value={serv.id}
+                className="font-medium"
+              >
+                {serv.account_name}
+              </option>
+            ))}
+          </select>
+        </div>
         <h1 className="font-semibold text-[12px] md:text-[14px] border-start border-end px-[24px]">
-          Total assets : {`${items?.length}`}
+          Total assets : {`${allInstances?.length}`}
         </h1>
         <button className="flex items-center gap-[7px] font-semibold">
           <p className="underline">Export</p>
@@ -322,33 +347,31 @@ const Assets = () => {
             <FaGlobe />
             <span>Assets by Region</span>
           </p>
-          <div className="grid grid-cols-4 gap-[24px] mt-[16px]">
-            <div className="border-end text-start">
-              <h1 className="font-medium text-[14px] mb-[2px] md:text-[18px]">
-                1046
-              </h1>
-              <p className="font-medium text-[12px]">US East-1</p>
-            </div>
-            <div className="border-end text-start">
-              <h1 className="font-medium text-[14px] mb-[2px] md:text-[18px]">
-                3370
-              </h1>
-              <p className="font-medium text-[12px]">Europe</p>
-            </div>
-            <div className="border-end text-start">
-              <h1 className="font-medium text-[14px] mb-[2px] md:text-[18px]">
-                1260
-              </h1>
-              <p className="font-medium text-[12px]">California</p>
-            </div>
-            <div className="text-start">
-              <h1 className="font-medium text-[14px] mb-[2px] md:text-[18px]">
-                12+
-              </h1>
-              <p className="font-medium text-[12px] text-primary underline">
-                View all
-              </p>
-            </div>
+          <div className="flex items-center gap-[24px] mt-[16px]">
+            {allAssetRegion.slice(0, 3).map((alreg) => (
+              <div
+                className="border-end text-start w-full md:w-[120px]"
+                key={alreg.id}
+              >
+                <h1 className="font-medium text-[14px] mb-[2px] md:text-[18px]">
+                  {alreg.count}
+                </h1>
+                <p className="font-medium text-[12px]">{alreg.region}</p>
+              </div>
+            ))}
+            {allAssetRegion.length > 3 && (
+              <div className="text-start">
+                <h1 className="font-medium text-[14px] mb-[2px] md:text-[18px]">
+                  {allAssetRegion.length - 3}+
+                </h1>
+                <Link
+                  to="/cloud-provider/cloud/region"
+                  className="font-medium text-[12px] text-primary underline"
+                >
+                  View all
+                </Link>
+              </div>
+            )}
           </div>
         </div>
         <div
@@ -386,7 +409,7 @@ const Assets = () => {
           <div className="relative">
             <input
               type="text"
-              // onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value)}
               className={`${
                 mode === "dark"
                   ? "placeholder:text-[#EAEAEA]"
@@ -494,17 +517,140 @@ const Assets = () => {
           </button>
         </div>
       </div>
-
-      {showEmpty || isLoading ? (
+      {showEmpty || loading ? (
         <DefaultContent
           pageHeader="All Assets"
           pageDescription="No record found"
-          loading={isLoading}
+          loading={loading}
           buttonValue="Refresh"
           buttonClick={() => refreshrecord()}
         />
+      ) : showInvDetail ? (
+        <div className="w-full mt-[24px]">
+          <div className="flex items-center gap-[16px]">
+            <button
+              className="bg-transparent"
+              onClick={() => {
+                setSelectedInv(null);
+                setShowInvDetail(false);
+              }}
+            >
+              <FaChevronLeft />
+            </button>
+            <select
+              name=""
+              id=""
+              value={selectedInv?.services}
+              onChange={(e) => {
+                const inv = allInstances.find(
+                  (inst) => inst.services === e.target.value
+                );
+                handleGetAllAssets(e.target.value, selectedServ);
+                setSelectedInv(inv);
+              }}
+              className="bg-transparent font-semibold w-52 p-4"
+            >
+              <option className="font-semibold text-[14px]" value="">
+                select
+              </option>
+              {allInstances.map((instance) => (
+                <option
+                  key={instance.id}
+                  className="font-semibold text-[14px]"
+                  value={instance.services}
+                >
+                  {instance.services}
+                </option>
+              ))}
+            </select>
+            <p className="font-semibold text-[12px] border-start pl-[16px]">
+              {items.length}{" "}
+              <span className="font-medium">
+                {items.length > 1 ? "Instances" : "Instance"}
+              </span>
+            </p>
+          </div>
+          <div className="w-full mt-[24px]">
+            <div
+              className={`grid grid-cols-10  p-4 gap-[8px] rounded-t-[1.5rem] mb-3 border-bottom h-[52px] w-[280vw] md:w-[180vw] lg:w-full ${
+                mode === "dark" ? "bg-lightDark" : "bg-white"
+              }`}
+            >
+              <p className="font-semibold text-[12px] col-span-2">Name</p>
+              <p className="font-semibold text-[12px]">Resource Type</p>
+              <p className="font-semibold text-[12px]">Service</p>
+              <p className="font-semibold text-[12px] col-span-2">
+                Cloud Identifier
+              </p>
+              <p className="font-semibold text-[12px]">Cloud Provider</p>
+              <p className="font-semibold text-[12px]">Region</p>
+              <p className="font-semibold text-[12px] col-span-2">Tags</p>
+            </div>
+            {items.map((item) => (
+              <Inventory
+                key={item?.id}
+                data={item}
+                mode={mode}
+                addTag={() => {
+                  setSelAsset(item);
+                  setShowDetail(true);
+                  setPanel("tags");
+                }}
+                showDetails={() => {
+                  setSelAsset(item);
+                  setShowDetail(true);
+                  setPanel("details");
+                }}
+              />
+            ))}
+          </div>
+        </div>
       ) : (
-        <Inventory data={allInstances} mode={mode} />
+        <div className="w-full grid md:grid-cols-4 gap-[23px] mt-[24px]">
+          {allInstances.map((d) => (
+            <div
+              key={d.id}
+              className={`${
+                mode === "dark" ? "bg-lightDark" : "bg-[#FFF]"
+              } rounded-[12px] px-[24px] py-[16px] border`}
+            >
+              <div className="flex items-center justify-between pb-[12px] border-bottom">
+                <h1 className="font-semibold text-[14px]">{d.services}</h1>
+              </div>
+              <div className="flex items-center justify-between pt-[12px]">
+                <p className="font-bold text-[14px]">
+                  {d.count}{" "}
+                  <span className="font-medium">
+                    {d.count > 1 ? "Instances" : "Instance"}
+                  </span>
+                </p>
+                <button
+                  className="font-medium underline"
+                  onClick={() => {
+                    setShowInvDetail(true);
+                    handleGetAllAssets(d?.services, selectedServ);
+                    setSelectedInv(d);
+                  }}
+                >
+                  view all
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {showDetail && (
+        <AssetDetails
+          data={selAsset}
+          handleHide={() => {
+            setShowDetail(false);
+            setPanel("");
+          }}
+          isOpen={showDetail}
+          panel={panels}
+          tagList={allTags}
+          refetch={() => handleGetAllAssets(selAsset.services, selectedServ)}
+        />
       )}
 
       {showModalType === "new_assets" && (
@@ -514,7 +660,10 @@ const Assets = () => {
           handleHide={() => setShowModalType("")}
           action={action}
           mode={mode}
-          handleRefetch={() => handleGetAllAssetsInventory(+selectedServ)}
+          handleRefetch={() => {
+            handleGetAllAssetsInventory(+selectedServ)
+            handleGetAssetsRegion(+selectedServ)
+          }}
         />
       )}
       <Modal
@@ -524,6 +673,7 @@ const Assets = () => {
           setCurrNewTag("");
           setAllNewTag([]);
           setNewTag(false);
+          hideAlert();
         }}
         keyboard={false}
       >
@@ -580,7 +730,9 @@ const Assets = () => {
           </p>
           <div className="mt-[20px]">
             <div className="flex items-center justify-between mb-[24px]">
-              <p className="text-[12px] md:text-[14px] font-semibold">6 Tags</p>
+              <p className="text-[12px] md:text-[14px] font-semibold">
+                {allTags.length} Tags
+              </p>
               <button
                 onClick={() => setNewTag(!newTag)}
                 className="flex py-[4px] text-[10px] md:text-[12px] font-medium items-center gap-[8px]"
@@ -626,32 +778,52 @@ const Assets = () => {
                     <FaPlus color="white" />
                   </button>
                   <div className="flex items-center gap-[2px] flex-wrap">
-                    <p className="font-medium text-[10px]">
-                      {allNewTags.join(", ")}
-                    </p>
+                    {allNewTags.map((all) => (
+                      <button
+                        key={all}
+                        onClick={() => handleRemoveFromAllNewTags(all)}
+                        className="font-medium bg-[#EFEFEF] text-[#6A6A6A] rounded-full px-[8px] py-[2px]uppercase flex items-center justify-center gap-[8px] text-[10px]"
+                      >
+                        <span>{all}</span>
+                        <FaTimes color="#284CB3" />
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
             )}
-            <div className="grid md:grid-cols-2 gap-y-[16px] gap-x-[32px] mt-[24px]">
-              {tags.map((tag) => (
-                <TagCard
-                  name={tag.name}
-                  id={tag.id}
-                  mode={mode}
-                  handleDete={() => console.log("hurray")}
-                />
-              ))}
-            </div>
+            {(tagLoading || allTags.length < 1) && (
+              <DefaultContent
+                pageHeader="All Tags"
+                pageDescription="No record found"
+                loading={tagLoading}
+                buttonValue="Refresh"
+                buttonClick={handleGetAllTags}
+              />
+            )}
+            {!tagLoading && (
+              <div className="grid md:grid-cols-2 gap-y-[16px] gap-x-[32px] mt-[24px]">
+                {allTags.map((tag) => (
+                  <TagCard
+                    key={tag.id}
+                    name={tag.name}
+                    id={tag.id}
+                    mode={mode}
+                    refetch={handleGetAllTags}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </Modal.Body>
+        <Alert />
         <Modal.Footer className="border-top-0">
           {newTag && allNewTags.length > 0 && (
             <button
-              onClick={() => {}}
-              className="bg-[#284CB3] w-32 font-medium rounded-full p-2 text-white text-center"
+              onClick={handleAddTags}
+              className="bg-[#284CB3] w-fit font-medium rounded-full px-[24px] py-[12px] text-white text-center"
             >
-              save
+              {addingTag ? "processing" : "save"}
             </button>
           )}
         </Modal.Footer>
