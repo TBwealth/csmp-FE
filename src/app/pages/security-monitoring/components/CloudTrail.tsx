@@ -10,6 +10,7 @@ import { FaStopwatch } from "react-icons/fa";
 import axios from "axios";
 import { Modal } from "react-bootstrap";
 import useAlert from "../../components/useAlert";
+import awsLogo from "../../../../../public/media/logos/aws-light.svg";
 
 const CloudTrail = () => {
   const [allServices, setAllServices] = useState<any[]>([]);
@@ -168,35 +169,38 @@ const CloudTrail = () => {
   return (
     <div className="w-full px-10 mt-[32px]">
       <div className="flex items-center justify-between flex-row gap-[10px]">
-        <select
-          name="service"
-          id="services"
-          value={selectedServ}
-          className="w-[60%] md:w-[452px] bg-[#EAEAEA] p-4 rounded-[8px] border-2 border-light font-medium"
-          onChange={(e) => {
-            setSetup({
-              ...setup,
-              cloud_provider_account_id: Number(e.target.value),
-            });
-            setSelectedServ(e.target.value);
-            handleGetAllFilters();
-            const filtered = allServices.find(
-              (serv) => serv.id === Number(e.target.value)
-            )?.account_name;
-            setSelectedServName(filtered);
-          }}
-        >
-          <option className="font-medium">select service</option>
-          {allServices.map((serv) => (
-            <option
-              key={serv.account_name}
-              value={serv.id}
-              className="font-medium"
-            >
-              {serv.account_name}
-            </option>
-          ))}
-        </select>
+        <div className="flex items-center gap">
+          <img src={awsLogo} alt="aws logo" />
+          <select
+            name="service"
+            id="services"
+            value={selectedServ}
+            className="w-[60%] md:w-[452px] bg-[#EAEAEA] p-4 rounded-[8px] border-2 border-light font-medium"
+            onChange={(e) => {
+              setSetup({
+                ...setup,
+                cloud_provider_account_id: Number(e.target.value),
+              });
+              setSelectedServ(e.target.value);
+              handleGetAllFilters();
+              const filtered = allServices.find(
+                (serv) => serv.id === Number(e.target.value)
+              )?.account_name;
+              setSelectedServName(filtered);
+            }}
+          >
+            <option className="font-medium">select service</option>
+            {allServices.map((serv) => (
+              <option
+                key={serv.account_name}
+                value={serv.id}
+                className="font-medium"
+              >
+                {serv.account_name}
+              </option>
+            ))}
+          </select>
+        </div>
         <Link
           to={`/monitoring/cloudtrail-history/${selectedServ}?name=${selectedServName}`}
           className="font-medium text-[12px] md:text-[14px] flex items-center gap-[8px] pl-[8px] md:pl-[16px] border-start"
@@ -353,11 +357,10 @@ const CloudTrail = () => {
           <select
             id="frequency"
             name="frequency"
-            onChange={(e) =>{
-              setSetup({ ...setup, scan_frequency: e.target.value })
+            onChange={(e) => {
+              setSetup({ ...setup, scan_frequency: e.target.value });
               hideAlert();
-            }
-            }
+            }}
             className={`w-full rounded-[8px] border py-[12px] px-[16px] font-medium ${
               mode === "dark" ? "bg-lightDark" : "bg-[#FFF]"
             }`}
