@@ -24,7 +24,7 @@ const Inventory = ({ data, mode, showDetails, addTag }: any) => {
             </p>
           )) : <p className="font-medium">N/A</p>}
           {
-            data?.tags.length > 2 && <p className="font-medium text-[12px] pl-1">{`${data?.tags.length - 2}+`}</p>
+            data?.tags.length > 2 && <p className="font-medium text-[12px] pl-1">{`+${data?.tags.length - 2}`}</p>
           }
         </div>
         <Popover

@@ -6,6 +6,7 @@ import ProviderServices from "./components/ProviderServices";
 import CloudRegion from "./components/CloudRegion";
 import SuppressionSetup from "./components/SuppressionSetup";
 import SuppressionLogs from "./components/SuppressionLogs";
+import ResourchArch from "../assets/ResourchArch";
 
 const cloudProviderBreadCrumbs: Array<PageLink> = [
   {
@@ -71,7 +72,7 @@ const CloudProviderPage: React.FC = () => {
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-              Suppression Setup
+                Suppression Setup
               </PageTitle>
               <SuppressionSetup />
             </>
@@ -82,14 +83,28 @@ const CloudProviderPage: React.FC = () => {
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-              Suppression Logs
+                Suppression Logs
               </PageTitle>
               <SuppressionLogs />
             </>
           }
         />
+        <Route
+          path="architecture/:id"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Resource Architecture
+              </PageTitle>
+              <ResourchArch />
+            </>
+          }
+        />
 
-        <Route index element={<Navigate to="clouder-provider/cloud/provider-resource" />} />
+        <Route
+          index
+          element={<Navigate to="clouder-provider/cloud/provider-resource" />}
+        />
       </Route>
     </Routes>
   );
