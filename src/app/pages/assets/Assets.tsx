@@ -32,6 +32,8 @@ const Assets = () => {
   const [addingTag, setAddingTag] = useState(false);
   const [page, setPage] = useState(1);
   const { mode } = useRecoilValue(modeAtomsAtom);
+  const [canNext, setCanNext] = useState(false);
+  const [canPrev, setCanPrev] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const { showAlert, Alert, hideAlert } = useAlert();
   const [showModalType, setShowModalType] = useState("");
@@ -71,7 +73,9 @@ const Assets = () => {
       if (resp.status === 200) {
         setItems(resp?.data?.data?.results ?? []);
         setItemsCopy(resp?.data?.data?.results ?? []);
-        settotalItems(Math.ceil(resp?.data?.data?.count));
+        settotalItems(resp?.data?.data?.count);
+        setCanNext(resp.data?.data?.next ? true : false);
+        setCanPrev(resp.data?.data?.previous ? true : false);
         setIsLoading(false);
       }
     } catch (err) {
@@ -132,7 +136,6 @@ const Assets = () => {
     }
   };
 
-  
   // get cloud accounts
   const handleGetAllCloudAccount = async () => {
     setIsLoading(true);
@@ -237,6 +240,14 @@ const Assets = () => {
     }
   }
 
+  function filterUpdated(data: any) {
+    filter.current = {
+      page: data?.page ?? 1,
+      pageSize: data?.pageSize ?? 10,
+    };
+    handleGetAllAssets(selectedInv.services, selectedServ);
+  }
+
   const handleSearch = (val: string) => {
     const keys = showInvDetail
       ? ["name", "resource_types", "services", "cloud_identifier", "region"]
@@ -278,6 +289,11 @@ const Assets = () => {
             className="bg-transparent font-semibold w-64 p-4"
             onChange={(e) => {
               setSelectedServ(e.target.value);
+              filter.current = {
+                ...filter.current,
+                page: 1,
+                pageSize: 10
+              }
               // const filtered = allServices.find(
               //   (serv) => serv.id === Number(e.target.value)
               // )?.account_name;
@@ -382,7 +398,12 @@ const Assets = () => {
           } p-[24px] md:col-span-4 flex items-center justify-between rounded-[8px] border`}
         >
           <img src={assetachi} alt="asset architecture icon" />
-          <button className="flex items-center gap-[16px]">
+          <button
+            onClick={() =>
+              navigate(`/cloud-provider/cloud/architecture/${selectedServ}`)
+            }
+            className="flex items-center gap-[16px]"
+          >
             <h2 className="font-medium text-[14px]">View Architecture</h2>
             <svg
               width="28"
@@ -531,6 +552,12 @@ const Assets = () => {
             <button
               className="bg-transparent"
               onClick={() => {
+                filter.current = {
+                  ...filter.current,
+                  page: 1,
+                  pageSize: 10,
+                }
+                setPageSize(10)
                 setSelectedInv(null);
                 setShowInvDetail(false);
               }}
@@ -545,6 +572,11 @@ const Assets = () => {
                 const inv = allInstances.find(
                   (inst) => inst.services === e.target.value
                 );
+                filter.current = {
+                  ...filter.current,
+                  page: 1,
+                  pageSize: 10,
+                }
                 handleGetAllAssets(e.target.value, selectedServ);
                 setSelectedInv(inv);
               }}
@@ -564,9 +596,9 @@ const Assets = () => {
               ))}
             </select>
             <p className="font-semibold text-[12px] border-start pl-[16px]">
-              {items.length}{" "}
+              {totalItems}{" "}
               <span className="font-medium">
-                {items.length > 1 ? "Instances" : "Instance"}
+                {totalItems > 1 ? "Instances" : "Instance"}
               </span>
             </p>
           </div>
@@ -603,6 +635,64 @@ const Assets = () => {
                 }}
               />
             ))}
+          </div>
+          <div className="mt-[10px]">
+            <div className="flex items-center justify-between">
+              {totalItems > pageSize && (
+                <div className="flex items-center font-medium justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <p>page size:</p>
+                    <select
+                      value={String(filter.current.pageSize)}
+                      onChange={(e) => {
+                        filterUpdated({
+                          ...filter.current,
+                          page: 1,
+                          pageSize: e.target.value,
+                        });
+                        setPageSize(+e.target.value);
+                      }}
+                      className="w-24 border-2 rounded-md p-2 bg-none"
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                  <div className="flex font-medium items-center gap-3">
+                    <button
+                      disabled={!canPrev}
+                      onClick={() => {
+                        if (page <= 1) {
+                          setPage(1);
+                          // useGetAllScanHistory(1, 5);
+                        } else {
+                          // useGetAllScanHistory(page - 1, 5);
+                          setPage((page) => page - 1);
+                          filterUpdated({ ...filter.current, page: page - 1 });
+                        }
+                      }}
+                      className="p-2 rounded-md font-medium w-24 bg-primary text-white hover:bg-transparent hover:text-primary hover:border-primary"
+                    >
+                      Previous
+                    </button>
+                    <button
+                      disabled={!canNext}
+                      onClick={() => {
+                        // useGetAllScanHistory(page + 1, 5)
+                        setPage((page) => page + 1);
+                        filterUpdated({ ...filter.current, page: page + 1 });
+                      }}
+                      className="p-2 bg-primary font-medium text-white rounded-md w-24 hover:bg-transparent hover:text-primary hover:border-primary"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ) : (
@@ -661,8 +751,8 @@ const Assets = () => {
           action={action}
           mode={mode}
           handleRefetch={() => {
-            handleGetAllAssetsInventory(+selectedServ)
-            handleGetAssetsRegion(+selectedServ)
+            handleGetAllAssetsInventory(+selectedServ);
+            handleGetAssetsRegion(+selectedServ);
           }}
         />
       )}

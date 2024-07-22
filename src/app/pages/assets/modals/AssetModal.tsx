@@ -511,6 +511,8 @@ const AssetModal = ({
                   othersClick={(e) => console.log(e)}
                   placeholder="Select Option"
                   valueChange={(e) => {
+                    // let splt = e.split(",")
+                    // console.log(splt);
                       setAsset({
                         ...asset, tag_ids: [...asset.tag_ids, e]
                       })
