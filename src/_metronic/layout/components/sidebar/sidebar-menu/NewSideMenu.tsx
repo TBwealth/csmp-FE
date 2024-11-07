@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Tooltip } from "flowbite-react";
 import modeAtomsAtom from "../../../../../app/atoms/modeAtoms.atom";
 import pageAtom from "../../../../../app/atoms/pagAtom";
 import { Link, useLocation } from "react-router-dom";
@@ -756,6 +757,81 @@ const NewSideMenu = () => {
         },
       ],
     },
+    {
+      title: "Plans and Billings",
+      href: "/billing",
+      path: "/billing",
+      allowedRoles: ["Admin", "Tenant"],
+      icon: (
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 18 18"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+            color={
+            pathname.includes("/billing")
+              ? "#284CB3"
+              : mode === "dark"
+              ? "#EAEAEA"
+              : "#000000"
+          }
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M1.6875 6.75C1.6875 5.61091 2.61091 4.6875 3.75 4.6875H14.25C15.3891 4.6875 16.3125 5.61091 16.3125 6.75V13.5C16.3125 14.6391 15.3891 15.5625 14.25 15.5625H3.75C2.61091 15.5625 1.6875 14.6391 1.6875 13.5V6.75ZM3.75 5.8125C3.23223 5.8125 2.8125 6.23223 2.8125 6.75V13.5C2.8125 14.0178 3.23223 14.4375 3.75 14.4375H14.25C14.7678 14.4375 15.1875 14.0178 15.1875 13.5V6.75C15.1875 6.23223 14.7678 5.8125 14.25 5.8125H3.75Z"
+                fill={
+              pathname.includes("/billing")
+                ? "#284CB3"
+                : mode === "dark"
+                ? "#EAEAEA"
+                : "#000000"
+            }
+          />
+          <path
+            d="M12.375 10.5C12.1679 10.5 12 10.3321 12 10.125C12 9.91789 12.1679 9.75 12.375 9.75C12.5821 9.75 12.75 9.91789 12.75 10.125C12.75 10.3321 12.5821 10.5 12.375 10.5Z"
+                fill={
+              pathname.includes("/billing")
+                ? "#284CB3"
+                : mode === "dark"
+                ? "#EAEAEA"
+                : "#000000"
+            }
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M12.375 10.3125C12.2714 10.3125 12.1875 10.2286 12.1875 10.125C12.1875 10.0214 12.2714 9.9375 12.375 9.9375C12.4786 9.9375 12.5625 10.0214 12.5625 10.125C12.5625 10.2286 12.4786 10.3125 12.375 10.3125ZM13.3125 10.125C13.3125 9.60723 12.8928 9.1875 12.375 9.1875C11.8572 9.1875 11.4375 9.60723 11.4375 10.125C11.4375 10.6428 11.8572 11.0625 12.375 11.0625C12.8928 11.0625 13.3125 10.6428 13.3125 10.125Z"
+                fill={
+              pathname.includes("/billing")
+                ? "#284CB3"
+                : mode === "dark"
+                ? "#EAEAEA"
+                : "#000000"
+            }
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M12.9375 4.20425C12.9375 3.58829 12.3536 3.13969 11.7584 3.29841L3.50844 5.49841C3.09805 5.60784 2.8125 5.97952 2.8125 6.40425V6.75183H1.6875V6.40425C1.6875 5.46983 2.3157 4.65216 3.21857 4.41139L11.4686 2.21139C12.7779 1.86223 14.0625 2.84912 14.0625 4.20425V5.25183H12.9375V4.20425Z"
+                fill={
+              pathname.includes("/billing")
+                ? "#284CB3"
+                : mode === "dark"
+                ? "#EAEAEA"
+                : "#000000"
+            }
+          />
+        </svg>
+      ),
+      children: [
+        {
+          title: "Billing",
+          href: "/billing",
+        },
+      ],
+    },
   ];
 
   const routes = links.filter((link) =>
@@ -781,12 +857,13 @@ const NewSideMenu = () => {
             )}
           </Link>
         </div>
-        <div className="md:overflow-auto h-[90vh] relative">
+        <div className="h-[90vh] overflow-scroll">
           <div className="pr-2 pr-md-0">
             {routes.map((link) => (
               <div
                 role="button"
                 key={link.title}
+                title={link.title}
                 className="flex items-center gap-2 w-[62px] h-[66px]"
                 onClick={() => {
                   setPageTitle(link.children![0].title);
@@ -796,7 +873,7 @@ const NewSideMenu = () => {
                       "children",
                       JSON.stringify(link.children)
                     );
-                  }
+                  } 
                 }}
               >
                 {pathname.includes(link.path) ? (
@@ -847,7 +924,8 @@ const NewSideMenu = () => {
               </div>
             ))}
           </div>
-          <div className="absolute bottom-12 left-5">
+          {/* <div className="absolute bottom-12 left-5"> */}
+          <div title="profile"  className="w-[62px] h-[66px] flex items-center justify-center">
             <button
               onClick={() => {
                 setPopOpen(!popOpen);
@@ -855,8 +933,8 @@ const NewSideMenu = () => {
               className="rounded-full p-2 bg-primary flex items-center justify-center"
             >
               <svg
-                width="18px"
-                height="18px"
+                width="14px"
+                height="14px"
                 strokeWidth="1.5"
                 viewBox="0 0 24 24"
                 fill="none"
@@ -915,6 +993,8 @@ const NewSideMenu = () => {
               onClick={() => {
                 logout();
                 setPopOpen(false);
+                sessionStorage.clear();
+                localStorage.clear();
               }}
               className="menu-link font-medium"
             >
@@ -923,7 +1003,7 @@ const NewSideMenu = () => {
           </div>
         </div>
       )}
-      {isOpen && children.length && (
+      {isOpen && children.length > 0 && (
         <div className="pt-6 w-full md:max-w-[300px] h-full">
           <div className="menu-item w-full mb-[16px]">
             <div className="menu-content pt-8 pb-2 flex items-center justify-between">
