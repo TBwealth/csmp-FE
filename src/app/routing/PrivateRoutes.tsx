@@ -8,6 +8,7 @@ import { getCSSVariableValue } from "../../_metronic/assets/ts/_utils";
 import { WithChildren } from "../../_metronic/helpers";
 import BuilderPageWrapper from "../pages/layout-builder/BuilderPageWrapper";
 import ChangePassword from "../pages/auth/components/ChangePassword";
+import BillingPage from "../pages/billing/BillingPage";
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import("../modules/profile/ProfilePage"));
@@ -36,6 +37,7 @@ const PrivateRoutes = () => {
   const RepositoryPage = lazy(() => import("../pages/repository/RepositoryPage"));
   const SecurityMonitoring = lazy(() => import("../pages/security-monitoring/SecurityMonitoringPage"));
   const Report = lazy(() => import("../pages/report/ReportPage"));
+  // const BillingPage = lazy(() => import("../pages/billing/BillingPage"))
   
 
   return (
@@ -120,6 +122,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <Report />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path="/billing/*"
+          element={
+            <SuspensedView>
+              <BillingPage />
             </SuspensedView>
           }
         />
