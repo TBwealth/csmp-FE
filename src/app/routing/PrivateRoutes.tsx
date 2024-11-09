@@ -78,7 +78,8 @@ const PrivateRoutes = () => {
           }
         />
         <Route
-          path="/tickets/*"
+          // path="/tickets/*"
+          path="/integration/*"
           element={
             <SuspensedView>
               <TicketPage />
