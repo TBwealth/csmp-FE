@@ -1,14 +1,19 @@
 import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
+import NewIntegration from "./components/NewIntegration";
+import ConfiguredIntegration from "./components/ConfiguredIntegration";
+import Plugins from "./components/Plugins";
 import TicketsTickets from "./components/TicketsTickets";
 import TicketsActivities from "./components/TicketActivities";
 import TicketTypes from "./components/TicketTypes";
 
 const ticketsBreadCrumbs: Array<PageLink> = [
   {
-    title: "Tickets",
-    path: "/tickets",
+    // title: "Tickets",
+    // path: "/tickets",
+    title: "Integration",
+    path: "/integration",
     isSeparator: false,
     isActive: false,
   },
@@ -31,41 +36,46 @@ const TicketsPage: React.FC = () => {
         }
       >
         <Route
-          path="tickets-list"
+          // path="tickets-list"
+          path="new-integration"
           element={
             <>
-              <PageTitle breadcrumbs={ticketsBreadCrumbs}>
+              {/* <PageTitle breadcrumbs={ticketsBreadCrumbs}>
                 Ticket List
               </PageTitle>
-              <TicketsTickets/>
+              <TicketsTickets/> */}
+              <PageTitle breadcrumbs={ticketsBreadCrumbs}>
+              New Integration
+              </PageTitle>
+              <NewIntegration/>
             </>
           }
         />
         <Route
-          path="ticket-activities/:id"
+          path="configured-integration"
           // path="ticket-activities"
           element={
             <>
               <PageTitle breadcrumbs={ticketsBreadCrumbs}>
-               Ticket Activities
+               Configured Integration
               </PageTitle>
-              <TicketsActivities/>
+              <ConfiguredIntegration/>
             </>
           }
         />
         <Route
-          path="ticket-types"
+          path="plugins"
           element={
             <>
               <PageTitle breadcrumbs={ticketsBreadCrumbs}>
-                Ticket Types
+                Plugins
               </PageTitle>
-              <TicketTypes/>
+              <Plugins/>
             </>
           }
         />
 
-    <Route index element={<Navigate to="/tickets" />} />
+    <Route index element={<Navigate to="/integration/new-integration" />} />
 
       </Route>
     </Routes>

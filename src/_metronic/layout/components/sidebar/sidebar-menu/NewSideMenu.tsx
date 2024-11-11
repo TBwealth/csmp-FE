@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Tooltip } from "flowbite-react";
 import modeAtomsAtom from "../../../../../app/atoms/modeAtoms.atom";
 import pageAtom from "../../../../../app/atoms/pagAtom";
 import { Link, useLocation } from "react-router-dom";
@@ -16,10 +15,11 @@ type Links = {
   allowedRoles?: string[];
   groupTitle?: string;
   icon: any;
+  hasTag?: boolean;
 };
 
 const NewSideMenu = () => {
-  const { currentUser, logout } = useAuth();
+  const { logout } = useAuth();
   const { mode } = useRecoilValue(modeAtomsAtom);
   const setPageTitle = useSetRecoilState(pageAtom);
   const [isOpen, setIsOpen] = useState(false);
@@ -611,8 +611,8 @@ const NewSideMenu = () => {
     },
     {
       title: "Integration",
-      href: "tickets/ticket-types",
-      path: "tickets",
+      href: "/integration/new-integration",
+      path: "/integration",
       allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
@@ -623,7 +623,7 @@ const NewSideMenu = () => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           color={
-            pathname.includes("tickets/")
+            pathname.includes("integration/")
               ? "#284CB3"
               : mode === "dark"
               ? "#EAEAEA"
@@ -633,7 +633,7 @@ const NewSideMenu = () => {
           <path
             d="M3 19H12M21 19H12M12 19V13M12 13H18V5H6V13H12Z"
             stroke={
-              pathname.includes("tickets/")
+              pathname.includes("integration/")
                 ? "#284CB3"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -646,7 +646,7 @@ const NewSideMenu = () => {
           <path
             d="M9 9.01L9.01 8.99889"
             stroke={
-              pathname.includes("tickets/")
+              pathname.includes("integration/")
                 ? "#284CB3"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -659,7 +659,7 @@ const NewSideMenu = () => {
           <path
             d="M12 9.01L12.01 8.99889"
             stroke={
-              pathname.includes("tickets/")
+              pathname.includes("integration/")
                 ? "#284CB3"
                 : mode === "dark"
                 ? "#EAEAEA"
@@ -673,26 +673,39 @@ const NewSideMenu = () => {
       ),
       children: [
         {
-          title: "Setup Task Types",
-          href: "tickets/ticket-types",
+          title: "New Integrations",
+          href: "/integration/new-integration",
         },
         {
-          title: "Tasks list",
-          href: "/tickets/tickets-list",
+          title: "Configured Integrations",
+          href: "/integration/configured-integration",
         },
         {
-          title: "Notifications",
-          href: "",
+          title: "Plugins",
+          href: "/integration/plugins",
+          hasTag: true,
         },
-        {
-          title: "Payment Gateways",
-          href: "",
-        },
+        // {
+        //   title: "Setup Task Types",
+        //   href: "tickets/ticket-types",
+        // },
+        // {
+        //   title: "Tasks list",
+        //   href: "/tickets/tickets-list",
+        // },
+        // {
+        //   title: "Notifications",
+        //   href: "",
+        // },
+        // {
+        //   title: "Payment Gateways",
+        //   href: "",
+        // },
       ],
     },
     {
       title: "Settings",
-      href: "/settings",
+      href: "/settings/user-management",
       path: "/settings",
       allowedRoles: ["Admin", "Tenant"],
       icon: (
@@ -741,19 +754,20 @@ const NewSideMenu = () => {
       ),
       children: [
         {
-          title: "Account Settings",
-          // href: "/settings/account-settings",
-          href: "",
+          title: "User Management",
+          href: "/settings/user-management",
         },
         {
-          title: "Notification Preferences",
-          // href: "/settings/notification-preferences",
-          href: "",
+          title: "Account Profile",
+          href: "/settings/account-setting",
         },
         {
-          title: "Billing & Subscriptions",
-          href: "",
-          // href: "/settings/billing",
+          title: "Notifications",
+          href: "/settings/notifications",
+        },
+        {
+          title: "Audit Logs",
+          href: "/settings/audit-logs",
         },
       ],
     },
@@ -769,7 +783,7 @@ const NewSideMenu = () => {
           viewBox="0 0 18 18"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-            color={
+          color={
             pathname.includes("/billing")
               ? "#284CB3"
               : mode === "dark"
@@ -781,7 +795,7 @@ const NewSideMenu = () => {
             fillRule="evenodd"
             clipRule="evenodd"
             d="M1.6875 6.75C1.6875 5.61091 2.61091 4.6875 3.75 4.6875H14.25C15.3891 4.6875 16.3125 5.61091 16.3125 6.75V13.5C16.3125 14.6391 15.3891 15.5625 14.25 15.5625H3.75C2.61091 15.5625 1.6875 14.6391 1.6875 13.5V6.75ZM3.75 5.8125C3.23223 5.8125 2.8125 6.23223 2.8125 6.75V13.5C2.8125 14.0178 3.23223 14.4375 3.75 14.4375H14.25C14.7678 14.4375 15.1875 14.0178 15.1875 13.5V6.75C15.1875 6.23223 14.7678 5.8125 14.25 5.8125H3.75Z"
-                fill={
+            fill={
               pathname.includes("/billing")
                 ? "#284CB3"
                 : mode === "dark"
@@ -791,7 +805,7 @@ const NewSideMenu = () => {
           />
           <path
             d="M12.375 10.5C12.1679 10.5 12 10.3321 12 10.125C12 9.91789 12.1679 9.75 12.375 9.75C12.5821 9.75 12.75 9.91789 12.75 10.125C12.75 10.3321 12.5821 10.5 12.375 10.5Z"
-                fill={
+            fill={
               pathname.includes("/billing")
                 ? "#284CB3"
                 : mode === "dark"
@@ -803,7 +817,7 @@ const NewSideMenu = () => {
             fillRule="evenodd"
             clipRule="evenodd"
             d="M12.375 10.3125C12.2714 10.3125 12.1875 10.2286 12.1875 10.125C12.1875 10.0214 12.2714 9.9375 12.375 9.9375C12.4786 9.9375 12.5625 10.0214 12.5625 10.125C12.5625 10.2286 12.4786 10.3125 12.375 10.3125ZM13.3125 10.125C13.3125 9.60723 12.8928 9.1875 12.375 9.1875C11.8572 9.1875 11.4375 9.60723 11.4375 10.125C11.4375 10.6428 11.8572 11.0625 12.375 11.0625C12.8928 11.0625 13.3125 10.6428 13.3125 10.125Z"
-                fill={
+            fill={
               pathname.includes("/billing")
                 ? "#284CB3"
                 : mode === "dark"
@@ -815,7 +829,7 @@ const NewSideMenu = () => {
             fillRule="evenodd"
             clipRule="evenodd"
             d="M12.9375 4.20425C12.9375 3.58829 12.3536 3.13969 11.7584 3.29841L3.50844 5.49841C3.09805 5.60784 2.8125 5.97952 2.8125 6.40425V6.75183H1.6875V6.40425C1.6875 5.46983 2.3157 4.65216 3.21857 4.41139L11.4686 2.21139C12.7779 1.86223 14.0625 2.84912 14.0625 4.20425V5.25183H12.9375V4.20425Z"
-                fill={
+            fill={
               pathname.includes("/billing")
                 ? "#284CB3"
                 : mode === "dark"
@@ -873,7 +887,7 @@ const NewSideMenu = () => {
                       "children",
                       JSON.stringify(link.children)
                     );
-                  } 
+                  }
                 }}
               >
                 {pathname.includes(link.path) ? (
@@ -925,7 +939,10 @@ const NewSideMenu = () => {
             ))}
           </div>
           {/* <div className="absolute bottom-12 left-5"> */}
-          <div title="profile"  className="w-[62px] h-[66px] flex items-center justify-center">
+          <div
+            title="profile"
+            className="w-[62px] h-[66px] flex items-center justify-center"
+          >
             <button
               onClick={() => {
                 setPopOpen(!popOpen);
@@ -1041,14 +1058,39 @@ const NewSideMenu = () => {
               <Link
                 key={child?.href!}
                 to={child.href!}
-                className={`menu-link without-sub w-full ${
+                className={`menu-link without-sub w-full flex items-center justify-between ${
                   pathname === child.href!
                     ? "text-primary bg-[#284CB31A] font-semibold text-[14px] px-[12px] py-[10px] rounded-xl w-full"
                     : "py-[10px] w-full font-semibold hover:text-primary hover:bg-[#284CB31A] hover:px-2 hover:rounded-xl hover:font-medium"
                 }`}
                 onClick={() => setPageTitle(child.title)}
               >
-                {child.title}
+                {child.title}{" "}
+                {child?.hasTag && (
+                  <div className="rounded-full px-[6px] py-[2px] flex bg-[#284CB30D] text-primary font-medium items-center gap-[2px]">
+                    <svg
+                      width="12"
+                      height="13"
+                      viewBox="0 0 12 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M6 10.125C8.27817 10.125 10.125 8.27817 10.125 6V3.5C10.125 3.15482 9.84518 2.875 9.5 2.875H2.5C2.15482 2.875 1.875 3.15482 1.875 3.5V6C1.875 8.27817 3.72183 10.125 6 10.125ZM10.875 6C10.875 8.69239 8.69239 10.875 6 10.875C3.30761 10.875 1.125 8.69239 1.125 6V3.5C1.125 2.74061 1.74061 2.125 2.5 2.125H9.5C10.2594 2.125 10.875 2.74061 10.875 3.5V6Z"
+                        fill="#284CB3"
+                      />
+                      <path
+                        fillRule="evenodd"
+                        clipRule="evenodd"
+                        d="M3.73483 5.23483C3.88128 5.08839 4.11872 5.08839 4.26517 5.23483L6 6.96967L7.73483 5.23483C7.88128 5.08839 8.11872 5.08839 8.26516 5.23483C8.41161 5.38128 8.41161 5.61872 8.26516 5.76517L6.26517 7.76517C6.11872 7.91161 5.88128 7.91161 5.73483 7.76517L3.73483 5.76517C3.58839 5.61872 3.58839 5.38128 3.73483 5.23483Z"
+                        fill="#284CB3"
+                      />
+                    </svg>
+                    <small>Soon</small>
+                  </div>
+                )}
               </Link>
             ))}
           </div>

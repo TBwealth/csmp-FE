@@ -307,7 +307,7 @@ const ReportHistory = () => {
         </div>
         {
           allReports.map((report, idx) => (
-            <HistoryCard mode={mode} data={report} isLast={idx === allReports.length - 1}  key={report.time+id}/>
+            <HistoryCard mode={mode} data={report} isLast={idx === allReports.length - 1}  key={report.time+`${idx}`}/>
           ))
         }
       </div>

@@ -28,7 +28,7 @@ const EmptyTemplates = ({ showModal, mode }: any) => {
       </p>
       <button
         onClick={showModal}
-        className="rounded-full text-white w-52 p-3 flex font-medium textWhite items-center justify-center gap-2 bg-[#284CB3] text-White"
+        className="rounded-full text-white px-[24px] py-[8px] flex font-medium textWhite items-center justify-center gap-2 bg-[#284CB3] text-White"
       >
         <p>New Template</p>
         <svg
