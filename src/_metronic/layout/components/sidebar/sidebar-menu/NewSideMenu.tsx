@@ -705,7 +705,7 @@ const NewSideMenu = () => {
     },
     {
       title: "Settings",
-      href: "/settings",
+      href: "/settings/user-management",
       path: "/settings",
       allowedRoles: ["Admin", "Tenant"],
       icon: (
@@ -754,19 +754,20 @@ const NewSideMenu = () => {
       ),
       children: [
         {
-          title: "Account Settings",
-          // href: "/settings/account-settings",
-          href: "",
+          title: "User Management",
+          href: "/settings/user-management",
         },
         {
-          title: "Notification Preferences",
-          // href: "/settings/notification-preferences",
-          href: "",
+          title: "Account Profile",
+          href: "/settings/account-setting",
         },
         {
-          title: "Billing & Subscriptions",
-          href: "",
-          // href: "/settings/billing",
+          title: "Notifications",
+          href: "/settings/notifications",
+        },
+        {
+          title: "Audit Logs",
+          href: "/settings/audit-logs",
         },
       ],
     },
