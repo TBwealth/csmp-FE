@@ -111,7 +111,7 @@ const RuleModal = ({ editItem, onClearEdit, isOpen, handleHide }: any) => {
   async function getServices(service: string) {
     try {
       const res = await axios.get(
-        `https://cspm-api.midrapps.com/cloud_provider/resource_types/?cloud_provider=${service}&page=1&page_size=10`,
+        `https://cspm-api.midrapps.com/cloud_provider/api/v1/resource_types/?cloud_provider=${service}&page=1&page_size=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

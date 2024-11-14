@@ -44,7 +44,7 @@ const ChangePassword = () => {
   // const handleChangePassword = async (setStatus: any, payload: any) => {
   //   try {
   //     const resp = await axios.post(
-  //       "https://cspm-api.midrapps.com/accounts/api/forgot_password_change/",
+  //       "https://cspm-api.midrapps.com/accounts/api/v1/forgot_password_change/",
   //       payload
   //     );
   //     if (resp.status === 201) {

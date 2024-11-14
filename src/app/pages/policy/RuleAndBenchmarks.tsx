@@ -201,7 +201,7 @@ const RuleAndBenchmarks = () => {
     setIsLoading(true);
     setshowEmpty(true);
     try {
-      const url = `https://cspm-api.midrapps.com/policy/rules/?rule_type=${type}&page=${
+      const url = `https://cspm-api.midrapps.com/policy/api/v1/rules/?rule_type=${type}&page=${
         page ? page : 1
       }&page_size=${page_size ? page_size : 10}`;
       const res = await axios.get(url, {
@@ -304,7 +304,7 @@ const RuleAndBenchmarks = () => {
   async function getServices(service: string) {
     try {
       const res = await axios.get(
-        `https://cspm-api.midrapps.com/cloud_provider/resource_types/?cloud_provider=${service}&page=1&page_size=1000`,
+        `https://cspm-api.midrapps.com/cloud_provider/api/v1/resource_types/?cloud_provider=${service}&page=1&page_size=1000`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

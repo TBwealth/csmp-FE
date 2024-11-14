@@ -63,7 +63,7 @@ const Assets = () => {
     setIsLoading(true);
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/asset_managements/?page=${filter.current.page}&page_size=${filter.current.pageSize}&services=${service}&cloud_account=${cloud_id}`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/asset_managements/?page=${filter.current.page}&page_size=${filter.current.pageSize}&services=${service}&cloud_account=${cloud_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -89,7 +89,7 @@ const Assets = () => {
     const token = localStorage.getItem("token");
     try {
       const resp = await axios.post(
-        `https://cspm-api.midrapps.com/system_settings/asset_inventory_count_by_region/`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/asset_inventory_count_by_region/`,
         { cloud_account_id: id },
         {
           headers: {
@@ -113,7 +113,7 @@ const Assets = () => {
     setIsLoading(true);
     try {
       const resp = await axios.post(
-        `https://cspm-api.midrapps.com/system_settings/asset_inventory_count_by_service/`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/asset_inventory_count_by_service/`,
         {
           cloud_account_id: `${id}`,
         },
@@ -142,7 +142,7 @@ const Assets = () => {
     const token = localStorage.getItem("token");
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/cloud_provider/cloud_provider/?page=1&page_size=1000`,
+        `https://cspm-api.midrapps.com/cloud_provider/api/v1/cloud_provider/?page=1&page_size=1000`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -170,7 +170,7 @@ const Assets = () => {
     const token = localStorage.getItem("token");
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/tags/?page=1&page_size=10`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/tags/?page=1&page_size=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -193,7 +193,7 @@ const Assets = () => {
     const token = localStorage.getItem("token");
     try {
       const resp = await axios.post(
-        `https://cspm-api.midrapps.com/system_settings/tags/?page=1&page_size=10`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/tags/?page=1&page_size=10`,
         {
           names: allNewTags,
         },

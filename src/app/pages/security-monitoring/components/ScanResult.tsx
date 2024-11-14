@@ -74,7 +74,7 @@ const ScanResult = () => {
     setPageCount(5);
     try {
       const res = await axios.post(
-        "https://cspm-api.midrapps.com/policy/policy_run_result_group_by_rule/",
+        "https://cspm-api.midrapps.com/policy/api/v1/policy_run_result_group_by_rule/",
         {
           policy_run_id: id,
         },
@@ -100,7 +100,7 @@ const ScanResult = () => {
     setPageCount(5);
     try {
       const res = await axios.post(
-        "https://cspm-api.midrapps.com/policy/policy_run_result_by_resource/",
+        "https://cspm-api.midrapps.com/policy/api/v1/policy_run_result_by_resource/",
         {
           policy_run_id: id,
         },

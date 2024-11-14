@@ -33,7 +33,7 @@ type Asset = {
   region: number;
 };
 
-///cloud_provider/cloud_provider/{id}/
+///cloud_provider/api/v1/cloud_provider/{id}/
 
 const AssetModal = ({
   editItem,
@@ -169,7 +169,7 @@ const AssetModal = ({
   // const handleFetchProviderResource = async (id: string) => {
   //   try {
   //     const res = await axios.get(
-  //       `https://cspm-api.midrapps.com/cloud_provider/resource_types/?cloud_provider=${id}`,
+  //       `https://cspm-api.midrapps.com/cloud_provider/api/v1/resource_types/?cloud_provider=${id}`,
   //       {
   //         headers: {
   //           Authorization: `Bearer ${token}`,
@@ -187,7 +187,7 @@ const AssetModal = ({
   const handleFetchAllServiceResource = async () => {
     try {
       const res = await axios.get(
-        `https://cspm-api.midrapps.com/cloud_provider/service_resource_types/?page=1&page_size=1000`,
+        `https://cspm-api.midrapps.com/cloud_provider/api/v1/service_resource_types/?page=1&page_size=1000`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -205,7 +205,7 @@ const AssetModal = ({
   const handleGetTags = async () => {
     try {
       const res = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/tags/`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/tags/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -20,7 +20,7 @@ const ResourchArch = () => {
     const token = localStorage.getItem("token");
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/cloud_provider/cloud_provider/?page=1&page_size=1000`,
+        `https://cspm-api.midrapps.com/cloud_provider/api/v1/cloud_provider/?page=1&page_size=1000`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -88,7 +88,7 @@ const RepositoryScan = () => {
   const fetchTenantLatestScan = async (tenant_id: string) => {
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/policy/policy_run_results/?tenant=${tenant_id}&scan_type=Repository&page=1&page_size=10`,
+        `https://cspm-api.midrapps.com/policy/api/v1/policy_run_results/?tenant=${tenant_id}&scan_type=Repository&page=1&page_size=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

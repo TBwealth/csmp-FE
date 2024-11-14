@@ -48,7 +48,7 @@ const Roles = () => {
   const handleFetchRolePerm = async (id: number) => {
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/accounts/api/role_permission/${id}`,
+        `https://cspm-api.midrapps.com/accounts/api/v1/role_permission/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
