@@ -19,7 +19,7 @@ const TagCard = ({ name, id, mode, refetch }: Props) => {
     const token = localStorage.getItem("token");
     try {
       const resp = await axios.delete(
-        `https://cspm-api.midrapps.com/system_settings/tags/${id}/`,
+        `https://cspm-api.midrapps.com/api/v1/system_settings/tags/${id}/`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ const TagCard = ({ name, id, mode, refetch }: Props) => {
     const token = localStorage.getItem("token");
     try {
       const resp = await axios.patch(
-        `https://cspm-api.midrapps.com/system_settings/tags/${id}/`,
+        `https://cspm-api.midrapps.com/api/v1/system_settings/tags/${id}/`,
         {
           "name": newName
         },

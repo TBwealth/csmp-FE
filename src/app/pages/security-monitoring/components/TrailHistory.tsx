@@ -85,7 +85,7 @@ const TrailHistory = () => {
     setIsLoading(true);
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/cloudtrail_logs/?cloud_provider_account_id=${name}&page=${page}&page_size=10`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/cloudtrail_logs/?cloud_provider_account_id=${name}&page=${page}&page_size=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

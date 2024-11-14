@@ -41,7 +41,7 @@ const CloudTrail = () => {
     setIsLoading(true);
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/cloud_trail_filters/?page=1&page_size=100`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/cloud_trail_filters/?page=1&page_size=100`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -182,7 +182,7 @@ const SuppressionLogs = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/rule_suppression_log/?expiration=${
+        `https://cspm-api.midrapps.com/system_settings/api/v1/rule_suppression_log/?expiration=${
           filter.current.expiration ? filter.current.expiration : ""
         }&severity=${
           filter.current.severity ? filter.current.severity : ""

@@ -36,7 +36,7 @@ const AssetDetails = ({
     const payload = chosenTag.map((chosen: any) => chosen.id)
     try {
       const resp = await axios.patch(
-        `https://cspm-api.midrapps.com/system_settings/asset_managements/${data?.id}/`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/asset_managements/${data?.id}/`,
         {
           tag_ids: payload,
         },

@@ -172,7 +172,7 @@ const SuppressionSetup = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/rule_suppression_setup/?status=${
+        `https://cspm-api.midrapps.com/system_settings/api/v1/rule_suppression_setup/?status=${
           filter.current.status !== undefined ? filter.current.status  : ""
         }&cloud_provider=${filter.current.cloudProvider ? filter.current.cloudProvider : ""}&page=${filter.current.page}&page_size=${filter.current.pageSize}&region=${filter.current.region ? filter.current.region : ""}`,
         {

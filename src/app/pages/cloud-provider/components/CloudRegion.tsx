@@ -102,7 +102,7 @@ const CloudRegion = () => {
     setIsLoading(true);
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/system_settings/regions/?region_name=${filter.current.regionName ? filter.current.regionName : ""}&page=${filter.current.page}&page_size=${filter.current.pageSize}`,
+        `https://cspm-api.midrapps.com/system_settings/api/v1/regions/?region_name=${filter.current.regionName ? filter.current.regionName : ""}&page=${filter.current.page}&page_size=${filter.current.pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

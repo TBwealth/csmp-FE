@@ -189,7 +189,7 @@ const TicketsTickets = () => {
     setIsLoading(true);
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/tickets/tickets/?page=${
+        `https://cspm-api.midrapps.com/tickets/api/v1/tickets/?page=${
           filter.current.page
         }&page_size=${filter.current.pageSize}&asset=${
           filter.current.asset ? filter.current.asset : ""

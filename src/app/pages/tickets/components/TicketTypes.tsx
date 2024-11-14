@@ -122,7 +122,7 @@ const TicketTypes = () => {
     setIsLoading(true);
     try {
       const resp = await axios.get(
-        `https://cspm-api.midrapps.com/tickets/ticket_types/?name=${
+        `https://cspm-api.midrapps.com/tickets/api/v1/ticket_types/?name=${
           filter.current.name ? filter.current.name : ""
         }&status=${
           filter.current.status !== undefined ? filter.current.status : ""
