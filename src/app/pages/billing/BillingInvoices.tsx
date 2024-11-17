@@ -135,7 +135,7 @@ const BillingInvoices = ({ mode }: Props) => {
   };
 
   useEffect(() => {
-    if (allPlans.data?.results.length) {
+    if (allPlans?.data?.results.length) {
       setAllInvoices(allPlans?.data?.results);
     }
   }, [allPlans]);
@@ -261,7 +261,7 @@ const BillingInvoices = ({ mode }: Props) => {
                 <p className="font-semibold text-[12px]">Invoice</p>
               </div>
               <p className="font-semibold text-[12px] text-center">Amount</p>
-              <p className="font-semibold text-[12px] text-center">Plan</p>
+              <p className="font-semibold text-[12px] text-start">Plan</p>
               <p className="font-semibold text-[12px] text-center">
                 Billing date
               </p>
@@ -280,7 +280,7 @@ const BillingInvoices = ({ mode }: Props) => {
                 <BillingCard
                   mode={mode}
                   data={inv}
-                  isLast={idx === allPlans?.data?.length - 1}
+                  isLast={idx === allInvoices.length - 1}
                   key={inv.id}
                 />
               ))
