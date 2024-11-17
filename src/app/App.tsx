@@ -6,23 +6,27 @@ import { MasterInit } from "../_metronic/layout/MasterInit";
 import { AuthInit } from "./pages/auth";
 import { ThemeModeProvider } from "../_metronic/partials";
 import { RecoilRoot } from "recoil";
+import AxiosContextProvider from "./api/context/axiosContext";
 
 const App = () => {
+  
   return (
     <RecoilRoot>
-    <Suspense fallback={<LayoutSplashScreen />}>
-      <I18nProvider>
-        <LayoutProvider>
-          <ThemeModeProvider>
-            <AuthInit>
-              <Outlet />
-              <MasterInit />
-            </AuthInit>
-          </ThemeModeProvider>
-        </LayoutProvider>
-      </I18nProvider>
+      <Suspense fallback={<LayoutSplashScreen />}>
+        <I18nProvider>
+          <LayoutProvider>
+            <ThemeModeProvider>
+              <AxiosContextProvider>
+                <AuthInit>
+                  <Outlet />
+                  <MasterInit />
+                </AuthInit>
+              </AxiosContextProvider>
+            </ThemeModeProvider>
+          </LayoutProvider>
+        </I18nProvider>
       </Suspense>
-      </RecoilRoot>
+    </RecoilRoot>
   );
 };
 
