@@ -131,7 +131,7 @@ const BillingPlans = ({
                             <h1 className="font-semibold text-[14px]">
                               {plan?.name}
                             </h1>
-                            {plan?.is_active && (
+                            {curPlan === "standard" && (
                               <span className="bg-[#284CB31A] font-medium rounded-full text-primary px-[10px] py-[2px] text-[8px]">
                                 Active
                               </span>
@@ -330,6 +330,11 @@ const BillingPlans = ({
                           <h1 className="font-semibold text-[14px]">
                             {plan?.name}
                           </h1>
+                          {curPlan === "professional" && (
+                            <span className="bg-[#284CB31A] font-medium rounded-full text-primary px-[10px] py-[2px] text-[8px]">
+                              Active
+                            </span>
+                          )}
                         </div>
                         <p
                           className={`${
@@ -391,9 +396,9 @@ const BillingPlans = ({
                           } font-bold`}
                         >
                           {format(
-                              new Date(endPeriod.split("T")[0]),
-                              "dd/MM/yyyy"
-                            )}
+                            new Date(endPeriod.split("T")[0]),
+                            "dd/MM/yyyy"
+                          )}
                         </span>
                       </h2>
                     </div>

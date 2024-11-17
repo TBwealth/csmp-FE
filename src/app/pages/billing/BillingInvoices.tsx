@@ -166,7 +166,7 @@ const BillingInvoices = ({ mode }: Props) => {
           <div className="w-[200vw] md:w-full">
             <div className="flex items-center px-[24px] py-[18px] border-bottom justify-between">
               <div className="">
-                <h1 className="text-[18px] font-semibold">Billing History</h1>
+                <h1 className="text-[18px] text-start font-semibold">Billing History</h1>
                 <p
                   className={`${
                     mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
