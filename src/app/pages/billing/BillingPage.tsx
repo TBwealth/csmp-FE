@@ -78,6 +78,7 @@ const BillingPage = () => {
         isOpen={showModal}
         handleHide={() => setShowModal(false)}
         secret={secret}
+         action="subscription_create"
       />
     </div>
   );

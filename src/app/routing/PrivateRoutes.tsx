@@ -29,6 +29,7 @@ const PrivateRoutes = () => {
     () => import("../pages/cloud-provider/CloudProviderPage")
   );
   const TicketPage = lazy(() => import("../pages/tickets/TicketsPage"));
+  const WorkloadProtect = lazy(() => import("../pages/workload/WorkloadPage"))
 
   const Policy = lazy(() => import("../pages/policy/PolicyAccessPage"));
   const PolicyRule = lazy(() => import("../pages/policy/PolicyRule"));
@@ -107,6 +108,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <RepositoryPage />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path="/workload-protection/*"
+          element={
+            <SuspensedView>
+              <WorkloadProtect />
             </SuspensedView>
           }
         />
