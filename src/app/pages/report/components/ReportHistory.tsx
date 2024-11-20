@@ -5,7 +5,7 @@ import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 const HistoryCard = ({ data, mode, isLast }: any) => {
   return (
     <div
-      className={`grid grid-cols-6 p-4 gap-[8px] py-[18px] px-[24px]  mb-3 ${
+      className={`grid grid-cols-6 p-4 gap-[8px] py-[18px] px-[24px]  mb-[8px] ${
         isLast ? "border-0" : "border-bottom"
       }  ${mode === "dark" ? "bg-lightDark" : "bg-white"}`}
     >

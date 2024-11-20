@@ -161,7 +161,7 @@ const ResourceScan = () => {
                 mode === "dark" ? "bg-lightDark" : "bg-white"
               }`}
             >
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-[16px]">
                 <img src={scanimg} alt="cloud with search icon" />
                 <h2 className="font-bold text-[18px]">
                   Initiate New Resource Scan
@@ -223,7 +223,7 @@ const ResourceScan = () => {
                             <svg
                               width="24px"
                               height="24px"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                               viewBox="0 0 24 24"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
@@ -305,7 +305,7 @@ const ResourceScan = () => {
                             <svg
                               width="24px"
                               height="24px"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                               viewBox="0 0 24 24"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
@@ -314,23 +314,23 @@ const ResourceScan = () => {
                               <path
                                 d="M3 5H21"
                                 stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                               <path
                                 d="M3 12H21"
                                 stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                               <path
                                 d="M3 19H21"
                                 stroke={mode === "dark" ? "#EAEAEA" : "#000000"}
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                             </svg>
                           </span>
@@ -511,7 +511,7 @@ const ResourceScan = () => {
                             <svg
                               width="20px"
                               height="20px"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                               viewBox="0 0 24 24"
                               fill="none"
                               xmlns="http://www.w3.org/2000/svg"
@@ -520,23 +520,23 @@ const ResourceScan = () => {
                               <path
                                 d="M13.5 13L15 14.5"
                                 stroke="#FFFFFF"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                               <path
                                 d="M9 11C9 12.3807 10.1193 13.5 11.5 13.5C12.1916 13.5 12.8175 13.2192 13.2701 12.7654C13.7211 12.3132 14 11.6892 14 11C14 9.61929 12.8807 8.5 11.5 8.5C10.1193 8.5 9 9.61929 9 11Z"
                                 stroke="#FFFFFF"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                               <path
                                 d="M5 18L3.13036 4.91253C3.05646 4.39524 3.39389 3.91247 3.90398 3.79912L11.5661 2.09641C11.8519 2.03291 12.1481 2.03291 12.4339 2.09641L20.096 3.79912C20.6061 3.91247 20.9435 4.39524 20.8696 4.91252L19 18C18.9293 18.495 18.5 21.5 12 21.5C5.5 21.5 5.07071 18.495 5 18Z"
                                 stroke="#FFFFFF"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               ></path>
                             </svg>
                           </span>
@@ -575,35 +575,35 @@ const ResourceScan = () => {
                       height="42"
                       rx="21"
                       fill="#284CB3"
-                      fill-opacity="0.1"
+                      fillOpacity="0.1"
                     />
                     <path
                       d="M17.25 15L17.25 15.75"
                       stroke="#4470EF"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M17.25 18.75L17.25 19.5"
                       stroke="#4470EF"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M24.75 27V15M24.75 15L27 17.25M24.75 15L22.5 17.25"
                       stroke="#4470EF"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M17.25 22.5V27M17.25 27L19.5 24.75M17.25 27L15 24.75"
                       stroke="#4470EF"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                   <div className="flex items-center gap-4">
@@ -624,15 +624,15 @@ const ResourceScan = () => {
                     <path
                       d="M15.75 2.25L11.25 2.25M15.75 2.25L9 9M15.75 2.25V6.75"
                       stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
                       d="M15.75 9.75V13.75C15.75 14.8546 14.8546 15.75 13.75 15.75H4.25C3.14543 15.75 2.25 14.8546 2.25 13.75V4.25C2.25 3.14543 3.14543 2.25 4.25 2.25H8.25"
                       stroke={mode === "dark" ? "#EAEAEA" : "#373737"}
-                      stroke-width="1.5"
-                      stroke-linecap="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
                     />
                   </svg>
                 </Link>

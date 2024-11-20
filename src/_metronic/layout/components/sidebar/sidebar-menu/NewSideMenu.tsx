@@ -1110,8 +1110,10 @@ const NewSideMenu = () => {
             {children.map((child) => {
               if (child?.children!?.length > 0) {
                 return (
-                  <>
-                    <h1 className="font-semibold text-[14px] text-start">
+                  <div
+                  key={child?.title}
+                  >
+                    <h1 className="font-semibold text-[14px] mb-[16px] text-start">
                       {child?.title}
                     </h1>
                     <div className="pl-[12px] flex flex-col gap-[8px]">
@@ -1119,7 +1121,7 @@ const NewSideMenu = () => {
                         <Link
                           key={grandChild?.href!}
                           to={grandChild?.href!}
-                          className={`menu-link without-sub w-full flex items-center justify-between ${
+                          className={`menu-link without-sub w-full flex items-center justify-between mb-[16px] ${
                             pathname === grandChild?.href!
                               ? "text-primary bg-[#284CB31A] font-semibold text-[12px] px-[10px] py-[8px] rounded-[8px] w-full"
                               : "py-[8px] w-full font-medium hover:text-primary hover:bg-[#284CB31A] hover:px-2 hover:rounded-[8px] hover:font-medium"
@@ -1155,14 +1157,14 @@ const NewSideMenu = () => {
                         </Link>
                       ))}
                     </div>
-                  </>
+                  </div>
                 );
               }
               return (
                 <Link
                   key={child?.href!}
                   to={child.href!}
-                  className={`menu-link without-sub w-full flex items-center justify-between ${
+                  className={`menu-link without-sub w-full font-semibold flex items-center justify-between mb-[16px] ${
                     pathname === child.href!
                       ? "text-primary bg-[#284CB31A] font-semibold text-[14px] px-[12px] py-[10px] rounded-[8px] w-full"
                       : "py-[10px] w-full font-medium hover:text-primary hover:bg-[#284CB31A] hover:px-2 hover:rounded-[8px] hover:font-medium"

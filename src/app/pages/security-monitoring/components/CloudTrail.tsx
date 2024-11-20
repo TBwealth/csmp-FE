@@ -169,7 +169,7 @@ const CloudTrail = () => {
   return (
     <div className="w-full px-10 mt-[32px]">
       <div className="flex items-center justify-between flex-row gap-[10px]">
-        <div className="flex items-center gap">
+        <div className="flex items-center gap-[8px]">
           <img src={awsLogo} alt="aws logo" />
           <select
             name="service"
