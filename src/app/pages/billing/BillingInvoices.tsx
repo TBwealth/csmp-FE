@@ -281,7 +281,7 @@ const BillingInvoices = ({ mode }: Props) => {
                   mode={mode}
                   data={inv}
                   isLast={idx === allInvoices.length - 1}
-                  key={inv.id}
+                  key={`${inv?.id}${idx}`}
                 />
               ))
             )}

@@ -59,6 +59,7 @@ const BillingPlans = ({
               if (plan?.name === "standard") {
                 return (
                   <div
+                    key={plan?.id}
                     className={`${
                       mode === "dark" ? "bg-lightDark" : "bg-[#FFFFFF"
                     } flex-1 relative ${
@@ -104,9 +105,9 @@ const BillingPlans = ({
                               <path
                                 d="M14.4 13.25L15.75 5.75L11.025 8L9 5.75L6.975 8L2.25 5.75L3.6 13.25H14.4Z"
                                 stroke="url(#paint0_linear_2392_20635)"
-                                stroke-width="1.5"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
                               />
                               <defs>
                                 <linearGradient
@@ -117,14 +118,8 @@ const BillingPlans = ({
                                   y2="17.0153"
                                   gradientUnits="userSpaceOnUse"
                                 >
-                                  <stop
-                                    offset="0.198551"
-                                    stop-color="#2E54C3"
-                                  />
-                                  <stop
-                                    offset="0.683389"
-                                    stop-color="#1F3A89"
-                                  />
+                                  <stop offset="0.198551" stopColor="#2E54C3" />
+                                  <stop offset="0.683389" stopColor="#1F3A89" />
                                 </linearGradient>
                               </defs>
                             </svg>
@@ -263,6 +258,7 @@ const BillingPlans = ({
               }
               return (
                 <div
+                  key={plan?.id}
                   className={`${
                     mode === "dark"
                       ? "bg-lightDark"
@@ -288,8 +284,8 @@ const BillingPlans = ({
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM7.53044 11.9697C7.23755 11.6768 6.76268 11.6768 6.46978 11.9697C6.17689 12.2626 6.17689 12.7374 6.46978 13.0303L9.46978 16.0303C9.76268 16.3232 10.2376 16.3232 10.5304 16.0303L17.5304 9.03033C17.8233 8.73744 17.8233 8.26256 17.5304 7.96967C17.2375 7.67678 16.7627 7.67678 16.4698 7.96967L10.0001 14.4393L7.53044 11.9697Z"
                             fill="#284CB3"
                           />
@@ -309,9 +305,9 @@ const BillingPlans = ({
                             <path
                               d="M14.4 13.25L15.75 5.75L11.025 8L9 5.75L6.975 8L2.25 5.75L3.6 13.25H14.4Z"
                               stroke="url(#paint0_linear_2392_20635)"
-                              stroke-width="1.5"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                             />
                             <defs>
                               <linearGradient
@@ -322,8 +318,8 @@ const BillingPlans = ({
                                 y2="17.0153"
                                 gradientUnits="userSpaceOnUse"
                               >
-                                <stop offset="0.198551" stop-color="#2E54C3" />
-                                <stop offset="0.683389" stop-color="#1F3A89" />
+                                <stop offset="0.198551" stopColor="#2E54C3" />
+                                <stop offset="0.683389" stopColor="#1F3A89" />
                               </linearGradient>
                             </defs>
                           </svg>
@@ -475,7 +471,7 @@ const BillingPlans = ({
                       <path
                         d="M6 5.75H3.5C2.39543 5.75 1.5 6.64543 1.5 7.75V14.25C1.5 15.3546 2.39543 16.25 3.5 16.25H14.5C15.6046 16.25 16.5 15.3546 16.5 14.25V7.75C16.5 6.64543 15.6046 5.75 14.5 5.75H12M6 5.75V3.35C6 3.01863 6.26863 2.75 6.6 2.75H11.4C11.7314 2.75 12 3.01863 12 3.35V5.75M6 5.75H12"
                         stroke="url(#paint0_linear_2392_20656)"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                       />
                       <defs>
                         <linearGradient
@@ -486,8 +482,8 @@ const BillingPlans = ({
                           y2="16.1111"
                           gradientUnits="userSpaceOnUse"
                         >
-                          <stop offset="0.21" stop-color="white" />
-                          <stop offset="0.61" stop-color="#F7F7F8" />
+                          <stop offset="0.21" stopColor="white" />
+                          <stop offset="0.61" stopColor="#F7F7F8" />
                         </linearGradient>
                       </defs>
                     </svg>

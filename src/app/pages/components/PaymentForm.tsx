@@ -7,7 +7,7 @@ import {
 } from "../../api/api-services/billing";
 import "./stripe.css";
 
-const PaymentForm = ({ handleHide, secret }: any) => {
+const PaymentForm = ({ handleHide, secret, action }: any) => {
   const stripe = useStripe();
   const element = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -41,27 +41,34 @@ const PaymentForm = ({ handleHide, secret }: any) => {
           {
             onSuccess: (res: any) => {
               console.log("payment method successfull");
-              createSub(
-                {
-                  plan_id: sessionStorage.getItem("planId"),
-                  // payment_method_id: setupIntent?.payment_method,
-                },
-                {
-                  onSuccess: (res: any) => {
-                    setIsLoading(false);
-                    showAlert(res?.message, "success");
-                    handleHide();
-                    console.log(res?.data);
+              if (action === "subscription_create") {
+                createSub(
+                  {
+                    plan_id: sessionStorage.getItem("planId"),
+                    // payment_method_id: setupIntent?.payment_method,
                   },
-                  onError: (err: any) => {
-                    showAlert(
-                      err?.message || "An unknown error occurred",
-                      "danger"
-                    );
-                    console.log(err);
-                  },
-                }
-              );
+                  {
+                    onSuccess: (res: any) => {
+                      setIsLoading(false);
+                      showAlert(res?.message, "success");
+                      handleHide();
+                      console.log(res?.data);
+                    },
+                    onError: (err: any) => {
+                      showAlert(
+                        err?.message || "An unknown error occurred",
+                        "danger"
+                      );
+                      console.log(err);
+                    },
+                  }
+                );
+              } else {
+                setIsLoading(false);
+                showAlert(res?.message, "success");
+                handleHide();
+                console.log(res?.data);
+              }
             },
             onError: (err: any) => {
               showAlert(err?.message || "An unknown error occurred", "danger");
@@ -106,8 +113,10 @@ const PaymentForm = ({ handleHide, secret }: any) => {
               Please wait...{" "}
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
-          ) : (
+          ) : action === "subscription_create" ? (
             "Pay"
+          ) : (
+            "Add"
           )}
         </button>
       </form>

@@ -57,7 +57,7 @@ const savePaymentMethod = async (axios: AxiosInstance, data: Data) =>
 
 const updatePaymentMethod = async (axios: AxiosInstance, data: any) =>
   axios
-    .put(`${base_url}payment-method/${data?.id}/set-default/`, {})
+    .patch(`${base_url}payment-method/${data?.id}/set-default/`, {})
     .then(({ data }) => Promise.resolve(data))
     .catch(({ response: { data: response } }) => Promise.reject(response));
 
@@ -69,7 +69,7 @@ const createSubscription = async (axios: AxiosInstance, data: any) =>
 
 const cancelSubscriptions = async (axios: AxiosInstance, data: any) =>
   axios
-    .put(`${base_url}subscription/cancel/`, data)
+    .patch(`${base_url}subscription/cancel/`, data)
     .then(({ data }) => Promise.resolve(data))
     .catch(({ response: { data: response } }) => Promise.reject(response));
 
