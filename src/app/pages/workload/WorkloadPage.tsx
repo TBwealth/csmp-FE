@@ -1,6 +1,9 @@
 import React from 'react'
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
+import Index from './components/container/assets/Index';
+import ScanHome from './components/container/scan/ScanHome';
+import ContainerPoliciesHome from './components/container/policies/ContainerPoliciesHome';
 
 
 const cloudProviderBreadCrumbs: Array<PageLink> = [
@@ -48,9 +51,9 @@ const WorkloadPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-                Account Setting
+                Container Assets
               </PageTitle>
-              {/* <AccountSettings /> */}
+              <Index />
             </>
           }
         />
@@ -59,9 +62,9 @@ const WorkloadPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-                Notification
+              Container Scan
               </PageTitle>
-              {/* <Notification /> */}
+              <ScanHome />
             </>
           }
         />
@@ -72,7 +75,7 @@ const WorkloadPage = () => {
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
                 Audit Logs
               </PageTitle>
-              {/* <AuditLogs /> */}
+              <ContainerPoliciesHome />
             </>
           }
         />

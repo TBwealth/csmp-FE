@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
-import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
-import UserComponent from "./UserComponent";
-import RoleComponent from "./RoleComponent";
+import modeAtomsAtom from "../../../../../atoms/modeAtoms.atom";
 
-const UserManagement = () => {
-  const { mode } = useRecoilValue(modeAtomsAtom);
+type Props = {};
+
+const ContainerPoliciesHome = (props: Props) => {
   const [isHome, setIsHome] = useState(true);
+  const { mode } = useRecoilValue(modeAtomsAtom);
   const [selection, setSelection] = useState("");
   return (
     <div className="px-8 mt-[32px] w-full">
@@ -15,7 +15,7 @@ const UserManagement = () => {
           <button
             onClick={() => {
               setIsHome(false);
-              setSelection("user");
+              setSelection("compliance");
             }}
             className={`${
               mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -31,14 +31,28 @@ const UserManagement = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M10 40V31C10 27.134 13.134 24 17 24H31C34.866 24 38 27.134 38 31V40"
+                    d="M28 38L34 44L44 34"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                   <path
-                    d="M24 24C28.4183 24 32 20.4183 32 16C32 11.5817 28.4183 8 24 8C19.5817 8 16 11.5817 16 16C16 20.4183 19.5817 24 24 24Z"
+                    d="M8 12V24C8 24 8 30 22 30C36 30 36 24 36 24V12"
+                    stroke="#284CB3"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M22 6C36 6 36 12 36 12C36 12 36 18 22 18C8 18 8 12 8 12C8 12 8 6 22 6Z"
+                    stroke="#284CB3"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M22 42C8 42 8 36 8 36V24"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
@@ -47,17 +61,17 @@ const UserManagement = () => {
                 </svg>
               </div>
               <div className="w-full">
-                <h1 className="text-left font-semibold text-[14px] mb-[8px]">
-                  Manage Users{" "}
+                <h1 className="text-start font-semibold text-[14px] mb-[8px]">
+                  Workload Compliance{" "}
                 </h1>
                 <p
                   className={`${
                     mode === "dark"
-                      ? "text-[#EAEAEA]"
-                      : "text-[#6A6A6A] font-medium text-[12px]"
+                      ? "text-[#EAEAEA] text-start"
+                      : "text-[#6A6A6A] text-start font-medium text-[12px]"
                   }`}
                 >
-                  Add, Remove and edit users in your account.
+                  Ensure compliance and protect your Workload and containers
                 </p>
               </div>
             </div>
@@ -84,8 +98,8 @@ const UserManagement = () => {
                     y2="27.8445"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="#2E54C3" />
-                    <stop offset="0.683389" stop-color="#1F3A89" />
+                    <stop offset="0.198551" stopColor="#2E54C3" />
+                    <stop offset="0.683389" stopColor="#1F3A89" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -94,7 +108,7 @@ const UserManagement = () => {
           <button
             onClick={() => {
               setIsHome(false);
-              setSelection("role");
+              setSelection("exclusion");
             }}
             className={`${
               mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -110,19 +124,28 @@ const UserManagement = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M5 19L24 8L43 19"
+                    d="M24 32C28.4183 32 32 28.4183 32 24C32 19.5817 28.4183 16 24 16C19.5817 16 16 19.5817 16 24C16 28.4183 19.5817 32 24 32Z"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                   <path
-                    d="M14 42V37C14 33.134 17.134 30 21 30H27C30.866 30 34 33.134 34 37V42"
+                    d="M42 14.353L42 33.647C42 33.8649 41.8819 34.0656 41.6914 34.1715L24.2914 43.8381C24.1102 43.9388 23.8898 43.9388 23.7086 43.8381L6.30861 34.1715C6.11813 34.0656 6 33.8649 6 33.647L5.99996 14.353C5.99996 14.1351 6.1181 13.9344 6.30857 13.8285L23.7086 4.16188C23.8898 4.06121 24.1102 4.06121 24.2914 4.16188L41.6913 13.8285C41.8818 13.9344 42 14.1351 42 14.353Z"
                     stroke="#284CB3"
                     strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
-                    d="M24 30C27.3137 30 30 27.3137 30 24C30 20.6863 27.3137 18 24 18C20.6863 18 18 20.6863 18 24C18 27.3137 20.6863 30 24 30Z"
+                    d="M7.05688 14.5863L16.8 19.9991M41 14.5547L31.2 19.9991"
+                    stroke="#284CB3"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M24 42V32"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
@@ -131,17 +154,17 @@ const UserManagement = () => {
                 </svg>
               </div>
               <div className="w-full">
-                <h1 className="text-left font-semibold text-[14px] mb-[8px]">
-                  Roles and Permission{" "}
+                <h1 className="text-start font-semibold text-[14px] mb-[8px]">
+                  Exclusions{" "}
                 </h1>
                 <p
                   className={`${
                     mode === "dark"
-                      ? "text-[#EAEAEA]"
-                      : "text-[#6A6A6A] font-medium text-[12px]"
+                      ? "text-[#EAEAEA] text-start"
+                      : "text-[#6A6A6A] text-start font-medium text-[12px]"
                   }`}
                 >
-                  Manage roles and permission on your acccount.
+                  Create and setup exclusions and policy exception
                 </p>
               </div>
             </div>
@@ -168,8 +191,8 @@ const UserManagement = () => {
                     y2="27.8445"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop offset="0.198551" stop-color="#2E54C3" />
-                    <stop offset="0.683389" stop-color="#1F3A89" />
+                    <stop offset="0.198551" stopColor="#2E54C3" />
+                    <stop offset="0.683389" stopColor="#1F3A89" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -177,24 +200,8 @@ const UserManagement = () => {
           </button>
         </div>
       )}
-      {selection === "user" && (
-        <UserComponent
-          goBack={() => {
-            setIsHome(true);
-            setSelection("");
-          }}
-        />
-      )}
-      {selection === "role" && (
-        <RoleComponent
-          goBack={() => {
-            setIsHome(true);
-            setSelection("");
-          }}
-        />
-      )}
     </div>
   );
 };
 
-export default UserManagement;
+export default ContainerPoliciesHome;
