@@ -1110,9 +1110,7 @@ const NewSideMenu = () => {
             {children.map((child) => {
               if (child?.children!?.length > 0) {
                 return (
-                  <div
-                  key={child?.title}
-                  >
+                  <div key={child?.title}>
                     <h1 className="font-semibold text-[14px] mb-[16px] text-start">
                       {child?.title}
                     </h1>
@@ -1126,7 +1124,10 @@ const NewSideMenu = () => {
                               ? "text-primary bg-[#284CB31A] font-semibold text-[12px] px-[10px] py-[8px] rounded-[8px] w-full"
                               : "py-[8px] w-full font-medium hover:text-primary hover:bg-[#284CB31A] hover:px-2 hover:rounded-[8px] hover:font-medium"
                           }`}
-                          onClick={() => setPageTitle(grandChild?.title)}
+                          onClick={() => {
+                            setPageTitle(grandChild?.title);
+                            sessionStorage.removeItem("cur_policy_page");
+                          }}
                         >
                           {grandChild?.title}{" "}
                           {grandChild?.hasTag && (

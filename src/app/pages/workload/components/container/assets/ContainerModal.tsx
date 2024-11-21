@@ -186,7 +186,7 @@ const ContainerModal = ({ isOpen, handleHide, mode }: Props) => {
           <>
             <div className="grid grid-cols-2 p-[24px] gap-[16px] w-[88%] mx-auto">
               {repos.map((repo) => (
-                <label htmlFor={repo} className="hover:cursor-pointer relative">
+                <label htmlFor={repo} className="hover:cursor-pointer relative" key={repo}>
                   <div
                     className={`${
                       selectedProvider === repo ? "bg-white" : "bg-[#EAEAEA]/20"

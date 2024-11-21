@@ -4,6 +4,7 @@ import { PageLink, PageTitle } from "../../../_metronic/layout/core";
 import Index from './components/container/assets/Index';
 import ScanHome from './components/container/scan/ScanHome';
 import ContainerPoliciesHome from './components/container/policies/ContainerPoliciesHome';
+import WorkloadDetails from './components/container/policies/WorkloadDetails';
 
 
 const cloudProviderBreadCrumbs: Array<PageLink> = [
@@ -76,6 +77,17 @@ const WorkloadPage = () => {
                 Audit Logs
               </PageTitle>
               <ContainerPoliciesHome />
+            </>
+          }
+        />
+        <Route
+          path="container/policies/:id"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Audit Logs
+              </PageTitle>
+              <WorkloadDetails />
             </>
           }
         />
