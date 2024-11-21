@@ -7,6 +7,7 @@ import { CloudProviderCloudProviderResourceTypesList200Response } from "../../..
 import awsLogo from "../../../../../../../public/media/logos/aws-light.svg";
 import { Link } from "react-router-dom";
 import SingleCard, { RuntimeCard } from "./SingleCard";
+import ContainerModal from "./ContainerModal";
 
 const Index = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
@@ -542,6 +543,11 @@ const Index = () => {
           <RuntimeCard mode={mode} data={res} key={`${res?.image}${idx}`} />
         );
       })}
+      <ContainerModal
+        isOpen={showModal}
+        handleHide={() => setShowModal(false)}
+        mode={mode}
+      />
     </div>
   );
 };
