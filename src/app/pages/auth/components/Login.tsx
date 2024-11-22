@@ -218,7 +218,7 @@ export function Login() {
           <button
             type="submit"
             id="kt_sign_in_submit"
-            className="btn btn-primary"
+            className="btn btn-lg btn-primary col flex items-center justify-center rounded-full"
             disabled={formik.isSubmitting || !formik.isValid}
           >
             {!isLoading && <span className="indicator-label">Continue</span>}

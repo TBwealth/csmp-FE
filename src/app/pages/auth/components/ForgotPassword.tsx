@@ -119,7 +119,7 @@ export function ForgotPassword() {
           <button
             type="submit"
             id="kt_password_reset_submit"
-            className="btn btn-primary me-4"
+            className="btn btn-lg btn-primary col flex items-center justify-center rounded-full me-4"
           >
             {loading === true ? (
               <span className="indicator-label">

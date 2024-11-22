@@ -74,7 +74,7 @@ export const RuntimeCard = ({ data, mode }: Props) => {
       <p
         className={`font-medium flex text-[12px] items-center justify-center text-[#2AB849]`}
       >
-        {data?.Status}
+        {data?.status}
       </p>
       <Popover
         onClickOutside={() => showPopUP(false)}

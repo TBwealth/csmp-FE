@@ -50,7 +50,7 @@ const Index = () => {
       cpu: "35%",
       ip_address: "10.0.1.100",
       created_at: "2 hours ago",
-      Status: "RUNNING",
+      status: "RUNNING",
     },
     {
       container: "web-server-1",
@@ -61,7 +61,7 @@ const Index = () => {
       cpu: "75%",
       ip_address: "10.0.2.50",
       created_at: "2 hours ago",
-      Status: "RUNNING",
+      status: "RUNNING",
     },
   ];
   const { data } = useGetCloudProviderResourceTypes({

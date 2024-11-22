@@ -595,7 +595,7 @@ const NewSideMenu = () => {
     {
       title: "Reports",
       href: "/reports/template",
-      path: "/template",
+      path: "/reports",
       allowedRoles: ["Admin", "Tenant"],
       icon: (
         <svg
@@ -1125,7 +1125,12 @@ const NewSideMenu = () => {
                               : "py-[8px] w-full font-medium hover:text-primary hover:bg-[#284CB31A] hover:px-2 hover:rounded-[8px] hover:font-medium"
                           }`}
                           onClick={() => {
-                            setPageTitle(grandChild?.title);
+                            if(child?.title === "Container Security") {
+                              setPageTitle(`Container Security / ${grandChild?.title}`);
+                            }else {
+                              setPageTitle(`IAC Security / ${grandChild?.title}`);
+                            }
+                            
                             sessionStorage.removeItem("cur_policy_page");
                           }}
                         >
