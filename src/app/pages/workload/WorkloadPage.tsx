@@ -8,6 +8,8 @@ import ContainerPoliciesHome from "./components/container/policies/ContainerPoli
 import WorkloadDetails from "./components/container/policies/WorkloadDetails";
 import TemplateIndex from "./components/infrastructure/templates/TemplateIndex";
 import VulnerabilitiesIndex from "./components/infrastructure/vulnerabilities/VulnerabilitiesIndex";
+import IACPoliciesHome from "./components/infrastructure/policies/IACPoliciesHome";
+import IAComplianceDetails from "./components/infrastructure/policies/IAComplianceDetails";
 
 const cloudProviderBreadCrumbs: Array<PageLink> = [
   {
@@ -111,6 +113,28 @@ const WorkloadPage = () => {
                 IAC Vulnerabilities
               </PageTitle>
               <VulnerabilitiesIndex />
+            </>
+          }
+        />
+        <Route
+          path="iac/policies"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                IAC Policies
+              </PageTitle>
+              <IACPoliciesHome />
+            </>
+          }
+        />
+        <Route
+          path="iac/policies/:id"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                IAC Policies Details
+              </PageTitle>
+              <IAComplianceDetails />
             </>
           }
         />

@@ -6,7 +6,7 @@ import { Modal } from "react-bootstrap";
 import {
   FaCalendar,
   FaComment,
-  FaDatabase,
+  FaGlobe,
   FaRegCheckSquare,
 } from "react-icons/fa";
 
@@ -17,23 +17,23 @@ type Props = {
 };
 
 const initialValues = {
-  policy_id: "",
-  registry_id: "",
+  rule_id: "",
+  region_id: "",
   comment: "",
   exp_date: "",
   isSuppresed: false,
 };
 
 const reportSchema = Yup.object().shape({
-  policy_id: Yup.string().required("Policy is required"),
-  registry_id: Yup.string().required("Registry is required"),
+  rule_id: Yup.string().required("Rule is required"),
+  region_id: Yup.string().required("Region is required"),
   comment: Yup.string()
     .required("Comment is required")
     .min(3, "Minimum 3 characters"),
   exp_date: Yup.string().required("Expiry Date is required"),
 });
 
-const ExclusionModal = ({ isOpen, handleHide, mode }: Props) => {
+const IACExModal = ({ isOpen, handleHide, mode }: Props) => {
   const [loading, setLoading] = useState(false);
   const formik = useFormik({
     initialValues,
@@ -110,33 +110,33 @@ const ExclusionModal = ({ isOpen, handleHide, mode }: Props) => {
                 <div className="alert-text font-medium">{formik.status}</div>
               </div>
             )}
-            {/* policy */}
+            {/* rule */}
             <div className="w-full">
               <div className="fv-row mb-4 col-sm">
                 <label className="mb-[8px] flex text-[14px] font-medium items-center gap-1">
                   <FaRegCheckSquare />
-                  <span className="font-semibold">Suppress by Policy</span>
+                  <span className="font-semibold">Suppress by Rule</span>
                 </label>
                 <select
-                  {...formik.getFieldProps("policy_id")}
+                  {...formik.getFieldProps("rule_id")}
                   className={clsx(
                     "form-control bg-transparent",
                     {
                       "is-invalid":
-                        formik.touched.policy_id && formik.errors.policy_id,
+                        formik.touched.rule_id && formik.errors.rule_id,
                     },
                     {
                       "is-valid":
-                        formik.touched.policy_id && !formik.errors.policy_id,
+                        formik.touched.rule_id && !formik.errors.rule_id,
                     }
                   )}
                 >
                   <option value="" className="font-medium">
                     Select Rule
                   </option>
-                  {/* {countries.map((policy_id) => (
-                <option key={policy_id.id} value={policy_id.name}>
-                  {policy_id.name}
+                  {/* {countries.map((rule_id) => (
+                <option key={rule_id.id} value={rule_id.name}>
+                  {rule_id.name}
                 </option>
               ))} */}
                   <option value="first" className="font-medium">
@@ -149,41 +149,40 @@ const ExclusionModal = ({ isOpen, handleHide, mode }: Props) => {
                     Third
                   </option>
                 </select>
-                {formik.touched.policy_id && formik.errors.policy_id && (
+                {formik.touched.rule_id && formik.errors.rule_id && (
                   <div className="fv-plugins-message-container">
                     <div className="fv-help-block">
                       <span role="alert" className="font-medium text-xs">
-                        {formik.errors.policy_id}
+                        {formik.errors.rule_id}
                       </span>
                     </div>
                   </div>
                 )}
               </div>
             </div>
-            {/* registry */}
+            {/* region */}
             <div className="w-full">
               <div className="fv-row mb-4 col-sm">
                 <label className="mb-[8px] flex text-[14px] font-medium items-center gap-3">
-                  <FaDatabase />
-                  <span>Select Registry</span>
+                  <FaGlobe />
+                  <span className="font-semibold">Suppress by Region</span>
                 </label>
                 <select
-                  {...formik.getFieldProps("registry_id")}
+                  {...formik.getFieldProps("region_id")}
                   className={clsx(
                     "form-control bg-transparent",
                     {
                       "is-invalid":
-                        formik.touched.registry_id && formik.errors.registry_id,
+                        formik.touched.region_id && formik.errors.region_id,
                     },
                     {
                       "is-valid":
-                        formik.touched.registry_id &&
-                        !formik.errors.registry_id,
+                        formik.touched.region_id && !formik.errors.region_id,
                     }
                   )}
                 >
                   <option value="" className="font-medium">
-                    All Registry
+                    Select Region
                   </option>
                   <option value="First" className="font-medium">
                     First Registry
@@ -195,11 +194,11 @@ const ExclusionModal = ({ isOpen, handleHide, mode }: Props) => {
                     Third Registry
                   </option>
                 </select>
-                {formik.touched.registry_id && formik.errors.registry_id && (
+                {formik.touched.region_id && formik.errors.region_id && (
                   <div className="fv-plugins-message-container">
                     <div className="fv-help-block">
                       <span role="alert" className="font-medium text-xs">
-                        {formik.errors.registry_id}
+                        {formik.errors.region_id}
                       </span>
                     </div>
                   </div>
@@ -333,4 +332,4 @@ const ExclusionModal = ({ isOpen, handleHide, mode }: Props) => {
   );
 };
 
-export default ExclusionModal;
+export default IACExModal;
