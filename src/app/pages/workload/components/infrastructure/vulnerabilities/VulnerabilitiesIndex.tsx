@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../../../atoms/modeAtoms.atom";
-import ScanRegistry from "./ScanRegistry";
-import AssessHistory from "./AssessHistory";
+import VulAssessHistory from "./VulAssessHistory";
+import VulScan from "./VulScan";
 
-
-const ScanHome = () => {
+const VulnerabilitiesIndex = () => {
   const [isHome, setIsHome] = useState(true);
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [selection, setSelection] = useState("");
-
-  return (
-    <div className="px-8 mt-[32px] w-full">
-      {isHome && (
+  return <div className="px-8 mt-[32px] w-full">
+    {isHome && (
         <div className="flex items-center justify-between flex-col md:flex-row gap-[16px]">
           <button
             onClick={() => {
@@ -71,7 +68,7 @@ const ScanHome = () => {
               </div>
               <div className="w-full">
                 <h1 className="text-start font-semibold text-[14px] mb-[8px]">
-                  Scan Registry / Image{" "}
+                Scan IAC / Templates{" "}
                 </h1>
                 <p
                   className={`${
@@ -80,7 +77,7 @@ const ScanHome = () => {
                       : "text-[#6A6A6A] text-start font-medium text-[12px]"
                   }`}
                 >
-                  Ensure compliance and protect your Workload and containers
+                  Ensure compliance and protect your IAC and Templates 
                 </p>
               </div>
             </div>
@@ -170,7 +167,7 @@ const ScanHome = () => {
                       : "text-[#6A6A6A] text-start font-medium text-[12px]"
                   }`}
                 >
-                  View all Vulnerability report of your registry
+                  View all Vulnerability report of your templates
                 </p>
               </div>
             </div>
@@ -207,7 +204,7 @@ const ScanHome = () => {
         </div>
       )}
       {selection === "scan" && (
-        <ScanRegistry
+        <VulScan
           mode={mode}
           goBack={() => {
             setIsHome(true);
@@ -216,7 +213,7 @@ const ScanHome = () => {
         />
       )}
       {selection === "assess" && (
-        <AssessHistory
+        <VulAssessHistory
           mode={mode}
           goBack={() => {
             setIsHome(true);
@@ -224,8 +221,8 @@ const ScanHome = () => {
           }}
         />
       )}
-    </div>
-  );
+    
+    </div>;
 };
 
-export default ScanHome;
+export default VulnerabilitiesIndex;
