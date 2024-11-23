@@ -16,6 +16,7 @@
     "@popperjs/core": "^2.11.6",
     "@stripe/react-stripe-js": "^2.9.0",
     "@stripe/stripe-js": "^4.10.0",
+    "ag-charts-react": "^10.3.3",
     "animate.css": "4.1.1",
     "antd": "^5.16.2",
     "antd-img-crop": "^4.21.0",
