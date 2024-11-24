@@ -360,7 +360,7 @@ const UserComponent = ({ goBack }: Props) => {
         </div>
         <button
           onClick={() => setAddNew(true)}
-          className="bg-primary font-medium text-[14px] text-white px-[24px] w-44  py-[12px] rounded-full flex items-center justify-center gap-[10px]"
+          className="bg-primary font-medium text-[14px] text-white px-[24px] w-44  py-[8px] rounded-full flex items-center justify-center gap-[10px]"
         >
           <span>Add User</span>
           <svg

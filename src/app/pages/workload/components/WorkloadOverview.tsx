@@ -396,7 +396,7 @@ const WorkloadOverview = () => {
         </div>
         <button
           //   onClick={() => setShowAdd(true)}
-          className="rounded-full px-[24px] py-[12px] flex font-medium text-white items-center justify-center gap-2 bg-primary text-White"
+          className="rounded-full px-[24px] py-[8px] flex font-medium text-white items-center justify-center gap-2 bg-primary text-White"
         >
           <p>Security Scan</p>
           <svg

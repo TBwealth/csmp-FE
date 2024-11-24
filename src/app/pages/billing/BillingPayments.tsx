@@ -74,7 +74,7 @@ const BillingPayments = ({ mode }: Props) => {
             <div className="flex items-center gap-[10px]">
               <button
                 onClick={handleSetIntent}
-                className=" font-medium text-[12px] bg-primary text-white rounded-[8px] p-[8px]"
+                className=" font-medium text-[12px] bg-primary text-white rounded-full px-[24px] py-[8px]"
               >
                 {loading ? (
                   <span

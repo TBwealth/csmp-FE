@@ -157,7 +157,7 @@ const RepoDetails = ({ isOpen, handleHide, data }: Props) => {
           </button>
           <button
             type="button"
-            className="btn btn-primary"
+            className="py-[8px] px-[24px] bg-primary font-medium text-white flex items-center justify-center rounded-full"
             disabled={
               !items.access_token ||
               !items.repo_url ||

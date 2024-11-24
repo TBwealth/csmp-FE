@@ -306,7 +306,7 @@ const IACExModal = ({ isOpen, handleHide, mode }: Props) => {
             <div className="flex items-end justify-end mt-[32px] w-full">
               <button
                 type="submit"
-                className="rounded-full bg-primary text-white font-medium  py-[12px] px-[24px] w-fit"
+                className="rounded-full bg-primary text-white font-medium  py-[8px] px-[24px] w-fit"
                 disabled={formik.isSubmitting || !formik.isValid}
               >
                 {!loading && (

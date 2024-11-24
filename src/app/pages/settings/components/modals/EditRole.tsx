@@ -197,7 +197,7 @@ const EditRole = ({ data, isOpen, handleHide, task, mode }: any) => {
         {task === "edit" ? (
           <button
             type="button"
-            className="bg-primary w-36 rounded-full text-white font-medium text-[12px] px-[24px] py-[12px] "
+            className="bg-primary w-36 rounded-full text-white font-medium text-[12px] px-[24px] py-[8px] "
             onClick={handleHide}
           >
             Change
@@ -205,7 +205,7 @@ const EditRole = ({ data, isOpen, handleHide, task, mode }: any) => {
         ) : (
           <button
             type="button"
-            className="bg-primary w-32 rounded-full text-white font-medium text-[12px] px-[24px] py-[12px] "
+            className="bg-primary w-32 rounded-full text-white font-medium text-[12px] px-[24px] py-[8px] "
             onClick={handleHide}
           >
             Done
