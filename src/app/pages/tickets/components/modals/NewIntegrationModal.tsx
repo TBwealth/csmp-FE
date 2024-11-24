@@ -348,7 +348,7 @@ const NewIntegrationModal = ({ data, onClose, isOpen, mode }: Props) => {
               onClose();
             }
           }}
-          className="bg-[#284CB3]/40 w-36 font-medium rounded-full px-[24px] py-[12px] text-white text-center"
+          className="bg-[#284CB3]/40 w-36 font-medium rounded-full px-[24px] py-[8px] text-white text-center"
         >
           Cancel
         </button>
@@ -361,7 +361,7 @@ const NewIntegrationModal = ({ data, onClose, isOpen, mode }: Props) => {
             }
           }}
           //   disabled={!data?.cloud_name || !data?.environment}
-          className="bg-[#284CB3] w-48 font-medium rounded-full px-[24px] py-[12px] text-white text-center"
+          className="bg-[#284CB3] w-48 font-medium rounded-full px-[24px] py-[8px] text-white text-center"
         >
           Continue
         </button>

@@ -368,7 +368,7 @@ const NewRole = ({ isOpen, handleHide, mode }: any) => {
           <div className="flex items-end justify-end pt-[24px]">
             <button
               type="button"
-              className="bg-primary rounded-full text-white font-medium text-[12px] px-[24px] py-[12px] "
+              className="bg-primary rounded-full text-white font-medium text-[12px] px-[24px] py-[8px] "
               onClick={() => {
                 handleHide();
                 formik.resetForm();

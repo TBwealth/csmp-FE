@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import kuberImage from "../../../../../../../public/media/logos/kuber.svg";
 import awsimg from "../../../../../../../public/media/logos/aws-logo.svg";
-import alipay from "../../../../../../../public/media/logos/registry.svg";
 import dockerImg from "../../../../../../../public/media/logos/docker.svg";
 
 type Props = {
@@ -22,10 +21,7 @@ const ReoccurCard = ({ data, mode }: any) => {
           <img src={data?.logo} alt="company logo" className="w-8 h-8" />
           <h1 className="font-semibold text-[14px]">{data?.title}</h1>
         </div>
-        <p className="font-medium text-[12px] pr-[16px] border-end">
-          {data?.desc}
-        </p>
-        <p className="font-medium text-[12px]">All Images</p>
+        <p className="font-medium text-[12px]">{data?.desc}</p>
       </div>
       <div className="flex items-center gap-[16px]">
         <p className="font-medium text-[12px]">
@@ -84,49 +80,51 @@ const ScanCard = ({ data, mode }: any) => {
   const navigate = useNavigate();
   return (
     <div
-      className={`grid grid-cols-8 p-[12px] h-[45px] mb-[8px] place-content-center border-bottom  ${
+      className={`grid grid-cols-7 p-[12px] h-[45px] mb-[8px] place-content-center border-bottom  ${
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
       <p
-        className={`font-medium flex text-[12px] items-center justify-center ${
+        className={`font-medium flex text-[12px] items-center justify-start ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
         {data?.date}
       </p>
       <div className="flex items-center justify-center ">
-        <span className="rounded-full  text-primary font-semibold text-[8px] px-[10px] py-[2px] bg-[#284CB31A]  w-16 text-center">{data?.type}</span>
+        <span className="rounded-full  text-primary font-semibold text-[8px] px-[10px] py-[2px] bg-[#284CB31A]  w-16 text-center">
+          {data?.type}
+        </span>
       </div>
       <p
-        className={`font-medium flex text-[12px] items-center justify-center ${
+        className={`font-medium flex text-[12px] items-center justify-start ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
         {data?.policy_used}
       </p>
+      {/* <p
+          className={`font-medium flex text-[12px] items-center justify-center ${
+            mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+          }`}
+        >
+          {data?.registry}
+        </p> */}
       <p
-        className={`font-medium flex text-[12px] items-center justify-center ${
+        className={`font-medium flex text-[12px] items-center justify-start ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
-        {data?.registry}
+        {data?.repository}
       </p>
       <p
-        className={`font-medium flex text-[12px] items-center justify-center ${
-          mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
-        }`}
-      >
-        {data?.img_scanned}
-      </p>
-      <p
-        className={`font-semibold flex text-[12px] items-center justify-center ${
+        className={`font-semibold flex text-[12px] items-center justify-start ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
         {data?.exclusion}
       </p>
-      <p className="font-medium text-[12px] text-[#FF161A] flex items-center justify-center">
+      <p className="font-medium text-[12px] text-[#FF161A] flex items-center justify-start">
         {data?.vulnerability}
       </p>
       <div className="flex items-center justify-between">
@@ -152,29 +150,31 @@ const ScanCard = ({ data, mode }: any) => {
   );
 };
 
-const AssessHistory = ({ goBack, mode }: Props) => {
+const VulAssessHistory = ({ goBack, mode }: Props) => {
+  const [loading, setLoading] = useState(false);
   const [tab, setTab] = useState("Scan History");
   const [showPopOver, setShowPopOver] = useState(false);
   const [allData, setAllData] = useState<any[]>([]);
+
   const allHistory = [
     {
       next_scan: "12:00PM",
-      title: "Gilotec Prod -Docker",
-      desc: " Workload Vulnerability Default 1.0",
+      title: "Scrapenext.git",
+      desc: "AWS CloudFormation ",
       logo: dockerImg,
       id: 0,
     },
     {
       next_scan: "12:00PM",
-      title: "Gilotec Prod -Docker",
-      desc: " Workload Vulnerability Default 1.0",
+      title: "Reponame.git",
+      desc: "AWS CloudFormation",
       logo: awsimg,
       id: 1,
     },
     {
       next_scan: "12:00PM",
-      title: "Gilotec Prod -Docker",
-      desc: " Workload Vulnerability Default 1.0",
+      title: "Reponame.git",
+      desc: "AWS CloudFormation",
       logo: kuberImage,
       id: 2,
     },
@@ -183,25 +183,33 @@ const AssessHistory = ({ goBack, mode }: Props) => {
   const allScans = [
     {
       date: "2/3/2024 12:40PM",
-      type: "manual",
-      policy_used: "Workload Vulnerabili. . ",
-      registry: "Gilotec Prod",
-      img_scanned: "All",
+      type: "Manual",
+      policy_used: "AWS CloudFormation",
+      repository: "scrapenext.git",
       exclusion: "N/A",
-      vulnerability: "360",
+      vulnerability: "365",
       compliance: "37%",
       id: 0,
     },
     {
+      date: "2/3/2024 12:00PM",
+      type: "Manual",
+      policy_used: "AWS CloudFormation",
+      repository: "Reponame.git",
+      exclusion: "N/A",
+      vulnerability: "30",
+      compliance: "64%",
+      id: 1,
+    },
+    {
       date: "2/3/2024 8:13AM",
       type: "Auto",
-      policy_used: "Workload Vulnerabili. . ",
-      registry: "Gilotec Prod",
-      img_scanned: "my-app-image",
-      exclusion: "4",
-      vulnerability: "129",
+      policy_used: "AWS CloudFormation",
+      repository: "Main.Yaml",
+      exclusion: "N/A",
+      vulnerability: "4",
       compliance: "98%",
-      id: 1,
+      id: 2,
     },
   ];
 
@@ -216,26 +224,26 @@ const AssessHistory = ({ goBack, mode }: Props) => {
   return (
     <div className="px-8 mt-[32px] w-full">
       <div className="flex items-center justify-between flex-col md:flex-row gap-[16px]">
-        <div className="flex items-center gap-[16px]">
-          <button onClick={goBack}>
-            <svg
-              width="24"
-              height="25"
-              viewBox="0 0 24 25"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M12.5303 5.96967C12.8232 6.26256 12.8232 6.73744 12.5303 7.03033L7.81066 11.75H18.5C18.9142 11.75 19.25 12.0858 19.25 12.5C19.25 12.9142 18.9142 13.25 18.5 13.25H7.81066L12.5303 17.9697C12.8232 18.2626 12.8232 18.7374 12.5303 19.0303C12.2374 19.3232 11.7626 19.3232 11.4697 19.0303L5.46967 13.0303C5.17678 12.7374 5.17678 12.2626 5.46967 11.9697L11.4697 5.96967C11.7626 5.67678 12.2374 5.67678 12.5303 5.96967Z"
-                fill={mode === "dark" ? "#EAEAEA" : "#373737"}
-              />
-            </svg>
-          </button>
-          <h1 className="font-semibold text-[14px] border-end pr-[16px] py-[2px]">
-            Assessment History
-          </h1>
+        <div className="flex items-center flex-col md:flex-row gap-[16px]">
+          <div className="flex items-center gap-[16px] border-end pr-[16px]">
+            <button onClick={goBack}>
+              <svg
+                width="24"
+                height="25"
+                viewBox="0 0 24 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M12.5303 5.96967C12.8232 6.26256 12.8232 6.73744 12.5303 7.03033L7.81066 11.75H18.5C18.9142 11.75 19.25 12.0858 19.25 12.5C19.25 12.9142 18.9142 13.25 18.5 13.25H7.81066L12.5303 17.9697C12.8232 18.2626 12.8232 18.7374 12.5303 19.0303C12.2374 19.3232 11.7626 19.3232 11.4697 19.0303L5.46967 13.0303C5.17678 12.7374 5.17678 12.2626 5.46967 11.9697L11.4697 5.96967C11.7626 5.67678 12.2374 5.67678 12.5303 5.96967Z"
+                  fill={mode === "dark" ? "#EAEAEA" : "#373737"}
+                />
+              </svg>
+            </button>
+            <h1 className="font-semibold text-[14px]">Assessment History</h1>
+          </div>
           <p
             className={`${
               mode === "dark"
@@ -243,7 +251,7 @@ const AssessHistory = ({ goBack, mode }: Props) => {
                 : "text-[#6A6A6A] border-end font-medium text-[12px] pr-[16px] py-[2px]"
             }`}
           >
-            View all Vulnerability report of your registry
+            View all Vulnerability report of your templates
           </p>
         </div>
       </div>
@@ -431,7 +439,7 @@ const AssessHistory = ({ goBack, mode }: Props) => {
                 mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
               }`}
             >
-              Image Vulnerabilities{" "}
+              IAC Threats{" "}
             </p>
           </div>
         </div>
@@ -485,7 +493,7 @@ const AssessHistory = ({ goBack, mode }: Props) => {
                 mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
               }`}
             >
-              Scan Frequency{" "}
+              IAC Scan{" "}
             </p>
           </div>
         </div>
@@ -583,7 +591,7 @@ const AssessHistory = ({ goBack, mode }: Props) => {
       </div>
       {tab.includes("Reoccurring Scans") && (
         <p className="my-[24px] text-start text-[14px] font-medium">
-          These are scheduled recurring container scan.{" "}
+          These are scheduled recurring IAC scan.{" "}
         </p>
       )}
       <div
@@ -594,21 +602,19 @@ const AssessHistory = ({ goBack, mode }: Props) => {
         {tab === "Scan History" ? (
           <>
             <div
-              className={`grid grid-cols-8 p-[12px] h-[45px] rounded-t-[16px] mb-[8px] border-bottom  ${
+              className={`grid grid-cols-7 p-[12px] h-[45px] rounded-t-[16px] mb-[8px] border-bottom  ${
                 mode === "dark" ? "bg-lightDark" : "bg-white"
               }`}
             >
               <p className="text-start font-semibold text-[12px]">Date</p>
               <p className="text-center font-semibold text-[12px]">Scan type</p>
-              <p className="text-center font-semibold text-[12px]">
+              <p className="text-start font-semibold text-[12px]">
                 Policy Used
               </p>
-              <p className="text-center font-semibold text-[12px]">Registry</p>
-              <p className="text-center font-semibold text-[12px]">
-                Images Scanned
-              </p>
-              <p className="text-center font-semibold text-[12px]">Excluded</p>
-              <p className="text-center font-semibold text-[12px]">
+              {/* <p className="text-center font-semibold text-[12px]">Registry</p> */}
+              <p className="text-start font-semibold text-[12px]">Repository</p>
+              <p className="text-start font-semibold text-[12px]">Exclusion</p>
+              <p className="text-start font-semibold text-[12px]">
                 Vulnerabilities
               </p>
               <p className="text-start font-semibold text-[12px]">Compliance</p>
@@ -627,4 +633,4 @@ const AssessHistory = ({ goBack, mode }: Props) => {
   );
 };
 
-export default AssessHistory;
+export default VulAssessHistory;

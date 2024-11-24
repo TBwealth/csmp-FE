@@ -205,7 +205,7 @@ const RoleComponent = ({ goBack }: Props) => {
         </div>
         <button
           onClick={() => setShowAdd(true)}
-          className="bg-primary font-medium text-[14px] text-white px-[24px] w-fit  py-[12px] rounded-full flex items-center justify-center gap-[10px]"
+          className="bg-primary font-medium text-[14px] text-white px-[24px] w-fit  py-[8px] rounded-full flex items-center justify-center gap-[10px]"
         >
           <span>Create new role</span>
           <svg

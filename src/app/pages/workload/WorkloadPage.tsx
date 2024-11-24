@@ -1,27 +1,31 @@
-import React from 'react'
+import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
-import Index from './components/container/assets/Index';
-import ScanHome from './components/container/scan/ScanHome';
-import ContainerPoliciesHome from './components/container/policies/ContainerPoliciesHome';
-
+import Index from "./components/container/assets/Index";
+import ScanHome from "./components/container/scan/ScanHome";
+import WorkloadOverview from "./components/WorkloadOverview";
+import ContainerPoliciesHome from "./components/container/policies/ContainerPoliciesHome";
+import WorkloadDetails from "./components/container/policies/WorkloadDetails";
+import TemplateIndex from "./components/infrastructure/templates/TemplateIndex";
+import VulnerabilitiesIndex from "./components/infrastructure/vulnerabilities/VulnerabilitiesIndex";
+import IACPoliciesHome from "./components/infrastructure/policies/IACPoliciesHome";
+import IAComplianceDetails from "./components/infrastructure/policies/IAComplianceDetails";
 
 const cloudProviderBreadCrumbs: Array<PageLink> = [
-    {
-      title: "Workload-protection",
-      // path: "/settings/account-settings",
-      path: "/workload-protection/overview",
-      isSeparator: false,
-      isActive: false,
-    },
-    {
-      title: "",
-      path: "",
-      isSeparator: true,
-      isActive: false,
-    },
-  ];
-
+  {
+    title: "Workload-protection",
+    // path: "/settings/account-settings",
+    path: "/workload-protection/overview",
+    isSeparator: false,
+    isActive: false,
+  },
+  {
+    title: "",
+    path: "",
+    isSeparator: true,
+    isActive: false,
+  },
+];
 
 const WorkloadPage = () => {
   return (
@@ -39,9 +43,9 @@ const WorkloadPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-                User Management
+                Workload Overview
               </PageTitle>
-              {/* <UserManagement /> */}
+              <WorkloadOverview />
             </>
           }
         />
@@ -62,7 +66,7 @@ const WorkloadPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-              Container Scan
+                Container Scan
               </PageTitle>
               <ScanHome />
             </>
@@ -73,17 +77,75 @@ const WorkloadPage = () => {
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
-                Audit Logs
+                Container Policies
               </PageTitle>
               <ContainerPoliciesHome />
             </>
           }
         />
+        <Route
+          path="container/policies/:id"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Container Policies Details
+              </PageTitle>
+              <WorkloadDetails />
+            </>
+          }
+        />
+        <Route
+          path="iac/templates"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                IAC Template
+              </PageTitle>
+              <TemplateIndex />
+            </>
+          }
+        />
+        <Route
+          path="iac/iac-vulnerability"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                IAC Vulnerabilities
+              </PageTitle>
+              <VulnerabilitiesIndex />
+            </>
+          }
+        />
+        <Route
+          path="iac/policies"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                IAC Policies
+              </PageTitle>
+              <IACPoliciesHome />
+            </>
+          }
+        />
+        <Route
+          path="iac/policies/:id"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                IAC Policies Details
+              </PageTitle>
+              <IAComplianceDetails />
+            </>
+          }
+        />
 
-        <Route index element={<Navigate to="/workload-protection/overview" />} />
+        <Route
+          index
+          element={<Navigate to="/workload-protection/overview" />}
+        />
       </Route>
     </Routes>
-  )
-}
+  );
+};
 
-export default WorkloadPage
+export default WorkloadPage;

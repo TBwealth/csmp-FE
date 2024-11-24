@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Route, Routes, Outlet } from "react-router-dom";
 import { PageLink, PageTitle } from "../../../_metronic/layout/core";
-import AccountSettings from "./components/AccountSettings";
+import AccountSettings from "./components/account-settiing/AccountSettings";
 import Notification from "./components/Notification";
 import AuditLogs from "./components/AuditLogs";
 import UserManagement from "./components/UserManagement";

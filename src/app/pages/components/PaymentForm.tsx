@@ -51,7 +51,7 @@ const PaymentForm = ({ handleHide, secret, action }: any) => {
                     onSuccess: (res: any) => {
                       setIsLoading(false);
                       showAlert(res?.message, "success");
-                      handleHide();
+                      // handleHide();
                       console.log(res?.data);
                     },
                     onError: (err: any) => {
@@ -66,7 +66,7 @@ const PaymentForm = ({ handleHide, secret, action }: any) => {
               } else {
                 setIsLoading(false);
                 showAlert(res?.message, "success");
-                handleHide();
+                // handleHide();
                 console.log(res?.data);
               }
             },
@@ -81,6 +81,7 @@ const PaymentForm = ({ handleHide, secret, action }: any) => {
   };
   const CARD_OPTION: any = {
     iconStyle: "solid",
+    hidePostalCode: true,
     style: {
       base: {
         iconColor: "#c4f0ff",

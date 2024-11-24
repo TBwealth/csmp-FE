@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../../../atoms/modeAtoms.atom";
+import WorkloadCompliance from "./WorkloadCompliance";
+import Exclusion from "./Exclusion";
 
 type Props = {};
 
@@ -8,6 +10,15 @@ const ContainerPoliciesHome = (props: Props) => {
   const [isHome, setIsHome] = useState(true);
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [selection, setSelection] = useState("");
+
+  useEffect(() => {
+    const curPage = sessionStorage.getItem("cur_policy_page");
+    if (curPage) {
+      setIsHome(false);
+      setSelection(curPage);
+    }
+  }, []);
+
   return (
     <div className="px-8 mt-[32px] w-full">
       {isHome && (
@@ -109,6 +120,7 @@ const ContainerPoliciesHome = (props: Props) => {
             onClick={() => {
               setIsHome(false);
               setSelection("exclusion");
+              sessionStorage.setItem("cur_policy_page", "exclusion")
             }}
             className={`${
               mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -199,6 +211,24 @@ const ContainerPoliciesHome = (props: Props) => {
             </span>
           </button>
         </div>
+      )}
+      {selection === "compliance" && (
+        <WorkloadCompliance
+          mode={mode}
+          goBack={() => {
+            setIsHome(true);
+            setSelection("");
+          }}
+        />
+      )}
+      {selection === "exclusion" && (
+        <Exclusion
+          mode={mode}
+          goBack={() => {
+            setIsHome(true);
+            setSelection("");
+          }}
+        />
       )}
     </div>
   );

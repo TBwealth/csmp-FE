@@ -582,7 +582,7 @@ const RepositoryList = () => {
             </div>
             <button
               onClick={() => setShowAdd(true)}
-              className="rounded-full w-48 p-3 flex font-medium text-white items-center justify-center gap-2 bg-primary text-White"
+              className="rounded-full px-[24px] py-[12px] flex font-medium text-white items-center justify-center gap-2 bg-primary text-White"
             >
               <p>Connect new Repo</p>
               <svg

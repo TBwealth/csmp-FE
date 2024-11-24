@@ -8,6 +8,7 @@ import DefaultContent from "../../components/defaultContent/defaultContent";
 import PaymentMethodChange from "./modals/PaymentMethodChange";
 import PaymentModal from "./modals/PaymentModal";
 import mastercardlogo from "../../../../public/media/logos/matercard.png";
+import unionpay from "../../../../public/media/logos/pngegg.png";
 
 type Props = {
   mode: string;
@@ -73,7 +74,7 @@ const BillingPayments = ({ mode }: Props) => {
             <div className="flex items-center gap-[10px]">
               <button
                 onClick={handleSetIntent}
-                className=" font-medium text-[12px] bg-primary text-white rounded-[8px] p-[8px]"
+                className=" font-medium text-[12px] bg-primary text-white rounded-full px-[24px] py-[8px]"
               >
                 {loading ? (
                   <span
@@ -123,8 +124,14 @@ const BillingPayments = ({ mode }: Props) => {
                   fill="#172B85"
                 />
               </svg>
+            ) : defaultCard.card_brand === "unionpay" ? (
+              <img src={unionpay} alt="mastercard logo" className="w-12 h-12" />
             ) : (
-              <img src={mastercardlogo} alt="mastercard logo" className="w-12 h-12"/>
+              <img
+                src={mastercardlogo}
+                alt="mastercard logo"
+                className="w-12 h-12"
+              />
             )}
 
             <div className="">

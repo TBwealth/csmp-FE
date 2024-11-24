@@ -1,23 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../../../atoms/modeAtoms.atom";
-import ScanRegistry from "./ScanRegistry";
-import AssessHistory from "./AssessHistory";
+import IACExclusion from "./IACExclusion";
+import IACompliance from "./IACompliance";
 
 
-const ScanHome = () => {
-  const [isHome, setIsHome] = useState(true);
+const IACPoliciesHome = () => {
+    const [isHome, setIsHome] = useState(true);
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [selection, setSelection] = useState("");
 
+  useEffect(() => {
+    const curPage = sessionStorage.getItem("cur_policy_page");
+    if (curPage) {
+      setIsHome(false);
+      setSelection(curPage);
+    }
+  }, []);
+
   return (
     <div className="px-8 mt-[32px] w-full">
-      {isHome && (
+     {isHome && (
         <div className="flex items-center justify-between flex-col md:flex-row gap-[16px]">
           <button
             onClick={() => {
               setIsHome(false);
-              setSelection("scan");
+              setSelection("compliance");
             }}
             className={`${
               mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -33,14 +41,7 @@ const ScanHome = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M41 41L44 44"
-                    stroke="#284CB3"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M32 37C32 39.7614 34.2386 42 37 42C38.3831 42 39.635 41.4384 40.5402 40.5308C41.4423 39.6264 42 38.3783 42 37C42 34.2386 39.7614 32 37 32C34.2386 32 32 34.2386 32 37Z"
+                    d="M28 38L34 44L44 34"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
@@ -71,7 +72,7 @@ const ScanHome = () => {
               </div>
               <div className="w-full">
                 <h1 className="text-start font-semibold text-[14px] mb-[8px]">
-                  Scan Registry / Image{" "}
+                IAC Compliance{" "}
                 </h1>
                 <p
                   className={`${
@@ -80,7 +81,7 @@ const ScanHome = () => {
                       : "text-[#6A6A6A] text-start font-medium text-[12px]"
                   }`}
                 >
-                  Ensure compliance and protect your Workload and containers
+                  Ensure compliance and protect your IAC Templates
                 </p>
               </div>
             </div>
@@ -117,7 +118,8 @@ const ScanHome = () => {
           <button
             onClick={() => {
               setIsHome(false);
-              setSelection("assess");
+              setSelection("exclusion");
+              sessionStorage.setItem("cur_policy_page", "exclusion")
             }}
             className={`${
               mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -133,25 +135,28 @@ const ScanHome = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M17 8H10C8.89543 8 8 8.89543 8 10V42C8 43.1046 8.89543 44 10 44H24"
+                    d="M24 32C28.4183 32 32 28.4183 32 24C32 19.5817 28.4183 16 24 16C19.5817 16 16 19.5817 16 24C16 28.4183 19.5817 32 24 32Z"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
-                    d="M31 8H38C39.1046 8 40 8.89543 40 10V30"
+                    d="M42 14.353L42 33.647C42 33.8649 41.8819 34.0656 41.6914 34.1715L24.2914 43.8381C24.1102 43.9388 23.8898 43.9388 23.7086 43.8381L6.30861 34.1715C6.11813 34.0656 6 33.8649 6 33.647L5.99996 14.353C5.99996 14.1351 6.1181 13.9344 6.30857 13.8285L23.7086 4.16188C23.8898 4.06121 24.1102 4.06121 24.2914 4.16188L41.6913 13.8285C41.8818 13.9344 42 14.1351 42 14.353Z"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
-                    d="M16 13.4V9C16 8.44772 16.4477 8 17 8C17.5523 8 18.0084 7.55209 18.103 7.00796C18.3994 5.30343 19.548 2 24 2C28.452 2 29.6006 5.30343 29.897 7.00796C29.9916 7.55209 30.4477 8 31 8C31.5523 8 32 8.44772 32 9V13.4C32 13.7314 31.7314 14 31.4 14H16.6C16.2686 14 16 13.7314 16 13.4Z"
+                    d="M7.05688 14.5863L16.8 19.9991M41 14.5547L31.2 19.9991"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
+                    strokeLinejoin="round"
                   />
                   <path
-                    d="M31 41L35 45L45 35"
+                    d="M24 42V32"
                     stroke="#284CB3"
                     strokeWidth="1.5"
                     strokeLinecap="round"
@@ -161,7 +166,7 @@ const ScanHome = () => {
               </div>
               <div className="w-full">
                 <h1 className="text-start font-semibold text-[14px] mb-[8px]">
-                  Assessment History{" "}
+                  Exclusions{" "}
                 </h1>
                 <p
                   className={`${
@@ -170,7 +175,7 @@ const ScanHome = () => {
                       : "text-[#6A6A6A] text-start font-medium text-[12px]"
                   }`}
                 >
-                  View all Vulnerability report of your registry
+                  Create and setup exclusions and policy exception
                 </p>
               </div>
             </div>
@@ -206,8 +211,8 @@ const ScanHome = () => {
           </button>
         </div>
       )}
-      {selection === "scan" && (
-        <ScanRegistry
+      {selection === "compliance" && (
+        <IACompliance
           mode={mode}
           goBack={() => {
             setIsHome(true);
@@ -215,8 +220,8 @@ const ScanHome = () => {
           }}
         />
       )}
-      {selection === "assess" && (
-        <AssessHistory
+      {selection === "exclusion" && (
+        <IACExclusion
           mode={mode}
           goBack={() => {
             setIsHome(true);
@@ -225,7 +230,7 @@ const ScanHome = () => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ScanHome;
+export default IACPoliciesHome
