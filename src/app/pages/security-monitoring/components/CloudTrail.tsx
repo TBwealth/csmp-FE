@@ -457,11 +457,11 @@ const CloudTrail = () => {
                 }`}
               >
                 <div className="">
-                  <h1 className="font-semibold text-[12px] md:text-[14px] mb-[8px]">
+                  <h1 className="font-semibold text-start text-[12px] md:text-[14px] mb-[8px]">
                     {al.name}
                   </h1>
                   <p
-                    className={`font-medium text-[10px] md:text-[12px] ${
+                    className={`text-start font-medium text-[10px] md:text-[12px] ${
                       mode === "dark" ? "#EAEAEA" : "#6A6A6A"
                     }`}
                   >

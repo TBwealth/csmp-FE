@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
+import { useSearchParams } from "react-router-dom";
 import modeAtomsAtom from "../../../../atoms/modeAtoms.atom";
 import PasswordManagement from "./PasswordManagement";
 import DefaulEmail from "./DefaulEmail";
@@ -7,11 +8,12 @@ import TwoFA from "./TwoFA";
 import DeletAccount from "./DeletAccount";
 
 const AccountSettings = () => {
+  const [search] = useSearchParams();
+  const page = search.get("cur");
   const [isHome, setIsHome] = useState(true);
   const [curPage, setCurPage] = useState("");
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [user, setUser] = useState<any>({});
- 
 
   useEffect(() => {
     const localUser = localStorage.getItem("user");
@@ -26,6 +28,16 @@ const AccountSettings = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (page) {
+      setIsHome(false);
+      setCurPage(page);
+    } else {
+      setIsHome(true);
+      setCurPage("");
+    }
+  }, [page]);
 
   return (
     <div className="mt-[32px] w-full md:mx-auto md:w-[70%]">

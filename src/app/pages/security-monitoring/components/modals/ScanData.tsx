@@ -14,11 +14,11 @@ const ScanData = ({ data }: Props) => {
     <>
       {data ? (
         <div
-          className={`rounded-xl flex items-center gap-8 justify-center flex-col mb-10 border py-6 ${
+          className={`rounded-[12px] flex items-center gap-8 justify-center flex-col border ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
-          <div className="w-full px-10 pb-2 border-bottom flex items-center justify-between">
+          <div className="w-full px-[24px] py-[16px] border-bottom flex items-center justify-between">
             <h3 className="font-semibold text-center text-[14px]">
               Latest Scan Report
             </h3>
@@ -39,7 +39,7 @@ const ScanData = ({ data }: Props) => {
               }`}</span>
             </h3>
           </div>
-          <div className="w-full px-10">
+          <div className="w-full px-[24px] py-[16px]">
             <h3 className="font-medium text-[14px] mb-3 text-left">
               <span className="font-bold">
                 {data?.result_json?.Total_checks} 

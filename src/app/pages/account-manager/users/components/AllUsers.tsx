@@ -121,6 +121,8 @@ const AllUsers = () => {
     }
     refetch();
   }
+
+  
   function filterUpdated(data: any) {
     filter.current = {
       page: data?.page ?? 1,
@@ -131,6 +133,8 @@ const AllUsers = () => {
     };
     refetch()
   }
+
+
   function tableActionClicked(event: TableActionEvent) {
     if (event.name === "1") {
       setEditItems(event.data);

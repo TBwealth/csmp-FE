@@ -6,8 +6,6 @@ import TemplateResults from "./TemplateResults";
 
 type Props = {};
 
-
-
 const TemplateIndex = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
 
@@ -194,7 +192,7 @@ const TemplateIndex = () => {
           </div>
         </div>
       </div>
-        <TemplateResults mode={mode} handleShowModal= {() => setShowAdd(true)} />
+      <TemplateResults mode={mode} handleShowModal={() => setShowAdd(true)} />
       <TempModal
         isOpen={showAdd}
         handleHide={() => setShowAdd(false)}
