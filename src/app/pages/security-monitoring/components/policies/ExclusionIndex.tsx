@@ -1,27 +1,60 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import ExclusionModal from "./ExclusionModal";
+import PolicyExModal from "../modals/PolicyExModal";
+
+type Props = {
+  goBack: any;
+  mode: string;
+};
 
 const Card = ({ data, mode }: any) => {
   return (
     <div
-      className={`grid grid-cols-8 p-[12px] h-[45px] place-content-center  mb-[8px] border-bottom  ${
+      className={`grid grid-cols-10 p-[12px] h-[45px] place-content-center align-middle  mb-[8px] border-bottom w-[280vw] md:w-[180vw] lg:w-full ${
         mode === "dark" ? "bg-lightDark" : "bg-white"
       }`}
     >
       <p
-        className={`col-span-2 font-medium flex text-[12px] items-center justify-start text-start ${
+        className={`font-medium flex text-[12px] items-center justify-start text-start ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
-        {data?.rule}
+        {data?.provider}
       </p>
       <p
-        className={`font-medium col-span-2 flex text-[12px] items-center justify-start text-start ${
+        className={`font-medium flex text-[12px] items-center justify-start text-start ${
           mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
         }`}
       >
-        {data?.registry}
+        {data?.tenant_id}
+      </p>
+      <p
+        className={`font-medium flex text-[12px] items-center justify-start text-start ${
+          mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+        }`}
+      >
+        {data?.type}
+      </p>
+      <p
+        className={`font-medium flex text-[12px] items-center justify-start text-start ${
+          mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+        }`}
+      >
+        {data?.resource_id}
+      </p>
+      <p
+        className={`font-medium flex text-[12px] items-center justify-start text-start ${
+          mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+        }`}
+      >
+        {data?.rule_id}
+      </p>
+      <p
+        className={`font-medium flex text-[12px] items-center justify-start text-start ${
+          mode === "dark" ? "text-[#909BBC]" : "text-[#6A6A6A]"
+        }`}
+      >
+        {data?.region}
       </p>
       <p
         className={`font-medium flex text-[12px] items-center justify-start text-start ${
@@ -30,15 +63,17 @@ const Card = ({ data, mode }: any) => {
       >
         {data?.exp_date}
       </p>
-      <p
-        className={`font-semibold px-[10px] py-[2px] flex text-[8px] rounded-full  items-center justify-center w-fit ${
-          data?.status === "Active"
-            ? "text-[#284CB3] bg-[#284CB31A]"
-            : "text-[#FF7D30] bg-[#FF7D301A]"
-        }`}
-      >
-        {data?.status}
-      </p>
+      <div className="flex items-center justify-start">
+        <span
+          className={`font-semibold px-[10px] py-[3px] text-[8px] text-center rounded-full ${
+            data?.status === "Active"
+              ? "text-[#284CB3] bg-[#284CB31A]"
+              : "text-[#FF7D30] bg-[#FF7D301A]"
+          }`}
+        >
+          {data?.status}
+        </span>
+      </div>
       <div className="flex col-span-2 items-center justify-between">
         <p
           className={`font-medium flex text-[12px] items-center justify-start text-start ${
@@ -74,25 +109,28 @@ const Card = ({ data, mode }: any) => {
   );
 };
 
-type Props = {
-  goBack: any;
-  mode: string;
-};
-
-const Exclusion = ({ goBack, mode }: Props) => {
+const ExclusionIndex = ({ goBack, mode }: Props) => {
   const [showModalNew, setShowModalNew] = useState(false);
   const exclusionData = [
     {
-      rule: "Insecure Code of Critical Severity",
-      registry: "AWS ECR",
+      provider: "Gilotec Prody",
+      tenant_id: "T01",
+      type: "EC2",
+      resource_id: "EC2-001",
+      rule_id: "RL001",
+      region: "All Regions",
       exp_date: "2/3/2024",
       status: "Active",
       comment: "We will not run rule RL001 on EC2-00. . .",
       id: 0,
     },
     {
-      rule: "Container Image Assurance Speed",
-      registry: "Gilotec Prod",
+      provider: "Gilotec Prod",
+      tenant_id: "T01",
+      type: "S3 Bucket",
+      resource_id: "RDS-001",
+      rule_id: "RL058",
+      region: "US-East-1",
       exp_date: "2/3/2024",
       status: "Expired",
       comment: "Ignore this instance for now till further notice",
@@ -102,7 +140,7 @@ const Exclusion = ({ goBack, mode }: Props) => {
   return (
     <div className="">
       <div className="flex items-start md:items-center justify-between flex-col md:flex-row gap-[16px]">
-        <div className="flex items-center flex-col md:flex-row gap-[16px]">
+        <div className="flex items-start md:items-center gap-[16px]">
           <div className="flex items-center gap-[16px] border-end pr-[16px]">
             <button onClick={goBack}>
               <svg
@@ -134,9 +172,9 @@ const Exclusion = ({ goBack, mode }: Props) => {
           </Link>
         </div>
       </div>
-      <div className="w-full flex items-center mt-[28px] mb-[32px] justify-between">
+      <div className="w-full flex-col md:flex-row gap-[10px] flex items-start md:items-center mt-[28px] mb-[32px] justify-between">
         <div
-          className={`rounded-[12px] p-[24px] flex items-center gap-[12px] border ${
+          className={`rounded-[12px] w-full md:w-fit p-[24px] flex items-center justify-between gap-[12px] border ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
@@ -298,18 +336,18 @@ const Exclusion = ({ goBack, mode }: Props) => {
           </button>
         </div>
       </div>
-      <div className="w-full overflow-x-scroll">
+      <div className="w-full overflow-auto p-2">
         <div
-          className={`grid grid-cols-8 p-[12px] h-[45px] rounded-t-[16px] mb-[8px] border-bottom  ${
+          className={`grid grid-cols-10 p-[12px] h-[45px] rounded-t-[16px] mb-[8px] border-bottom w-[280vw] md:w-[180vw] lg:w-full  ${
             mode === "dark" ? "bg-lightDark" : "bg-white"
           }`}
         >
-          <p className="text-start col-span-2 font-semibold text-[12px]">
-            Rule
-          </p>
-          <p className="text-start col-span-2 font-semibold text-[12px]">
-            Registry
-          </p>
+          <p className="text-start font-semibold text-[12px]">Cloud Provider</p>
+          <p className="text-start font-semibold text-[12px]">Tenant ID</p>
+          <p className="text-start font-semibold text-[12px]">Type</p>
+          <p className="text-start font-semibold text-[12px]">Resource ID</p>
+          <p className="text-start font-semibold text-[12px]">Rule ID</p>
+          <p className="text-start font-semibold text-[12px]">Region</p>
           <p className="text-start font-semibold text-[12px]">Exp Date</p>
           <p className="text-start font-semibold text-[12px]">Status</p>
           <p className="text-start col-span-2 font-semibold text-[12px]">
@@ -320,7 +358,8 @@ const Exclusion = ({ goBack, mode }: Props) => {
           <Card data={exl} mode={mode} key={exl.id} />
         ))}
       </div>
-      <ExclusionModal
+
+      <PolicyExModal
         isOpen={showModalNew}
         handleHide={() => setShowModalNew(false)}
         mode={mode}
@@ -329,4 +368,4 @@ const Exclusion = ({ goBack, mode }: Props) => {
   );
 };
 
-export default Exclusion;
+export default ExclusionIndex;

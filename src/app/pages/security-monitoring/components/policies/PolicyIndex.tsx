@@ -85,7 +85,7 @@ const PolicyIndex = ({ goBack, mode }: Props) => {
     },
   ];
   return (
-    <div className="px-8 mt-[32px] w-full">
+    <div className="">
       <div className="flex items-center justify-between flex-col md:flex-row gap-[16px] mb-[44px]">
         <div className="flex items-center flex-row gap-[16px]">
           <div className="flex items-center gap-[16px] border-end pr-[16px]">
@@ -256,7 +256,7 @@ const PolicyIndex = ({ goBack, mode }: Props) => {
           </button>
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-[16px]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px]">
         {policies.map((policy) => (
           <PolicyCard data={policy} key={policy?.title} mode={mode} />
         ))}

@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import regCompImg from "../../../../../public/media/logos/reg-comp.svg";
 import { Link, useSearchParams } from "react-router-dom";
 import PolicyIndex from "./policies/PolicyIndex";
+import ExclusionIndex from "./policies/ExclusionIndex";
 
 const PolicyAndRuleset = () => {
   const { mode } = useRecoilValue(modeAtomsAtom);
@@ -144,8 +145,9 @@ const PolicyAndRuleset = () => {
             </button>
             <button
               onClick={() => {
-                setIsHome(false);
-                setSelection("rules");
+                // setIsHome(false);
+                // setSelection("rules");
+                console.log("rules")
               }}
               className={`${
                 mode === "dark" ? "bg-lightDark" : "bg-white"
@@ -332,6 +334,15 @@ const PolicyAndRuleset = () => {
 
       {selection === "policies" && (
         <PolicyIndex
+          goBack={() => {
+            setIsHome(true);
+            setSelection("");
+          }}
+          mode={mode}
+        />
+      )}
+      {selection === "exclusion" && (
+        <ExclusionIndex
           goBack={() => {
             setIsHome(true);
             setSelection("");

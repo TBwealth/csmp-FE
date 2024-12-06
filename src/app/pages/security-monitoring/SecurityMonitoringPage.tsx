@@ -10,6 +10,7 @@ import PolicyDetails from "./components/policies/PolicyDetails";
 import TrailHistory from "./components/TrailHistory";
 import TrailHistoryDetails from "./components/TrailHistoryDetails";
 import NewPolicy from "./components/policies/NewPolicy";
+import Compliance from "./components/Compliance";
 const cloudProviderBreadCrumbs: Array<PageLink> = [
   {
     title: "Security Monitoring",
@@ -54,6 +55,17 @@ const SecurityMonitoringPage = () => {
                 Policy And Ruleset
               </PageTitle>
               <PolicyAndRuleset />
+            </>
+          }
+        />
+        <Route
+          path="compliance"
+          element={
+            <>
+              <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
+                Compliance
+              </PageTitle>
+              <Compliance />
             </>
           }
         />

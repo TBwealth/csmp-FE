@@ -243,15 +243,25 @@ const NewSideMenu = () => {
           children: [],
         },
         {
-          title: "Scan Report",
-          href: "/monitoring/scan-history",
+          title: "Compliance",
+          href: "/monitoring/compliance",
           children: [],
         },
         {
-          title: "CloudTrails",
-          href: "/monitoring/cloudtrail-setup",
+          title: "Assessment History",
+          href: "/monitoring/assessment-history",
           children: [],
         },
+        // {
+        //   title: "Scan Report",
+        //   href: "/monitoring/scan-history",
+        //   children: [],
+        // },
+        // {
+        //   title: "CloudTrails",
+        //   href: "/monitoring/cloudtrail-setup",
+        //   children: [],
+        // },
       ],
     },
     {
