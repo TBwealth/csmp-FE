@@ -20,7 +20,7 @@ export function Settings() {
             </div>
           </div>
 
-          <div className='mb-5 row align-items-center mb-2'>
+          <div className='row align-items-center mb-2'>
             <label className='col-xl-3 col-lg-3 col-form-label fw-bold text-start text-lg-end'>
               Email Notifications
             </label>

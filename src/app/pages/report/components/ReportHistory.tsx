@@ -134,7 +134,7 @@ const ReportHistory = () => {
     <div className="px-8 mt-[32px] w-full">
       <p className={`${mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"} font-medium text-[12px]`}>
         List of all generated reports from your templates till date. to learn
-        more about report click ere
+        more about report click here
       </p>
       <div
         className={`mb-3 ${
@@ -306,8 +306,8 @@ const ReportHistory = () => {
           </p>
         </div>
         {
-          allReports.map((report, idx) => (
-            <HistoryCard mode={mode} data={report} isLast={idx === allReports.length - 1}  key={report.time+`${idx}`}/>
+          allReports?.map((report, idx) => (
+            <HistoryCard mode={mode} data={report} isLast={idx === allReports?.length - 1}  key={report?.time+`${idx}`}/>
           ))
         }
       </div>

@@ -238,15 +238,30 @@ const NewSideMenu = () => {
           children: [],
         },
         {
-          title: "Scan Report",
-          href: "/monitoring/scan-history",
+          title: "Policies and Ruleset",
+          href: "/monitoring/policies-and-ruleset",
           children: [],
         },
         {
-          title: "CloudTrails",
-          href: "/monitoring/cloudtrail-setup",
+          title: "Compliance",
+          href: "/monitoring/compliance",
           children: [],
         },
+        {
+          title: "Assessment History",
+          href: "/monitoring/assessment-history",
+          children: [],
+        },
+        // {
+        //   title: "Scan Report",
+        //   href: "/monitoring/scan-history",
+        //   children: [],
+        // },
+        // {
+        //   title: "CloudTrails",
+        //   href: "/monitoring/cloudtrail-setup",
+        //   children: [],
+        // },
       ],
     },
     {
@@ -912,8 +927,8 @@ const NewSideMenu = () => {
           <Link
             to={"/dashboard"}
             onClick={() => {
-              setPageTitle("Dashboar");
-              setTopTitle("Dashboar");
+              setPageTitle("Dashboard");
+              setTopTitle("Dashboard");
               setChildren(links[0].children!);
             }}
           >
@@ -1038,21 +1053,27 @@ const NewSideMenu = () => {
         >
           <div className="menu-item px-5 my-1">
             <Link
-              to="/crafted/account/settings"
+              to="/settings/account-setting"
               className="menu-link font-medium"
-              onClick={() => setPopOpen(false)}
+              onClick={() => {
+                setPopOpen(false);
+                setPageTitle("Account Profile");
+                sessionStorage.setItem("top-title", "Settings");
+                setChildren(links[links.length -2].children!)
+              }}
             >
               Account Settings
             </Link>
           </div>
           <div className="menu-item px-5 ">
             <Link
-              to="/change-password"
+              to="/settings/account-setting?cur=password"
               className="menu-link font-medium"
               onClick={() => {
                 setPopOpen(false);
                 setPageTitle("Change Password");
-                sessionStorage.setItem("top-title", "Change Password");
+                sessionStorage.setItem("top-title", "Settings");
+                setChildren(links[links.length -2].children!)
               }}
             >
               Change Password
@@ -1120,7 +1141,7 @@ const NewSideMenu = () => {
                           key={grandChild?.href!}
                           to={grandChild?.href!}
                           className={`menu-link without-sub w-full flex items-center justify-between mb-[16px] ${
-                            pathname === grandChild?.href!
+                            pathname.includes(grandChild?.href!)
                               ? "text-primary bg-[#284CB31A] font-semibold text-[12px] px-[10px] py-[8px] rounded-[8px] w-full"
                               : "py-[8px] w-full font-medium hover:text-primary hover:bg-[#284CB31A] hover:px-2 hover:rounded-[8px] hover:font-medium"
                           }`}
@@ -1171,7 +1192,7 @@ const NewSideMenu = () => {
                   key={child?.href!}
                   to={child.href!}
                   className={`menu-link without-sub w-full font-semibold flex items-center justify-between mb-[16px] ${
-                    pathname === child.href!
+                    pathname.includes(child.href!)
                       ? "text-primary bg-[#284CB31A] font-semibold text-[14px] px-[12px] py-[10px] rounded-[8px] w-full"
                       : "py-[10px] w-full font-medium hover:text-primary hover:bg-[#284CB31A] hover:px-2 hover:rounded-[8px] hover:font-medium"
                   }`}

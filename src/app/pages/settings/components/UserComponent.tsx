@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaEllipsisH } from "react-icons/fa";
 import { useRecoilValue } from "recoil";
 import modeAtomsAtom from "../../../atoms/modeAtoms.atom";
 import { Popover } from "react-tiny-popover";
+
 import DefaultContent from "../../../components/defaultContent/defaultContent";
 import EditRole from "./modals/EditRole";
 import NewUser from "./modals/NewUser";
+import { useGetAccountUsers } from "../../../api/api-services/accountQuery";
+import { AccountsApiUsersList200Response } from "../../../api/axios-client";
 
 const UserCard = ({ data, mode, showEdit, setTask, setCurUser }: any) => {
   const [showPopup, setShowPopUp] = useState(false);
@@ -42,7 +45,8 @@ const UserCard = ({ data, mode, showEdit, setTask, setCurUser }: any) => {
           mode === "dark" ? "text-[#EAEAEA]" : "text-[#6A6A6A]"
         } text-[12px] col-span-2`}
       >
-        {data?.permissions.join(",")}
+        {/* {data?.permissions.join(",")} */}
+        {data?.permissions}
       </p>
       <p
         className={`font-medium ${
@@ -299,6 +303,13 @@ type Props = {
 };
 
 const UserComponent = ({ goBack }: Props) => {
+  const filter = useRef<any>({
+    page: 1,
+    pageSize: 10,
+    firstName: undefined,
+    lastName: undefined,
+    email: undefined
+  })
   const { mode } = useRecoilValue(modeAtomsAtom);
   const [addNew, setAddNew] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
@@ -324,6 +335,32 @@ const UserComponent = ({ goBack }: Props) => {
       status: "Active",
     },
   ]);
+
+  const { data, isLoading, error, refetch } = useGetAccountUsers({...filter.current});
+  const datastsr: AccountsApiUsersList200Response | any = data;
+
+  useEffect(() => {
+    setUsers(datastsr?.data?.data?.results.map((res: any) => {
+      return {
+        id: res?.id,
+        name: `${res?.first_name} ${res?.last_name}`,
+        email: res?.email,
+        role: res?.role?.name.toLowerCase(),
+        role_id: res?.role?.id,
+        tenant: res?.tenant?.full_name,
+        tenant_id: res?.tenant?.id,
+      }
+    }));
+    // setshowEmpty(datastsr?.data?.data?.results ? datastsr?.data?.data?.results?.length === 0: true);
+    // settotalItems(Math.ceil(datastsr?.data?.data?.count));
+    // hideAlert();
+    // if (error) {
+    //   if (error instanceof Error) {
+    //     showAlert(error?.message || "An unknown error occurred", "danger");
+    //     setErrorMess(error?.message);
+    //   }
+    // }
+  }, [data, error]);
 
   return (
     <div className="px-8 mt-[32px] w-full">
@@ -550,7 +587,7 @@ const UserComponent = ({ goBack }: Props) => {
             <FaEllipsisH />
           </button>
         </div>
-        {users.length < 1 ? (
+        {users?.length < 1 ? (
           <DefaultContent
             pageHeader="All Users"
             pageDescription="No record found"

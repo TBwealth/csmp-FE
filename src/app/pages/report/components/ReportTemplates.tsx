@@ -208,7 +208,7 @@ const ReportTemplates = () => {
             <button
               type="button"
               onClick={() => setShowAdd(true)}
-              className="rounded-full flex items-center justify-center gap-1 bg-primary text-white font-medium  py-[12px] px-[24px] w-fit"
+              className="rounded-full flex items-center justify-center gap-1 bg-primary text-white font-medium  py-[8px] px-[24px] w-fit"
             >
               <span className="indicator-label font-medium ">New Template</span>
               <svg

@@ -155,11 +155,11 @@ const ResourceScan = () => {
               ))}
             </select>
           )}
-          <div className="flex items-start justify-between flex-col md:flex-row gap-5 gap-lg-10">
+          <div className="flex items-start justify-between w-full md:flex-row gap-[24px] flex-col mt-[32px]">
             <div
-              className={`rounded-md border shadow-md p-4 md:p-8 w-full md:w-[50%] ${
+              className={`${
                 mode === "dark" ? "bg-lightDark" : "bg-white"
-              }`}
+              } border rounded-[12px] p-[32px] shadow-md md:w-[55%]`}
             >
               <div className="flex items-center gap-[16px]">
                 <img src={scanimg} alt="cloud with search icon" />
@@ -167,7 +167,7 @@ const ResourceScan = () => {
                   Initiate New Resource Scan
                 </h2>
               </div>
-              <div className="mt-10">
+              <div className="mt-[32px]">
                 <Formik
                   initialValues={{
                     provider: "",
@@ -214,10 +214,10 @@ const ResourceScan = () => {
                   {(form) => (
                     <form onSubmit={form.handleSubmit}>
                       {/* provider */}
-                      <div className="form-group mb-10">
+                      <div className="form-group mb-[32px]">
                         <label
                           htmlFor="provider"
-                          className="flex items-center gap-4"
+                          className="flex items-center gap-4 mb-[8px]"
                         >
                           <span>
                             <svg
@@ -296,10 +296,10 @@ const ResourceScan = () => {
                         </select>
                       </div>
                       {/* policy */}
-                      <div className="form-group mb-10">
+                      <div className="form-group mb-[32px]">
                         <label
                           htmlFor="policy_id"
-                          className="flex items-center gap-4"
+                          className="flex items-center gap-4 mb-[8px]"
                         >
                           <span>
                             <svg
@@ -363,10 +363,10 @@ const ResourceScan = () => {
                         </select>
                       </div>
                       {/* Resource */}
-                      <div className="form-group mb-10">
+                      <div className="form-group mb-[32px]">
                         <label
                           htmlFor="region"
-                          className="flex items-center gap-4"
+                          className="flex items-center gap-4 mb-[8px]"
                         >
                           <FaFile
                             color={mode === "dark" ? "#EAEAEA" : "#000000"}
@@ -400,10 +400,10 @@ const ResourceScan = () => {
                         </select>
                       </div>
                       {/* Region */}
-                      <div className="form-group mb-10">
+                      <div className="form-group mb-[32px]">
                         <label
                           htmlFor="region"
-                          className="flex items-center gap-4"
+                          className="flex items-center gap-4 mb-[8px]"
                         >
                           <FaGlobe
                             color={mode === "dark" ? "#EAEAEA" : "#000000"}
@@ -437,10 +437,10 @@ const ResourceScan = () => {
                         </select>
                       </div>
                       {/* frequency */}
-                      <div className="form-group mb-10">
+                      <div className="form-group mb-[32px]">
                         <label
                           htmlFor="frequency"
-                          className="flex items-center gap-4"
+                          className="flex items-center gap-4 mb-[8px]"
                         >
                           <FaGlobe
                             color={mode === "dark" ? "#EAEAEA" : "#000000"}
@@ -484,10 +484,11 @@ const ResourceScan = () => {
                       <div>
                         <div className="form-group">
                           <input
-                            className="form-check-input p-2 w-15px h-15px mx-1 mt-1"
+                            className="p-2 w-[15px] h-[15px] mx-1 mt-1"
                             type="checkbox"
-                            id="flexSwitchCheckChecked"
-                            checked
+                            defaultChecked
+                            // id="flexSwitchCheckChecked"
+                            // checked
                           />
                           <label className="form-label fs-6 fw-bold">
                             Initiate runtime action for all servers
@@ -496,7 +497,7 @@ const ResourceScan = () => {
                       </div>
                       <button
                         type="submit"
-                        className="btn font-medium btn-primary w-full flex items-center justify-center"
+                        className="font-medium rounded-full p-3 bg-primary text-white w-full flex items-center justify-center"
                         disabled={
                           loading ||
                           !form.isValid ||
@@ -556,9 +557,9 @@ const ResourceScan = () => {
                 </Formik>
               </div>
             </div>
-            <div className="w-full md:w-[45%]">
+            <div className="w-full md:w-[35%]">
               <div
-                className={`rounded-md font-medium flex items-center justify-between mb-10 border p-4 md:p-8 ${
+                className={`rounded-[12px] font-medium flex items-center justify-between mb-10 border p-[24px] ${
                   mode === "dark" ? "bg-lightDark" : "bg-white"
                 }`}
               >

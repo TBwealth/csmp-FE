@@ -54,7 +54,7 @@ const UserManagement = () => {
                   className={`${
                     mode === "dark"
                       ? "text-[#EAEAEA]"
-                      : "text-[#6A6A6A] font-medium text-[12px]"
+                      : "text-[#6A6A6A] font-medium text-start text-[12px]"
                   }`}
                 >
                   Add, Remove and edit users in your account.
@@ -138,7 +138,7 @@ const UserManagement = () => {
                   className={`${
                     mode === "dark"
                       ? "text-[#EAEAEA]"
-                      : "text-[#6A6A6A] font-medium text-[12px]"
+                      : "text-[#6A6A6A] text-start font-medium text-[12px]"
                   }`}
                 >
                   Manage roles and permission on your acccount.
