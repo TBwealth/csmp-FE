@@ -442,7 +442,7 @@ const NewSideMenu = () => {
         },
         {
           title: "Scan history",
-          href: "/repository/scan-history",
+          href: "/repository/history",
           children: [],
         },
       ],
