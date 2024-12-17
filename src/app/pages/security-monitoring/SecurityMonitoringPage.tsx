@@ -93,7 +93,7 @@ const SecurityMonitoringPage = () => {
         />
 
         <Route
-          path="resource-scanning/:id"
+          path="assessment-history/:id"
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>
@@ -104,7 +104,8 @@ const SecurityMonitoringPage = () => {
           }
         />
         <Route
-          path="scan-history"
+          // path="scan-history"
+          path="assessment-history"
           element={
             <>
               <PageTitle breadcrumbs={cloudProviderBreadCrumbs}>

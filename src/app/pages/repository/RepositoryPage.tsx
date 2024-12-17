@@ -57,7 +57,7 @@ const RepositoryPage = () => {
         />
 
         <Route
-          path="scan-history"
+          path="history"
           element={
             <>
               <PageTitle breadcrumbs={RepositoryBreadCrumbs}>
